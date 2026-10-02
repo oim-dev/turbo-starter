@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "skills": {
+    "react-reference": {
+      "source": "gromlab-ru/js-reference",
+      "sourceType": "github",
+      "skillPath": "skills/react-reference/SKILL.md",
+      "computedHash": "96649b49ded39349e814295d8511f6cf04061b1231b06352ce1d948002b27638"
+    },
+    "relay": {
+      "source": "oim-dev/relay",
+      "sourceType": "github",
+      "skillPath": "skills/relay/SKILL.md",
+      "computedHash": "82909e5b139b0ea79be58ac56725eab01c7925080ba58d7440cba248f8a28b4b"
+    },
+    "rest-api-codegen-ru": {
+      "source": "gromlab-ru/rest-api-codegen",
+      "sourceType": "github",
+      "skillPath": "skills/rest-api-codegen-ru/SKILL.md",
+      "computedHash": "386581db840e040250979678f579324807e7f35707ce2f7c14bacde9cbc3cb66"
+    },
+    "svg-sprites-ru": {
+      "source": "gromlab-ru/svg-sprites",
+      "sourceType": "github",
+      "skillPath": "skills/svg-sprites-ru/SKILL.md",
+      "computedHash": "199ceac57a32817e08610736349920475d751f559e59d509174897c6fe1fcfed"
+    },
+    "template-generation": {
+      "source": "gromlab-ru/template-file-generator",
+      "sourceType": "github",
+      "skillPath": "skills/template-generation/SKILL.md",
+      "computedHash": "410a01a1252b43948166b49348f1129c86f047390feb05a2d95da2e1da0e7a01"
+    },
+    "unit-architecture": {
+      "source": "gromlab-ru/unit-architecture",
+      "sourceType": "github",
+      "skillPath": "skills/unit-architecture/SKILL.md",
+      "computedHash": "853c2ea474f070956976ad24dc9cc1834f51c3bdfc1e708d06fcc7d319a71bd3"
+    }
+  }
+}

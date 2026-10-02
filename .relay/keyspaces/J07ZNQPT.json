@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "J07ZNQPT",
+  "entityKind": "task",
+  "owner": {
+    "kind": "board",
+    "id": "J07ZNQPT"
+  },
+  "prefix": "INFRA",
+  "format": "{prefix}-{number}"
+}

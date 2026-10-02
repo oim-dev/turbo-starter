@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "product",
+  "id": "passport",
+  "revision": 0,
+  "key": "PRODUCT",
+  "aliases": [],
+  "data": {
+    "name": "",
+    "summary": "",
+    "description": [
+      ""
+    ]
+  },
+  "createdAt": "2026-10-02T18:02:11.957Z",
+  "createdBy": "relay",
+  "updatedAt": "2026-10-02T18:02:11.957Z",
+  "updatedBy": "relay"
+}

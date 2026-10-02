@@ -1,0 +1,17 @@
+{
+  "name": "@repo/dev-agents",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Единые профили и сборщик агентов разработки",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/check.mjs"
+  },
+  "devDependencies": {
+    "prettier": "3.6.2"
+  }
+}

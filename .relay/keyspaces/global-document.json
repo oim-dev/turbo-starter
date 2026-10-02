@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "global-document",
+  "entityKind": "document",
+  "owner": {
+    "kind": "project",
+    "id": "Ryyd3mM8"
+  },
+  "prefix": "DOC",
+  "format": "{prefix}-{number}"
+}

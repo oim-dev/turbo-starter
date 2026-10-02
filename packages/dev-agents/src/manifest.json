@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "orchestrator": "orchestrator-agent",
+  "agents": [
+    {
+      "name": "orchestrator-agent",
+      "kind": "orchestrator",
+      "description": "Главный агент: сам ведёт память и жизненный цикл проекта в Relay, запускает фоновых исполнителей и принимает результаты.",
+      "prompt": "orchestrator.md"
+    },
+    {
+      "name": "frontend-agent",
+      "kind": "worker",
+      "description": "Frontend: React SPA, Unit Architecture, формы, навигация, доступность и визуальное качество. Разработка, исследование и проверка apps/web.",
+      "prompt": "frontend.md"
+    },
+    {
+      "name": "engineering-agent",
+      "kind": "worker",
+      "description": "Инженерные задачи: каркас, общие пакеты, серверные интеграции, зависимости, сборка, CI и генератор проектных агентов.",
+      "prompt": "engineering.md"
+    },
+    {
+      "name": "research-agent",
+      "kind": "worker",
+      "description": "Адресные и объёмные исследования, разбор источников и подготовка черновиков документов по поручению оркестратора; возвращает основания и открытые вопросы.",
+      "prompt": "research.md"
+    },
+    {
+      "name": "qa-agent",
+      "kind": "worker",
+      "description": "Независимая приёмка: проверка критериев, изменений и пользовательских сценариев, воспроизведение дефектов и оценка доказательств готовности.",
+      "prompt": "qa.md"
+    }
+  ]
+}

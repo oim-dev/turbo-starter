@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "owner": {
+    "kind": "product",
+    "id": "passport"
+  },
+  "storage": "inline",
+  "entries": [
+    {
+      "slot": "product-links",
+      "edge": {
+        "type": "part-of",
+        "from": {
+          "kind": "product",
+          "id": "passport"
+        },
+        "to": {
+          "kind": "project",
+          "id": "Ryyd3mM8"
+        },
+        "description": [
+          ""
+        ],
+        "id": "f4603e4d-a8a0-4c2b-81a0-f42c73bb0df8",
+        "revision": 1,
+        "source": "graph",
+        "createdAt": "2026-10-02T18:02:11.963Z",
+        "createdBy": "relay",
+        "active": true,
+        "updatedAt": "2026-10-02T18:02:11.963Z",
+        "updatedBy": "relay"
+      }
+    }
+  ]
+}

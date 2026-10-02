@@ -1,0 +1,51 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Installed agent skills
+/.agents/skills/
+/.claude/skills/
+
+# Generated agent profiles and configuration
+/.opencode/agents/
+/.claude/agents/
+/.codex/agents/
+/opencode.json
+/.claude/settings.json
+/.codex/config.toml
+/agents-lock.json
+
+# Local env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Testing
+coverage
+
+# Turbo
+.turbo
+
+# Vercel
+.vercel
+
+# Build Outputs
+.next/
+out/
+build
+dist
+
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Misc
+.DS_Store
+*.pem

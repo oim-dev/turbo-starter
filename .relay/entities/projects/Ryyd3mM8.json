@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "project",
+  "id": "Ryyd3mM8",
+  "revision": 1,
+  "key": "PROJECT",
+  "aliases": [],
+  "data": {
+    "name": "turbo-starter",
+    "slug": "project-dp5q"
+  },
+  "createdAt": "2026-10-02T18:02:11.953Z",
+  "createdBy": "relay",
+  "updatedAt": "2026-10-02T18:02:11.953Z",
+  "updatedBy": "relay"
+}

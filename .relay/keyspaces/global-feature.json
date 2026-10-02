@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "global-feature",
+  "entityKind": "feature",
+  "owner": {
+    "kind": "project",
+    "id": "Ryyd3mM8"
+  },
+  "prefix": "FEATURE",
+  "format": "{prefix}-{number}"
+}

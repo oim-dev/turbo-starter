@@ -1,0 +1,23 @@
+{
+  "name": "turbo-starter",
+  "private": true,
+  "scripts": {
+    "setup": "pnpm dlx skills@latest experimental_install && pnpm run agents:build",
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "check-types": "turbo run check-types",
+    "agents:build": "pnpm --silent --filter @repo/dev-agents run build",
+    "agents:check": "pnpm --silent --filter @repo/dev-agents run check"
+  },
+  "devDependencies": {
+    "prettier": "3.9.6",
+    "turbo": "^2.11.6",
+    "typescript": "7.0.2"
+  },
+  "packageManager": "pnpm@11.25.0",
+  "engines": {
+    "node": ">=24"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "board",
+  "id": "J07ZNQPT",
+  "revision": 1,
+  "key": "BOARD-INFRA",
+  "aliases": [],
+  "data": {
+    "slug": "infrastructure",
+    "applicationId": null,
+    "scope": "infrastructure"
+  },
+  "createdAt": "2026-10-02T18:02:11.961Z",
+  "createdBy": "relay",
+  "updatedAt": "2026-10-02T18:02:11.961Z",
+  "updatedBy": "relay"
+}

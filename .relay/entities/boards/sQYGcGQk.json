@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "board",
+  "id": "sQYGcGQk",
+  "revision": 1,
+  "key": "BOARD-PRODUCT",
+  "aliases": [],
+  "data": {
+    "slug": "product",
+    "applicationId": null,
+    "scope": "product"
+  },
+  "createdAt": "2026-10-02T18:02:11.958Z",
+  "createdBy": "relay",
+  "updatedAt": "2026-10-02T18:02:11.958Z",
+  "updatedBy": "relay"
+}

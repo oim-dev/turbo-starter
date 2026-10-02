@@ -1,0 +1,27 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "dependsOn": [],
+      "cache": false,
+      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/pnpm-lock.yaml"],
+      "outputs": [
+        "$TURBO_ROOT$/.opencode/agents/*.md",
+        "$TURBO_ROOT$/.claude/agents/*.md",
+        "$TURBO_ROOT$/.codex/agents/*.toml",
+        "$TURBO_ROOT$/opencode.json",
+        "$TURBO_ROOT$/.claude/settings.json",
+        "$TURBO_ROOT$/.codex/config.toml",
+        "$TURBO_ROOT$/agents-lock.json"
+      ],
+      "passThroughEnv": ["INIT_CWD"]
+    },
+    "check": {
+      "dependsOn": [],
+      "cache": false,
+      "outputs": [],
+      "passThroughEnv": ["INIT_CWD"]
+    }
+  }
+}
