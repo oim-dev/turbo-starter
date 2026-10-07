@@ -1,6 +1,0 @@
-:root {
-  --admin-content-max-width: 1440px;
-  --admin-color-canvas: light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-9));
-  --admin-color-surface: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-7));
-  --admin-color-surface-subtle: light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-6));
-}
