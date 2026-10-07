@@ -1,0 +1,16 @@
+# Пути относительно корневого build context монорепозитория.
+# SDK src/generated включён: он необходим для сборки SDK внутри образа.
+**/node_modules
+**/dist
+**/build
+**/.next
+**/.turbo
+**/*.tsbuildinfo
+**/.env
+**/.env.*
+.git
+.relay
+.agents
+.claude
+.codex
+.opencode

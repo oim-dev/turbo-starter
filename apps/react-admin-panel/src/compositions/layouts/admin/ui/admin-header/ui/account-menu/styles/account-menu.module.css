@@ -1,0 +1,36 @@
+.root {
+  display: flex;
+  min-height: 40px;
+  align-items: center;
+  gap: 10px;
+  padding: 4px;
+  border-radius: var(--mantine-radius-md);
+
+  &:hover,
+  &[aria-expanded='true'] {
+    background: var(--mantine-color-default-hover);
+  }
+
+  @media (--xs) {
+    padding-inline: 6px 10px;
+  }
+}
+
+.login {
+  display: none;
+  max-width: 10rem;
+
+  @media (--xs) {
+    display: block;
+  }
+}
+
+.chevron {
+  display: none;
+  flex-shrink: 0;
+  color: var(--mantine-color-dimmed);
+
+  @media (--xs) {
+    display: block;
+  }
+}

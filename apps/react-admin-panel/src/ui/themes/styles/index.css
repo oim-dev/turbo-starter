@@ -1,0 +1,25 @@
+@layer mantine;
+
+@import '@mantine/core/styles.layer.css';
+@import './variables.css';
+
+html {
+  color-scheme: var(--mantine-color-scheme);
+}
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--app-color-canvas);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  width: 100%;
+  min-height: 100svh;
+}

@@ -1,0 +1,22 @@
+[Unit]
+Description=GOST outbound HTTP proxy for Client API
+Wants=network-online.target
+After=network-online.target docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+DynamicUser=yes
+LoadCredential=config.json:/etc/gost/config.json
+ExecStart=/usr/local/bin/gost -C %d/config.json
+Restart=always
+RestartSec=5
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

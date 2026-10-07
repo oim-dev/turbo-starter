@@ -1,0 +1,10 @@
+.root {
+  border-top: 1px solid var(--mantine-color-default-border);
+  background: var(--admin-color-surface);
+}
+
+.inner {
+  width: 100%;
+  max-width: calc(var(--admin-content-max-width) + var(--mantine-spacing-xl) * 2);
+  margin: 0 auto;
+}

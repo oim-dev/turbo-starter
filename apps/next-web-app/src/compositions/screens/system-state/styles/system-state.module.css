@@ -1,0 +1,25 @@
+.root {
+  display: flex;
+  min-block-size: 100dvh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mantine-spacing-lg);
+  padding: var(--mantine-spacing-xl) var(--mantine-spacing-md);
+  text-align: center;
+}
+
+.title {
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  overflow-wrap: anywhere;
+}
+
+.description {
+  max-inline-size: 32rem;
+}
+
+.link {
+  color: var(--mantine-primary-color-filled);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}

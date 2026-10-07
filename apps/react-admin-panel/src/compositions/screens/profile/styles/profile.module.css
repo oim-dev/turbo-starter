@@ -1,0 +1,33 @@
+.root {
+  width: 100%;
+  max-width: 52rem;
+  min-width: 0;
+}
+
+.details {
+  display: grid;
+  gap: var(--mantine-spacing-xs);
+  margin: 0;
+
+  @media (--sm) {
+    grid-template-columns: minmax(8rem, 1fr) minmax(0, 2fr);
+    gap: var(--mantine-spacing-lg);
+    align-items: baseline;
+  }
+}
+
+.label {
+  color: var(--mantine-color-dimmed);
+  font-size: var(--mantine-font-size-sm);
+}
+
+.value {
+  min-width: 0;
+  margin: 0 0 var(--mantine-spacing-md);
+  overflow-wrap: anywhere;
+  font-size: var(--mantine-font-size-md);
+
+  @media (--sm) {
+    margin: 0;
+  }
+}

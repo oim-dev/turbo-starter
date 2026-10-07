@@ -1,21 +1,64 @@
 {
   "$schema": "https://turborepo.dev/schema.json",
   "ui": "tui",
+  "globalEnv": ["NODE_ENV"],
+  "globalPassThroughEnv": [
+    "PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN",
+    "DOTENV_CONFIG_PATH"
+  ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
+      "env": [
+        "NEXT_PUBLIC_*",
+        "NEXT_STANDALONE",
+        "NEXT_DIST_DIR",
+        "CLIENT_API_INTERNAL_URL",
+        "VITE_*"
+      ],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**", "!.next/dev/**"]
+      "outputs": [
+        "dist/**",
+        "build/**",
+        "src/generated/prisma/**",
+        ".next/**",
+        "!.next/cache/**",
+        "!.next/dev/**"
+      ]
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": ["^build", "^lint"]
     },
     "check-types": {
-      "dependsOn": ["^check-types"]
+      "dependsOn": ["^build", "^check-types"]
     },
     "dev": {
+      "dependsOn": ["^build"],
+      "passThroughEnv": [
+        "NEXT_PUBLIC_*",
+        "NEXT_DIST_DIR",
+        "CLIENT_API_INTERNAL_URL",
+        "VITE_*"
+      ],
       "cache": false,
       "persistent": true
+    },
+    "@repo/nest-backend#dev": {
+      "dependsOn": ["^build"],
+      "passThroughEnv": ["DATABASE_URL", "POSTGRES_*", "CLIENT_*", "ADMIN_*"],
+      "cache": false,
+      "persistent": true
+    },
+    "@repo/nest-backend#build": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": ["dist/**", "src/generated/prisma/**"],
+      "passThroughEnv": ["DATABASE_URL"]
+    },
+    "@repo/nest-backend#check-types": {
+      "dependsOn": ["^build", "^check-types"],
+      "outputs": ["src/generated/prisma/**"],
+      "passThroughEnv": ["DATABASE_URL"]
     }
   }
 }

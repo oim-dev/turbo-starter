@@ -1,0 +1,16 @@
+.root {
+  display: grid;
+  min-block-size: 100dvh;
+  align-items: center;
+  padding-block: var(--mantine-spacing-xl);
+
+  @media (--md) {
+    padding-block: calc(var(--mantine-spacing-xl) * 2);
+  }
+}
+
+.title {
+  font-size: clamp(2rem, 6vw, 3rem);
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}

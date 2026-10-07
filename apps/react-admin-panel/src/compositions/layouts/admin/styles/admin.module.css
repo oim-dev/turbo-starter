@@ -1,0 +1,44 @@
+.root {
+  min-width: 0;
+}
+
+.header {
+  background: var(--mantine-color-body);
+}
+
+.navbar {
+  background: var(--mantine-color-body);
+}
+
+.main {
+  min-width: 0;
+  background: var(--app-color-canvas);
+}
+
+.content {
+  width: 100%;
+  max-width: 100rem;
+  min-width: 0;
+  margin-inline: auto;
+}
+
+.drawerBody {
+  display: flex;
+  min-height: 100dvh;
+}
+
+.skipLink {
+  position: fixed;
+  z-index: 300;
+  top: var(--mantine-spacing-xs);
+  left: var(--mantine-spacing-md);
+  padding: var(--mantine-spacing-sm);
+  border-radius: var(--mantine-radius-sm);
+  background: var(--mantine-color-body);
+  color: var(--mantine-color-text);
+  transform: translateY(-200%);
+
+  &:focus-visible {
+    transform: translateY(0);
+  }
+}

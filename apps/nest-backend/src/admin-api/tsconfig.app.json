@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": { "outDir": "../../dist/admin-api" },
+  "include": [
+    "./**/*.ts",
+    "../modules/**/*.ts",
+    "../infrastructure/**/*.ts",
+    "../generated/**/*.ts"
+  ],
+  "exclude": ["node_modules", "dist"]
+}

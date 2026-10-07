@@ -1,0 +1,22 @@
+@custom-media --xs (min-width: 36em);
+@custom-media --sm (min-width: 48em);
+@custom-media --md (min-width: 62em);
+@custom-media --lg (min-width: 75em);
+@custom-media --xl (min-width: 88em);
+@custom-media --2xl (min-width: 90em);
+@custom-media --3xl (min-width: 120em);
+
+@custom-media --h-xs (min-height: 667px);
+@custom-media --h-sm (min-height: 702px);
+@custom-media --h-md (min-height: 810px);
+@custom-media --h-lg (min-height: 900px);
+@custom-media --h-xl (min-height: 1000px);
+@custom-media --h-xxl (min-height: 1100px);
+@custom-media --h-xxxl (min-height: 1200px);
+
+@custom-media --mobile (max-width: 47.999em);
+@custom-media --tablet (min-width: 48em) and (min-height: 667px);
+@custom-media --desktop (min-width: 62em);
+@custom-media --touch (hover: none), (pointer: coarse);
+
+@custom-media --retina (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi);

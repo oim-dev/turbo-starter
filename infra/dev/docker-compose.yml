@@ -1,0 +1,66 @@
+# Docker Compose для локальной разработки
+# PostgreSQL запускается по умолчанию; MinIO — через профиль storage.
+# Backend и Frontend запускаются отдельно в dev режиме
+
+name: turbo-starter-dev
+
+services:
+  # PostgreSQL
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5544}:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-starter}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-starter_dev_password}
+      POSTGRES_DB: ${POSTGRES_DB:-starter}
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", 'pg_isready -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # S3-compatible object storage
+  minio:
+    profiles: [storage]
+    image: minio/minio:RELEASE.2025-04-22T22-12-26Z
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    ports:
+      - "127.0.0.1:${S3_PORT:-9000}:9000"
+      - "127.0.0.1:${S3_CONSOLE_PORT:-9001}:9001"
+    environment:
+      MINIO_ROOT_USER: ${S3_ACCESS_KEY:-starter}
+      MINIO_ROOT_PASSWORD: ${S3_SECRET_KEY:-starter_dev_minio_password}
+    volumes:
+      - minio_dev_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # Создаёт bucket без назначения публичного доступа.
+  minio-init:
+    profiles: [storage]
+    image: minio/mc:RELEASE.2025-04-16T18-13-26Z
+    depends_on:
+      minio:
+        condition: service_healthy
+    environment:
+      S3_ACCESS_KEY: ${S3_ACCESS_KEY:-starter}
+      S3_SECRET_KEY: ${S3_SECRET_KEY:-starter_dev_minio_password}
+      S3_BUCKET: ${S3_BUCKET:-starter}
+    entrypoint: >-
+      /bin/sh -c '
+      set -e;
+      mc alias set local http://minio:9000 "$${S3_ACCESS_KEY}" "$${S3_SECRET_KEY}";
+      mc mb --ignore-existing "local/$${S3_BUCKET}";
+      '
+
+volumes:
+  postgres_dev_data:
+  minio_dev_data:

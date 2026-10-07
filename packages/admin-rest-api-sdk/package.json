@@ -1,0 +1,50 @@
+{
+  "name": "@demo/admin-rest-api-sdk",
+  "version": "0.0.0",
+  "description": "TypeScript SDK для административного REST API.",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "files": ["dist"],
+  "exports": {
+    ".": {
+      "types": "./dist/generated/index.d.ts",
+      "import": "./dist/generated/index.js"
+    },
+    "./http-client": {
+      "types": "./dist/http-client.d.ts",
+      "import": "./dist/http-client.js"
+    },
+    "./create-api-client": {
+      "types": "./dist/create-api-client.d.ts",
+      "import": "./dist/create-api-client.js"
+    },
+    "./data-contracts": {
+      "types": "./dist/generated/data-contracts.d.ts",
+      "import": "./dist/generated/data-contracts.js"
+    },
+    "./operations": {
+      "types": "./dist/generated/operations/index.d.ts",
+      "import": "./dist/generated/operations/index.js"
+    },
+    "./operations/*": {
+      "types": "./dist/generated/operations/*.d.ts",
+      "import": "./dist/generated/operations/*.js"
+    },
+    "./operations-tree": {
+      "types": "./dist/generated/operations-tree.d.ts",
+      "import": "./dist/generated/operations-tree.js"
+    }
+  },
+  "scripts": {
+    "generate": "pnpm dlx @gromlab/rest-api-codegen@5.2.4 --input ../../apps/nest-backend/openapi/admin.openapi.json --output ./src/generated && pnpm run clean",
+    "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\"",
+    "build": "pnpm run clean && tsc -p tsconfig.json",
+    "check-types": "tsc -p tsconfig.json --noEmit",
+    "typecheck": "pnpm run check-types"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "typescript": "^5.9.2"
+  }
+}

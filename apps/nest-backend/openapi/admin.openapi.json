@@ -1,0 +1,840 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "description": "Возвращает токен доступа в JSON и устанавливает cookie с токеном обновления и флагом HttpOnly.",
+        "operationId": "adminBrowserLogin",
+        "parameters": [
+          {
+            "name": "Origin",
+            "in": "header",
+            "description": "Реальный Origin запроса, устанавливаемый браузером; должен точно совпадать с разрешённым источником этого API.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-CSRF-Protection",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessTokenDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректные данные для входа.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Неверные учётные данные.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Обязательны разрешённый Origin и X-CSRF-Protection: 1.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не найден или недоступен текущему пользователю.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт с существующими данными или повторное действие.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Превышен лимит: 64 КиБ для JSON.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Слишком много запросов аутентификации.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "summary": "Создать браузерную сессию администратора",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "description": "Каждый токен обновления используется только один раз; повторное использование отзывает сессию. Если ответ потерян после ротации, войдите заново вместо повторного запроса. Новый токен обновления передаётся только в cookie с флагом HttpOnly.",
+        "operationId": "adminBrowserRefresh",
+        "parameters": [
+          {
+            "name": "Origin",
+            "in": "header",
+            "description": "Реальный Origin запроса, устанавливаемый браузером; должен точно совпадать с разрешённым источником этого API.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-CSRF-Protection",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessTokenDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный запрос или неизвестные входные поля.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Токен обновления отсутствует, недействителен, просрочен или уже использован.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Обязательны разрешённый Origin и X-CSRF-Protection: 1.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не найден или недоступен текущему пользователю.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт с существующими данными или повторное действие.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Превышен лимит: 64 КиБ для JSON.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Слишком много запросов аутентификации.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "refresh-cookie": []
+          }
+        ],
+        "summary": "Заменить токен обновления браузерной сессии администратора",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "description": "Немедленно отзывает сессию, включая токены доступа, связанные через sid, и удаляет cookie с токеном обновления. Отсутствие или недействительность cookie не считается ошибкой.",
+        "operationId": "adminBrowserLogout",
+        "parameters": [
+          {
+            "name": "Origin",
+            "in": "header",
+            "description": "Реальный Origin запроса, устанавливаемый браузером; должен точно совпадать с разрешённым источником этого API.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-CSRF-Protection",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Выход выполнен; cookie с токеном обновления удалена."
+          },
+          "400": {
+            "description": "Некорректный запрос или неизвестные входные поля.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Неверные учётные данные или токен либо неактивная сессия.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Обязательны разрешённый Origin и X-CSRF-Protection: 1.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не найден или недоступен текущему пользователю.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт с существующими данными или повторное действие.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Превышен лимит: 64 КиБ для JSON.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Слишком много запросов аутентификации.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {},
+          {
+            "refresh-cookie": []
+          }
+        ],
+        "summary": "Завершить браузерную сессию администратора",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/me": {
+      "get": {
+        "operationId": "adminAuthMe",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminUserDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный запрос или неизвестные входные поля.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Токен доступа или сессия отсутствуют, недействительны, просрочены или отозваны.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Недостаточно прав. Разрешённые роли: OWNER, SUPPORT.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Администратор не найден.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт с существующими данными или повторное действие.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Превышен лимит: 64 КиБ для JSON.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Слишком много запросов аутентификации.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "summary": "Получить профиль текущего администратора",
+        "tags": [
+          "Auth"
+        ],
+        "x-admin-roles": [
+          "OWNER",
+          "SUPPORT"
+        ]
+      }
+    },
+    "/auth/password": {
+      "put": {
+        "description": "Требует текущий пароль. Успешный запрос атомарно отзывает все сессии администратора, включая текущую, и удаляет refresh cookie. После ответа требуется новый вход.",
+        "operationId": "adminAuthChangePassword",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeAdminPasswordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Пароль обновлён; все сессии отозваны."
+          },
+          "400": {
+            "description": "Некорректные данные смены пароля.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Неверный текущий пароль, токен или неактивная сессия.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Недостаточно прав. Разрешённые роли: OWNER, SUPPORT.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не найден или недоступен текущему пользователю.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт с существующими данными или повторное действие.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Превышен лимит: 64 КиБ для JSON.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Слишком много запросов аутентификации.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "summary": "Изменить собственный пароль администратора",
+        "tags": [
+          "Auth"
+        ],
+        "x-admin-roles": [
+          "OWNER",
+          "SUPPORT"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Starter — административное API",
+    "description": "Закрытое административное API. Самостоятельная регистрация не предусмотрена. Учётная запись создаётся через bootstrap/CLI. Текущая роль доступна в /auth/me; разрешённые роли защищённой операции — в x-admin-roles.\n\nВход, обновление токенов и выход через браузер требуют заголовков Origin и X-CSRF-Protection: 1. Origin должен входить в allowlist соответствующего API (CLIENT_ALLOWED_ORIGINS или ADMIN_ALLOWED_ORIGINS); тот же список используется для CORS с учётными данными. Для Swagger включите собственный origin API в allowlist.\n\nКаждый токен обновления используется только один раз; подтверждённое повторное использование отзывает сессию. Выполняйте обновление токенов последовательно во всех вкладках и на всех устройствах, использующих одну сессию.\n\nПри потере ответа на запрос обновления токенов может потребоваться повторный вход. Срок действия сессии фиксирован.",
+    "version": "1.0.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "access-token": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      },
+      "refresh-cookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "__Host-admin_refresh"
+      }
+    },
+    "schemas": {
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "login": {
+            "type": "string",
+            "example": "user123",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9_.-]{3,64}$"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "writeOnly": true,
+            "minLength": 1,
+            "maxLength": 128
+          }
+        },
+        "required": [
+          "login",
+          "password"
+        ]
+      },
+      "AccessTokenDto": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string"
+          },
+          "tokenType": {
+            "type": "string",
+            "enum": [
+              "Bearer"
+            ]
+          },
+          "expiresIn": {
+            "type": "number",
+            "description": "Целое число секунд между iat и exp JWT, не больше настроенного access TTL. Из-за округления секундной границы может превышать фактический остаток жизни сессии; доступ дополнительно ограничен точным sessionExpiresAt.",
+            "example": 900
+          },
+          "sessionExpiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Точный фиксированный срок окончания сессии с миллисекундной точностью; ротация токенов не продлевает его. После этого момента доступ и refresh запрещены, даже если exp JWT ещё не наступил."
+          }
+        },
+        "required": [
+          "accessToken",
+          "tokenType",
+          "expiresIn",
+          "sessionExpiresAt"
+        ]
+      },
+      "AdminUserDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "login": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "OWNER",
+              "SUPPORT"
+            ],
+            "description": "OWNER — владелец сервиса; SUPPORT — поддержка."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "login",
+          "isActive",
+          "role",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "ApiErrorDto": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "integer"
+          },
+          "code": {
+            "type": "string",
+            "example": "VALIDATION_ERROR"
+          },
+          "message": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            ]
+          }
+        },
+        "required": [
+          "statusCode",
+          "code",
+          "message"
+        ]
+      },
+      "ChangeAdminPasswordDto": {
+        "type": "object",
+        "properties": {
+          "currentPassword": {
+            "type": "string",
+            "format": "password",
+            "writeOnly": true,
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "Текущий пароль, включая первоначальный dev-пароль."
+          },
+          "newPassword": {
+            "type": "string",
+            "format": "password",
+            "writeOnly": true,
+            "minLength": 12,
+            "maxLength": 128
+          }
+        },
+        "required": [
+          "currentPassword",
+          "newPassword"
+        ]
+      }
+    }
+  }
+}

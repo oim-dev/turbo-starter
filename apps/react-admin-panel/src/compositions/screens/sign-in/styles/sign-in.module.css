@@ -1,0 +1,11 @@
+.root {
+  display: grid;
+  min-height: 100svh;
+  padding: clamp(2rem, 12svh, 7rem) var(--mantine-spacing-md) var(--mantine-spacing-xl);
+  place-items: start center;
+  background-color: var(--app-color-canvas);
+}
+
+.card {
+  width: min(100%, 29rem);
+}

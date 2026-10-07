@@ -1,0 +1,1264 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "description": "Создаёт только учётную запись; для создания сессии необходимо отдельно выполнить вход.",
+        "operationId": "clientAuthRegister",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterClientUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientUserDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректные данные для регистрации.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Неверные учётные данные или токен либо неактивная сессия.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Нет прав на действие либо некорректные заголовки браузерной авторизации.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не найден или недоступен текущему пользователю.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Логин клиента уже занят.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Превышен лимит: 64 КиБ для JSON.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Слишком много запросов аутентификации.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "summary": "Зарегистрировать учётную запись клиента",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "description": "Возвращает токен доступа в JSON и устанавливает cookie с токеном обновления и флагом HttpOnly.",
+        "operationId": "clientBrowserLogin",
+        "parameters": [
+          {
+            "name": "Origin",
+            "in": "header",
+            "description": "Реальный Origin запроса, устанавливаемый браузером; должен точно совпадать с разрешённым источником этого API.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-CSRF-Protection",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessTokenDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректные данные для входа.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Неверные учётные данные.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Обязательны разрешённый Origin и X-CSRF-Protection: 1.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не найден или недоступен текущему пользователю.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт с существующими данными или повторное действие.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Превышен лимит: 64 КиБ для JSON.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Слишком много запросов аутентификации.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "summary": "Создать браузерную сессию клиента",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "description": "Каждый токен обновления используется только один раз; повторное использование отзывает сессию. Если ответ потерян после ротации, войдите заново вместо повторного запроса. Новый токен обновления передаётся только в cookie с флагом HttpOnly.",
+        "operationId": "clientBrowserRefresh",
+        "parameters": [
+          {
+            "name": "Origin",
+            "in": "header",
+            "description": "Реальный Origin запроса, устанавливаемый браузером; должен точно совпадать с разрешённым источником этого API.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-CSRF-Protection",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccessTokenDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный запрос или неизвестные входные поля.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Токен обновления отсутствует, недействителен, просрочен или уже использован.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Обязательны разрешённый Origin и X-CSRF-Protection: 1.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не найден или недоступен текущему пользователю.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт с существующими данными или повторное действие.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Превышен лимит: 64 КиБ для JSON.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Слишком много запросов аутентификации.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "refresh-cookie": []
+          }
+        ],
+        "summary": "Заменить токен обновления браузерной сессии клиента",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "description": "Немедленно отзывает сессию, включая токены доступа, связанные через sid, и удаляет cookie с токеном обновления. Отсутствие или недействительность cookie не считается ошибкой.",
+        "operationId": "clientBrowserLogout",
+        "parameters": [
+          {
+            "name": "Origin",
+            "in": "header",
+            "description": "Реальный Origin запроса, устанавливаемый браузером; должен точно совпадать с разрешённым источником этого API.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-CSRF-Protection",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Выход выполнен; cookie с токеном обновления удалена."
+          },
+          "400": {
+            "description": "Некорректный запрос или неизвестные входные поля.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Неверные учётные данные или токен либо неактивная сессия.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Обязательны разрешённый Origin и X-CSRF-Protection: 1.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не найден или недоступен текущему пользователю.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт с существующими данными или повторное действие.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Превышен лимит: 64 КиБ для JSON.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Слишком много запросов аутентификации.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {},
+          {
+            "refresh-cookie": []
+          }
+        ],
+        "summary": "Завершить браузерную сессию клиента",
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/users/me": {
+      "get": {
+        "operationId": "getClientUserProfile",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientUserDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный запрос или неизвестные входные поля.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Токен доступа или сессия отсутствуют, недействительны, просрочены или отозваны.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Нет прав на действие либо некорректные заголовки браузерной авторизации.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Клиент не найден.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт с существующими данными или повторное действие.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Превышен лимит: 64 КиБ для JSON.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Превышен лимит запросов.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "summary": "Получить профиль текущего клиента",
+        "tags": [
+          "Users"
+        ]
+      },
+      "patch": {
+        "operationId": "updateClientUserProfile",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateClientUserProfileDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClientUserDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректные данные для обновления профиля.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Токен доступа или сессия отсутствуют, недействительны, просрочены или отозваны.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Нет прав на действие либо некорректные заголовки браузерной авторизации.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Клиент не найден.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт с существующими данными или повторное действие.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Превышен лимит: 64 КиБ для JSON.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Превышен лимит запросов.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "summary": "Обновить имя текущего клиента",
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/users/me/login": {
+      "put": {
+        "description": "Требует текущий пароль. Логин сохраняется в нижнем регистре. Успешный запрос атомарно отзывает все сессии, включая текущую, и удаляет refresh cookie. После ответа требуется новый вход, даже если логин не изменился.",
+        "operationId": "changeClientUserLogin",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeClientUserLoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Логин обновлён; все сессии отозваны."
+          },
+          "400": {
+            "description": "Некорректный логин или пароль.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Неверный текущий пароль, токен или неактивная сессия.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Нет прав на действие либо некорректные заголовки браузерной авторизации.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не найден или недоступен текущему пользователю.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Логин клиента уже занят.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Превышен лимит: 64 КиБ для JSON.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Слишком много запросов.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "summary": "Изменить логин текущего клиента",
+        "tags": [
+          "Users"
+        ]
+      }
+    },
+    "/users/me/password": {
+      "put": {
+        "description": "Требует текущий пароль. Успешный запрос атомарно отзывает все сессии, включая текущую, и удаляет refresh cookie. После ответа требуется новый вход.",
+        "operationId": "changeClientUserPassword",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeClientUserPasswordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Пароль обновлён; все сессии отозваны."
+          },
+          "400": {
+            "description": "Некорректные данные смены пароля.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Неверный текущий пароль, токен или неактивная сессия.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Нет прав на действие либо некорректные заголовки браузерной авторизации.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не найден или недоступен текущему пользователю.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт с существующими данными или повторное действие.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Превышен лимит: 64 КиБ для JSON.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Слишком много запросов.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "summary": "Изменить пароль текущего клиента",
+        "tags": [
+          "Users"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Starter — клиентское API",
+    "description": "Публичное клиентское API. Регистрация создаёт учётную запись, но не сессию.\n\nВход, обновление токенов и выход через браузер требуют заголовков Origin и X-CSRF-Protection: 1. Origin должен входить в allowlist соответствующего API (CLIENT_ALLOWED_ORIGINS или ADMIN_ALLOWED_ORIGINS); тот же список используется для CORS с учётными данными. Для Swagger включите собственный origin API в allowlist.\n\nКаждый токен обновления используется только один раз; подтверждённое повторное использование отзывает сессию. Выполняйте обновление токенов последовательно во всех вкладках и на всех устройствах, использующих одну сессию.\n\nПри потере ответа на запрос обновления токенов может потребоваться повторный вход. Срок действия сессии фиксирован.",
+    "version": "1.0.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "access-token": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      },
+      "refresh-cookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "__Host-client_refresh"
+      }
+    },
+    "schemas": {
+      "RegisterClientUserDto": {
+        "type": "object",
+        "properties": {
+          "login": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9_.-]{3,64}$",
+            "description": "Логин без учёта регистра; сохраняется в нижнем регистре.",
+            "example": "client.user"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "writeOnly": true,
+            "minLength": 8,
+            "maxLength": 128
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120,
+            "description": "Отображаемое имя: пробелы по краям удаляются до проверки длины, пустое имя запрещено. По умолчанию используется нормализованный логин.",
+            "example": "Client User"
+          }
+        },
+        "required": [
+          "login",
+          "password"
+        ]
+      },
+      "ClientUserDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "login": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "login",
+          "name",
+          "isActive",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "login": {
+            "type": "string",
+            "example": "user123",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9_.-]{3,64}$"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "writeOnly": true,
+            "minLength": 1,
+            "maxLength": 128
+          }
+        },
+        "required": [
+          "login",
+          "password"
+        ]
+      },
+      "AccessTokenDto": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string"
+          },
+          "tokenType": {
+            "type": "string",
+            "enum": [
+              "Bearer"
+            ]
+          },
+          "expiresIn": {
+            "type": "number",
+            "description": "Целое число секунд между iat и exp JWT, не больше настроенного access TTL. Из-за округления секундной границы может превышать фактический остаток жизни сессии; доступ дополнительно ограничен точным sessionExpiresAt.",
+            "example": 900
+          },
+          "sessionExpiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Точный фиксированный срок окончания сессии с миллисекундной точностью; ротация токенов не продлевает его. После этого момента доступ и refresh запрещены, даже если exp JWT ещё не наступил."
+          }
+        },
+        "required": [
+          "accessToken",
+          "tokenType",
+          "expiresIn",
+          "sessionExpiresAt"
+        ]
+      },
+      "UpdateClientUserProfileDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120,
+            "description": "Отображаемое имя: пробелы по краям удаляются до проверки длины, пустое имя и null запрещены. Если поле отсутствует, имя не меняется.",
+            "example": "Client User"
+          }
+        }
+      },
+      "ChangeClientUserLoginDto": {
+        "type": "object",
+        "properties": {
+          "currentPassword": {
+            "type": "string",
+            "format": "password",
+            "writeOnly": true,
+            "minLength": 8,
+            "maxLength": 128
+          },
+          "login": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9_.-]{3,64}$",
+            "description": "Уникальный логин без учёта регистра; сохраняется в нижнем регистре."
+          }
+        },
+        "required": [
+          "currentPassword",
+          "login"
+        ]
+      },
+      "ChangeClientUserPasswordDto": {
+        "type": "object",
+        "properties": {
+          "currentPassword": {
+            "type": "string",
+            "format": "password",
+            "writeOnly": true,
+            "minLength": 8,
+            "maxLength": 128
+          },
+          "newPassword": {
+            "type": "string",
+            "format": "password",
+            "writeOnly": true,
+            "minLength": 8,
+            "maxLength": 128
+          }
+        },
+        "required": [
+          "currentPassword",
+          "newPassword"
+        ]
+      },
+      "ApiErrorDto": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "integer"
+          },
+          "code": {
+            "type": "string",
+            "example": "VALIDATION_ERROR"
+          },
+          "message": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            ]
+          }
+        },
+        "required": [
+          "statusCode",
+          "code",
+          "message"
+        ]
+      }
+    }
+  }
+}

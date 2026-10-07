@@ -1,0 +1,14 @@
+.git
+.relay
+.agents
+.claude
+.codex
+.opencode
+**/node_modules
+**/dist
+**/.next
+**/.turbo
+**/*.tsbuildinfo
+**/.env
+**/.env.*
+apps/nest-backend/src/generated

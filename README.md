@@ -2,13 +2,15 @@
 
 Универсальная основа проекта на **Turborepo** и **pnpm**: общие пакеты,
 сборщик AI-агентов, проектные скиллы и Relay для хранения знаний и задач.
-Приложения добавляются под задачи нового проекта.
+Базовые приложения: NestJS backend с клиентским и административным API,
+React-админка и Next.js со стартовой страницей.
 
 ## Требования
 
 - **Node.js 24+** и входящий в его поставку `npm`/`npx`.
 - **pnpm 11.25.0** — версия закреплена в `package.json`.
 - **Git**.
+- **Docker Engine и Docker Compose v2+** для локальной PostgreSQL.
 - Доступ к GitHub и npm registry для скачивания шаблона, зависимостей и скиллов.
 
 Если pnpm ещё не установлен:
@@ -34,14 +36,14 @@ git --version
 pnpm dlx tiged@latest oim-dev/turbo-starter#main my-project
 cd my-project
 pnpm install
-pnpm setup
+pnpm run setup
 ```
 
 Глобальная установка tiged не требуется. Он скачивает файлы шаблона без истории Git
 и применяет действия из корневого `degit.json`.
 
 `pnpm install` устанавливает зависимости всех workspace-пакетов.
-`pnpm setup` последовательно:
+`pnpm run setup` последовательно:
 
 1. Восстанавливает скиллы из `skills-lock.json` в `.agents/skills/`.
 2. Собирает профили агентов и конфигурации OpenCode, Claude Code и Codex.
@@ -58,19 +60,57 @@ git init -b main
 Укажите имя нового проекта в корневом `package.json`, добавьте нужные приложения
 в `apps/` и адаптируйте инструкции агентов под их структуру.
 
-> Сейчас в шаблоне нет готовых приложений и серверов разработки.
-> Команда `pnpm dev` станет запускать приложения после их добавления
-> и определения скриптов `dev` в их `package.json`.
+### Локальный backend
+
+```bash
+pnpm infra:dev:up
+pnpm backend:prisma:generate
+pnpm backend:prisma:deploy
+pnpm backend:prisma:seed
+pnpm backend:dev
+```
+
+Client API: <http://localhost:3001/docs>, Admin API: <http://localhost:3002/docs>.
+Начальный администратор локального окружения — `admin/admin`. Регистрация доступна
+только клиентам. Оба API имеют независимые токены и сессии.
+
+Значения по умолчанию описаны в [инфраструктуре разработки](infra/dev/README.md).
+При наличии перенесённых `.env` согласуйте их с текущими `env.example` перед запуском.
+Подробнее: [backend](apps/nest-backend/README.md).
+
+### Интерфейсы
+
+В отдельных терминалах:
+
+```bash
+pnpm admin:dev
+pnpm web:dev
+```
+
+- Админка: <http://localhost:5173>, вход `admin/admin` через Admin API.
+- Next.js: <http://localhost:3005>, автономная стартовая страница.
+
+Для одновременного запуска всех приложений после подготовки БД используйте
+`pnpm dev`. Turborepo предварительно собирает workspace-зависимости приложений,
+включая SDK. Их транспорт, сессии и конфигурация сохранены в `src/infra` приложений;
+списки операций соответствуют очищенным API.
 
 ## Структура
 
 ```text
-apps/                       # Место для приложений нового проекта
+apps/
+  nest-backend/             # NestJS: Client API и Admin API
+  react-admin-panel/        # React SPA: вход и базовая административная оболочка
+  next-web-app/             # Next.js: автономная стартовая страница
 packages/
+  client-rest-api-sdk/       # Контракт и клиент Client API
+  admin-rest-api-sdk/        # Контракт и клиент Admin API
   dev-agents/               # Исходники ролей, сценарии и сборщик агентов
   eslint-config/            # Общие конфигурации ESLint
   typescript-config/        # Общие конфигурации TypeScript
   ui/                       # Базовые React-компоненты
+infra/dev/                  # PostgreSQL и необязательный профиль MinIO
+infra/prod/                 # Перенесённая production-конфигурация
 docs/development/           # Инструкции для разработчиков
 .relay/                     # Конфигурация и хранилище Relay
 degit.json                  # Действия tiged при создании проекта
@@ -79,24 +119,43 @@ pnpm-workspace.yaml         # Workspace: apps/* и packages/*
 turbo.json                  # Задачи Turborepo
 ```
 
-Пустой каталог `apps/` не хранится в Git: создайте его вместе с первым приложением.
 После добавления workspace-пакетов выполните `pnpm install`.
 
 ## Команды
 
 Все команды выполняются из корня проекта.
 
-| Команда | Назначение |
-| --- | --- |
-| `pnpm install` | Установить зависимости workspace |
-| `pnpm setup` | Установить скиллы и собрать агентов |
-| `pnpm dev` | Запустить задачи разработки приложений и пакетов |
-| `pnpm build` | Выполнить задачи сборки, включая сборку агентов |
-| `pnpm lint` | Запустить ESLint в пакетах, где есть скрипт `lint` |
-| `pnpm check-types` | Проверить типы в пакетах с соответствующим скриптом |
-| `pnpm format` | Отформатировать файлы TypeScript, TSX и Markdown |
-| `pnpm agents:build` | Пересобрать только профили и конфигурации агентов |
-| `pnpm agents:check` | Проверить актуальность профилей и локальные ссылки |
+| Команда                         | Назначение                                           |
+| ------------------------------- | ---------------------------------------------------- |
+| `pnpm install`                  | Установить зависимости workspace                     |
+| `pnpm run setup`                | Установить скиллы и собрать агентов                  |
+| `pnpm dev`                      | Запустить задачи разработки приложений и пакетов     |
+| `pnpm build`                    | Выполнить задачи сборки, включая сборку агентов      |
+| `pnpm lint`                     | Запустить ESLint в пакетах, где есть скрипт `lint`   |
+| `pnpm check-types`              | Проверить типы в пакетах с соответствующим скриптом  |
+| `pnpm format`                   | Отформатировать файлы TypeScript, TSX и Markdown     |
+| `pnpm agents:build`             | Пересобрать только профили и конфигурации агентов    |
+| `pnpm agents:check`             | Проверить актуальность профилей и локальные ссылки   |
+| `pnpm infra:dev:up`             | Запустить локальную PostgreSQL                       |
+| `pnpm infra:dev:down`           | Остановить dev-инфраструктуру с сохранением volumes  |
+| `pnpm backend:dev`              | Запустить оба API в режиме разработки                |
+| `pnpm backend:dev:client`       | Запустить только Client API                          |
+| `pnpm backend:dev:admin`        | Запустить только Admin API                           |
+| `pnpm backend:lint`             | Проверить код backend                                |
+| `pnpm backend:check-types`      | Сгенерировать Prisma Client и проверить типы backend |
+| `pnpm backend:build`            | Собрать обе серверные точки входа                    |
+| `pnpm rest-api-sdk:generate`    | Экспортировать OpenAPI и перегенерировать оба SDK    |
+| `pnpm rest-api-sdk:build`       | Собрать оба SDK                                      |
+| `pnpm rest-api-sdk:check-types` | Проверить типы обоих SDK                             |
+| `pnpm admin:dev`                | Запустить React-админку и собрать её SDK             |
+| `pnpm admin:lint`               | Проверить код админки                                |
+| `pnpm admin:check-types`        | Проверить типы админки                               |
+| `pnpm admin:build`              | Собрать админку вместе с зависимостями               |
+| `pnpm web:dev`                  | Запустить Next.js и собрать его SDK                  |
+| `pnpm web:lint`                 | Проверить код Next.js-приложения                     |
+| `pnpm web:check-types`          | Проверить типы Next.js-приложения                    |
+| `pnpm web:build`                | Собрать Next.js вместе с зависимостями               |
+| `pnpm web:start`                | Запустить собранное Next.js-приложение               |
 
 Turborepo запускает задачи, определённые в `package.json` отдельных пакетов.
 Для работы с одним приложением используйте фильтр по имени его пакета:
@@ -115,7 +174,7 @@ pnpm build --filter=<имя-пакета>
 Исходники находятся в `packages/dev-agents/`. Генерируемые профили в
 `.opencode/agents/`, `.claude/agents/`, `.codex/agents/`, конфигурации
 `opencode.json`, `.claude/settings.json`, `.codex/config.toml` и
-`agents-lock.json` исключены из Git и создаются локально командой `pnpm setup`.
+`agents-lock.json` исключены из Git и создаются локально командой `pnpm run setup`.
 Изменяйте исходники, затем выполняйте `pnpm agents:build`.
 
 Проектные скиллы:
@@ -134,27 +193,25 @@ pnpm build --filter=<имя-пакета>
 
 Подробнее о ролях и генерации — в [README пакета агентов](packages/dev-agents/README.md).
 
-### Текущее состояние проверки агентов
+### Проверка профилей агентов
 
-`pnpm setup` собирает профили, но не запускает `agents:check`.
-Проверка ссылок пока ожидает отсутствующие документы `AGENTS.md`,
-`apps/web/AGENTS.md` и `apps/web/README.md`. При адаптации шаблона добавьте
-применимые инструкции и обновите ссылки в профилях, документации и проверке
-`packages/dev-agents/scripts/links.mjs` под фактические приложения.
+`pnpm run setup` собирает профили, но не запускает `agents:check`.
+При адаптации профилей сверяйте ссылки с фактическими приложениями и их локальными
+`AGENTS.md`/`README.md`. Источники ролей, документация и проверка
+`packages/dev-agents/scripts/links.mjs` должны описывать один состав проекта.
 
 После адаптации порядок проверки, в том числе в CI:
 
 ```bash
 pnpm install --frozen-lockfile
-pnpm setup
+pnpm run setup
 pnpm agents:check
 ```
 
 ## Relay
 
-Relay хранит знания о проекте, документы, задачи и планы. В шаблон уже включено
-начальное хранилище `.relay/`: пустой паспорт и системные доски.
-`pnpm setup` не запускает Relay Server.
+Relay хранит знания о проекте, документы, задачи и планы в `.relay/`.
+`pnpm run setup` не запускает Relay Server.
 
 Проверить подключение и состояние:
 
@@ -174,10 +231,10 @@ npx @oim-dev/relay-server --open
 Ориентируйтесь на адрес, напечатанный сервером. Он работает, пока запущен процесс;
 для остановки нажмите `Ctrl+C`.
 
-Если порт занят, выберите другой:
+Настройки адреса и порта доступны в справке установленной версии:
 
 ```bash
-npx @oim-dev/relay-server --open
+npx @oim-dev/relay-server --help
 ```
 
 Если вы начинаете проект без каталога `.relay/`, сначала создайте хранилище:
@@ -206,4 +263,4 @@ Tiged выполняет эти действия в скачанной копи�
 в шаблоне нет; файл сохранён для будущего использования.
 
 Действия `degit.json` выполняются при скачивании через tiged, а не при `pnpm install`
-или `pnpm setup`.
+или `pnpm run setup`.

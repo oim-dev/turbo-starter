@@ -1,0 +1,37 @@
+@layer mantine;
+
+@import '@mantine/core/styles.layer.css';
+@import './variables.css';
+
+html {
+  color-scheme: var(--mantine-color-scheme);
+}
+
+body {
+  margin: 0;
+  min-block-size: 100dvh;
+  background: var(--app-color-canvas);
+  color: var(--app-color-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--app-color-accent);
+  outline-offset: 4px;
+}

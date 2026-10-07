@@ -1,0 +1,38 @@
+.root {
+  min-width: 0;
+  gap: 12px;
+  padding-inline: 16px;
+
+  @media (--sm) {
+    padding-inline: 24px;
+  }
+
+  @media (--lg) {
+    padding-inline: 32px;
+  }
+}
+
+.navigation {
+  min-width: 0;
+  flex: 1;
+}
+
+.actions {
+  flex-shrink: 0;
+  gap: 4px;
+
+  @media (--xs) {
+    gap: 12px;
+  }
+}
+
+.divider {
+  display: none;
+  width: 1px;
+  height: 24px;
+  background: var(--mantine-color-default-border);
+
+  @media (--xs) {
+    display: block;
+  }
+}

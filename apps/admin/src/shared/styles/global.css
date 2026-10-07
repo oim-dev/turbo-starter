@@ -1,0 +1,21 @@
+@layer mantine;
+
+@import '@mantine/core/styles.layer.css';
+@import '@mantine/tiptap/styles.layer.css';
+@import './variables.css';
+
+html {
+  color-scheme: var(--mantine-color-scheme);
+  background: var(--admin-color-canvas);
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background: var(--admin-color-canvas);
+}
+
+#root {
+  min-height: 100vh;
+}

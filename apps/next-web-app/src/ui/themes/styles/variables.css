@@ -1,0 +1,7 @@
+:root {
+  --app-color-canvas: var(--mantine-color-body);
+  --app-color-ink: var(--mantine-color-text);
+  --app-color-muted: var(--mantine-color-gray-7);
+  --app-color-soft: var(--mantine-color-gray-0);
+  --app-color-accent: var(--mantine-primary-color-filled);
+}

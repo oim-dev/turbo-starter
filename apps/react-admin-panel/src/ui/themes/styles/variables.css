@@ -1,0 +1,8 @@
+:root {
+  --app-color-canvas: var(--mantine-color-gray-0);
+}
+
+:root[data-mantine-color-scheme='dark'] {
+  --app-color-canvas: var(--mantine-color-dark-8);
+  --mantine-color-dimmed: var(--mantine-color-dark-2);
+}

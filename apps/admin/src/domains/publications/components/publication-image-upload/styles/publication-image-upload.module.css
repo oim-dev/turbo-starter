@@ -1,0 +1,72 @@
+.root {
+  margin: var(--mantine-spacing-xl) 0;
+}
+
+.dropArea {
+  position: relative;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  border: 1.5px dashed var(--mantine-color-default-border);
+  border-radius: var(--mantine-radius-lg);
+  background: color-mix(in srgb, var(--mantine-primary-color-light) 28%, transparent);
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    transform 160ms ease;
+
+  &:hover,
+  &[data-drag-active] {
+    border-color: var(--mantine-primary-color-filled);
+    background: var(--mantine-primary-color-light);
+  }
+
+  &[data-drag-active] {
+    transform: scale(1.005);
+  }
+
+  &[aria-disabled='true'] {
+    cursor: progress;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--mantine-primary-color-filled);
+    outline-offset: 2px;
+  }
+}
+
+.preview {
+  display: grid;
+  align-items: center;
+  gap: var(--mantine-spacing-md);
+
+  @media (--sm) {
+    grid-template-columns: 7rem minmax(0, 1fr);
+  }
+}
+
+.previewImage {
+  width: 100%;
+  height: 7rem;
+  border-radius: var(--mantine-radius-md);
+  object-fit: cover;
+}
+
+.previewDetails {
+  min-width: 0;
+}
+
+.fileName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cancelButton {
+  position: absolute;
+  top: var(--mantine-spacing-xs);
+  right: var(--mantine-spacing-xs);
+}
+
+.fileInput {
+  display: none;
+}

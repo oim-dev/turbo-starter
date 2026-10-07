@@ -1,0 +1,16 @@
+.root {
+  min-width: 0;
+}
+
+.crumb {
+  color: var(--mantine-color-dimmed);
+
+  &._current {
+    color: var(--mantine-color-text);
+    font-weight: 600;
+  }
+}
+
+.currentLabel {
+  min-width: 0;
+}

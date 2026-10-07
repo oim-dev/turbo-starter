@@ -1,0 +1,77 @@
+.root {
+  --publication-editor-content-height: max(28rem, calc(100dvh - 22rem));
+
+  display: flex;
+  min-width: 0;
+  height: 100%;
+  flex-direction: column;
+}
+
+.editor {
+  display: flex;
+  width: 100%;
+  min-height: max(32rem, calc(100dvh - 18rem));
+  flex: 1;
+  flex-direction: column;
+}
+
+.toolbar {
+  gap: var(--mantine-spacing-xs);
+  padding: var(--mantine-spacing-xs);
+  overflow-x: auto;
+}
+
+.controlsGroup {
+  gap: 0.125rem;
+}
+
+.editorControl {
+  width: 2.25rem;
+  min-width: 2.25rem;
+  height: 2.25rem;
+}
+
+.editorControlIcon {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.aiControls {
+  display: flex;
+  min-height: 3.25rem;
+  align-items: center;
+  gap: var(--mantine-spacing-xs);
+  padding: var(--mantine-spacing-xs);
+  border-top: 1px solid var(--mantine-color-default-border);
+  overflow-x: auto;
+}
+
+.content {
+  display: flex;
+  width: 100%;
+  min-height: var(--publication-editor-content-height);
+  flex: 1;
+}
+
+.content > div {
+  display: flex;
+  width: 100%;
+  min-height: inherit;
+  flex: 1;
+}
+
+.content :global(.ProseMirror) {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: inherit;
+  flex: 1;
+  padding: clamp(1.25rem, 3vw, 3rem);
+  font-size: 1.0625rem;
+  line-height: 1.75;
+
+  &:focus-visible {
+    outline: 2px solid var(--mantine-primary-color-filled);
+    outline-offset: -2px;
+  }
+}

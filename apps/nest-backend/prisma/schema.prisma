@@ -1,0 +1,93 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum SessionTransport {
+  BROWSER
+  MOBILE
+}
+
+enum AdminRole {
+  OWNER
+  SUPPORT
+}
+
+model ClientUser {
+  id           String          @id @default(uuid()) @db.Uuid
+  login        String          @unique @db.VarChar(64)
+  passwordHash String
+  name         String          @db.VarChar(120)
+  isActive     Boolean         @default(true)
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  sessions     ClientSession[]
+}
+
+model AdminUser {
+  id           String         @id @default(uuid()) @db.Uuid
+  login        String         @unique @db.VarChar(64)
+  passwordHash String
+  isActive     Boolean        @default(true)
+  role         AdminRole      @default(OWNER)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  sessions     AdminSession[]
+
+  @@index([role, isActive])
+}
+
+model ClientSession {
+  id            String               @id @default(uuid()) @db.Uuid
+  userId        String               @db.Uuid
+  user          ClientUser           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transport     SessionTransport
+  createdAt     DateTime             @default(now())
+  expiresAt     DateTime
+  revokedAt     DateTime?
+  refreshTokens ClientRefreshToken[]
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model ClientRefreshToken {
+  id        String        @id @default(uuid()) @db.Uuid
+  tokenHash String        @unique @db.Char(64)
+  sessionId String        @db.Uuid
+  session   ClientSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  createdAt DateTime      @default(now())
+  usedAt    DateTime?
+
+  @@index([sessionId])
+}
+
+model AdminSession {
+  id            String              @id @default(uuid()) @db.Uuid
+  userId        String              @db.Uuid
+  user          AdminUser           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transport     SessionTransport
+  createdAt     DateTime            @default(now())
+  expiresAt     DateTime
+  revokedAt     DateTime?
+  refreshTokens AdminRefreshToken[]
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model AdminRefreshToken {
+  id        String       @id @default(uuid()) @db.Uuid
+  tokenHash String       @unique @db.Char(64)
+  sessionId String       @db.Uuid
+  session   AdminSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  createdAt DateTime     @default(now())
+  usedAt    DateTime?
+
+  @@index([sessionId])
+}

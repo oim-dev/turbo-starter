@@ -1,0 +1,36 @@
+# HTTPS ingress production-стека. Сертификаты сохраняются в volume caddy_data.
+
+demo-app.gromlab.ru {
+	encode zstd gzip
+	# Совместимо с уже собранным NEXT_PUBLIC_CLIENT_API_URL=/api.
+	handle_path /api/* {
+		reverse_proxy demo-client-api:3001
+	}
+	handle {
+		reverse_proxy demo-web-app:3005
+	}
+}
+
+admin-demo-app.gromlab.ru {
+	encode zstd gzip
+	handle_path /api/* {
+		reverse_proxy demo-admin-api:3002
+	}
+	handle {
+		reverse_proxy demo-admin:80
+	}
+}
+
+api-demo-app.gromlab.ru {
+	# Публичное чтение изображений. Cache-Control задаётся объектами S3.
+	handle /demo-media/photos/* {
+		reverse_proxy demo-s3:9000
+	}
+	handle {
+		reverse_proxy demo-client-api:3001
+	}
+}
+
+api-admin-demo-app.gromlab.ru {
+	reverse_proxy demo-admin-api:3002
+}
