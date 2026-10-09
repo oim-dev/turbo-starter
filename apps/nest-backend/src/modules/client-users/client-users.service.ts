@@ -135,7 +135,7 @@ export class ClientUsersService {
     tx: Prisma.TransactionClient,
     actor: ClientPrincipal,
   ) {
-    // Порядок блокировок совпадает с login/refresh/logout: user, затем session.
+    // Порядок блокировок совпадает с login/logout: user, затем session.
     await tx.$queryRaw`
       SELECT id FROM "ClientUser" WHERE id = ${actor.id}::uuid FOR UPDATE
     `;
@@ -160,7 +160,10 @@ export class ClientUsersService {
 
   private async requirePassword(hash: string, password: string): Promise<void> {
     if (!(await verifyPassword(hash, password))) {
-      throw new UnauthorizedException('Invalid current password');
+      throw new UnauthorizedException({
+        code: 'CURRENT_PASSWORD_INVALID',
+        message: 'Invalid current password',
+      });
     }
   }
 

@@ -1,7 +1,10 @@
 import { Card, Stack, Text, Title } from '@mantine/core'
 import cl from 'clsx'
+import { useEffect, useState } from 'react'
 import type { JSX } from 'react'
-import { SignInForm } from 'domains/auth'
+import { useLocation } from 'react-router-dom'
+import { getKeycloakSignInUrl, KeycloakSignIn, SignInForm } from 'domains/auth'
+import { getSessionReturnTo } from 'shared/navigation'
 import styles from './styles/sign-in.module.css'
 import type { SignInScreenProps } from './types/sign-in-screen-props.type'
 
@@ -13,6 +16,28 @@ import type { SignInScreenProps } from './types/sign-in-screen-props.type'
  */
 export const SignInScreen = (props: SignInScreenProps): JSX.Element => {
   const { className, ...rootAttrs } = props
+  const location = useLocation()
+  const [isRedirecting, setIsRedirecting] = useState(false)
+
+  useEffect(() => {
+    /**
+     * Возвращает кнопку в рабочее состояние после Back из внешнего провайдера через bfcache.
+     */
+    const handlePageShow = (): void => setIsRedirecting(false)
+    window.addEventListener('pageshow', handlePageShow)
+    return () => window.removeEventListener('pageshow', handlePageShow)
+  }, [])
+
+  /**
+   * Начинает редиректный вход обычной навигацией; callback вернёт на безопасный приватный адрес.
+   */
+  const handleKeycloakSignIn = (): void => {
+    if (isRedirecting) {
+      return
+    }
+    setIsRedirecting(true)
+    window.location.assign(getKeycloakSignInUrl(getSessionReturnTo(location.state)))
+  }
 
   return (
     <main {...rootAttrs} className={cl(styles.root, className)}>
@@ -22,14 +47,15 @@ export const SignInScreen = (props: SignInScreenProps): JSX.Element => {
             <Text c="dimmed" fw={600} size="sm">Панель администратора</Text>
             <Title order={1} size="h2">Вход в панель</Title>
             <Text c="dimmed" size="sm">
-              Используйте учётную запись администратора.
+              Используйте учётную запись панели.
             </Text>
           </Stack>
 
           <SignInForm />
+          <KeycloakSignIn onContinue={handleKeycloakSignIn} isRedirecting={isRedirecting} />
 
           <Text c="dimmed" size="sm" ta="center">
-            Доступ только для администраторов.
+            Доступ для пользователей с выданной учётной записью.
           </Text>
         </Stack>
       </Card>

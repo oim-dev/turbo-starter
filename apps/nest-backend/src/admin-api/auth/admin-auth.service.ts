@@ -4,7 +4,7 @@ import type { LoginDto } from '../../infrastructure/auth/auth.dto';
 import { verifyPassword } from '../../infrastructure/auth/password';
 import {
   SessionService,
-  type IssuedTokens,
+  type IssuedAccessToken,
 } from '../../infrastructure/auth/session.service';
 import { AdminUsersService } from '../../modules/admin-users/admin-users.service';
 
@@ -18,22 +18,19 @@ export class AdminAuthService {
   async login(
     dto: LoginDto,
     transport: SessionTransport,
-  ): Promise<IssuedTokens> {
+  ): Promise<IssuedAccessToken> {
     const user = await this.users.findByLogin(dto.login);
-    const valid = await verifyPassword(user?.passwordHash, dto.password);
-    if (
-      !user ||
-      !valid ||
-      !user.isActive ||
-      (process.env.NODE_ENV === 'production' &&
-        dto.login.toLowerCase() === 'admin' &&
-        dto.password === 'admin')
-    ) {
+    const valid = await verifyPassword(
+      user?.passwordHash ?? undefined,
+      dto.password,
+    );
+    if (!user || !user.passwordHash || !valid || !user.isActive) {
       throw new UnauthorizedException('Invalid credentials');
     }
     return this.sessions.create(user.id, transport, {
       login: user.login,
       passwordHash: user.passwordHash,
+      authVersion: user.authVersion,
     });
   }
 }

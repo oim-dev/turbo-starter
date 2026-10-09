@@ -23,13 +23,12 @@ function makeQueries(prisma: Prisma.TransactionClient): SessionQueries {
       );
     },
 
-    create(userId, transport, expiresAt, tokenHash) {
+    create(userId, transport, expiresAt) {
       return prisma.clientSession.create({
         data: {
           userId,
           transport,
           expiresAt,
-          refreshTokens: { create: { tokenHash } },
         },
       });
     },
@@ -48,30 +47,9 @@ function makeQueries(prisma: Prisma.TransactionClient): SessionQueries {
       return session !== null;
     },
 
-    findRefresh(tokenHash) {
-      return prisma.clientRefreshToken.findUnique({
-        where: { tokenHash },
-        include: { session: true },
-      });
-    },
-
-    async consumeRefresh(id, now) {
-      const result = await prisma.clientRefreshToken.updateMany({
-        where: { id, usedAt: null },
-        data: { usedAt: now },
-      });
-      return result.count === 1;
-    },
-
-    async addRefresh(sessionId, tokenHash) {
-      await prisma.clientRefreshToken.create({
-        data: { sessionId, tokenHash },
-      });
-    },
-
-    async revoke(sessionId, now) {
+    async revoke(sessionId, userId, now) {
       await prisma.clientSession.updateMany({
-        where: { id: sessionId, revokedAt: null },
+        where: { id: sessionId, userId, revokedAt: null },
         data: { revokedAt: now },
       });
     },

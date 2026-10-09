@@ -9,17 +9,17 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json ./
 COPY apps/react-admin-panel/package.json apps/react-admin-panel/package.json
 COPY packages/admin-rest-api-sdk/package.json packages/admin-rest-api-sdk/package.json
 COPY packages/typescript-config/package.json packages/typescript-config/package.json
-RUN pnpm install --frozen-lockfile --filter @repo/react-admin-panel...
+RUN pnpm install --frozen-lockfile --filter @oim/react-admin-panel...
 
 COPY apps/react-admin-panel apps/react-admin-panel
 COPY packages/admin-rest-api-sdk packages/admin-rest-api-sdk
 COPY packages/typescript-config packages/typescript-config
 
 ENV PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false
-RUN pnpm --filter @demo/admin-rest-api-sdk run build \
-    && pnpm --filter @repo/react-admin-panel run lint \
-    && pnpm --filter @repo/react-admin-panel run check-types \
-    && pnpm --filter @repo/react-admin-panel run build
+RUN pnpm --filter @oim/admin-rest-api-sdk run build \
+    && pnpm --filter @oim/react-admin-panel run lint \
+    && pnpm --filter @oim/react-admin-panel run check-types \
+    && pnpm --filter @oim/react-admin-panel run build
 
 FROM nginx:alpine AS production
 

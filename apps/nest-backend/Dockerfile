@@ -8,14 +8,14 @@ RUN corepack enable && corepack prepare pnpm@11.25.0 --activate
 WORKDIR /workspace
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY apps/nest-backend/package.json apps/nest-backend/package.json
-RUN pnpm install --filter @repo/nest-backend... --frozen-lockfile
+RUN pnpm install --filter @oim/nest-backend... --frozen-lockfile
 COPY apps/nest-backend apps/nest-backend
-RUN pnpm --filter @repo/nest-backend check-types && pnpm --filter @repo/nest-backend lint && pnpm --filter @repo/nest-backend build
+RUN pnpm --filter @oim/nest-backend check-types && pnpm --filter @oim/nest-backend lint && pnpm --filter @oim/nest-backend build
 
 FROM build AS production-dependencies
-RUN pnpm --filter @repo/nest-backend deploy --prod --legacy /out/backend
+RUN pnpm --filter @oim/nest-backend deploy --prod --legacy /out/backend
 
-# CLI и исходники нужны только одноразовым задачам миграции/bootstrap.
+# Prisma tooling и исходники конфигурации нужны только одноразовым миграциям.
 FROM base AS migrations
 ENV NODE_ENV=production \
     CHECKPOINT_DISABLE=1

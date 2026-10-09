@@ -13,11 +13,6 @@ enum SessionTransport {
   MOBILE
 }
 
-enum AdminRole {
-  OWNER
-  SUPPORT
-}
-
 model ClientUser {
   id           String          @id @default(uuid()) @db.Uuid
   login        String          @unique @db.VarChar(64)
@@ -30,64 +25,128 @@ model ClientUser {
 }
 
 model AdminUser {
-  id           String         @id @default(uuid()) @db.Uuid
-  login        String         @unique @db.VarChar(64)
-  passwordHash String
-  isActive     Boolean        @default(true)
-  role         AdminRole      @default(OWNER)
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  sessions     AdminSession[]
+  id             String          @id @default(uuid()) @db.Uuid
+  login          String          @unique @db.VarChar(64)
+  passwordHash   String?
+  isActive       Boolean         @default(true)
+  role           String          @default("USER") @db.VarChar(64)
+  accessRole     AdminAccessRole @relation(fields: [role], references: [key], onDelete: Restrict)
+  name           String          @default("") @db.VarChar(120)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  sessions       AdminSession[]
+  identities     AdminIdentity[]
+  authVersion    Int             @default(0)
+  authValidAfter DateTime        @default(now())
 
   @@index([role, isActive])
 }
 
+model AdminAccessRole {
+  key         String      @id @db.VarChar(64)
+  name        String      @db.VarChar(120)
+  permissions String[]
+  isBuiltin   Boolean     @default(false)
+  version     Int         @default(1)
+  users       AdminUser[]
+}
+
+model AdminKeycloakSettings {
+  id                Int      @id @default(1)
+  enabled           Boolean  @default(false)
+  issuer            String   @default("") @db.VarChar(512)
+  clientId          String   @default("") @db.VarChar(255)
+  clientSecret      String?
+  callbackUrl       String   @default("") @db.VarChar(2048)
+  frontendCallbackUrl String @default("") @db.VarChar(2048)
+  version           Int      @default(0)
+  updatedAt         DateTime @updatedAt
+}
+
+model AdminSecurityAudit {
+  id        String   @id @default(uuid()) @db.Uuid
+  actorId   String   @db.Uuid
+  action    String   @db.VarChar(100)
+  target    String   @db.VarChar(100)
+  createdAt DateTime @default(now())
+}
+
 model ClientSession {
-  id            String               @id @default(uuid()) @db.Uuid
-  userId        String               @db.Uuid
-  user          ClientUser           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  transport     SessionTransport
-  createdAt     DateTime             @default(now())
-  expiresAt     DateTime
-  revokedAt     DateTime?
-  refreshTokens ClientRefreshToken[]
+  id        String           @id @default(uuid()) @db.Uuid
+  userId    String           @db.Uuid
+  user      ClientUser       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transport SessionTransport
+  createdAt DateTime         @default(now())
+  expiresAt DateTime
+  revokedAt DateTime?
 
   @@index([userId])
   @@index([expiresAt])
-}
-
-model ClientRefreshToken {
-  id        String        @id @default(uuid()) @db.Uuid
-  tokenHash String        @unique @db.Char(64)
-  sessionId String        @db.Uuid
-  session   ClientSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-  createdAt DateTime      @default(now())
-  usedAt    DateTime?
-
-  @@index([sessionId])
 }
 
 model AdminSession {
-  id            String              @id @default(uuid()) @db.Uuid
-  userId        String              @db.Uuid
-  user          AdminUser           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  transport     SessionTransport
-  createdAt     DateTime            @default(now())
-  expiresAt     DateTime
-  revokedAt     DateTime?
-  refreshTokens AdminRefreshToken[]
+  id         String           @id @default(uuid()) @db.Uuid
+  userId     String           @db.Uuid
+  user       AdminUser        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transport  SessionTransport
+  createdAt  DateTime         @default(now())
+  expiresAt  DateTime
+  revokedAt  DateTime?
+  identityId String?          @db.Uuid
+  identity   AdminIdentity?   @relation(fields: [identityId], references: [id], onDelete: Restrict)
 
   @@index([userId])
   @@index([expiresAt])
+  @@index([identityId])
 }
 
-model AdminRefreshToken {
-  id        String       @id @default(uuid()) @db.Uuid
-  tokenHash String       @unique @db.Char(64)
-  sessionId String       @db.Uuid
-  session   AdminSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-  createdAt DateTime     @default(now())
-  usedAt    DateTime?
+// Только заранее привязанные оператором административные identity.
+model AdminIdentity {
+  id          String                @id @default(uuid()) @db.Uuid
+  userId      String                @db.Uuid
+  user        AdminUser             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  issuer      String                @db.VarChar(512)
+  subject     String                @db.VarChar(255)
+  createdAt   DateTime              @default(now())
+  revokedAt   DateTime?
+  sessions    AdminSession[]
+  completions AdminOidcCompletion[]
 
-  @@index([sessionId])
+  @@unique([issuer, subject])
+  @@index([userId])
+}
+
+// PKCE/nonce живут только до очистки короткоживущего обмена; upstream tokens не хранятся.
+model AdminOidcTransaction {
+  stateHash    String               @id @db.Char(64)
+  browserHash  String               @db.Char(64)
+  codeVerifier String
+  nonce        String
+  issuer       String               @db.VarChar(512)
+  clientId     String               @db.VarChar(255)
+  configVersion Int                @default(0)
+  callbackUrl  String               @db.VarChar(2048)
+  returnTo     String               @db.VarChar(2048)
+  createdAt    DateTime             @default(now())
+  expiresAt    DateTime
+  consumedAt   DateTime?
+  completion   AdminOidcCompletion?
+
+  @@index([browserHash])
+  @@index([expiresAt])
+}
+
+model AdminOidcCompletion {
+  tokenHash     String               @id @db.Char(64)
+  transactionId String               @unique @db.Char(64)
+  transaction   AdminOidcTransaction @relation(fields: [transactionId], references: [stateHash], onDelete: Cascade)
+  identityId    String               @db.Uuid
+  identity      AdminIdentity        @relation(fields: [identityId], references: [id], onDelete: Cascade)
+  authVersion   Int
+  createdAt     DateTime             @default(now())
+  expiresAt     DateTime
+  consumedAt    DateTime?
+
+  @@index([identityId])
+  @@index([expiresAt])
 }

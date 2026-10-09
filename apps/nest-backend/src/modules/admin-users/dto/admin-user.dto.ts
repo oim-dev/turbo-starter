@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { AdminRole } from '../../../generated/prisma/client';
 
 export class AdminUserDto {
   @ApiProperty({ type: String, format: 'uuid' })
@@ -12,10 +11,23 @@ export class AdminUserDto {
   isActive!: boolean;
 
   @ApiProperty({
-    enum: AdminRole,
-    description: 'OWNER — владелец сервиса; SUPPORT — поддержка.',
+    type: Boolean,
+    description:
+      'Есть ли локальный пароль. Для SSO-only аккаунта смена пароля недоступна.',
   })
-  role!: AdminRole;
+  hasLocalPassword!: boolean;
+
+  @ApiProperty({ type: String, description: 'Ключ назначенной роли.' })
+  role!: string;
+
+  @ApiProperty({ type: String })
+  roleName!: string;
+
+  @ApiProperty({ type: [String] })
+  permissions!: string[];
+
+  @ApiProperty({ type: String })
+  name!: string;
 
   @ApiProperty({ type: String, format: 'date-time' })
   createdAt!: Date;

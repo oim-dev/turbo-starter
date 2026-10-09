@@ -6,5 +6,6 @@ import type { ApiCredential } from '../types/api-session.type'
  */
 export const isCurrentSession = (expected: ApiCredential): boolean => {
   const current = peekApiCredential()
-  return current !== null && current.scope === expected.scope && current.sessionId === expected.sessionId
+  return current !== null && current.scope === expected.scope && current.sessionId === expected.sessionId &&
+    current.subject === expected.subject && current.accessToken === expected.accessToken
 }

@@ -43,22 +43,22 @@
       "cache": false,
       "persistent": true
     },
-    "@repo/nest-backend#dev": {
+    "@oim/nest-backend#dev": {
       "dependsOn": ["^build"],
-      "passThroughEnv": ["DATABASE_URL", "POSTGRES_*", "CLIENT_*", "ADMIN_*"],
+      "passThroughEnv": ["POSTGRES_*", "CLIENT_*", "ADMIN_*"],
       "cache": false,
       "persistent": true
     },
-    "@repo/nest-backend#build": {
+    "@oim/nest-backend#build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["dist/**", "src/generated/prisma/**"],
-      "passThroughEnv": ["DATABASE_URL"]
+      "passThroughEnv": ["POSTGRES_*"]
     },
-    "@repo/nest-backend#check-types": {
+    "@oim/nest-backend#check-types": {
       "dependsOn": ["^build", "^check-types"],
       "outputs": ["src/generated/prisma/**"],
-      "passThroughEnv": ["DATABASE_URL"]
+      "passThroughEnv": ["POSTGRES_*"]
     }
   }
 }

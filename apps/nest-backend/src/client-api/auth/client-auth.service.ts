@@ -4,7 +4,7 @@ import type { LoginDto } from '../../infrastructure/auth/auth.dto';
 import { verifyPassword } from '../../infrastructure/auth/password';
 import {
   SessionService,
-  type IssuedTokens,
+  type IssuedAccessToken,
 } from '../../infrastructure/auth/session.service';
 import { ClientUsersService } from '../../modules/client-users/client-users.service';
 
@@ -18,7 +18,7 @@ export class ClientAuthService {
   async login(
     dto: LoginDto,
     transport: SessionTransport,
-  ): Promise<IssuedTokens> {
+  ): Promise<IssuedAccessToken> {
     const user = await this.users.findByLogin(dto.login);
     const valid = await verifyPassword(user?.passwordHash, dto.password);
     if (!user || !valid || !user.isActive) {

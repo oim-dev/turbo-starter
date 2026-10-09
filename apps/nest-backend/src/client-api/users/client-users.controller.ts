@@ -7,7 +7,6 @@ import {
   Patch,
   Put,
   Req,
-  Res,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -23,9 +22,7 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
-import type { Response } from 'express';
 import type { AuthenticatedRequest } from '../../infrastructure/auth/authenticated-request';
-import { BrowserTokens } from '../../infrastructure/auth/browser-auth';
 import { ClientUsersService } from '../../modules/client-users/client-users.service';
 import {
   ChangeClientUserLoginDto,
@@ -42,10 +39,7 @@ import { UpdateClientUserProfileDto } from '../../modules/client-users/dto/updat
 })
 @Controller('users')
 export class ClientUsersController {
-  constructor(
-    private readonly users: ClientUsersService,
-    private readonly browser: BrowserTokens,
-  ) {}
+  constructor(private readonly users: ClientUsersService) {}
 
   @Get('me')
   @ApiOperation({
@@ -84,7 +78,7 @@ export class ClientUsersController {
     operationId: 'changeClientUserLogin',
     summary: 'Изменить логин текущего клиента',
     description:
-      'Требует текущий пароль. Логин сохраняется в нижнем регистре. Успешный запрос атомарно отзывает все сессии, включая текущую, и удаляет refresh cookie. После ответа требуется новый вход, даже если логин не изменился.',
+      'Требует текущий пароль. Логин сохраняется в нижнем регистре. Успешный запрос атомарно отзывает все сессии, включая текущую. После ответа клиент должен удалить сохранённый JWT и выполнить новый вход, даже если логин не изменился.',
   })
   @ApiBody({ type: ChangeClientUserLoginDto })
   @ApiNoContentResponse({ description: 'Логин обновлён; все сессии отозваны.' })
@@ -97,10 +91,8 @@ export class ClientUsersController {
   async changeLogin(
     @Req() request: AuthenticatedRequest,
     @Body() dto: ChangeClientUserLoginDto,
-    @Res({ passthrough: true }) response: Response,
   ): Promise<void> {
     await this.users.changeLogin(request.user, dto);
-    this.browser.clear(response);
   }
 
   @Put('me/password')
@@ -110,7 +102,7 @@ export class ClientUsersController {
     operationId: 'changeClientUserPassword',
     summary: 'Изменить пароль текущего клиента',
     description:
-      'Требует текущий пароль. Успешный запрос атомарно отзывает все сессии, включая текущую, и удаляет refresh cookie. После ответа требуется новый вход.',
+      'Требует текущий пароль. Успешный запрос атомарно отзывает все сессии, включая текущую. После ответа клиент должен удалить сохранённый JWT и выполнить новый вход.',
   })
   @ApiBody({ type: ChangeClientUserPasswordDto })
   @ApiNoContentResponse({
@@ -124,9 +116,7 @@ export class ClientUsersController {
   async changePassword(
     @Req() request: AuthenticatedRequest,
     @Body() dto: ChangeClientUserPasswordDto,
-    @Res({ passthrough: true }) response: Response,
   ): Promise<void> {
     await this.users.changePassword(request.user, dto);
-    this.browser.clear(response);
   }
 }

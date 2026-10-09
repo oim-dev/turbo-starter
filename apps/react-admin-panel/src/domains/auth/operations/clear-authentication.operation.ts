@@ -6,9 +6,12 @@ import { authStore } from '../stores/auth.store'
 /**
  * Синхронно закрывает приватный интерфейс и отделяет кеш завершённой сессии.
  */
-export const clearAuthentication = (error: AuthError | null = null, isRecoverable = false): void => {
-  clearBackendAdminApiAccessToken()
-  authStore.getState().reset(error, isRecoverable)
+export const clearAuthentication = (error: AuthError | null = null): void => {
+  try {
+    clearBackendAdminApiAccessToken()
+  } finally {
+    authStore.getState().reset(error)
+  }
 }
 
 /**

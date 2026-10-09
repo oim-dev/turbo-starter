@@ -9,7 +9,7 @@ import type { ApiRequestClient, RequestParams } from "../http-client.js";
 import { ContentType } from "../http-client.js";
 
 /**
- * @description Требует текущий пароль. Успешный запрос атомарно отзывает все сессии администратора, включая текущую, и удаляет refresh cookie. После ответа требуется новый вход.
+ * @description Требует текущий пароль. Успешный запрос атомарно отзывает все сессии администратора, включая текущую. После ответа клиент должен удалить сохранённый JWT и выполнить новый вход.
  *
  * @tags Auth
  * @name AdminAuthChangePassword

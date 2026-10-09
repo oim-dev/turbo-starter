@@ -8,7 +8,9 @@ import { checkLinks } from "./links.mjs";
 export const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
 export const sourceRoot = "packages/dev-agents/src";
 export const lockPath = "agents-lock.json";
-const GENERATOR = "@repo/dev-agents";
+const GENERATOR = "@oim/dev-agents";
+// Старый владелец принимается только для миграции локального lock при смене scope.
+const LEGACY_GENERATOR = "@turbo-starter/dev-agents";
 const NAME = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
 const FIXED_OUTPUTS = new Set(["opencode.json", ".claude/settings.json", ".codex/config.toml"]);
 
@@ -158,7 +160,8 @@ async function previousLock(root) {
   const value = parseJson(decode(bytes, lockPath), lockPath);
   objectShape(value, ["version", "generator", "outputs"], lockPath);
   requireCondition(
-    value.version === 1 && value.generator === GENERATOR,
+    value.version === 1 &&
+      (value.generator === GENERATOR || value.generator === LEGACY_GENERATOR),
     `${lockPath}: неизвестная версия или владелец; файл сохранён`,
   );
   requireCondition(Array.isArray(value.outputs), `${lockPath}: outputs должен быть массивом`);

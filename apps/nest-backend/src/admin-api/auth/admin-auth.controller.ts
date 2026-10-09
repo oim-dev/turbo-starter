@@ -5,16 +5,15 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  Patch,
   Put,
   Req,
   Res,
-  UnauthorizedException,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
   ApiBody,
-  ApiCookieAuth,
   ApiForbiddenResponse,
   ApiNoContentResponse,
   ApiNotFoundResponse,
@@ -28,17 +27,22 @@ import { Throttle } from '@nestjs/throttler';
 import type { Request, Response } from 'express';
 import { SessionTransport } from '../../generated/prisma/client';
 import { AccessTokenDto, LoginDto } from '../../infrastructure/auth/auth.dto';
-import { AdminRoles } from '../../infrastructure/auth/admin-roles';
+import { AdminPermissions } from '../../infrastructure/auth/admin-roles';
+import {
+  ChangeAdminLoginDto,
+  UpdateAdminProfileDto,
+} from '../../modules/admin-users/dto/update-admin-profile.dto';
 import type { AuthenticatedRequest } from '../../infrastructure/auth/authenticated-request';
 import {
   BrowserAuth,
-  BrowserTokens,
+  BrowserRequest,
 } from '../../infrastructure/auth/browser-auth';
 import { SessionService } from '../../infrastructure/auth/session.service';
 import { AdminUsersService } from '../../modules/admin-users/admin-users.service';
 import { AdminUserDto } from '../../modules/admin-users/dto/admin-user.dto';
 import { ChangeAdminPasswordDto } from '../../modules/admin-users/dto/change-admin-password.dto';
 import { AdminAuthService } from './admin-auth.service';
+import { AdminKeycloakService } from './admin-keycloak.service';
 
 @ApiTags('Auth')
 @ApiTooManyRequestsResponse({
@@ -51,7 +55,7 @@ export class AdminAuthController {
     private readonly auth: AdminAuthService,
     private readonly admins: AdminUsersService,
     private readonly sessions: SessionService,
-    private readonly browser: BrowserTokens,
+    private readonly keycloak: AdminKeycloakService,
   ) {}
 
   @Post('login')
@@ -62,88 +66,58 @@ export class AdminAuthController {
     security: [],
     summary: 'Создать браузерную сессию администратора',
     description:
-      'Возвращает токен доступа в JSON и устанавливает cookie с токеном обновления и флагом HttpOnly.',
+      'Возвращает Bearer JWT в accessToken на 7 дней (604800 секунд). Cookie авторизации не устанавливается; незавершённый OIDC flow отменяется. По истечении срока требуется новый вход.',
   })
   @ApiBody({ type: LoginDto })
   @ApiOkResponse({ type: AccessTokenDto })
   @ApiBadRequestResponse({ description: 'Некорректные данные для входа.' })
   @ApiUnauthorizedResponse({ description: 'Неверные учётные данные.' })
   @ApiForbiddenResponse({
-    description: 'Обязательны разрешённый Origin и X-CSRF-Protection: 1.',
+    description: 'Обязательны корректный HTTP(S) Origin и X-CSRF-Protection: 1.',
   })
   async login(
     @Body() dto: LoginDto,
-    @Res({ passthrough: true }) response: Response,
-  ): Promise<AccessTokenDto> {
-    return this.browser.respond(
-      response,
-      await this.auth.login(dto, SessionTransport.BROWSER),
-    );
-  }
-
-  @Post('refresh')
-  @HttpCode(HttpStatus.OK)
-  @BrowserAuth()
-  @ApiCookieAuth('refresh-cookie')
-  @ApiOperation({
-    operationId: 'adminBrowserRefresh',
-    security: [{ 'refresh-cookie': [] }],
-    summary: 'Заменить токен обновления браузерной сессии администратора',
-    description:
-      'Каждый токен обновления используется только один раз; повторное использование отзывает сессию. Если ответ потерян после ротации, войдите заново вместо повторного запроса. Новый токен обновления передаётся только в cookie с флагом HttpOnly.',
-  })
-  @ApiOkResponse({ type: AccessTokenDto })
-  @ApiUnauthorizedResponse({
-    description:
-      'Токен обновления отсутствует, недействителен, просрочен или уже использован.',
-  })
-  @ApiForbiddenResponse({
-    description: 'Обязательны разрешённый Origin и X-CSRF-Protection: 1.',
-  })
-  async refresh(
     @Req() request: Request,
     @Res({ passthrough: true }) response: Response,
   ): Promise<AccessTokenDto> {
-    const token = this.browser.read(request);
-    if (token === undefined) {
-      throw new UnauthorizedException('Invalid or expired refresh token');
-    }
-    return this.browser.respond(
-      response,
-      await this.sessions.refresh(token, SessionTransport.BROWSER),
-    );
+    const token = await this.auth.login(dto, SessionTransport.BROWSER);
+    await this.keycloak.cancelBrowser(request, response);
+    return token;
   }
 
   @Post('logout')
   @HttpCode(HttpStatus.NO_CONTENT)
-  @BrowserAuth()
-  @ApiCookieAuth('refresh-cookie')
+  @BrowserRequest()
+  @AdminPermissions('account.read')
+  @ApiBearerAuth('access-token')
   @ApiOperation({
     operationId: 'adminBrowserLogout',
-    security: [{}, { 'refresh-cookie': [] }],
     summary: 'Завершить браузерную сессию администратора',
     description:
-      'Немедленно отзывает сессию, включая токены доступа, связанные через sid, и удаляет cookie с токеном обновления. Отсутствие или недействительность cookie не считается ошибкой.',
+      'Без тела. Требует валидный Bearer JWT Admin API, активную сессию и account.read. Отзывает только текущую сессию из sid JWT, отменяет незавершённый OIDC flow и очищает его временные cookies. Logout локальный, без выхода из Keycloak SSO. Повторный запрос с отозванным JWT возвращает 401.',
   })
   @ApiNoContentResponse({
-    description: 'Выход выполнен; cookie с токеном обновления удалена.',
+    description:
+      'Текущая сессия отозвана. Клиент должен удалить сохранённый JWT.',
+  })
+  @ApiUnauthorizedResponse({
+    description:
+      'Токен отсутствует, недействителен, просрочен или сессия отозвана.',
   })
   @ApiForbiddenResponse({
-    description: 'Обязательны разрешённый Origin и X-CSRF-Protection: 1.',
+    description:
+      'Обязательны account.read, корректный HTTP(S) Origin и X-CSRF-Protection: 1.',
   })
   async logout(
-    @Req() request: Request,
+    @Req() request: AuthenticatedRequest,
     @Res({ passthrough: true }) response: Response,
   ): Promise<void> {
-    await this.sessions.logout(
-      this.browser.read(request),
-      SessionTransport.BROWSER,
-    );
-    this.browser.clear(response);
+    await this.sessions.logout(request.user);
+    await this.keycloak.cancelBrowser(request, response);
   }
 
   @Get('me')
-  @AdminRoles('OWNER', 'SUPPORT')
+  @AdminPermissions('account.read')
   @HttpCode(HttpStatus.OK)
   @ApiBearerAuth('access-token')
   @ApiOperation({
@@ -161,14 +135,14 @@ export class AdminAuthController {
   }
 
   @Put('password')
-  @AdminRoles('OWNER', 'SUPPORT')
+  @AdminPermissions('account.password.change')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiBearerAuth('access-token')
   @ApiOperation({
     operationId: 'adminAuthChangePassword',
     summary: 'Изменить собственный пароль администратора',
     description:
-      'Требует текущий пароль. Успешный запрос атомарно отзывает все сессии администратора, включая текущую, и удаляет refresh cookie. После ответа требуется новый вход.',
+      'Требует текущий пароль. Успешный запрос атомарно отзывает все сессии администратора, включая текущую. После ответа клиент должен удалить сохранённый JWT и выполнить новый вход.',
   })
   @ApiBody({ type: ChangeAdminPasswordDto })
   @ApiNoContentResponse({
@@ -181,9 +155,40 @@ export class AdminAuthController {
   async changePassword(
     @Req() request: AuthenticatedRequest,
     @Body() dto: ChangeAdminPasswordDto,
-    @Res({ passthrough: true }) response: Response,
   ): Promise<void> {
     await this.admins.changePassword(request.user, dto);
-    this.browser.clear(response);
+  }
+
+  @Patch('me')
+  @AdminPermissions('account.update')
+  @ApiBearerAuth('access-token')
+  @ApiOperation({
+    operationId: 'adminUpdateProfile',
+    summary: 'Изменить собственный профиль',
+  })
+  @ApiOkResponse({ type: AdminUserDto })
+  updateProfile(
+    @Req() request: AuthenticatedRequest,
+    @Body() dto: UpdateAdminProfileDto,
+  ): Promise<AdminUserDto> {
+    return this.admins.updateProfile(request.user, dto);
+  }
+
+  @Put('login')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @AdminPermissions('account.login.change')
+  @ApiBearerAuth('access-token')
+  @ApiOperation({
+    operationId: 'adminChangeLogin',
+    summary: 'Изменить свой логин и отозвать все сессии',
+    description:
+      'После успешного ответа клиент должен удалить сохранённый JWT и выполнить новый вход.',
+  })
+  @ApiNoContentResponse()
+  async changeLogin(
+    @Req() request: AuthenticatedRequest,
+    @Body() dto: ChangeAdminLoginDto,
+  ): Promise<void> {
+    await this.admins.changeLogin(request.user, dto);
   }
 }

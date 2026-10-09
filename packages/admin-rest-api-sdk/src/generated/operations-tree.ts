@@ -4,19 +4,57 @@
  * https://github.com/gromlab-ru/rest-api-codegen
  */
 
+import { adminAccountCreate } from "./operations/admin-account-create.js";
+import { adminAccountUpdate } from "./operations/admin-account-update.js";
+import { adminAccountsList } from "./operations/admin-accounts-list.js";
 import { adminAuthChangePassword } from "./operations/admin-auth-change-password.js";
 import { adminAuthMe } from "./operations/admin-auth-me.js";
+import { adminAuthProviders } from "./operations/admin-auth-providers.js";
 import { adminBrowserLogin } from "./operations/admin-browser-login.js";
 import { adminBrowserLogout } from "./operations/admin-browser-logout.js";
-import { adminBrowserRefresh } from "./operations/admin-browser-refresh.js";
+import { adminChangeLogin } from "./operations/admin-change-login.js";
+import { adminIdentityBind } from "./operations/admin-identity-bind.js";
+import { adminIdentityUnbind } from "./operations/admin-identity-unbind.js";
+import { adminKeycloakComplete } from "./operations/admin-keycloak-complete.js";
+import { adminKeycloakSettingsGet } from "./operations/admin-keycloak-settings-get.js";
+import { adminKeycloakSettingsUpdate } from "./operations/admin-keycloak-settings-update.js";
+import { adminLocalPasswordDisable } from "./operations/admin-local-password-disable.js";
+import { adminPermissionsList } from "./operations/admin-permissions-list.js";
+import { adminRoleCreate } from "./operations/admin-role-create.js";
+import { adminRoleDelete } from "./operations/admin-role-delete.js";
+import { adminRoleUpdate } from "./operations/admin-role-update.js";
+import { adminRolesList } from "./operations/admin-roles-list.js";
+import { adminSessionsRevoke } from "./operations/admin-sessions-revoke.js";
+import { adminUpdateProfile } from "./operations/admin-update-profile.js";
 
 export const operationsTree = {
+  access: {
+    adminPermissionsList: adminPermissionsList,
+    adminRolesList: adminRolesList,
+    adminRoleCreate: adminRoleCreate,
+    adminRoleUpdate: adminRoleUpdate,
+    adminRoleDelete: adminRoleDelete,
+    adminAccountsList: adminAccountsList,
+    adminAccountCreate: adminAccountCreate,
+    adminAccountUpdate: adminAccountUpdate,
+    adminIdentityBind: adminIdentityBind,
+    adminIdentityUnbind: adminIdentityUnbind,
+    adminLocalPasswordDisable: adminLocalPasswordDisable,
+    adminSessionsRevoke: adminSessionsRevoke,
+  },
   auth: {
     adminBrowserLogin: adminBrowserLogin,
-    adminBrowserRefresh: adminBrowserRefresh,
+    adminChangeLogin: adminChangeLogin,
     adminBrowserLogout: adminBrowserLogout,
     adminAuthMe: adminAuthMe,
+    adminUpdateProfile: adminUpdateProfile,
     adminAuthChangePassword: adminAuthChangePassword,
+    adminAuthProviders: adminAuthProviders,
+    adminKeycloakComplete: adminKeycloakComplete,
+  },
+  settings: {
+    adminKeycloakSettingsGet: adminKeycloakSettingsGet,
+    adminKeycloakSettingsUpdate: adminKeycloakSettingsUpdate,
   },
 } as const;
 

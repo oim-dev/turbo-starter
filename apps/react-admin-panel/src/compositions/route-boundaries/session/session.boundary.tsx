@@ -1,6 +1,6 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useAuthentication } from 'domains/auth'
-import { getSessionReturnTo } from './helpers/get-session-return-to'
+import { getSessionReturnTo } from 'shared/navigation'
 import { SessionPending } from './ui/session-pending/session-pending'
 import type { SessionBoundaryProps } from './types/session-boundary-props.type'
 

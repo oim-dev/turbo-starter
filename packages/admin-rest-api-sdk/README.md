@@ -1,26 +1,26 @@
-# @demo/admin-rest-api-sdk
+# @oim/admin-rest-api-sdk
 
 Приватный workspace SDK для административного REST API. Источник контракта —
 [`apps/nest-backend/openapi/admin.openapi.json`](../../apps/nest-backend/openapi/admin.openapi.json).
 Генератор зафиксирован: `@gromlab/rest-api-codegen@5.2.4`.
-Имя `@demo/admin-rest-api-sdk` сохранено: его использует `apps/react-admin-panel`.
+Пакет `@oim/admin-rest-api-sdk` использует `apps/react-admin-panel`.
 
 SDK независим от клиентского пакета и React. Он не создаёт singleton и не хранит
 URL окружения, токены или cookies. Настройки транспорта и сессии принадлежат
 приложению-потребителю. Пакет экспортирует ESM JavaScript и декларации из `dist`,
 а не исходный TypeScript. Компиляция — `NodeNext` с `.js` в относительных импортах,
-общая конфигурация — `@repo/typescript-config/base.json`.
+общая конфигурация — `@oim/typescript-config/base.json`.
 
 ## Текущий контракт
 
-SDK перегенерирован из очищенного контракта административной аутентификации:
-**5 операций**, единственная группа `auth`. Последний столбец — суффикс прямого
-импорта `@demo/admin-rest-api-sdk/operations/<суффикс>`.
+SDK содержит группы `auth`, `access` и `settings`: вход и профиль, управление
+аккаунтами/ролями/правами, настройки Keycloak. Основные операции авторизации
+перечислены ниже; последний столбец — суффикс прямого импорта
+`@oim/admin-rest-api-sdk/operations/<суффикс>`.
 
 | Метод полного клиента          | HTTP                 | Тело                     | Результат        | Суффикс импорта              |
 | ------------------------------ | -------------------- | ------------------------ | ---------------- | ---------------------------- |
 | `auth.adminBrowserLogin`       | `POST /auth/login`   | `LoginDto`               | `AccessTokenDto` | `admin-browser-login`        |
-| `auth.adminBrowserRefresh`     | `POST /auth/refresh` | —                        | `AccessTokenDto` | `admin-browser-refresh`      |
 | `auth.adminBrowserLogout`      | `POST /auth/logout`  | —                        | `void` (204)     | `admin-browser-logout`       |
 | `auth.adminAuthMe`             | `GET /auth/me`       | —                        | `AdminUserDto`   | `admin-auth-me`              |
 | `auth.adminAuthChangePassword` | `PUT /auth/password` | `ChangeAdminPasswordDto` | `void` (204)     | `admin-auth-change-password` |
@@ -36,20 +36,20 @@ SDK перегенерирован из очищенного контракта 
 
 - `LoginDto`: `login`, `password`.
 - `AccessTokenDto`: `accessToken`, `tokenType`, `expiresIn`, `sessionExpiresAt`.
-- `AdminUserDto`: `id`, `login`, `isActive`, `role`, `createdAt`, `updatedAt`.
+- `AdminUserDto`: профиль, роль и эффективные права администратора; точная структура — в generated-контракте.
 - `ApiErrorDto`: `statusCode: number`, `code: string`, `message: string | string[]`.
 - `ChangeAdminPasswordDto`: `currentPassword`, `newPassword`.
 - `AccessTokenDtoTokenTypeEnum = "Bearer"`.
-- `AdminUserDtoRoleEnum = "OWNER" | "SUPPORT"`.
 - `AdminBrowserLoginParamsXCsrfProtectionEnum = "1"`.
-- `AdminBrowserRefreshParamsXCsrfProtectionEnum = "1"`.
 - `AdminBrowserLogoutParamsXCsrfProtectionEnum = "1"`.
 
-Даты остаются строками ISO; `expiresIn` — интервал JWT `exp − iat` в целых секундах.
-Точный срок сессии задаёт `sessionExpiresAt` и проверяет сервер. Header enum не настраивает
-запрос автоматически: браузер передаёт `Origin`, потребитель задаёт
-`X-CSRF-Protection: 1` и `credentials: 'include'`. Refresh token передаётся cookie.
-Клиентских DTO, HTTP-управления сотрудниками и прежних продуктовых операций здесь нет.
+Даты остаются строками ISO; `expiresIn` — интервал JWT `exp − iat`: **604800 секунд (7 дней)**
+для локального входа и Keycloak. Срок сессии задаёт `sessionExpiresAt` и проверяет сервер.
+Для browser login/logout и Keycloak complete браузер передаёт `Origin`, потребитель задаёт
+`X-CSRF-Protection: 1`. Защищённые операции и logout используют Bearer JWT.
+Refresh endpoint и auth cookies отсутствуют; после истечения JWT нужен новый вход.
+`credentials: 'include'` требуется только для временных OIDC cookies Keycloak.
+CORS разрешает любой origin. Клиентских DTO и прежних продуктовых операций здесь нет.
 
 ### Граница совместимости
 
@@ -69,9 +69,9 @@ SDK перегенерирован из очищенного контракта 
 ```sh
 export PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false
 
-pnpm --filter @demo/admin-rest-api-sdk run generate
-pnpm --filter @demo/admin-rest-api-sdk run check-types
-pnpm --filter @demo/admin-rest-api-sdk run build
+pnpm --filter @oim/admin-rest-api-sdk run generate
+pnpm --filter @oim/admin-rest-api-sdk run check-types
+pnpm --filter @oim/admin-rest-api-sdk run build
 ```
 
 `generate` читает локальный JSON. CLI 5.2.4 заменяет весь `src/generated`, поэтому
@@ -87,7 +87,7 @@ pnpm --filter @demo/admin-rest-api-sdk run build
 отсутствие старых операций и воспроизводимость повторной генерации/сборки.
 
 Workspace-зависимости и root lockfile синхронизирует оркестратор. Для проверок
-нужна доступная ссылка на `@repo/typescript-config`. Перед `run`/`exec` отключайте
+нужна доступная ссылка на `@oim/typescript-config`. Перед `run`/`exec` отключайте
 автоматическую установку pnpm 11 через `PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false`.
 Это не заменяет установку отсутствующих зависимостей и не отключает загрузку
 генератора через `pnpm dlx` на отдельно согласованном этапе.

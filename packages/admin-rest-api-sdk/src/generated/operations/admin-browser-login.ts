@@ -13,7 +13,7 @@ import type { ApiRequestClient, RequestParams } from "../http-client.js";
 import { ContentType } from "../http-client.js";
 
 /**
- * @description Возвращает токен доступа в JSON и устанавливает cookie с токеном обновления и флагом HttpOnly.
+ * @description Возвращает Bearer JWT в accessToken на 7 дней (604800 секунд). Cookie авторизации не устанавливается; незавершённый OIDC flow отменяется. По истечении срока требуется новый вход.
  *
  * @tags Auth
  * @name AdminBrowserLogin

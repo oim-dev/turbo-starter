@@ -10,9 +10,10 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { API_CONFIG, type ApiConfig } from '../config/api-config';
 import { PrismaModule } from '../prisma/prisma.module';
 import { AccessGuard } from './access.guard';
-import { BrowserOriginGuard, BrowserTokens } from './browser-auth';
+import { BrowserOriginGuard } from './browser-auth';
 import { SessionStore } from './session-store';
 import { SessionService } from './session.service';
+import { SessionCleanupService } from './session-cleanup.service';
 
 @Module({})
 export class SecurityModule {
@@ -33,15 +34,15 @@ export class SecurityModule {
         { provide: API_CONFIG, useValue: config },
         { provide: SessionStore, useClass: store },
         SessionService,
+        SessionCleanupService,
         BrowserOriginGuard,
-        BrowserTokens,
         { provide: APP_GUARD, useClass: ThrottlerGuard },
         { provide: APP_GUARD, useClass: AccessGuard },
         ...(authorizationGuard
           ? [{ provide: APP_GUARD, useClass: authorizationGuard }]
           : []),
       ],
-      exports: [API_CONFIG, SessionService, BrowserOriginGuard, BrowserTokens],
+      exports: [API_CONFIG, SessionService, BrowserOriginGuard],
     };
   }
 }

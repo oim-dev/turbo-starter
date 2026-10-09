@@ -3,6 +3,7 @@ import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import type { NestExpressApplication } from '@nestjs/platform-express';
 import { configureHttp } from '../infrastructure/http/configure-http';
+import { describeStartupFailure } from '../infrastructure/http/startup-error';
 import { ClientAppModule, clientApiConfig } from './client-app.module';
 
 async function bootstrap(): Promise<void> {
@@ -23,10 +24,7 @@ async function bootstrap(): Promise<void> {
   }
 }
 
-void bootstrap().catch(() => {
-  Logger.error(
-    'Client API startup failed. Check configuration and database availability.',
-    'Bootstrap',
-  );
+void bootstrap().catch((error: unknown) => {
+  Logger.error(describeStartupFailure(error, clientApiConfig), 'Bootstrap');
   process.exitCode = 1;
 });

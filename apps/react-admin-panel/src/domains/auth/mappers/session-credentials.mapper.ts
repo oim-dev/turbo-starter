@@ -3,8 +3,7 @@ import { hasOwn, isNumber, isRecord, isString } from 'shared/value-predicates'
 import type { SessionCredentials } from '../types/session-credentials.type'
 
 /**
- * Проверяет внешний credential и рассчитывает обновление до истечения access token.
- * Время начала запроса учитывает задержку доставки ответа без разбора JWT.
+ * Проверяет ответ входа и сохраняет абсолютную границу, не пересчитывая её при bootstrap.
  */
 export const mapSessionCredentials = (payload: unknown, requestedAt: number): SessionCredentials => {
   if (
@@ -28,7 +27,6 @@ export const mapSessionCredentials = (payload: unknown, requestedAt: number): Se
 
   return {
     accessToken: payload.accessToken,
-    refreshAt: accessExpiresAt - Math.min(30_000, lifetime / 10),
-    sessionExpiresAt
+    sessionExpiresAt: accessExpiresAt
   }
 }

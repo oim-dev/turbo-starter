@@ -5,14 +5,12 @@ import {
   HttpStatus,
   Post,
   Req,
-  Res,
-  UnauthorizedException,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiBody,
   ApiConflictResponse,
-  ApiCookieAuth,
   ApiCreatedResponse,
   ApiForbiddenResponse,
   ApiNoContentResponse,
@@ -23,12 +21,12 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
-import type { Request, Response } from 'express';
 import { SessionTransport } from '../../generated/prisma/client';
 import { AccessTokenDto, LoginDto } from '../../infrastructure/auth/auth.dto';
+import type { AuthenticatedRequest } from '../../infrastructure/auth/authenticated-request';
 import {
   BrowserAuth,
-  BrowserTokens,
+  BrowserRequest,
 } from '../../infrastructure/auth/browser-auth';
 import { Public } from '../../infrastructure/auth/public.decorator';
 import { SessionService } from '../../infrastructure/auth/session.service';
@@ -48,7 +46,6 @@ export class ClientAuthController {
     private readonly auth: ClientAuthService,
     private readonly users: ClientUsersService,
     private readonly sessions: SessionService,
-    private readonly browser: BrowserTokens,
   ) {}
 
   @Post('register')
@@ -80,83 +77,41 @@ export class ClientAuthController {
     security: [],
     summary: 'Создать браузерную сессию клиента',
     description:
-      'Возвращает токен доступа в JSON и устанавливает cookie с токеном обновления и флагом HttpOnly.',
+      'Возвращает Bearer JWT в accessToken на 7 дней (604800 секунд). Cookie авторизации не устанавливается. По истечении срока требуется новый вход.',
   })
   @ApiBody({ type: LoginDto })
   @ApiOkResponse({ type: AccessTokenDto })
   @ApiBadRequestResponse({ description: 'Некорректные данные для входа.' })
   @ApiUnauthorizedResponse({ description: 'Неверные учётные данные.' })
   @ApiForbiddenResponse({
-    description: 'Обязательны разрешённый Origin и X-CSRF-Protection: 1.',
+    description: 'Обязательны корректный HTTP(S) Origin и X-CSRF-Protection: 1.',
   })
-  async login(
-    @Body() dto: LoginDto,
-    @Res({ passthrough: true }) response: Response,
-  ): Promise<AccessTokenDto> {
-    return this.browser.respond(
-      response,
-      await this.auth.login(dto, SessionTransport.BROWSER),
-    );
-  }
-
-  @Post('refresh')
-  @HttpCode(HttpStatus.OK)
-  @BrowserAuth()
-  @ApiCookieAuth('refresh-cookie')
-  @ApiOperation({
-    operationId: 'clientBrowserRefresh',
-    security: [{ 'refresh-cookie': [] }],
-    summary: 'Заменить токен обновления браузерной сессии клиента',
-    description:
-      'Каждый токен обновления используется только один раз; повторное использование отзывает сессию. Если ответ потерян после ротации, войдите заново вместо повторного запроса. Новый токен обновления передаётся только в cookie с флагом HttpOnly.',
-  })
-  @ApiOkResponse({ type: AccessTokenDto })
-  @ApiUnauthorizedResponse({
-    description:
-      'Токен обновления отсутствует, недействителен, просрочен или уже использован.',
-  })
-  @ApiForbiddenResponse({
-    description: 'Обязательны разрешённый Origin и X-CSRF-Protection: 1.',
-  })
-  async refresh(
-    @Req() request: Request,
-    @Res({ passthrough: true }) response: Response,
-  ): Promise<AccessTokenDto> {
-    const token = this.browser.read(request);
-    if (token === undefined) {
-      throw new UnauthorizedException('Invalid or expired refresh token');
-    }
-    return this.browser.respond(
-      response,
-      await this.sessions.refresh(token, SessionTransport.BROWSER),
-    );
+  login(@Body() dto: LoginDto): Promise<AccessTokenDto> {
+    return this.auth.login(dto, SessionTransport.BROWSER);
   }
 
   @Post('logout')
   @HttpCode(HttpStatus.NO_CONTENT)
-  @BrowserAuth()
-  @ApiCookieAuth('refresh-cookie')
+  @BrowserRequest()
+  @ApiBearerAuth('access-token')
   @ApiOperation({
     operationId: 'clientBrowserLogout',
-    security: [{}, { 'refresh-cookie': [] }],
     summary: 'Завершить браузерную сессию клиента',
     description:
-      'Немедленно отзывает сессию, включая токены доступа, связанные через sid, и удаляет cookie с токеном обновления. Отсутствие или недействительность cookie не считается ошибкой.',
+      'Без тела. Требует валидный Bearer JWT этого API и активную сессию. Отзывает только текущую сессию из sid JWT; cookie не используются. Повторный запрос с отозванным JWT возвращает 401.',
   })
   @ApiNoContentResponse({
-    description: 'Выход выполнен; cookie с токеном обновления удалена.',
+    description:
+      'Текущая сессия отозвана. Клиент должен удалить сохранённый JWT.',
+  })
+  @ApiUnauthorizedResponse({
+    description:
+      'Токен отсутствует, недействителен, просрочен или сессия отозвана.',
   })
   @ApiForbiddenResponse({
-    description: 'Обязательны разрешённый Origin и X-CSRF-Protection: 1.',
+    description: 'Обязательны корректный HTTP(S) Origin и X-CSRF-Protection: 1.',
   })
-  async logout(
-    @Req() request: Request,
-    @Res({ passthrough: true }) response: Response,
-  ): Promise<void> {
-    await this.sessions.logout(
-      this.browser.read(request),
-      SessionTransport.BROWSER,
-    );
-    this.browser.clear(response);
+  logout(@Req() request: AuthenticatedRequest): Promise<void> {
+    return this.sessions.logout(request.user);
   }
 }

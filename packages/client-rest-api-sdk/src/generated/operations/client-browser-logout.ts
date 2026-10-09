@@ -8,7 +8,7 @@ import type { ApiErrorDto } from "../data-contracts.js";
 import type { ApiRequestClient, RequestParams } from "../http-client.js";
 
 /**
- * @description Немедленно отзывает сессию, включая токены доступа, связанные через sid, и удаляет cookie с токеном обновления. Отсутствие или недействительность cookie не считается ошибкой.
+ * @description Без тела. Требует валидный Bearer JWT этого API и активную сессию. Отзывает только текущую сессию из sid JWT; cookie не используются. Повторный запрос с отозванным JWT возвращает 401.
  *
  * @tags Auth
  * @name ClientBrowserLogout

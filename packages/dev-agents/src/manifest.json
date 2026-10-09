@@ -11,7 +11,7 @@
     {
       "name": "frontend-agent",
       "kind": "worker",
-      "description": "Frontend: React SPA, Unit Architecture, формы, навигация, доступность и визуальное качество. Разработка, исследование и проверка apps/web.",
+      "description": "Frontend: apps/react-admin-panel (React SPA) и apps/next-web-app (Next.js App Router). Unit Architecture, формы, навигация, доступность и визуальное качество с учётом границ SSR/RSC.",
       "prompt": "frontend.md"
     },
     {

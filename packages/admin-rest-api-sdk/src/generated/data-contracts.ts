@@ -4,6 +4,99 @@
  * https://github.com/gromlab-ru/rest-api-codegen
  */
 
+export interface ApiErrorDto {
+  statusCode: number;
+  /** @example "VALIDATION_ERROR" */
+  code: string;
+  message: string | string[];
+}
+
+export interface AdminPermissionDto {
+  key: string;
+  name: string;
+  system: boolean;
+}
+
+export interface AdminAccessRoleDto {
+  key: string;
+  name: string;
+  permissions: string[];
+  isBuiltin: boolean;
+  version: number;
+}
+
+export interface CreateAdminRoleDto {
+  /** @pattern ^[A-Z][A-Z0-9_]{2,63}$ */
+  key: string;
+  /**
+   * @minLength 1
+   * @maxLength 120
+   */
+  name: string;
+  /** @maxItems 100 */
+  permissions: string[];
+}
+
+export interface UpdateAdminRoleDto {
+  /**
+   * @minLength 1
+   * @maxLength 120
+   */
+  name: string;
+  /** @maxItems 100 */
+  permissions: string[];
+  /** @min 1 */
+  version: number;
+}
+
+export interface AdminAccountIdentityDto {
+  /** @format uuid */
+  id: string;
+  issuer: string;
+  subject: string;
+}
+
+export interface AdminAccountDto {
+  /** @format uuid */
+  id: string;
+  login: string;
+  name: string;
+  role: string;
+  isActive: boolean;
+  hasLocalPassword: boolean;
+  version: number;
+  identities: AdminAccountIdentityDto[];
+}
+
+export interface CreateAdminAccountDto {
+  login: string;
+  /**
+   * @minLength 12
+   * @maxLength 128
+   */
+  password: string;
+  role: string;
+  /** @maxLength 120 */
+  name?: string;
+}
+
+export interface UpdateAdminAccountDto {
+  role: string;
+  isActive: boolean;
+  /** @min 0 */
+  version: number;
+}
+
+export interface BindAdminIdentityDto {
+  /** @maxLength 512 */
+  issuer: string;
+  /**
+   * Точный неизменяемый sub пользователя Keycloak, не email или username.
+   * @maxLength 255
+   */
+  subject: string;
+}
+
 export interface LoginDto {
   /**
    * @minLength 3
@@ -21,15 +114,16 @@ export interface LoginDto {
 }
 
 export interface AccessTokenDto {
+  /** Bearer JWT для Authorization. Выдаётся только в JSON, не в cookie. */
   accessToken: string;
   tokenType: AccessTokenDtoTokenTypeEnum;
   /**
-   * Целое число секунд между iat и exp JWT, не больше настроенного access TTL. Из-за округления секундной границы может превышать фактический остаток жизни сессии; доступ дополнительно ограничен точным sessionExpiresAt.
-   * @example 900
+   * Фиксированный срок JWT: exp - iat = 604800 секунд (7 дней), включая вход через Keycloak. По истечении срока требуется новый вход.
+   * @example 604800
    */
-  expiresIn: number;
+  expiresIn: AccessTokenDtoExpiresInEnum;
   /**
-   * Точный фиксированный срок окончания сессии с миллисекундной точностью; ротация токенов не продлевает его. После этого момента доступ и refresh запрещены, даже если exp JWT ещё не наступил.
+   * Фиксированный срок окончания сессии, совпадающий с exp JWT. Сессия может быть отозвана раньше при выходе, смене credentials или отзыве доступа.
    * @format date-time
    */
   sessionExpiresAt: string;
@@ -44,19 +138,17 @@ export interface AdminUserDto {
    */
   login: string;
   isActive: boolean;
-  /** OWNER — владелец сервиса; SUPPORT — поддержка. */
-  role: AdminUserDtoRoleEnum;
+  /** Есть ли локальный пароль. Для SSO-only аккаунта смена пароля недоступна. */
+  hasLocalPassword: boolean;
+  /** Ключ назначенной роли. */
+  role: string;
+  roleName: string;
+  permissions: string[];
+  name: string;
   /** @format date-time */
   createdAt: string;
   /** @format date-time */
   updatedAt: string;
-}
-
-export interface ApiErrorDto {
-  statusCode: number;
-  /** @example "VALIDATION_ERROR" */
-  code: string;
-  message: string | string[];
 }
 
 export interface ChangeAdminPasswordDto {
@@ -75,13 +167,103 @@ export interface ChangeAdminPasswordDto {
   newPassword: string;
 }
 
+export interface UpdateAdminProfileDto {
+  /** @maxLength 120 */
+  name: string;
+}
+
+export interface ChangeAdminLoginDto {
+  /**
+   * @minLength 3
+   * @maxLength 64
+   */
+  login: string;
+  /**
+   * Обязателен при наличии локального пароля.
+   * @maxLength 128
+   */
+  currentPassword?: string;
+}
+
+export interface AdminAuthProvidersDto {
+  local: AdminAuthProvidersDtoLocalEnum;
+  /** Keycloak включён и сконфигурирован. Это не проверка доступности провайдера. */
+  keycloak: boolean;
+}
+
+export interface KeycloakSettingsDto {
+  enabled: boolean;
+  issuer: string;
+  clientId: string;
+  callbackUrl: string;
+  frontendCallbackUrl: string;
+  version: number;
+  hasSecret: boolean;
+  canStoreSecret: boolean;
+}
+
+export interface UpdateKeycloakSettingsDto {
+  enabled: boolean;
+  /** @maxLength 512 */
+  issuer: string;
+  /** @maxLength 255 */
+  clientId: string;
+  /**
+   * Только запись; отсутствие сохраняет прежний secret.
+   * @minLength 1
+   * @maxLength 4096
+   */
+  clientSecret?: string;
+  clearSecret?: boolean;
+  /** @maxLength 2048 */
+  callbackUrl: string;
+  /** @maxLength 2048 */
+  frontendCallbackUrl: string;
+  /** @min 0 */
+  version: number;
+}
+
 export type AccessTokenDtoTokenTypeEnum = "Bearer";
 
-/** OWNER — владелец сервиса; SUPPORT — поддержка. */
-export type AdminUserDtoRoleEnum = "OWNER" | "SUPPORT";
+/**
+ * Фиксированный срок JWT: exp - iat = 604800 секунд (7 дней), включая вход через Keycloak. По истечении срока требуется новый вход.
+ * @example 604800
+ */
+export type AccessTokenDtoExpiresInEnum = 604800;
+
+export type AdminAuthProvidersDtoLocalEnum = true;
+
+export interface AdminRoleUpdateParams {
+  key: string;
+}
+
+export interface AdminRoleDeleteParams {
+  key: string;
+}
+
+export interface AdminAccountUpdateParams {
+  id: string;
+}
+
+export interface AdminIdentityBindParams {
+  id: string;
+}
+
+export interface AdminIdentityUnbindParams {
+  id: string;
+  identityId: string;
+}
+
+export interface AdminLocalPasswordDisableParams {
+  id: string;
+}
+
+export interface AdminSessionsRevokeParams {
+  id: string;
+}
 
 export type AdminBrowserLoginParamsXCsrfProtectionEnum = "1";
 
-export type AdminBrowserRefreshParamsXCsrfProtectionEnum = "1";
-
 export type AdminBrowserLogoutParamsXCsrfProtectionEnum = "1";
+
+export type AdminKeycloakCompleteParamsXCsrfProtectionEnum = "1";

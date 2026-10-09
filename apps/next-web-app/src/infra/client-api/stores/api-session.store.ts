@@ -1,5 +1,6 @@
-import { SESSION_SCOPE_KEY } from '../config/api-session.config'
-import type { ApiCredential, ApiRefreshFlight, ApiSessionSnapshot } from '../types/api-session.type'
+import { SESSION_STORAGE_KEY } from '../config/api-session.config'
+import { readPersistedApiSession } from '../helpers/read-persisted-api-session'
+import type { ApiCredential, ApiSessionSnapshot, PersistedApiSession } from '../types/api-session.type'
 
 const SERVER_SNAPSHOT: ApiSessionSnapshot = { version: 0, isReady: false }
 const listeners = new Set<() => void>()
@@ -7,19 +8,9 @@ let snapshot = SERVER_SNAPSHOT
 let credential: ApiCredential | null = null
 let scope: string | undefined
 let bootstrapFailure: unknown
-let refreshFlight: ApiRefreshFlight | undefined
-
-/**
- * Возвращает разделяемый результат ротации текущей вкладки.
- */
-export const getApiRefreshFlight = (): ApiRefreshFlight | undefined => refreshFlight
-
-/**
- * Запоминает ротацию или очищает её после подтверждённого входа и выхода.
- */
-export const setApiRefreshFlight = (nextFlight: ApiRefreshFlight | undefined): void => {
-  refreshFlight = nextFlight
-}
+let storedSession: string | null | undefined
+let storageFailure: unknown
+let expiryTimer: number | undefined
 
 /**
  * Публикует изменение технического ресурса его подписчикам.
@@ -30,37 +21,105 @@ const publishSnapshot = (isReady: boolean, shouldReplaceScope: boolean): void =>
 }
 
 /**
- * Сверяет ревизию cookies перед запросом, не полагаясь на своевременную доставку storage event.
+ * Закрывает доступ при недоступном storage, не восстанавливая старый credential из памяти.
+ */
+const failStorage = (error: unknown): never => {
+  window.clearTimeout(expiryTimer)
+  credential = null
+  storageFailure = error
+  bootstrapFailure = error
+  publishSnapshot(true, true)
+  throw error
+}
+
+/**
+ * Проверяет срок и смену вкладки при возвращении фокуса или срабатывании таймера.
+ */
+const handleSessionWake = (): void => {
+  try {
+    syncApiSessionScope()
+    scheduleExpiration()
+  } catch (error) {
+    // Ошибка storage уже опубликована; lifecycle получит её через getApiCredential.
+    if (error !== storageFailure) throw error
+  }
+}
+
+/**
+ * Планирует только завершение доступа, без фонового продления JWT.
+ */
+const scheduleExpiration = (): void => {
+  window.clearTimeout(expiryTimer)
+  expiryTimer = undefined
+  if (!credential || listeners.size === 0) return
+  expiryTimer = window.setTimeout(handleSessionWake, Math.min(2_147_483_647, Math.max(0, credential.expiresAt - Date.now())))
+}
+
+/**
+ * Сверяет атомарную запись перед запросом, не полагаясь на своевременный storage event.
  */
 export const syncApiSessionScope = (): string => {
-  const nextScope = localStorage.getItem(SESSION_SCOPE_KEY) ?? ''
-  if (scope !== undefined && scope !== nextScope) {
-    credential = null
-    bootstrapFailure = undefined
-    scope = nextScope
-    publishSnapshot(nextScope.startsWith('guest:'), true)
+  if (typeof window === 'undefined') throw new TypeError('Browser API session cannot run during SSR')
+  if (storageFailure !== undefined) throw storageFailure
+  let serialized: string | null
+  try {
+    serialized = window.localStorage.getItem(SESSION_STORAGE_KEY)
+  } catch (error) {
+    return failStorage(error)
   }
-  scope = nextScope
-  return nextScope
+  if (serialized !== storedSession) {
+    let persisted: PersistedApiSession | null = null
+    try {
+      if (serialized !== null) persisted = readPersistedApiSession(serialized)
+    } catch (error) {
+      if (!(error instanceof TypeError || error instanceof SyntaxError ||
+        error instanceof DOMException && error.name === 'InvalidCharacterError')) throw error
+      replaceApiSession(null)
+      return scope ?? ''
+    }
+    storedSession = serialized
+    scope = persisted?.scope ?? ''
+    credential = persisted?.credential ?? null
+    bootstrapFailure = undefined
+    if (credential && credential.expiresAt <= Date.now()) {
+      replaceApiSession(null)
+      return scope ?? ''
+    }
+    scheduleExpiration()
+    publishSnapshot(credential === null, true)
+  }
+  if (credential && credential.expiresAt <= Date.now()) replaceApiSession(null)
+  return scope ?? ''
 }
 
 /**
  * Применяет смену сессии из другой вкладки.
  */
 const handleStorage = (event: StorageEvent): void => {
-  if (event.key === SESSION_SCOPE_KEY || event.key === null) syncApiSessionScope()
+  if (event.storageArea === window.localStorage && (event.key === SESSION_STORAGE_KEY || event.key === null)) {
+    handleSessionWake()
+  }
 }
 
 /**
  * Подписывает владельца lifecycle на смену credentials без раскрытия самих токенов.
  */
 export const subscribeApiSession = (listener: () => void): (() => void) => {
+  if (typeof window === 'undefined') throw new TypeError('Browser API session cannot run during SSR')
   listeners.add(listener)
   window.addEventListener('storage', handleStorage)
-  syncApiSessionScope()
+  window.addEventListener('focus', handleSessionWake)
+  document.addEventListener('visibilitychange', handleSessionWake)
+  handleSessionWake()
+  scheduleExpiration()
   return () => {
     listeners.delete(listener)
-    if (listeners.size === 0) window.removeEventListener('storage', handleStorage)
+    if (listeners.size !== 0) return
+    window.removeEventListener('storage', handleStorage)
+    window.removeEventListener('focus', handleSessionWake)
+    document.removeEventListener('visibilitychange', handleSessionWake)
+    window.clearTimeout(expiryTimer)
+    expiryTimer = undefined
   }
 }
 
@@ -83,11 +142,11 @@ export const peekApiCredential = (): ApiCredential | null => {
 }
 
 /**
- * Устанавливает результат ротации, сохраняя логическую область сессии.
+ * Начинает проверку профиля без изменения сохранённого срока и ревизии.
  */
-export const setApiCredential = (nextCredential: ApiCredential): void => {
-  credential = nextCredential
+export const beginApiBootstrap = (): void => {
   bootstrapFailure = undefined
+  publishSnapshot(false, false)
 }
 
 /**
@@ -99,22 +158,40 @@ export const finishApiBootstrap = (failure?: unknown): void => {
 }
 
 /**
- * Передаёт неуспешный bootstrap доменному адаптеру без нового refresh-запроса.
+ * Не выдаёт непроверенный credential за готовый, передаёт исходную ошибку владельцу lifecycle.
  */
 export const assertApiBootstrap = (): void => {
   if (bootstrapFailure !== undefined) throw bootstrapFailure
+  if (!snapshot.isReady) throw new TypeError('API session must be verified before private requests')
 }
 
 /**
- * Начинает новую область после подтверждённого входа или завершения сессии.
+ * Атомарно сохраняет новую область. Вход требует проверки профиля, выход закрывает доступ немедленно.
  */
-export const replaceApiSession = (nextCredential: ApiCredential | null): void => {
+export const replaceApiSession = (nextCredential: ApiCredential | null): ApiCredential | null => {
+  if (typeof window === 'undefined') throw new TypeError('Browser API session cannot run during SSR')
   const nextScope = `${nextCredential ? 'active' : 'guest'}:${crypto.randomUUID()}`
-  localStorage.setItem(SESSION_SCOPE_KEY, nextScope)
+  const nextSession: PersistedApiSession = {
+    version: 1,
+    scope: nextScope,
+    credential: nextCredential ? { ...nextCredential, scope: nextScope } : null
+  }
+  const serialized = JSON.stringify(nextSession)
+  // Даже при ошибке записи старый приватный UI больше не может использовать credential.
+  credential = null
+  try {
+    window.localStorage.setItem(SESSION_STORAGE_KEY, serialized)
+  } catch (error) {
+    failStorage(error)
+  }
+  storedSession = serialized
   scope = nextScope
-  credential = nextCredential ? { ...nextCredential, scope: nextScope } : null
+  credential = nextSession.credential
   bootstrapFailure = undefined
-  publishSnapshot(true, true)
+  storageFailure = undefined
+  scheduleExpiration()
+  publishSnapshot(credential === null, true)
+  return nextSession.credential
 }
 
 /**

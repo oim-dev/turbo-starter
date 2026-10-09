@@ -1,25 +1,24 @@
-import { ApiError } from '@demo/client-rest-api-sdk/http-client'
-import type { ApiRequestClient, RequestContext } from '@demo/client-rest-api-sdk/http-client'
+import { ApiError } from '@oim/client-rest-api-sdk/http-client'
+import type { RequestContext } from '@oim/client-rest-api-sdk/http-client'
+import { hasOwn, isRecord } from 'shared/lib/value-predicates'
 import { SessionChangedError } from '../errors/session-changed-error'
-import { SessionRetryRequiredError } from '../errors/session-retry-required-error'
+import { getApiSessionSnapshot, rejectApiCredential } from '../stores/api-session.store'
 import { requestCredentialMap } from '../stores/request-credentials.store'
 import { isCurrentSession } from './is-current-session'
-import { refreshApiSession } from './refresh-api-session'
 
 /**
- * Однократно обновляет отклонённый токен; автоматически повторяет только безопасные чтения.
+ * Удаляет отклонённый Bearer, но не более новую сессию. Исходную ошибку получает владелец lifecycle.
+ * Транспорт не управляет доменным состоянием, навигацией или приватным кешем и не повторяет запрос.
  */
-export const handleApiError = async <T>(
-  httpClient: ApiRequestClient,
-  error: unknown,
-  context: RequestContext<T>
-): Promise<T> => {
+export const handleApiError = (error: unknown, context: RequestContext): never => {
   const expected = requestCredentialMap.get(context.request)
-  if (!(error instanceof ApiError) || error.status !== 401 || !expected || context.retryCount !== 0) throw error
+  if (!expected) throw error
   if (!isCurrentSession(expected)) throw new SessionChangedError()
-  const refreshed = await refreshApiSession(httpClient, expected)
-  if (!refreshed || !isCurrentSession(refreshed)) throw error
-  const canRetry = ['GET', 'HEAD', 'OPTIONS'].includes(context.request.method ?? 'GET')
-  if (!canRetry) throw new SessionRetryRequiredError()
-  return context.retry()
+  if (error instanceof ApiError && error.status === 401) {
+    const problem: unknown = error.error
+    // Неверный текущий пароль отклоняет операцию, а не действующий Bearer.
+    if (isRecord(problem) && hasOwn(problem, 'code') && problem.code === 'CURRENT_PASSWORD_INVALID') throw error
+    rejectApiCredential(expected.accessToken, getApiSessionSnapshot().version)
+  }
+  throw error
 }

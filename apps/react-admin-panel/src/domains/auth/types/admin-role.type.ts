@@ -7,12 +7,16 @@ export const ADMIN_ROLE = {
    */
   OWNER: 'OWNER',
   /**
-   * Администратор поддержки.
+   * Администратор прикладных возможностей.
    */
-  SUPPORT: 'SUPPORT'
+  ADMIN: 'ADMIN',
+  /**
+   * Пользователь собственного аккаунта.
+   */
+  USER: 'USER'
 } as const
 
 /**
  * Роль текущего администратора.
  */
-export type AdminRole = (typeof ADMIN_ROLE)[keyof typeof ADMIN_ROLE]
+export type AdminRole = string

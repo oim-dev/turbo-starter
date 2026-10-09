@@ -1,5 +1,4 @@
 import { RouterProvider } from 'react-router-dom'
-import { AuthProvider } from 'domains/auth'
 import { ThemeProvider } from 'ui/themes'
 import { appRouter } from './router/app-router'
 
@@ -12,9 +11,7 @@ import { appRouter } from './router/app-router'
 export const App = () => {
   return (
     <ThemeProvider>
-      <AuthProvider>
-        <RouterProvider router={appRouter} />
-      </AuthProvider>
+      <RouterProvider router={appRouter} />
     </ThemeProvider>
   )
 }

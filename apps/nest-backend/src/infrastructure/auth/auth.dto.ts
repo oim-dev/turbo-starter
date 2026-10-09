@@ -24,7 +24,10 @@ export class LoginDto {
 }
 
 export class AccessTokenDto {
-  @ApiProperty()
+  @ApiProperty({
+    description:
+      'Bearer JWT для Authorization. Выдаётся только в JSON, не в cookie.',
+  })
   accessToken!: string;
 
   @ApiProperty({ enum: ['Bearer'] })
@@ -32,8 +35,9 @@ export class AccessTokenDto {
 
   @ApiProperty({
     description:
-      'Целое число секунд между iat и exp JWT, не больше настроенного access TTL. Из-за округления секундной границы может превышать фактический остаток жизни сессии; доступ дополнительно ограничен точным sessionExpiresAt.',
-    example: 900,
+      'Фиксированный срок JWT: exp - iat = 604800 секунд (7 дней), включая вход через Keycloak. По истечении срока требуется новый вход.',
+    enum: [604800],
+    example: 604800,
   })
   expiresIn!: number;
 
@@ -41,7 +45,7 @@ export class AccessTokenDto {
     type: String,
     format: 'date-time',
     description:
-      'Точный фиксированный срок окончания сессии с миллисекундной точностью; ротация токенов не продлевает его. После этого момента доступ и refresh запрещены, даже если exp JWT ещё не наступил.',
+      'Фиксированный срок окончания сессии, совпадающий с exp JWT. Сессия может быть отозвана раньше при выходе, смене credentials или отзыве доступа.',
   })
   sessionExpiresAt!: Date;
 }

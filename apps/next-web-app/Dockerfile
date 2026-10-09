@@ -9,7 +9,7 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY apps/next-web-app/package.json apps/next-web-app/package.json
 COPY packages/client-rest-api-sdk/package.json packages/client-rest-api-sdk/package.json
 COPY packages/typescript-config/package.json packages/typescript-config/package.json
-RUN pnpm install --frozen-lockfile --filter @repo/next-web-app...
+RUN pnpm install --frozen-lockfile --filter @oim/next-web-app...
 
 COPY apps/next-web-app/src apps/next-web-app/src
 COPY apps/next-web-app/tsconfig.json apps/next-web-app/next.config.ts apps/next-web-app/eslint.config.mjs apps/next-web-app/postcss.config.mjs apps/next-web-app/
@@ -24,10 +24,10 @@ ENV NEXT_PUBLIC_CLIENT_API_URL=$NEXT_PUBLIC_CLIENT_API_URL \
     NEXT_STANDALONE=1 \
     PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false
 
-RUN pnpm --filter @demo/client-rest-api-sdk run build \
-    && pnpm --filter @repo/next-web-app run lint \
-    && pnpm --filter @repo/next-web-app run check-types \
-    && pnpm --filter @repo/next-web-app run build
+RUN pnpm --filter @oim/client-rest-api-sdk run build \
+    && pnpm --filter @oim/next-web-app run lint \
+    && pnpm --filter @oim/next-web-app run check-types \
+    && pnpm --filter @oim/next-web-app run build
 
 FROM node:24-bookworm-slim AS runtime
 

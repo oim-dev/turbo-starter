@@ -4,8 +4,25 @@
  * https://github.com/gromlab-ru/rest-api-codegen
  */
 
+export { adminAccountCreate } from "./admin-account-create.js";
+export { adminAccountUpdate } from "./admin-account-update.js";
+export { adminAccountsList } from "./admin-accounts-list.js";
 export { adminAuthChangePassword } from "./admin-auth-change-password.js";
 export { adminAuthMe } from "./admin-auth-me.js";
+export { adminAuthProviders } from "./admin-auth-providers.js";
 export { adminBrowserLogin } from "./admin-browser-login.js";
 export { adminBrowserLogout } from "./admin-browser-logout.js";
-export { adminBrowserRefresh } from "./admin-browser-refresh.js";
+export { adminChangeLogin } from "./admin-change-login.js";
+export { adminIdentityBind } from "./admin-identity-bind.js";
+export { adminIdentityUnbind } from "./admin-identity-unbind.js";
+export { adminKeycloakComplete } from "./admin-keycloak-complete.js";
+export { adminKeycloakSettingsGet } from "./admin-keycloak-settings-get.js";
+export { adminKeycloakSettingsUpdate } from "./admin-keycloak-settings-update.js";
+export { adminLocalPasswordDisable } from "./admin-local-password-disable.js";
+export { adminPermissionsList } from "./admin-permissions-list.js";
+export { adminRoleCreate } from "./admin-role-create.js";
+export { adminRoleDelete } from "./admin-role-delete.js";
+export { adminRoleUpdate } from "./admin-role-update.js";
+export { adminRolesList } from "./admin-roles-list.js";
+export { adminSessionsRevoke } from "./admin-sessions-revoke.js";
+export { adminUpdateProfile } from "./admin-update-profile.js";

@@ -9,21 +9,24 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { ApiExtension, ApiForbiddenResponse } from '@nestjs/swagger';
-import { AdminRole } from '../../generated/prisma/client';
+import {
+  effectivePermissions,
+  type AdminPermission,
+} from '../../modules/admin-access/admin-permissions';
 import { ApiErrorDto } from '../http/api-error.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import type { AuthenticatedRequest } from './authenticated-request';
 import { PUBLIC_ENDPOINT } from './public.decorator';
 
-const ADMIN_ROLES = 'adminRoles';
+const ADMIN_PERMISSIONS = 'adminPermissions';
 
-export function AdminRoles(...roles: AdminRole[]) {
+export function AdminPermissions(...permissions: AdminPermission[]) {
   return applyDecorators(
-    SetMetadata(ADMIN_ROLES, roles),
-    ApiExtension('x-admin-roles', roles),
+    SetMetadata(ADMIN_PERMISSIONS, permissions),
+    ApiExtension('x-admin-permissions', permissions),
     ApiForbiddenResponse({
       type: ApiErrorDto,
-      description: `Недостаточно прав. Разрешённые роли: ${roles.join(', ')}.`,
+      description: `Недостаточно прав. Требуются: ${permissions.join(', ')}.`,
     }),
   );
 }
@@ -31,7 +34,7 @@ export function AdminRoles(...roles: AdminRole[]) {
 // Регистрируется только в Admin API, после AccessGuard. Роль всегда читается
 // из БД, а не из JWT; у нового закрытого endpoint без матрицы прав доступ запрещён.
 @Injectable()
-export class AdminRolesGuard implements CanActivate {
+export class AdminPermissionsGuard implements CanActivate {
   constructor(
     private readonly reflector: Reflector,
     private readonly prisma: PrismaService,
@@ -51,15 +54,20 @@ export class AdminRolesGuard implements CanActivate {
         revokedAt: null,
         expiresAt: { gt: new Date() },
         user: { isActive: true },
+        OR: [{ identityId: null }, { identity: { revokedAt: null } }],
       },
-      select: { user: { select: { role: true } } },
+      select: { user: { select: { accessRole: true } } },
     });
     if (!session) throw new UnauthorizedException('Session is inactive');
-    const roles = this.reflector.getAllAndOverride<AdminRole[]>(
-      ADMIN_ROLES,
+    const required = this.reflector.getAllAndOverride<AdminPermission[]>(
+      ADMIN_PERMISSIONS,
       targets,
     );
-    if (!roles?.includes(session.user.role)) {
+    const granted = effectivePermissions(session.user.accessRole);
+    if (
+      !required?.length ||
+      !required.every((permission) => granted.includes(permission))
+    ) {
       throw new ForbiddenException({
         code: 'FORBIDDEN',
         message: 'Недостаточно прав для этого действия.',

@@ -1,16 +1,11 @@
 import {
-  BadRequestException,
   ConflictException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
-  OnModuleInit,
   UnauthorizedException,
 } from '@nestjs/common';
-import {
-  AdminRole,
-  Prisma,
-  type AdminUser,
-} from '../../generated/prisma/client';
+import { Prisma, type AdminUser } from '../../generated/prisma/client';
 import type { AuthenticatedRequest } from '../../infrastructure/auth/authenticated-request';
 import {
   hashPassword,
@@ -19,6 +14,15 @@ import {
 import { PrismaService } from '../../infrastructure/prisma/prisma.service';
 import { AdminUserDto } from './dto/admin-user.dto';
 import { ChangeAdminPasswordDto } from './dto/change-admin-password.dto';
+import { invalidateAdminAuthentication } from './admin-authentication';
+import {
+  effectivePermissions,
+  requireAdminPermission,
+} from '../admin-access/admin-permissions';
+import {
+  ChangeAdminLoginDto,
+  UpdateAdminProfileDto,
+} from './dto/update-admin-profile.dto';
 
 const adminUserSelect = {
   id: true,
@@ -27,26 +31,26 @@ const adminUserSelect = {
   role: true,
   createdAt: true,
   updatedAt: true,
+  passwordHash: true,
+  name: true,
+  accessRole: true,
 } satisfies Prisma.AdminUserSelect;
 
+function profile(
+  admin: Prisma.AdminUserGetPayload<{ select: typeof adminUserSelect }>,
+): AdminUserDto {
+  const { passwordHash, accessRole, ...data } = admin;
+  return {
+    ...data,
+    roleName: accessRole.name,
+    permissions: effectivePermissions(accessRole),
+    hasLocalPassword: passwordHash !== null,
+  };
+}
+
 @Injectable()
-export class AdminUsersService implements OnModuleInit {
+export class AdminUsersService {
   constructor(private readonly prisma: PrismaService) {}
-
-  async onModuleInit(): Promise<void> {
-    if (process.env.NODE_ENV !== 'production') return;
-
-    const admin = await this.prisma.adminUser.findUnique({
-      where: { login: 'admin' },
-      select: { passwordHash: true },
-    });
-
-    if (admin && (await verifyPassword(admin.passwordHash, 'admin'))) {
-      throw new BadRequestException(
-        'Production startup is blocked: replace the stored bootstrap administrator development password.',
-      );
-    }
-  }
 
   findByLogin(login: string): Promise<AdminUser | null> {
     return this.prisma.adminUser.findUnique({
@@ -61,7 +65,7 @@ export class AdminUsersService implements OnModuleInit {
     });
 
     if (!admin) throw new NotFoundException('Administrator not found.');
-    return admin;
+    return profile(admin);
   }
 
   async changePassword(
@@ -71,99 +75,89 @@ export class AdminUsersService implements OnModuleInit {
     const passwordHash = await hashPassword(dto.newPassword);
     await this.prisma.$transaction(
       async (tx) => {
-        // Общий порядок с login/refresh/logout: user, затем session.
-        await tx.$queryRaw`
-          SELECT id FROM "AdminUser" WHERE id = ${actor.id}::uuid FOR UPDATE
-        `;
-        const now = new Date();
-        const session = await tx.adminSession.findFirst({
-          where: {
-            id: actor.sessionId,
-            userId: actor.id,
-            revokedAt: null,
-            expiresAt: { gt: now },
-            user: {
-              isActive: true,
-              role: { in: [AdminRole.OWNER, AdminRole.SUPPORT] },
-            },
-          },
-          select: { user: { select: { passwordHash: true } } },
-        });
-        // Guard мог пропустить запрос до отзыва; повторяем проверку под lock.
-        if (!session || actor.accessExpiresAt <= now.getTime()) {
-          throw new UnauthorizedException('Session is inactive');
+        const user = await requireAdminPermission(
+          tx,
+          actor,
+          'account.password.change',
+        );
+        if (user.passwordHash === null) {
+          throw new ForbiddenException({
+            code: 'LOCAL_PASSWORD_UNAVAILABLE',
+            message: 'Local password is not enabled for this administrator.',
+          });
         }
-        if (
-          !(await verifyPassword(
-            session.user.passwordHash,
-            dto.currentPassword,
-          ))
-        ) {
-          throw new UnauthorizedException('Invalid current password');
+        if (!(await verifyPassword(user.passwordHash, dto.currentPassword))) {
+          throw new UnauthorizedException({
+            code: 'CURRENT_PASSWORD_INVALID',
+            message: 'Invalid current password',
+          });
         }
         await tx.adminUser.update({
           where: { id: actor.id },
           data: { passwordHash },
           select: { id: true },
         });
-        await tx.adminSession.updateMany({
-          where: { userId: actor.id, revokedAt: null },
-          data: { revokedAt: new Date() },
-        });
+        await invalidateAdminAuthentication(tx, actor.id);
       },
       { timeout: 10000 },
     );
   }
 
-  // Создание доступно только CLI/bootstrap; HTTP-регистрации администраторов нет.
-  async create(
-    login: string,
-    password: string,
-    options: { allowDevelopmentPassword?: boolean; role?: AdminRole } = {},
+  async updateProfile(
+    actor: AuthenticatedRequest['user'],
+    dto: UpdateAdminProfileDto,
   ): Promise<AdminUserDto> {
-    if (!/^[a-zA-Z0-9_.-]{3,64}$/.test(login)) {
-      throw new BadRequestException(
-        'Admin login must contain 3 to 64 letters, digits, underscores, dots, or hyphens.',
+    return this.prisma.$transaction(async (tx) => {
+      await requireAdminPermission(tx, actor, 'account.update');
+      return profile(
+        await tx.adminUser.update({
+          where: { id: actor.id },
+          data: { name: dto.name.trim() },
+          select: adminUserSelect,
+        }),
       );
-    }
+    });
+  }
 
-    const normalizedLogin = login.toLowerCase();
-    const production = process.env.NODE_ENV === 'production';
-    if (options.allowDevelopmentPassword === true && production) {
-      throw new BadRequestException(
-        'Development passwords are not allowed in production.',
-      );
-    }
-
-    const developmentPassword =
-      options.allowDevelopmentPassword === true &&
-      !production &&
-      normalizedLogin === 'admin' &&
-      password === 'admin';
-    const passwordLength = Array.from(password).length;
-    if (passwordLength > 128 || (passwordLength < 12 && !developmentPassword)) {
-      throw new BadRequestException(
-        'Admin password must contain between 12 and 128 characters.',
-      );
-    }
-
-    const passwordHash = await hashPassword(password);
+  async changeLogin(
+    actor: AuthenticatedRequest['user'],
+    dto: ChangeAdminLoginDto,
+  ): Promise<void> {
     try {
-      return await this.prisma.adminUser.create({
-        data: {
-          login: normalizedLogin,
-          passwordHash,
-          role: options.role ?? AdminRole.OWNER,
+      await this.prisma.$transaction(
+        async (tx) => {
+          const user = await requireAdminPermission(
+            tx,
+            actor,
+            'account.login.change',
+          );
+          // У SSO-only аккаунта подтверждением служит действующая собственная сессия.
+          if (
+            user.passwordHash &&
+            !(await verifyPassword(
+              user.passwordHash,
+              dto.currentPassword ?? '',
+            ))
+          ) {
+            throw new UnauthorizedException({
+              code: 'CURRENT_PASSWORD_INVALID',
+              message: 'Invalid current password',
+            });
+          }
+          await tx.adminUser.update({
+            where: { id: actor.id },
+            data: { login: dto.login.toLowerCase() },
+          });
+          await invalidateAdminAuthentication(tx, actor.id);
         },
-        select: adminUserSelect,
-      });
+        { timeout: 10000 },
+      );
     } catch (error) {
       if (
         error instanceof Prisma.PrismaClientKnownRequestError &&
         error.code === 'P2002'
-      ) {
-        throw new ConflictException('Admin login is already in use.');
-      }
+      )
+        throw new ConflictException('Логин уже занят.');
       throw error;
     }
   }

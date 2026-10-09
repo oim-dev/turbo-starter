@@ -1,3 +1,4 @@
+import { getSignInErrorMessage } from 'domains/auth'
 import type { AuthError } from 'domains/auth'
 
 /**
@@ -5,8 +6,6 @@ import type { AuthError } from 'domains/auth'
  */
 export const getBootstrapErrorMessage = (error: AuthError | null): string => {
   switch (error?.code) {
-    case 'REFRESH_UNCERTAIN':
-      return 'Не удалось безопасно восстановить сеанс. Войдите заново.'
     case 'UNSUPPORTED_BROWSER':
       return 'Для безопасного входа откройте панель по HTTPS в современном браузере.'
     case 'RATE_LIMITED':
@@ -22,5 +21,10 @@ export const getBootstrapErrorMessage = (error: AuthError | null): string => {
     case 'SUPERSEDED':
     case undefined:
       return 'Не удалось проверить сеанс. Проверьте подключение и повторите попытку.'
+    case 'KEYCLOAK_UNAVAILABLE':
+    case 'KEYCLOAK_DENIED':
+    case 'KEYCLOAK_INVALID':
+    case 'KEYCLOAK_UNCERTAIN':
+      return getSignInErrorMessage(error)
   }
 }

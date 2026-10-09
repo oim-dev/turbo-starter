@@ -8,9 +8,10 @@ import { formatProfileTimestamp } from './helpers/format-profile-timestamp'
 import { getProfileErrorMessage } from './helpers/get-profile-error-message'
 import type { ProfileScreenProps } from './types/profile-screen-props.type'
 import styles from './styles/profile.module.css'
+import { ProfileSettings } from './ui/profile-settings/profile-settings'
 
 /**
- * Показывает подтверждённые сервером сведения о текущем администраторе без редактирования.
+ * Показывает подтверждённый профиль и доступные действия собственного аккаунта.
  *
  * Используется для:
  *  - просмотра профиля внутри защищённого административного каркаса
@@ -65,7 +66,7 @@ export const ProfileScreen = (props: ProfileScreenProps): JSX.Element => {
     )
   }
 
-  const roleLabel = profileData.role === 'OWNER' ? 'Владелец' : 'Поддержка'
+  const roleLabel = profileData.roleName
   const activityLabel = profileData.isActive ? 'Активна' : 'Неактивна'
   const activityColor = profileData.isActive ? 'green' : 'gray'
   const createdAtLabel = formatProfileTimestamp(profileData.createdAt)
@@ -76,12 +77,14 @@ export const ProfileScreen = (props: ProfileScreenProps): JSX.Element => {
       <Stack gap="xl">
         <Stack gap="xs">
           <Title order={1}>Профиль</Title>
-          <Text c="dimmed">Сведения о вашей учётной записи. Доступны только для просмотра.</Text>
+          <Text c="dimmed">Сведения и настройки вашей учётной записи.</Text>
         </Stack>
         <Paper p="xl" radius="md" withBorder>
           <dl className={styles.details}>
             <dt className={styles.label}>Логин</dt>
             <dd className={styles.value}>{profileData.login}</dd>
+            <dt className={styles.label}>Имя</dt>
+            <dd className={styles.value}>{profileData.name}</dd>
             <dt className={styles.label}>Роль</dt>
             <dd className={styles.value}>{roleLabel}</dd>
             <dt className={styles.label}>Учётная запись</dt>
@@ -94,6 +97,13 @@ export const ProfileScreen = (props: ProfileScreenProps): JSX.Element => {
             <dd className={styles.value}><time dateTime={profileData.updatedAt}>{updatedAtLabel}</time></dd>
           </dl>
         </Paper>
+        {!profileData.hasLocalPassword && (
+          <Alert color="blue" title="Вход через Keycloak">
+            У этой учётной записи нет локального пароля. Пароль управляется в корпоративной системе входа;
+            сменить его в панели нельзя.
+          </Alert>
+        )}
+        <ProfileSettings profile={profileData} />
       </Stack>
     </section>
   )

@@ -9,7 +9,6 @@ import { changeClientUserPassword } from "./operations/change-client-user-passwo
 import { clientAuthRegister } from "./operations/client-auth-register.js";
 import { clientBrowserLogin } from "./operations/client-browser-login.js";
 import { clientBrowserLogout } from "./operations/client-browser-logout.js";
-import { clientBrowserRefresh } from "./operations/client-browser-refresh.js";
 import { getClientUserProfile } from "./operations/get-client-user-profile.js";
 import { updateClientUserProfile } from "./operations/update-client-user-profile.js";
 
@@ -17,7 +16,6 @@ export const operationsTree = {
   auth: {
     clientAuthRegister: clientAuthRegister,
     clientBrowserLogin: clientBrowserLogin,
-    clientBrowserRefresh: clientBrowserRefresh,
     clientBrowserLogout: clientBrowserLogout,
   },
   users: {

@@ -56,7 +56,12 @@ export async function checkLinks(root, profiles) {
     return path;
   };
 
-  const instructions = new Set(["AGENTS.md", "apps/web/AGENTS.md", ...documents.keys()]);
+  const instructions = new Set([
+    "AGENTS.md",
+    "apps/react-admin-panel/AGENTS.md",
+    "apps/next-web-app/AGENTS.md",
+    ...documents.keys(),
+  ]);
   for (const path of instructions) {
     for (const match of (await read(path)).matchAll(/(`+)([^`\n]+)\1/g)) {
       const value = match[2];
@@ -66,7 +71,13 @@ export async function checkLinks(root, profiles) {
     }
   }
 
-  const markdown = [`${PACKAGE}/README.md`, "apps/web/AGENTS.md"];
+  const markdown = [
+    `${PACKAGE}/README.md`,
+    "apps/react-admin-panel/AGENTS.md",
+    "apps/react-admin-panel/README.md",
+    "apps/next-web-app/AGENTS.md",
+    "apps/next-web-app/README.md",
+  ];
   const collect = async (path) => {
     const entries = await readdir(join(root, path), { withFileTypes: true }).catch((error) => {
       if (error.code !== "ENOENT" && error.code !== "ENOTDIR") throw error;

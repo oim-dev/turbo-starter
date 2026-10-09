@@ -1,6 +1,6 @@
 import 'server-only'
-import { createApiClient } from '@demo/client-rest-api-sdk/create-api-client'
-import { HttpClient } from '@demo/client-rest-api-sdk/http-client'
+import { createApiClient } from '@oim/client-rest-api-sdk/create-api-client'
+import { HttpClient } from '@oim/client-rest-api-sdk/http-client'
 
 // Публичный транспорт не получает сессию запроса и не разделяет состояние browser-клиента.
 const httpClient = new HttpClient({

@@ -18,7 +18,7 @@ export const startSession = async (input: SignInInput): Promise<SessionCredentia
     login: input.login.toLowerCase(),
     password: input.password
   }).catch((error: unknown) => {
-    throw classifySessionError(error, false)
+    throw classifySessionError(error)
   })
 
   return mapSessionCredentials(payload, requestedAt)

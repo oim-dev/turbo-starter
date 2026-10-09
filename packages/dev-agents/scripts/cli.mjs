@@ -22,7 +22,7 @@ export async function runCli(mode, argv = process.argv.slice(2)) {
   const machine = argv.some((arg, index) => arg === "--format" && argv[index + 1] === "json");
   // pnpm меняет cwd на пакет. Относительный --root относится к месту вызова команды.
   const cwd =
-    process.env.npm_package_name === "@repo/dev-agents" &&
+    process.env.npm_package_name === "@oim/dev-agents" &&
     process.env.npm_lifecycle_event === mode
       ? (process.env.INIT_CWD ?? process.cwd())
       : process.cwd();

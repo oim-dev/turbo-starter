@@ -6,26 +6,39 @@ Docker Compose запускает PostgreSQL 16 для backend. NestJS и кли
 
 ## База данных
 
-При необходимости скопируйте `infra/dev/env.example` в `infra/dev/.env` и задайте
-свои значения. Без файла используются значения из примера.
+При необходимости скопируйте `infra/dev/.env.example` в `infra/dev/.env` и задайте
+свои значения. `env.example` — идентичная совместимая копия шаблона.
+Рабочий `.env` повторяет структуру примера, отличаться могут только значения.
+Без файла используются значения из примера.
 
 ```sh
 pnpm infra:dev:up
 ```
 
-По умолчанию PostgreSQL доступен по адресу `localhost:5544`, база и пользователь —
-`starter`, пароль разработки — `starter_dev_password`.
-Backend читает `infra/dev/.env`; явно заданный `DATABASE_URL` имеет приоритет.
+По умолчанию PostgreSQL доступен по адресу `localhost:5544`, база — `default-db`,
+пользователь — `user`, пароль — `password`.
+Backend читает `POSTGRES_*` из `infra/dev/.env`; окружение процесса и
+`apps/nest-backend/.env` имеют приоритет. `POSTGRES_HOST` по умолчанию — `localhost`.
+Строка подключения собирается в backend; отдельная переменная `DATABASE_URL` не нужна.
 Если у вас сохранился `.env` из другого проекта, согласуйте его значения с
 `apps/nest-backend/.env`: существующие файлы окружения не перезаписываются.
 
-Подготовка схемы и начального администратора:
+Подготовка схемы:
 
 ```sh
 pnpm backend:prisma:generate
 pnpm backend:prisma:deploy
-pnpm backend:prisma:seed
 ```
+
+После миграций запустите `pnpm backend:dev`: Admin API автоматически создаст
+владельца `admin/admin`, если административных аккаунтов ещё нет. Отдельного CLI/seed нет.
+
+Оба API используют Bearer JWT на 7 дней без refresh; срок сессии равен сроку JWT.
+CORS разрешает любой origin, поэтому при смене адреса UI allowlist не нужен.
+TTL и origins не задаются через env. Настройки auth описаны в
+[`apps/nest-backend/.env.example`](../../apps/nest-backend/.env.example).
+Все настройки Keycloak задаются через админку и хранятся в БД. Secure временных
+OIDC cookies определяется callback URL, SameSite фиксирован Lax.
 
 Проект Compose называется `turbo-starter-dev`. Данные сохраняются в его именованном
 volume. Команды остановки не удаляют данные:
@@ -40,6 +53,11 @@ pnpm infra:dev:down
 MinIO сохранён под профилем `storage` для следующего этапа работы с изображениями.
 Текущему backend достаточно PostgreSQL.
 
+Образ MinIO собирается автоматически из закреплённых исходников MinIO и `mc`
+через `minio.Dockerfile`: публичные community-образы больше не распространяются.
+Первая сборка загружает Go-зависимости; последующие используют Docker build cache.
+Устанавливать Go на рабочую машину не требуется.
+
 ```sh
 pnpm infra:dev:storage
 ```
@@ -50,9 +68,9 @@ pnpm infra:dev:storage
 | ------------------------- | ---------------------------- |
 | S3 API                    | `http://localhost:9000`      |
 | Консоль MinIO             | `http://localhost:9001`      |
-| Access key                | `starter`                    |
-| Secret key для разработки | `starter_dev_minio_password` |
-| Bucket                    | `starter`                    |
+| Access key                | `user`                       |
+| Secret key для разработки | `password`                   |
+| Bucket                    | `default-bucket`             |
 
 Публичная политика доступа для нового bucket не назначается. Обработка изображений,
 кроп и очереди будут определены при реализации файлового сценария.

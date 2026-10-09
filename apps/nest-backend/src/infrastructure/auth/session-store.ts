@@ -8,17 +8,14 @@ export interface StoredSession {
   revokedAt: Date | null;
 }
 
-export interface StoredRefresh {
-  id: string;
-  usedAt: Date | null;
-  session: StoredSession;
-}
-
 // Снимок credentials, по которому auth service уже проверил пароль.
 // Не выходит за пределы серверного кода и не включается в токены/ответы.
 export interface VerifiedCredentials {
   login: string;
   passwordHash: string;
+  // Admin-only generation для операторского отзыва без смены пароля.
+  // Client store продолжает проверять свой прежний снимок login/passwordHash.
+  authVersion?: number;
 }
 
 // Каждое API предоставляет свой адаптер базы данных;
@@ -32,13 +29,9 @@ export interface SessionQueries {
     userId: string,
     transport: SessionTransport,
     expiresAt: Date,
-    tokenHash: string,
   ): Promise<StoredSession>;
   findActive(sessionId: string, userId: string, now: Date): Promise<boolean>;
-  findRefresh(tokenHash: string): Promise<StoredRefresh | null>;
-  consumeRefresh(id: string, now: Date): Promise<boolean>;
-  addRefresh(sessionId: string, tokenHash: string): Promise<void>;
-  revoke(sessionId: string, now: Date): Promise<void>;
+  revoke(sessionId: string, userId: string, now: Date): Promise<void>;
 }
 
 export abstract class SessionStore {

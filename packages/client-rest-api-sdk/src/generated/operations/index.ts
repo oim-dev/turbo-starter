@@ -9,6 +9,5 @@ export { changeClientUserPassword } from "./change-client-user-password.js";
 export { clientAuthRegister } from "./client-auth-register.js";
 export { clientBrowserLogin } from "./client-browser-login.js";
 export { clientBrowserLogout } from "./client-browser-logout.js";
-export { clientBrowserRefresh } from "./client-browser-refresh.js";
 export { getClientUserProfile } from "./get-client-user-profile.js";
 export { updateClientUserProfile } from "./update-client-user-profile.js";

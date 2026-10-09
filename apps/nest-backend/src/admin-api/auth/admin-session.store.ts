@@ -10,26 +10,31 @@ function makeQueries(prisma: Prisma.TransactionClient): SessionQueries {
   return {
     async lockActiveUser(userId, expectedCredentials) {
       const [user] = await prisma.$queryRaw<
-        Array<{ isActive: boolean; login: string; passwordHash: string }>
+        Array<{
+          isActive: boolean;
+          login: string;
+          passwordHash: string | null;
+          authVersion: number;
+        }>
       >`
-        SELECT "isActive", login, "passwordHash"
+        SELECT "isActive", login, "passwordHash", "authVersion"
         FROM "AdminUser" WHERE id = ${userId}::uuid FOR UPDATE
       `;
       return (
         user?.isActive === true &&
         (!expectedCredentials ||
           (user.login === expectedCredentials.login &&
-            user.passwordHash === expectedCredentials.passwordHash))
+            user.passwordHash === expectedCredentials.passwordHash &&
+            user.authVersion === expectedCredentials.authVersion))
       );
     },
 
-    create(userId, transport, expiresAt, tokenHash) {
+    create(userId, transport, expiresAt) {
       return prisma.adminSession.create({
         data: {
           userId,
           transport,
           expiresAt,
-          refreshTokens: { create: { tokenHash } },
         },
       });
     },
@@ -42,36 +47,16 @@ function makeQueries(prisma: Prisma.TransactionClient): SessionQueries {
           revokedAt: null,
           expiresAt: { gt: now },
           user: { isActive: true },
+          OR: [{ identityId: null }, { identity: { revokedAt: null } }],
         },
         select: { id: true },
       });
       return session !== null;
     },
 
-    findRefresh(tokenHash) {
-      return prisma.adminRefreshToken.findUnique({
-        where: { tokenHash },
-        include: { session: true },
-      });
-    },
-
-    async consumeRefresh(id, now) {
-      const result = await prisma.adminRefreshToken.updateMany({
-        where: { id, usedAt: null },
-        data: { usedAt: now },
-      });
-      return result.count === 1;
-    },
-
-    async addRefresh(sessionId, tokenHash) {
-      await prisma.adminRefreshToken.create({
-        data: { sessionId, tokenHash },
-      });
-    },
-
-    async revoke(sessionId, now) {
+    async revoke(sessionId, userId, now) {
       await prisma.adminSession.updateMany({
-        where: { id: sessionId, revokedAt: null },
+        where: { id: sessionId, userId, revokedAt: null },
         data: { revokedAt: now },
       });
     },

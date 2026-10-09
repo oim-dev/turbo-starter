@@ -14,12 +14,18 @@ import styles from './styles/admin-breadcrumbs.module.css'
  */
 export const AdminBreadcrumbs = (): JSX.Element => {
   const isProfile = useMatch('/profile') !== null
-  const currentLabel = isProfile ? 'Профиль' : 'Главная'
+  const isAccess = useMatch('/access') !== null
+  const isKeycloak = useMatch('/settings/keycloak') !== null
+  const hasParent = isProfile || isAccess || isKeycloak
+  let currentLabel = 'Главная'
+  if (isProfile) currentLabel = 'Профиль'
+  if (isAccess) currentLabel = 'Управление доступом'
+  if (isKeycloak) currentLabel = 'Keycloak'
 
   return (
     <nav className={styles.root} aria-label="Хлебные крошки">
       <Breadcrumbs separator={<IconChevronRight size={13} aria-hidden="true" />} visibleFrom="sm">
-        {isProfile && (
+        {hasParent && (
           <Anchor component={Link} className={styles.crumb} to="/" size="sm">Главная</Anchor>
         )}
         <Text className={cl(styles.crumb, styles._current)} size="sm" aria-current="page">

@@ -1,8 +1,9 @@
 import { CloseButton, NavLink, ScrollArea, Tooltip, UnstyledButton } from '@mantine/core'
-import { IconHome, IconLayoutSidebarLeftCollapse, IconLayoutSidebarLeftExpand, IconUser } from '@tabler/icons-react'
+import { IconHome, IconLayoutSidebarLeftCollapse, IconLayoutSidebarLeftExpand, IconUser, IconUsers, IconKey } from '@tabler/icons-react'
 import cl from 'clsx'
 import type { JSX } from 'react'
 import { Link, NavLink as RouterNavLink, useMatch } from 'react-router-dom'
+import { usePermission } from 'domains/auth'
 import { isDefined } from 'shared/value-predicates'
 import type { AdminSidebarProps } from './types/admin-sidebar-props.type'
 import styles from './styles/admin-sidebar.module.css'
@@ -18,6 +19,10 @@ export const AdminSidebar = (props: AdminSidebarProps): JSX.Element => {
   const { isCompact, onNavigate, onToggleCompact, onClose, className, ...rootAttrs } = props
   const isHomeActive = useMatch({ path: '/', end: true }) !== null
   const isProfileActive = useMatch('/profile') !== null
+  const isAccessActive = useMatch('/access') !== null
+  const isKeycloakActive = useMatch('/settings/keycloak') !== null
+  const canManageAccess = usePermission('system.access.manage')
+  const canManageKeycloak = usePermission('system.keycloak.manage')
   const hasCloseButton = isDefined(onClose)
   const canToggleCompact = isDefined(onToggleCompact)
   const brandLabel = isCompact ? 'A' : 'Admin Panel'
@@ -75,6 +80,16 @@ export const AdminSidebar = (props: AdminSidebarProps): JSX.Element => {
               onClick={onNavigate}
             />
           </Tooltip>
+          {canManageAccess && (
+            <Tooltip label="Управление доступом" position="right" disabled={!isCompact} events={{ hover: true, focus: true, touch: false }}>
+              <NavLink component={RouterNavLink} className={cl(styles.navLink, compactClassName, { [styles._active]: isAccessActive })} classNames={navClassNames} to="/access" label="Управление доступом" aria-label="Управление доступом" leftSection={<IconUsers size={21} stroke={1.7} aria-hidden="true" />} active={isAccessActive} onClick={onNavigate} />
+            </Tooltip>
+          )}
+          {canManageKeycloak && (
+            <Tooltip label="Keycloak" position="right" disabled={!isCompact} events={{ hover: true, focus: true, touch: false }}>
+              <NavLink component={RouterNavLink} className={cl(styles.navLink, compactClassName, { [styles._active]: isKeycloakActive })} classNames={navClassNames} to="/settings/keycloak" label="Keycloak" aria-label="Keycloak" leftSection={<IconKey size={21} stroke={1.7} aria-hidden="true" />} active={isKeycloakActive} onClick={onNavigate} />
+            </Tooltip>
+          )}
         </nav>
       </ScrollArea>
       {canToggleCompact && (

@@ -65,15 +65,16 @@ export interface LoginDto {
 }
 
 export interface AccessTokenDto {
+  /** Bearer JWT для Authorization. Выдаётся только в JSON, не в cookie. */
   accessToken: string;
   tokenType: AccessTokenDtoTokenTypeEnum;
   /**
-   * Целое число секунд между iat и exp JWT, не больше настроенного access TTL. Из-за округления секундной границы может превышать фактический остаток жизни сессии; доступ дополнительно ограничен точным sessionExpiresAt.
-   * @example 900
+   * Фиксированный срок JWT: exp - iat = 604800 секунд (7 дней), включая вход через Keycloak. По истечении срока требуется новый вход.
+   * @example 604800
    */
-  expiresIn: number;
+  expiresIn: AccessTokenDtoExpiresInEnum;
   /**
-   * Точный фиксированный срок окончания сессии с миллисекундной точностью; ротация токенов не продлевает его. После этого момента доступ и refresh запрещены, даже если exp JWT ещё не наступил.
+   * Фиксированный срок окончания сессии, совпадающий с exp JWT. Сессия может быть отозвана раньше при выходе, смене credentials или отзыве доступа.
    * @format date-time
    */
   sessionExpiresAt: string;
@@ -129,8 +130,12 @@ export interface ApiErrorDto {
 
 export type AccessTokenDtoTokenTypeEnum = "Bearer";
 
-export type ClientBrowserLoginParamsXCsrfProtectionEnum = "1";
+/**
+ * Фиксированный срок JWT: exp - iat = 604800 секунд (7 дней), включая вход через Keycloak. По истечении срока требуется новый вход.
+ * @example 604800
+ */
+export type AccessTokenDtoExpiresInEnum = 604800;
 
-export type ClientBrowserRefreshParamsXCsrfProtectionEnum = "1";
+export type ClientBrowserLoginParamsXCsrfProtectionEnum = "1";
 
 export type ClientBrowserLogoutParamsXCsrfProtectionEnum = "1";

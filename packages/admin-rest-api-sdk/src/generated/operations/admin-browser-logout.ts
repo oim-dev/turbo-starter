@@ -8,7 +8,7 @@ import type { ApiErrorDto } from "../data-contracts.js";
 import type { ApiRequestClient, RequestParams } from "../http-client.js";
 
 /**
- * @description Немедленно отзывает сессию, включая токены доступа, связанные через sid, и удаляет cookie с токеном обновления. Отсутствие или недействительность cookie не считается ошибкой.
+ * @description Без тела. Требует валидный Bearer JWT Admin API, активную сессию и account.read. Отзывает только текущую сессию из sid JWT, отменяет незавершённый OIDC flow и очищает его временные cookies. Logout локальный, без выхода из Keycloak SSO. Повторный запрос с отозванным JWT возвращает 401.
  *
  * @tags Auth
  * @name AdminBrowserLogout

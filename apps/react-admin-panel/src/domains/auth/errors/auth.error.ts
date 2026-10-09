@@ -5,10 +5,25 @@ export const AUTH_ERROR_CODE = {
   REQUEST_REJECTED: 'REQUEST_REJECTED',
   RATE_LIMITED: 'RATE_LIMITED',
   UNAVAILABLE: 'UNAVAILABLE',
-  REFRESH_UNCERTAIN: 'REFRESH_UNCERTAIN',
   LOGOUT_INCOMPLETE: 'LOGOUT_INCOMPLETE',
   UNSUPPORTED_BROWSER: 'UNSUPPORTED_BROWSER',
-  SUPERSEDED: 'SUPERSEDED'
+  SUPERSEDED: 'SUPERSEDED',
+  /**
+   * Провайдер входа временно недоступен.
+   */
+  KEYCLOAK_UNAVAILABLE: 'KEYCLOAK_UNAVAILABLE',
+  /**
+   * Провайдер или политика допуска отклонили вход.
+   */
+  KEYCLOAK_DENIED: 'KEYCLOAK_DENIED',
+  /**
+   * Результат входа истёк, уже использован либо некорректен.
+   */
+  KEYCLOAK_INVALID: 'KEYCLOAK_INVALID',
+  /**
+   * Результат одноразового завершения неизвестен; требуется новый вход, не повтор обмена.
+   */
+  KEYCLOAK_UNCERTAIN: 'KEYCLOAK_UNCERTAIN'
 } as const
 
 /** Стабильный код ожидаемой ошибки авторизации. */
@@ -23,7 +38,7 @@ export type AuthError<Code extends AuthErrorCode = AuthErrorCode> = Error & {
 /** Предусмотренные отказы нового входа и подтверждения администратора. */
 export type SignInError = AuthError<Exclude<AuthErrorCode, typeof AUTH_ERROR_CODE.LOGOUT_INCOMPLETE>>
 
-/** Предусмотренные отказы восстановления общей cookie. */
+/** Предусмотренные отказы проверки сохранённого JWT. */
 export type RestoreSessionError = AuthError<Exclude<
   AuthErrorCode,
   typeof AUTH_ERROR_CODE.INVALID_CREDENTIALS | typeof AUTH_ERROR_CODE.LOGOUT_INCOMPLETE
@@ -39,6 +54,11 @@ export type GetCurrentUserError = AuthError<
   typeof AUTH_ERROR_CODE.RATE_LIMITED |
   typeof AUTH_ERROR_CODE.UNAVAILABLE
 >
+
+/**
+ * Полный канал ошибок публичного списка методов входа.
+ */
+export type GetSignInMethodsError = AuthError<typeof AUTH_ERROR_CODE.UNAVAILABLE>
 
 /**
  * Идентифицирует ошибки домена независимо от технических исключений клиента.

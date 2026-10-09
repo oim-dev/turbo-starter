@@ -1,4 +1,4 @@
-import type { HttpResponse, RequestContext } from '@demo/client-rest-api-sdk/http-client'
+import type { HttpResponse, RequestContext } from '@oim/client-rest-api-sdk/http-client'
 import { SessionChangedError } from '../errors/session-changed-error'
 import { requestCredentialMap } from '../stores/request-credentials.store'
 import { isCurrentSession } from './is-current-session'

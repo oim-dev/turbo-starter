@@ -18,8 +18,7 @@ export const SessionPending = (props: SessionPendingProps) => {
   const { className, error, isChecking, ...rootAttrs } = props
   const [isRecovering, setIsRecovering] = useState(false)
   const [recoveryMessage, setRecoveryMessage] = useState<string | null>(null)
-  const shouldSignInAgain = error?.code === 'REFRESH_UNCERTAIN' ||
-    error?.code === 'SESSION_EXPIRED' || error?.code === 'INVALID_CREDENTIALS'
+  const shouldSignInAgain = error?.code === 'SESSION_EXPIRED' || error?.code === 'INVALID_CREDENTIALS'
   const canRecover = error?.code !== 'UNSUPPORTED_BROWSER'
   const actionLabel = shouldSignInAgain ? 'Войти заново' : 'Повторить проверку'
   const errorMessage = recoveryMessage ?? getBootstrapErrorMessage(error)

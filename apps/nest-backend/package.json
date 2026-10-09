@@ -1,5 +1,5 @@
 {
-  "name": "@repo/nest-backend",
+  "name": "@oim/nest-backend",
   "description": "Каркас клиентского и административного NestJS API с аккаунтами и сессиями.",
   "version": "0.0.1",
   "private": true,
@@ -30,9 +30,6 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:deploy": "prisma migrate deploy",
-    "prisma:seed": "prisma db seed",
-    "admin:create": "prisma generate && ts-node src/cli/create-admin.ts",
-    "sessions:cleanup": "prisma generate && ts-node src/cli/cleanup-sessions.ts",
     "openapi:generate": "prisma generate && ts-node src/export-openapi.ts",
     "db:up": "docker compose -f ../../infra/dev/docker-compose.yml up -d --wait postgres",
     "db:stop": "docker compose -f ../../infra/dev/docker-compose.yml stop postgres"
@@ -53,6 +50,7 @@
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "helmet": "^8.1.0",
+    "openid-client": "6.8.8",
     "pg": "^8.16.3",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"

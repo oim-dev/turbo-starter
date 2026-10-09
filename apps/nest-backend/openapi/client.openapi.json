@@ -127,13 +127,13 @@
     },
     "/auth/login": {
       "post": {
-        "description": "Возвращает токен доступа в JSON и устанавливает cookie с токеном обновления и флагом HttpOnly.",
+        "description": "Возвращает Bearer JWT в accessToken на 7 дней (604800 секунд). Cookie авторизации не устанавливается. По истечении срока требуется новый вход.",
         "operationId": "clientBrowserLogin",
         "parameters": [
           {
             "name": "Origin",
             "in": "header",
-            "description": "Реальный Origin запроса, устанавливаемый браузером; должен точно совпадать с разрешённым источником этого API.",
+            "description": "Корректный HTTP(S) Origin без пути, query или fragment. Принимается любой источник; allowlist не используется.",
             "required": true,
             "schema": {
               "type": "string"
@@ -193,7 +193,7 @@
             }
           },
           "403": {
-            "description": "Обязательны разрешённый Origin и X-CSRF-Protection: 1.",
+            "description": "Обязательны корректный HTTP(S) Origin и X-CSRF-Protection: 1.",
             "content": {
               "application/json": {
                 "schema": {
@@ -270,154 +270,15 @@
         ]
       }
     },
-    "/auth/refresh": {
-      "post": {
-        "description": "Каждый токен обновления используется только один раз; повторное использование отзывает сессию. Если ответ потерян после ротации, войдите заново вместо повторного запроса. Новый токен обновления передаётся только в cookie с флагом HttpOnly.",
-        "operationId": "clientBrowserRefresh",
-        "parameters": [
-          {
-            "name": "Origin",
-            "in": "header",
-            "description": "Реальный Origin запроса, устанавливаемый браузером; должен точно совпадать с разрешённым источником этого API.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "X-CSRF-Protection",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "1"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AccessTokenDto"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Некорректный запрос или неизвестные входные поля.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDto"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Токен обновления отсутствует, недействителен, просрочен или уже использован.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDto"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Обязательны разрешённый Origin и X-CSRF-Protection: 1.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Ресурс не найден или недоступен текущему пользователю.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDto"
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "Конфликт с существующими данными или повторное действие.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDto"
-                }
-              }
-            }
-          },
-          "413": {
-            "description": "Превышен лимит: 64 КиБ для JSON.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDto"
-                }
-              }
-            }
-          },
-          "415": {
-            "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDto"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Слишком много запросов аутентификации.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDto"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Внутренняя ошибка сервера.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDto"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "refresh-cookie": []
-          }
-        ],
-        "summary": "Заменить токен обновления браузерной сессии клиента",
-        "tags": [
-          "Auth"
-        ]
-      }
-    },
     "/auth/logout": {
       "post": {
-        "description": "Немедленно отзывает сессию, включая токены доступа, связанные через sid, и удаляет cookie с токеном обновления. Отсутствие или недействительность cookie не считается ошибкой.",
+        "description": "Без тела. Требует валидный Bearer JWT этого API и активную сессию. Отзывает только текущую сессию из sid JWT; cookie не используются. Повторный запрос с отозванным JWT возвращает 401.",
         "operationId": "clientBrowserLogout",
         "parameters": [
           {
             "name": "Origin",
             "in": "header",
-            "description": "Реальный Origin запроса, устанавливаемый браузером; должен точно совпадать с разрешённым источником этого API.",
+            "description": "Корректный HTTP(S) Origin без пути, query или fragment. Принимается любой источник; allowlist не используется.",
             "required": true,
             "schema": {
               "type": "string"
@@ -437,7 +298,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Выход выполнен; cookie с токеном обновления удалена."
+            "description": "Текущая сессия отозвана. Клиент должен удалить сохранённый JWT."
           },
           "400": {
             "description": "Некорректный запрос или неизвестные входные поля.",
@@ -450,7 +311,7 @@
             }
           },
           "401": {
-            "description": "Неверные учётные данные или токен либо неактивная сессия.",
+            "description": "Токен отсутствует, недействителен, просрочен или сессия отозвана.",
             "content": {
               "application/json": {
                 "schema": {
@@ -460,7 +321,7 @@
             }
           },
           "403": {
-            "description": "Обязательны разрешённый Origin и X-CSRF-Protection: 1.",
+            "description": "Обязательны корректный HTTP(S) Origin и X-CSRF-Protection: 1.",
             "content": {
               "application/json": {
                 "schema": {
@@ -531,9 +392,8 @@
           }
         },
         "security": [
-          {},
           {
-            "refresh-cookie": []
+            "access-token": []
           }
         ],
         "summary": "Завершить браузерную сессию клиента",
@@ -786,7 +646,7 @@
     },
     "/users/me/login": {
       "put": {
-        "description": "Требует текущий пароль. Логин сохраняется в нижнем регистре. Успешный запрос атомарно отзывает все сессии, включая текущую, и удаляет refresh cookie. После ответа требуется новый вход, даже если логин не изменился.",
+        "description": "Требует текущий пароль. Логин сохраняется в нижнем регистре. Успешный запрос атомарно отзывает все сессии, включая текущую. После ответа клиент должен удалить сохранённый JWT и выполнить новый вход, даже если логин не изменился.",
         "operationId": "changeClientUserLogin",
         "parameters": [],
         "requestBody": {
@@ -907,7 +767,7 @@
     },
     "/users/me/password": {
       "put": {
-        "description": "Требует текущий пароль. Успешный запрос атомарно отзывает все сессии, включая текущую, и удаляет refresh cookie. После ответа требуется новый вход.",
+        "description": "Требует текущий пароль. Успешный запрос атомарно отзывает все сессии, включая текущую. После ответа клиент должен удалить сохранённый JWT и выполнить новый вход.",
         "operationId": "changeClientUserPassword",
         "parameters": [],
         "requestBody": {
@@ -1029,7 +889,7 @@
   },
   "info": {
     "title": "Starter — клиентское API",
-    "description": "Публичное клиентское API. Регистрация создаёт учётную запись, но не сессию.\n\nВход, обновление токенов и выход через браузер требуют заголовков Origin и X-CSRF-Protection: 1. Origin должен входить в allowlist соответствующего API (CLIENT_ALLOWED_ORIGINS или ADMIN_ALLOWED_ORIGINS); тот же список используется для CORS с учётными данными. Для Swagger включите собственный origin API в allowlist.\n\nКаждый токен обновления используется только один раз; подтверждённое повторное использование отзывает сессию. Выполняйте обновление токенов последовательно во всех вкладках и на всех устройствах, использующих одну сессию.\n\nПри потере ответа на запрос обновления токенов может потребоваться повторный вход. Срок действия сессии фиксирован.",
+    "description": "Публичное клиентское API. Регистрация создаёт учётную запись, но не сессию.\n\nВход и выход через браузер требуют заголовков Origin и X-CSRF-Protection: 1. Принимается любой корректный HTTP(S) Origin без allowlist; CORS открыт.\n\nАвторизация — только Bearer JWT в заголовке Authorization. При входе JWT возвращается в accessToken, cookie авторизации не устанавливаются. JWT и сессия действуют 7 дней (604800 секунд), включая Keycloak. Продления нет; после истечения срока нужен новый вход.\n\nLogout требует валидный JWT текущей сессии и немедленно отзывает её; повторный запрос возвращает 401. Успешная смена credentials отзывает все сессии аккаунта. Клиент удаляет сохранённый JWT после выхода, успешной смены credentials или терминального отказа Bearer. Исключение: 401 CURRENT_PASSWORD_INVALID при неверном текущем пароле не отзывает сессию и не требует удаления JWT. Клиентские и административные JWT не взаимозаменяемы.",
     "version": "1.0.0",
     "contact": {}
   },
@@ -1041,11 +901,6 @@
         "scheme": "bearer",
         "bearerFormat": "JWT",
         "type": "http"
-      },
-      "refresh-cookie": {
-        "type": "apiKey",
-        "in": "cookie",
-        "name": "__Host-client_refresh"
       }
     },
     "schemas": {
@@ -1145,7 +1000,8 @@
         "type": "object",
         "properties": {
           "accessToken": {
-            "type": "string"
+            "type": "string",
+            "description": "Bearer JWT для Authorization. Выдаётся только в JSON, не в cookie."
           },
           "tokenType": {
             "type": "string",
@@ -1155,13 +1011,16 @@
           },
           "expiresIn": {
             "type": "number",
-            "description": "Целое число секунд между iat и exp JWT, не больше настроенного access TTL. Из-за округления секундной границы может превышать фактический остаток жизни сессии; доступ дополнительно ограничен точным sessionExpiresAt.",
-            "example": 900
+            "description": "Фиксированный срок JWT: exp - iat = 604800 секунд (7 дней), включая вход через Keycloak. По истечении срока требуется новый вход.",
+            "enum": [
+              604800
+            ],
+            "example": 604800
           },
           "sessionExpiresAt": {
             "type": "string",
             "format": "date-time",
-            "description": "Точный фиксированный срок окончания сессии с миллисекундной точностью; ротация токенов не продлевает его. После этого момента доступ и refresh запрещены, даже если exp JWT ещё не наступил."
+            "description": "Фиксированный срок окончания сессии, совпадающий с exp JWT. Сессия может быть отозвана раньше при выходе, смене credentials или отзыве доступа."
           }
         },
         "required": [

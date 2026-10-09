@@ -1,6 +1,6 @@
 import { format } from "prettier";
 
-const GENERATED = "Сгенерировано @repo/dev-agents; источник — packages/dev-agents/src.";
+const GENERATED = "Сгенерировано @oim/dev-agents; источник — packages/dev-agents/src.";
 const FORMAT = { printWidth: 100, proseWrap: "preserve", endOfLine: "lf" };
 
 /** Форматирует JSON одинаково на всех машинах, без чтения пользовательского конфига. */

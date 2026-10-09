@@ -13,13 +13,7 @@ export function configureHttp(
   config: ApiConfig,
 ): void {
   app.disable('x-powered-by');
-  const trustedProxies =
-    process.env[`${config.realm.toUpperCase()}_TRUSTED_PROXIES`];
-  if (trustedProxies)
-    app.set(
-      'trust proxy',
-      trustedProxies.split(',').map((proxy) => proxy.trim()),
-    );
+  app.set('trust proxy', true);
   app.use(helmet());
   app.use((_request: Request, response: Response, next: NextFunction) => {
     response.setHeader('Cache-Control', 'no-store');
@@ -28,10 +22,9 @@ export function configureHttp(
   app.use(json({ limit: '64kb' }));
   app.use(cookieParser());
   app.enableCors({
-    origin: config.allowedOrigins,
+    origin: true,
     credentials: true,
-    methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-CSRF-Protection'],
+    methods: ['GET', 'HEAD', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
   });
   app.useGlobalPipes(
     new ValidationPipe({

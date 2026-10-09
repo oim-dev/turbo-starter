@@ -1,4 +1,4 @@
-import { ApiError } from '@demo/admin-rest-api-sdk/http-client'
+import { ApiError } from '@oim/admin-rest-api-sdk/http-client'
 
 /**
  * Проверяет принадлежность ошибки HTTP-контракту административного SDK.

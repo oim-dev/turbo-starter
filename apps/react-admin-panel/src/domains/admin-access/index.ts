@@ -1,0 +1,5 @@
+export { useAccessManagement } from './hooks/use-access-management.hook'
+export { getAccessData, saveAccessRole, deleteAccessRole, createManagedAccount, updateManagedAccount } from './adapters/access.adapter'
+export { AccessError } from './errors/access.error'
+export type { AccessRole, AccessPermission, ManagedAccount, ManagedIdentity, NewAccount } from './types/access.type'
+export { bindManagedIdentity, unbindManagedIdentity, disableManagedPassword, revokeManagedSessions } from './adapters/account-security.adapter'

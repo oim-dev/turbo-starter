@@ -1,18 +1,19 @@
-import type { FullRequestParams } from '@demo/admin-rest-api-sdk/http-client'
+import type { FullRequestParams } from '@oim/admin-rest-api-sdk/http-client'
 import { getBackendAdminApiAccessToken } from '../access-token-storage/access-token-storage'
 
 /**
- * Пути браузерного обмена credential, для которых автоматически добавлять Bearer не требуется.
+ * Пути POST нового входа, для которых автоматически добавлять Bearer не требуется.
+ * PUT /auth/login меняет логин действующего пользователя и требует Bearer.
  * SDK сводит cookie- и Bearer-схемы OpenAPI к одному признаку secure.
  */
-const COOKIE_EXCHANGE_PATHS = ['/auth/login', '/auth/refresh', '/auth/logout'] as const
+const SIGN_IN_PATHS = ['/auth/login', '/auth/keycloak/complete'] as const
 
 /**
  * Добавляет актуальный Bearer к защищённому запросу, сохраняя явно заданную авторизацию.
  */
 export const authorizeRequest = (request: FullRequestParams): FullRequestParams => {
-  const isCookieExchange = COOKIE_EXCHANGE_PATHS.some((path) => path === request.path)
-  if (request.secure !== true || isCookieExchange) {
+  const isSignIn = request.method === 'POST' && SIGN_IN_PATHS.some((path) => path === request.path)
+  if (request.secure !== true || isSignIn) {
     return request
   }
 

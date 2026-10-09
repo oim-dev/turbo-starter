@@ -1,6 +1,6 @@
 # Next Web App
 
-Нейтральное стартовое приложение `@repo/next-web-app` на Next.js 16 App Router,
+Нейтральное стартовое приложение `@oim/next-web-app` на Next.js 16 App Router,
 React 19, TypeScript и Mantine 8. Архитектура и блокирующий протокол разработки — в [AGENTS.md](AGENTS.md).
 
 ## Запуск
@@ -21,7 +21,7 @@ PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false pnpm run web:dev
 SDK собирается из уже сгенерированных исходников: запуск backend и повторная генерация OpenAPI
 для обычной работы сайта не требуются. При прямом запуске команды пакета в обход Turborepo
 SDK нужно предварительно собрать через
-`PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false pnpm --filter @demo/client-rest-api-sdk run build`.
+`PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false pnpm --filter @oim/client-rest-api-sdk run build`.
 
 ## Проверки и production
 
@@ -55,7 +55,7 @@ PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false NEXT_DIST_DIR=build/preview pnpm run we
 `NEXT_STANDALONE` и `NEXT_DIST_DIR` учитываются в environment hash задачи Turbo `build`.
 Результаты под `.next/` и `build/` покрыты настроенными `outputs`. Для другого кастомного `distDir`
 сначала согласуйте покрытие `outputs` с владельцем корневой конфигурации либо запускайте
-`pnpm --filter @repo/next-web-app run build` напрямую, без кеширования Turborepo,
+`pnpm --filter @oim/next-web-app run build` напрямую, без кеширования Turborepo,
 с `PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false` и предварительно собранным SDK.
 
 `NEXT_STANDALONE=1` меняет формат результата: такой сервер запускается через сгенерированный `server.js`,
@@ -64,28 +64,65 @@ PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false NEXT_DIST_DIR=build/preview pnpm run we
 
 ## Сохраняемая инфраструктура API
 
-`src/infra/client-api` использует workspace SDK `@demo/client-rest-api-sdk`:
+`src/infra/client-api` использует workspace SDK `@oim/client-rest-api-sdk`:
 
-- browser-клиент предоставляет register/login/refresh/logout, чтение и изменение профиля, login и password;
-- транспорт сохраняет Bearer, HttpOnly refresh-cookie, `X-CSRF-Protection: 1`, обработку ошибок и защиту от гонок сессии;
+- browser-клиент предоставляет register/login/logout, чтение и изменение профиля, login и password;
+- транспорт использует только Bearer JWT, `credentials: 'omit'`, обработку ошибок и защиту от гонок сессии;
+  refresh, cookie-авторизации и автоматического повтора запросов нет;
 - серверный клиент сохраняет отдельный transport с `credentials: 'omit'` и пустое дерево операций:
   текущий API не предоставляет публичных GET, независимых от авторизации;
 - приватные данные не загружаются в SSR, metadata или RSC payload;
 - `src/infra/diagnostics` и его `shared/errors`, а также predicates для проверки credentials сохранены.
 
-API-клиенты не подключены к стартовой странице: она не восстанавливает сессию и не отправляет refresh-запросы.
+API-клиенты не подключены к стартовой странице: она не восстанавливает сессию и не делает auth-запросов.
 При будущем подключении изменения login/password учтите: успешная операция отзывает все сессии,
 после неё нужен новый вход. Доменный lifecycle должен завершить прежнюю область данных;
 сырой transport-вызов сам по себе не заменяет этот сценарий.
 
-Необязательные настройки — в [env.example](env.example):
+### Контракт браузерной сессии
+
+- `loginApiSession` сохраняет JWT в версионированной записи `web-client-session` в `localStorage` текущего origin,
+  затем проверяет профиль. Профиль и пароль не сохраняются. Срок вычисляется один раз как минимум `exp` JWT,
+  `sessionExpiresAt` и полученного `expiresIn`; стандартный TTL backend — 604800 секунд (7 суток).
+- `restoreApiSession` вызывается только из браузерного lifecycle. Она валидирует структуру записи и claims,
+  удаляет повреждённый/истёкший credential и проверяет действующий Bearer запросом `GET /users/me`.
+  Перезагрузка, активность и повтор проверки не продлевают срок. Старые refresh-cookie/маркеры не восстанавливают сессию:
+  после перехода на этот контракт нужен новый вход.
+- До успешной проверки нельзя открывать приватный UI. `isReady` обозначает завершение попытки, а не авторизацию:
+  `getApiCredential` возвращает проверенный credential/`null` или исходную ошибку bootstrap.
+  Сбой сети оставляет приватные операции закрытыми; повторяется явно только проверка профиля, не login/mutation.
+  При недоступном storage доступ закрывается; после восстановления доступа к storage нужна перезагрузка страницы.
+- Владелец доменного lifecycle подписывается через `subscribeApiSession`, очищает приватный кеш при смене `version`
+  и повторяет bootstrap новой сессии. Подписка отслеживает storage/focus/visibility и фиксированный срок,
+  её cleanup снимает обработчики и таймер. Перед запросом и принятием ответа scope сверяется также синхронно.
+  Поздние ответы прежнего аккаунта отклоняются через `SessionChangedError`.
+- Terminal Bearer `401` удаляет только credential соответствующего запроса и передаёт исходную ошибку домену:
+  домен закрывает приватный UI и предлагает новый вход. `SessionRequiredError` означает отсутствие действующего credential.
+  Ошибка входа не завершает другую сессию. Обновления JWT и retry после `401` нет.
+- `logoutApiSession` захватывает текущий Bearer, синхронно очищает credential и публикует новую гостевую ревизию,
+  затем вызывает `POST /auth/logout` с захваченным токеном. `401` уже отозванной/истёкшей сессии считается локально
+  завершённым выходом. Сетевая ошибка остаётся ошибкой серверного отзыва, но не возвращает приватный UI;
+  поздний результат logout не очищает более новый вход. В storage остаётся только гостевая ревизия без JWT.
+- `getServerSessionSnapshot` всегда возвращает нейтральное неизвестное состояние. SSR не читает localStorage,
+  cookies или credentials; приватные данные не передаются в HTML, RSC, props и начальный клиентский кеш.
+
+JWT в localStorage доступен JavaScript текущего origin: защита от XSS обязательна.
+Это технический контракт сохранённой инфраструктуры, не готовый auth-экран или доменный guard.
+
+Настройки — в [.env.example](.env.example); `env.example` — его идентичная копия.
+Рабочий `.env.local` повторяет шаблон, отличаться могут только значения.
+Next.js читает env из корня приложения с приоритетом: окружение процесса,
+`.env.[NODE_ENV].local`, `.env.local`, `.env.[NODE_ENV]`, `.env`.
+В режиме test `.env.local` пропускается; режим Next.js выбирает сам.
 
 - `NEXT_PUBLIC_CLIENT_API_URL` — адрес браузерного API; по умолчанию `http://localhost:3001`, фиксируется при build;
-- `CLIENT_API_INTERNAL_URL` — отдельный серверный адрес для будущих публичных операций без credentials.
+- `CLIENT_API_INTERNAL_URL` — отдельный серверный адрес для будущих публичных операций без credentials;
+- `NEXT_STANDALONE` — `0` для локального запуска, `1` для standalone-сборки;
+- `NEXT_DIST_DIR` — каталог сборки, по умолчанию `.next`.
 
-Browser API использует origin allowlist backend. Для локальной разработки предусмотрены
-`http://localhost:3005` и `http://127.0.0.1:3005`; используйте согласованный hostname frontend и API для cookies.
-Токены и секреты не помещаются в env браузера.
+Client API разрешает CORS всем origin без cookie credentials; `CLIENT_ALLOWED_ORIGINS` и настройка SameSite не нужны.
+Bearer передаётся явно в `Authorization`. `localhost` и `127.0.0.1` — разные origin и имеют отдельный localStorage.
+Токены и секреты не помещаются в env браузера или серверный SSR-клиент.
 
 ## Компоненты
 

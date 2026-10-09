@@ -1,4 +1,4 @@
-import { ApiError } from '@demo/client-rest-api-sdk/http-client'
+import { ApiError } from '@oim/client-rest-api-sdk/http-client'
 
 /**
  * Распознаёт временную недоступность транспорта без маскировки ошибок преобразования данных.

@@ -1,5 +1,5 @@
 {
-  "name": "@demo/admin-rest-api-sdk",
+  "name": "@oim/admin-rest-api-sdk",
   "version": "0.0.0",
   "description": "TypeScript SDK для административного REST API.",
   "private": true,
@@ -44,7 +44,7 @@
     "typecheck": "pnpm run check-types"
   },
   "devDependencies": {
-    "@repo/typescript-config": "workspace:*",
+    "@oim/typescript-config": "workspace:*",
     "typescript": "^5.9.2"
   }
 }

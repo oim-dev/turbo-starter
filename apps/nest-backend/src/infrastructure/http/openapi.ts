@@ -16,21 +16,38 @@ export function createOpenApiDocument(
       [
         config.realm === 'client'
           ? 'Публичное клиентское API. Регистрация создаёт учётную запись, но не сессию.'
-          : 'Закрытое административное API. Самостоятельная регистрация не предусмотрена. Учётная запись создаётся через bootstrap/CLI. Текущая роль доступна в /auth/me; разрешённые роли защищённой операции — в x-admin-roles.',
-        'Вход, обновление токенов и выход через браузер требуют заголовков Origin и X-CSRF-Protection: 1. Origin должен входить в allowlist соответствующего API (CLIENT_ALLOWED_ORIGINS или ADMIN_ALLOWED_ORIGINS); тот же список используется для CORS с учётными данными. Для Swagger включите собственный origin API в allowlist.',
-        'Каждый токен обновления используется только один раз; подтверждённое повторное использование отзывает сессию. Выполняйте обновление токенов последовательно во всех вкладках и на всех устройствах, использующих одну сессию.',
-        'При потере ответа на запрос обновления токенов может потребоваться повторный вход. Срок действия сессии фиксирован.',
+          : 'Административное API с настраиваемыми ролями. Первый владелец создаётся при запуске на пустой БД; дополнительные аккаунты — через OWNER API. Роль и permissions доступны в /auth/me; требования операции — в x-admin-permissions. OWNER имеет все права, ADMIN — все несистемные, USER — собственный аккаунт. Управление доступом и Keycloak доступно только OWNER.',
+        'Вход и выход через браузер требуют заголовков Origin и X-CSRF-Protection: 1. Принимается любой корректный HTTP(S) Origin без allowlist; CORS открыт.',
+        'Авторизация — только Bearer JWT в заголовке Authorization. При входе JWT возвращается в accessToken, cookie авторизации не устанавливаются. JWT и сессия действуют 7 дней (604800 секунд), включая Keycloak. Продления нет; после истечения срока нужен новый вход.',
+        'Logout требует валидный JWT текущей сессии и немедленно отзывает её; повторный запрос возвращает 401. Успешная смена credentials отзывает все сессии аккаунта. Клиент удаляет сохранённый JWT после выхода, успешной смены credentials или терминального отказа Bearer. Исключение: 401 CURRENT_PASSWORD_INVALID при неверном текущем пароле не отзывает сессию и не требует удаления JWT. Клиентские и административные JWT не взаимозаменяемы.',
       ].join('\n\n'),
     )
     .addBearerAuth(
       { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
       'access-token',
-    )
-    .addCookieAuth(
-      config.cookieName,
-      { type: 'apiKey', in: 'cookie' },
-      'refresh-cookie',
     );
+  if (config.realm === 'admin') {
+    builder.addCookieAuth(
+      'admin_oidc_complete',
+      {
+        type: 'apiKey',
+        in: 'cookie',
+        description:
+          'Одноразовый browser-bound grant после OIDC callback; дополнительно требуется browser-binding cookie. Только для завершения входа, не для авторизации API.',
+      },
+      'admin-keycloak-completion',
+    );
+    builder.addCookieAuth(
+      '__Host-admin_oidc_complete',
+      {
+        type: 'apiKey',
+        in: 'cookie',
+        description:
+          'HTTPS-вариант одноразового completion grant; имя и Secure определяются callback URL из настроек Keycloak в БД.',
+      },
+      'admin-keycloak-completion-secure',
+    );
+  }
   const document = SwaggerModule.createDocument(app, builder.build(), {
     extraModels: [ApiErrorDto],
   });
