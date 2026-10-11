@@ -1,0 +1,99 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mantine-spacing-xl);
+  min-width: 0;
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mantine-spacing-lg);
+
+  @media (--md) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.title {
+  font-size: 28px;
+  letter-spacing: -0.8px;
+
+  @media (--sm) {
+    font-size: 32px;
+  }
+}
+
+.uploadButton {
+  align-self: stretch;
+
+  @media (--xs) {
+    align-self: flex-start;
+  }
+
+  @media (--md) {
+    align-self: center;
+  }
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--mantine-spacing-xl);
+
+  @media (--lg) {
+    grid-template-columns: 200px minmax(0, 1fr);
+  }
+}
+
+.folders {
+  display: none;
+  padding-top: var(--mantine-spacing-xs);
+
+  @media (--lg) {
+    display: block;
+  }
+}
+
+.content {
+  min-width: 0;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--mantine-spacing-xs);
+}
+
+.search {
+  flex: 1 0 100%;
+
+  @media (--xl) {
+    flex: 1 1 230px;
+  }
+}
+
+.filter {
+  flex: 1 1 130px;
+  min-width: 0;
+
+  @media (--xl) {
+    flex: 0 1 170px;
+  }
+}
+
+.folderToggle {
+  @media (--lg) {
+    display: none;
+  }
+}
+
+.summary {
+  max-width: 180px;
+
+  @media (--sm) {
+    max-width: 350px;
+  }
+}

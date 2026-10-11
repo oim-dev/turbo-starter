@@ -21,3 +21,10 @@ export type {
   AdminUserDto,
   LoginDto
 } from '@oim/admin-rest-api-sdk/data-contracts'
+export type {
+  AdminImageListParams,
+  CreateImageUploadDto,
+  UpdateImageDto,
+  ImageUploadTargetDto,
+  ImageOriginalLinkDto
+} from '@oim/admin-rest-api-sdk/data-contracts'

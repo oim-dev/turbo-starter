@@ -13,6 +13,123 @@ enum SessionTransport {
   MOBILE
 }
 
+enum ImageStatus {
+  uploading
+  queued
+  processing
+  ready
+  failed
+}
+
+enum ImageRealm {
+  admin
+  client
+}
+
+enum ImagePreset {
+  original
+  square
+  landscape
+}
+
+enum ImageJobStatus {
+  queued
+  processing
+  ready
+  failed
+}
+
+model Image {
+  id                 String         @id @default(uuid()) @db.Uuid
+  filename           String         @db.VarChar(255)
+  title              String         @db.VarChar(255)
+  folder             String?        @db.VarChar(255)
+  tags               String[]
+  presets            ImagePreset[]
+  status             ImageStatus    @default(uploading)
+  // Снимок автора: два независимых контура аккаунтов, без полиморфного FK.
+  ownerId            String         @db.Uuid
+  ownerRealm         ImageRealm
+  ownerName          String         @db.VarChar(120)
+  ownerLogin         String         @db.VarChar(64)
+  contentType        String         @db.VarChar(100)
+  byteSize           Int
+  width              Int?
+  height             Int?
+  stagingKey         String         @unique
+  uploadExpiresAt    DateTime
+  originalKey        String?        @unique
+  originalEtag       String?
+  originalVersionId  String?
+  completedAt        DateTime?
+  errorCode          String?        @db.VarChar(100)
+  errorMessage       String?        @db.VarChar(512)
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+  variants           ImageVariant[]
+  job                ImageJob?
+
+  @@index([ownerRealm, ownerId, createdAt, id])
+  @@index([status, createdAt, id])
+  @@index([folder])
+  @@index([tags], type: Gin)
+}
+
+model ImageVariant {
+  id         String      @id @default(uuid()) @db.Uuid
+  imageId    String      @db.Uuid
+  image      Image       @relation(fields: [imageId], references: [id], onDelete: Cascade)
+  preset     ImagePreset
+  width      Int
+  height     Int
+  format     String      @db.VarChar(20)
+  mimeType   String      @db.VarChar(100)
+  byteSize   Int
+  objectKey  String      @unique
+  etag       String
+  versionId  String?
+  createdAt  DateTime    @default(now())
+
+  @@unique([imageId, preset, width, format])
+}
+
+model ImageJob {
+  id              String         @id @default(uuid()) @db.Uuid
+  imageId         String         @unique @db.Uuid
+  image           Image          @relation(fields: [imageId], references: [id], onDelete: Cascade)
+  status          ImageJobStatus @default(queued)
+  attempts        Int            @default(0)
+  dispatchVersion Int            @default(1)
+  availableAt     DateTime       @default(now())
+  deadlineAt      DateTime
+  leaseToken      String?        @db.Uuid
+  leaseUntil      DateTime?
+  errorCode       String?        @db.VarChar(100)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  outbox          ImageOutbox[]
+
+  @@index([status, availableAt])
+  @@index([status, leaseUntil])
+}
+
+model ImageOutbox {
+  id              String    @id @default(uuid()) @db.Uuid
+  jobId           String    @db.Uuid
+  job             ImageJob  @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  dispatchVersion Int
+  destination     String    @default("work") @db.VarChar(20)
+  attempts        Int       @default(0)
+  availableAt     DateTime  @default(now())
+  leaseToken      String?   @db.Uuid
+  leaseUntil      DateTime?
+  publishedAt     DateTime?
+  createdAt       DateTime  @default(now())
+
+  @@unique([jobId, dispatchVersion, destination])
+  @@index([publishedAt, availableAt, leaseUntil])
+}
+
 model ClientUser {
   id           String          @id @default(uuid()) @db.Uuid
   login        String          @unique @db.VarChar(64)

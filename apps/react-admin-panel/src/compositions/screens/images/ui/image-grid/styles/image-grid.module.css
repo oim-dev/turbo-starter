@@ -1,0 +1,28 @@
+.root {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--mantine-spacing-sm);
+
+  @media (--md) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--mantine-spacing-md);
+  }
+
+  @media (--xl) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.skeleton {
+  aspect-ratio: 4 / 5;
+  border-radius: var(--mantine-radius-md);
+}
+
+.empty {
+  justify-content: center;
+  min-height: 380px;
+  padding: var(--mantine-spacing-xl);
+  border: 1px dashed var(--mantine-color-default-border);
+  border-radius: var(--mantine-radius-lg);
+  background: var(--mantine-color-body);
+}

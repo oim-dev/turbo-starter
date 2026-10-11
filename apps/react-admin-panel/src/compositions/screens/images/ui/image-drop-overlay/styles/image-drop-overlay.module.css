@@ -1,0 +1,20 @@
+.root {
+  position: fixed;
+  inset: var(--mantine-spacing-xs);
+  z-index: 400;
+  display: grid;
+  place-items: center;
+  padding: var(--mantine-spacing-md);
+  border: 3px dashed var(--mantine-primary-color-filled);
+  border-radius: var(--mantine-radius-lg);
+  background: color-mix(in srgb, var(--mantine-color-body) 90%, transparent);
+  pointer-events: none;
+}
+
+.card {
+  max-width: 420px;
+  padding: var(--mantine-spacing-xl);
+  border-radius: var(--mantine-radius-lg);
+  background: var(--mantine-color-body);
+  box-shadow: var(--mantine-shadow-lg);
+}

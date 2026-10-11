@@ -4,7 +4,10 @@
   "monorepo": true,
   "root": "src/client-api",
   "sourceRoot": "src/client-api",
-  "compilerOptions": { "webpack": true, "webpackConfigPath": "webpack.config.cjs" },
+  "compilerOptions": {
+    "webpack": true,
+    "webpackConfigPath": "webpack.config.cjs"
+  },
   "projects": {
     "client-api": {
       "type": "application",
@@ -12,6 +15,15 @@
       "entryFile": "main",
       "sourceRoot": "src/client-api",
       "compilerOptions": { "tsConfigPath": "src/client-api/tsconfig.app.json" }
+    },
+    "image-worker": {
+      "type": "application",
+      "root": "src/image-worker",
+      "entryFile": "main",
+      "sourceRoot": "src/image-worker",
+      "compilerOptions": {
+        "tsConfigPath": "src/image-worker/tsconfig.app.json"
+      }
     },
     "admin-api": {
       "type": "application",

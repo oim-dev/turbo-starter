@@ -2,8 +2,8 @@
 
 Универсальная основа проекта на **Turborepo** и **pnpm**: общие пакеты,
 сборщик AI-агентов, проектные скиллы и Relay для хранения знаний и задач.
-Базовые приложения: NestJS backend с клиентским и административным API,
-React-админка и Next.js со стартовой страницей.
+Приложения: NestJS backend с клиентским и административным API и фоновой
+обработкой изображений, React-админка с галереей и Next.js со стартовой страницей.
 
 Корневой пакет — `@oim/oim`; все приложения и общие пакеты используют scope `@oim`.
 
@@ -12,7 +12,7 @@ React-админка и Next.js со стартовой страницей.
 - **Node.js 24+** и входящий в его поставку `npm`/`npx`.
 - **pnpm 11.25.0** — версия закреплена в `package.json`.
 - **Git**.
-- **Docker Engine и Docker Compose v2+** для локальной PostgreSQL.
+- **Docker Engine и Docker Compose v2+** для PostgreSQL, MinIO и обработки изображений.
 - Доступ к GitHub и npm registry для скачивания шаблона, зависимостей и скиллов.
 
 Если pnpm ещё не установлен:
@@ -84,6 +84,29 @@ CORS разрешает любой origin без allowlist; временные c
 При наличии перенесённых `.env` согласуйте их структуру с текущими `.env.example` перед запуском.
 Подробнее: [backend](apps/nest-backend/README.md).
 
+### Инфраструктура изображений
+
+```bash
+pnpm infra:dev:images
+```
+
+Профиль поднимает PostgreSQL, приватный MinIO с CORS для browser PUT,
+RabbitMQ и imgproxy. После подготовки схемы `pnpm backend:dev` запускает оба API
+и воркер. Для отдельного запуска worker используйте `pnpm backend:dev:worker`.
+Воркер работает на host и вызывает imgproxy по
+`http://localhost:18080`; imgproxy скачивает original по подписанному URL
+`http://minio:9000` внутри Docker network. Для загрузки из браузера используется
+`http://localhost:9000`. Команды, dev-ключи и настройка адресов описаны в
+[infra/dev/README.md](infra/dev/README.md#профиль-изображений).
+
+Изображения загружаются через официальный SDK MinIO и обрабатываются только
+после загрузки. Статусы и готовые варианты возвращает REST API. Галерея админки
+доступна по `/images`: поиск, папки, теги, drag-and-drop, предпросмотр и метаданные.
+Готовые файлы сгруппированы по форматам во вкладках. Размеры создаются автоматически
+с сохранением пропорций и шагом 200 px; короткий остаток меньше 100 px заменяет
+предыдущую ступень. Выбирать пресеты при загрузке не требуется.
+Контракт и сценарии приёмки: [изображения](docs/development/images-implementation.md).
+
 ### Интерфейсы
 
 В отдельных терминалах:
@@ -102,7 +125,7 @@ pnpm web:dev
 Для одновременного запуска всех приложений после подготовки БД используйте
 `pnpm dev`. Turborepo предварительно собирает workspace-зависимости приложений,
 включая SDK. Их транспорт, сессии и конфигурация сохранены в `src/infra` приложений;
-списки операций соответствуют очищенным API.
+списки операций генерируются из OpenAPI соответствующего backend API.
 
 ## Переменные окружения
 
@@ -132,8 +155,8 @@ pnpm web:dev
 
 ```text
 apps/
-  nest-backend/             # NestJS: Client API и Admin API
-  react-admin-panel/        # React SPA: вход и базовая административная оболочка
+  nest-backend/             # NestJS: Client API, Admin API и image-worker
+  react-admin-panel/        # React SPA: аккаунты, управление доступом и галерея
   next-web-app/             # Next.js: автономная стартовая страница
 packages/
   client-rest-api-sdk/       # Контракт и клиент Client API
@@ -142,7 +165,7 @@ packages/
   eslint-config/            # Общие конфигурации ESLint
   typescript-config/        # Общие конфигурации TypeScript
   ui/                       # Базовые React-компоненты
-infra/dev/                  # PostgreSQL и необязательный профиль MinIO
+infra/dev/                  # PostgreSQL; storage: MinIO; images: MinIO, RabbitMQ, imgproxy
 infra/prod/                 # Перенесённая production-конфигурация
 docs/development/           # Инструкции для разработчиков
 .relay/                     # Конфигурация и хранилище Relay
@@ -171,8 +194,11 @@ turbo.json                  # Задачи Turborepo
 | `pnpm agents:build`             | Пересобрать только профили и конфигурации агентов    |
 | `pnpm agents:check`             | Проверить актуальность профилей и локальные ссылки   |
 | `pnpm infra:dev:up`             | Запустить локальную PostgreSQL                       |
+| `pnpm infra:dev:storage`        | Запустить MinIO и подготовить приватный bucket       |
+| `pnpm infra:dev:images`         | Запустить инфраструктуру изображений с healthchecks |
 | `pnpm infra:dev:down`           | Остановить dev-инфраструктуру с сохранением volumes  |
-| `pnpm backend:dev`              | Запустить оба API в режиме разработки                |
+| `pnpm backend:dev:worker`       | Запустить локальный воркер изображений               |
+| `pnpm backend:dev`              | Запустить оба API и воркер в режиме разработки       |
 | `pnpm backend:dev:client`       | Запустить только Client API                          |
 | `pnpm backend:dev:admin`        | Запустить только Admin API                           |
 | `pnpm backend:lint`             | Проверить код backend                                |

@@ -1,11 +1,11 @@
 import { AppShell, Drawer, useMantineTheme } from '@mantine/core'
 import { useDisclosure, useLocalStorage, useMediaQuery, useReducedMotion } from '@mantine/hooks'
-import { IconHome } from '@tabler/icons-react'
+import { IconHome, IconLibraryPhoto } from '@tabler/icons-react'
 import cl from 'clsx'
 import { useEffect } from 'react'
 import type { JSX } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
-import { isAuthError, logout, useGetCurrentUser } from 'domains/management/auth'
+import { isAuthError, logout, useGetCurrentUser, usePermission } from 'domains/management/auth'
 import { reportApplicationDefect, toApplicationDefect } from 'shared/errors'
 import { AdminHeader } from 'compositions/layouts/admin/ui/admin-header'
 import { AdminSidebar } from 'compositions/layouts/admin/ui/admin-sidebar'
@@ -28,7 +28,12 @@ const DEFAULT_NAVIGATION_ITEMS: readonly AdminNavigationItem[] = [
  *  - управления мобильной навигацией и завершением сеанса
  */
 export const AdminLayout = (props: AdminLayoutProps): JSX.Element => {
-  const { navigationItems = DEFAULT_NAVIGATION_ITEMS, className, ...rootAttrs } = props
+  const { navigationItems: customNavigationItems, className, ...rootAttrs } = props
+  const canReadImages = usePermission('images.read')
+  const navigationItems = customNavigationItems ?? [
+    ...DEFAULT_NAVIGATION_ITEMS,
+    ...(canReadImages ? [{ to: '/images', label: 'Изображения', icon: IconLibraryPhoto }] : [])
+  ]
   const currentUser = useGetCurrentUser()
   const userLogin = currentUser.data?.login ?? null
   const [isNavigationOpened, { toggle: toggleNavigation, close: closeNavigation }] = useDisclosure(false)

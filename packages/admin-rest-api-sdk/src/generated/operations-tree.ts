@@ -17,6 +17,14 @@ import { adminBrowserLogout } from "./operations/admin-browser-logout.js";
 import { adminChangeLogin } from "./operations/admin-change-login.js";
 import { adminIdentityBind } from "./operations/admin-identity-bind.js";
 import { adminIdentityUnbind } from "./operations/admin-identity-unbind.js";
+import { adminImageComplete } from "./operations/admin-image-complete.js";
+import { adminImageCreateUpload } from "./operations/admin-image-create-upload.js";
+import { adminImageFacets } from "./operations/admin-image-facets.js";
+import { adminImageGet } from "./operations/admin-image-get.js";
+import { adminImageList } from "./operations/admin-image-list.js";
+import { adminImageOriginal } from "./operations/admin-image-original.js";
+import { adminImageRetry } from "./operations/admin-image-retry.js";
+import { adminImageUpdate } from "./operations/admin-image-update.js";
 import { adminKeycloakComplete } from "./operations/admin-keycloak-complete.js";
 import { adminKeycloakSettingsGet } from "./operations/admin-keycloak-settings-get.js";
 import { adminKeycloakSettingsUpdate } from "./operations/admin-keycloak-settings-update.js";
@@ -45,6 +53,16 @@ export const operationsTree = {
     adminAccountPasswordSet: adminAccountPasswordSet,
     adminLocalPasswordDisable: adminLocalPasswordDisable,
     adminSessionsRevoke: adminSessionsRevoke,
+  },
+  images: {
+    adminImageList: adminImageList,
+    adminImageFacets: adminImageFacets,
+    adminImageCreateUpload: adminImageCreateUpload,
+    adminImageGet: adminImageGet,
+    adminImageUpdate: adminImageUpdate,
+    adminImageComplete: adminImageComplete,
+    adminImageRetry: adminImageRetry,
+    adminImageOriginal: adminImageOriginal,
   },
   auth: {
     adminBrowserLogin: adminBrowserLogin,

@@ -42,7 +42,15 @@
     },
     "@oim/nest-backend#dev": {
       "dependsOn": ["^build"],
-      "passThroughEnv": ["POSTGRES_*", "CLIENT_*", "ADMIN_*"],
+      "passThroughEnv": [
+        "POSTGRES_*",
+        "CLIENT_*",
+        "ADMIN_*",
+        "S3_*",
+        "RABBITMQ_*",
+        "IMGPROXY_*",
+        "IMAGE_*"
+      ],
       "cache": false,
       "persistent": true
     },

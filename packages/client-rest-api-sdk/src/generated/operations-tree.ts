@@ -9,10 +9,32 @@ import { changeClientUserPassword } from "./operations/change-client-user-passwo
 import { clientAuthRegister } from "./operations/client-auth-register.js";
 import { clientBrowserLogin } from "./operations/client-browser-login.js";
 import { clientBrowserLogout } from "./operations/client-browser-logout.js";
+import { clientImageComplete } from "./operations/client-image-complete.js";
+import { clientImageCreateUpload } from "./operations/client-image-create-upload.js";
+import { clientImageFacets } from "./operations/client-image-facets.js";
+import { clientImageGet } from "./operations/client-image-get.js";
+import { clientImageList } from "./operations/client-image-list.js";
+import { clientImageMedia } from "./operations/client-image-media.js";
+import { clientImageOriginal } from "./operations/client-image-original.js";
+import { clientImageRetry } from "./operations/client-image-retry.js";
+import { clientImageUpdate } from "./operations/client-image-update.js";
 import { getClientUserProfile } from "./operations/get-client-user-profile.js";
 import { updateClientUserProfile } from "./operations/update-client-user-profile.js";
 
 export const operationsTree = {
+  images: {
+    clientImageList: clientImageList,
+    clientImageFacets: clientImageFacets,
+    clientImageCreateUpload: clientImageCreateUpload,
+    clientImageGet: clientImageGet,
+    clientImageUpdate: clientImageUpdate,
+    clientImageComplete: clientImageComplete,
+    clientImageRetry: clientImageRetry,
+    clientImageOriginal: clientImageOriginal,
+  },
+  media: {
+    clientImageMedia: clientImageMedia,
+  },
   auth: {
     clientAuthRegister: clientAuthRegister,
     clientBrowserLogin: clientBrowserLogin,

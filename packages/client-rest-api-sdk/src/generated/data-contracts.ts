@@ -4,6 +4,137 @@
  * https://github.com/gromlab-ru/rest-api-codegen
  */
 
+export interface ImageUploaderDto {
+  /** @format uuid */
+  id: string;
+  realm: ImageUploaderDtoRealmEnum;
+  name: string;
+  login: string;
+}
+
+export interface ImageOriginalDto {
+  contentType: string;
+  byteSize: number;
+  /** Ширина исходника после EXIF orientation, известна в ready. */
+  width: number | null;
+  /** Высота исходника после EXIF orientation, известна в ready. */
+  height: number | null;
+}
+
+export interface ImageVariantDto {
+  /** @format uuid */
+  id: string;
+  width: number;
+  height: number;
+  /** @example "png" */
+  format: string;
+  /** @example "image/png" */
+  mimeType: string;
+  byteSize: number;
+  /** @format uri */
+  url: string;
+}
+
+export interface ImageErrorDto {
+  code: string;
+  message: string;
+}
+
+export interface ImageDto {
+  /** @format uuid */
+  id: string;
+  filename: string;
+  title: string;
+  folder: string | null;
+  tags: string[];
+  status: ImageDtoStatusEnum;
+  /** @format date-time */
+  createdAt: string;
+  /** @format date-time */
+  updatedAt: string;
+  uploadedBy: ImageUploaderDto;
+  original: ImageOriginalDto;
+  /** Однородный по пропорциям набор готовых вариантов, пуст до ready. Выбор по (width,format). Новая обработка сохраняет пропорции исходника; для старых записей без таких вариантов возвращается одна ранее опубликованная семья. */
+  variants: ImageVariantDto[];
+  error: ImageErrorDto | null;
+}
+
+export interface ImageListDto {
+  items: ImageDto[];
+  total: number;
+  page: number;
+  pageSize: number;
+}
+
+export interface ImageFacetDto {
+  name: string;
+  count: number;
+}
+
+export interface ImageFacetsDto {
+  folders: ImageFacetDto[];
+  tags: ImageFacetDto[];
+  total: number;
+  unfiledCount: number;
+}
+
+export interface CreateImageUploadDto {
+  /**
+   * @maxLength 255
+   * @example "cover.png"
+   */
+  filename: string;
+  contentType: CreateImageUploadDtoContentTypeEnum;
+  /**
+   * Точный размер файла; серверный лимит по умолчанию 20 МиБ.
+   * @min 1
+   */
+  byteSize: number;
+  /** @maxLength 255 */
+  title?: string;
+  /**
+   * @maxLength 255
+   * @example "Каталог/Обложки"
+   */
+  folder?: string | null;
+  /**
+   * До 20 тегов, каждый до 64 символов; trim, NFC, нижний регистр, dedup.
+   * @maxItems 20
+   */
+  tags?: string[];
+}
+
+export interface ImageUploadTargetDto {
+  /** @format uri */
+  url: string;
+  method: ImageUploadTargetDtoMethodEnum;
+  /** @example {"Content-Type":"image/png"} */
+  headers: Record<string, string>;
+  /** @format date-time */
+  expiresAt: string;
+}
+
+export interface ImageUploadDto {
+  image: ImageDto;
+  upload: ImageUploadTargetDto;
+}
+
+export interface UpdateImageDto {
+  /** @maxLength 255 */
+  title?: string;
+  /** @maxLength 255 */
+  folder?: string | null;
+  /** @maxItems 20 */
+  tags?: string[];
+}
+
+export interface ImageOriginalLinkDto {
+  /** @format uri */
+  url: string;
+  /** @format date-time */
+  expiresAt: string;
+}
+
 export interface RegisterClientUserDto {
   /**
    * Логин без учёта регистра; сохраняется в нижнем регистре.
@@ -128,6 +259,22 @@ export interface ApiErrorDto {
   message: string | string[];
 }
 
+export type ImageUploaderDtoRealmEnum = "admin" | "client";
+
+export type ImageDtoStatusEnum =
+  | "uploading"
+  | "queued"
+  | "processing"
+  | "ready"
+  | "failed";
+
+export type CreateImageUploadDtoContentTypeEnum =
+  | "image/jpeg"
+  | "image/png"
+  | "image/webp";
+
+export type ImageUploadTargetDtoMethodEnum = "PUT";
+
 export type AccessTokenDtoTokenTypeEnum = "Bearer";
 
 /**
@@ -135,6 +282,68 @@ export type AccessTokenDtoTokenTypeEnum = "Bearer";
  * @example 604800
  */
 export type AccessTokenDtoExpiresInEnum = 604800;
+
+export interface ClientImageListParams {
+  /**
+   * @min 1
+   * @default 1
+   */
+  page?: number;
+  /**
+   * @min 1
+   * @max 100
+   * @default 24
+   */
+  pageSize?: number;
+  /** @maxLength 255 */
+  search?: string;
+  /** @maxLength 255 */
+  folder?: string;
+  /** @maxLength 64 */
+  tag?: string;
+  status?: StatusEnum;
+  /** Только изображения без папки. */
+  unfiled?: boolean;
+}
+
+export type StatusEnum =
+  | "uploading"
+  | "queued"
+  | "processing"
+  | "ready"
+  | "failed";
+
+export type ClientImageListParams1StatusEnum =
+  | "uploading"
+  | "queued"
+  | "processing"
+  | "ready"
+  | "failed";
+
+export interface ClientImageGetParams {
+  id: string;
+}
+
+export interface ClientImageUpdateParams {
+  id: string;
+}
+
+export interface ClientImageCompleteParams {
+  id: string;
+}
+
+export interface ClientImageRetryParams {
+  id: string;
+}
+
+export interface ClientImageOriginalParams {
+  id: string;
+}
+
+export interface ClientImageMediaParams {
+  id: string;
+  variantId: string;
+}
 
 export type ClientBrowserLoginParamsXCsrfProtectionEnum = "1";
 

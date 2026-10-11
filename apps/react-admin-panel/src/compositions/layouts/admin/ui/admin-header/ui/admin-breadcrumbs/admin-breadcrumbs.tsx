@@ -14,6 +14,7 @@ import styles from './styles/admin-breadcrumbs.module.css'
  */
 export const AdminBreadcrumbs = (): JSX.Element => {
   const isProfile = useMatch('/profile') !== null
+  const isImages = useMatch('/images') !== null
   const isManagement = useMatch('/management') !== null
   const isUsers = useMatch('/management/users/*') !== null
   const isNewUser = useMatch('/management/users/new') !== null
@@ -25,10 +26,11 @@ export const AdminBreadcrumbs = (): JSX.Element => {
   const isManagementSection = isUsers || isRoles || isPermissions || isKeycloak
   const parentLabel = isManagementSection ? 'Панель управления' : 'Главная'
   const parentPath = isManagementSection ? '/management' : '/'
-  const hasParent = isProfile || isManagementSection
+  const hasParent = isProfile || isImages || isManagementSection
   let currentLabel = 'Главная'
   if (isManagement) currentLabel = 'Панель управления'
   if (isProfile) currentLabel = 'Мой профиль'
+  if (isImages) currentLabel = 'Изображения'
   if (isUsers) currentLabel = 'Команда'
   if (isUserDetails) currentLabel = 'Пользователь'
   if (isNewUser) currentLabel = 'Новый пользователь'

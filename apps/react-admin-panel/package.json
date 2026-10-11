@@ -22,6 +22,7 @@
     "@mantine/form": "^8.3.10",
     "@mantine/hooks": "^8.3.10",
     "@tabler/icons-react": "^3.36.0",
+    "@unpic/react": "1.0.2",
     "@oim/admin-rest-api-sdk": "workspace:*",
     "clsx": "^2.1.1",
     "dayjs": "1.11.23",

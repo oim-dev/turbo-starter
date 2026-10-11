@@ -7,6 +7,8 @@ import { AdminSessionStore } from './auth/admin-session.store';
 import { PrismaModule } from '../infrastructure/prisma/prisma.module';
 import { AdminAccessService } from '../modules/admin-access/admin-access.service';
 import { AdminAccessController } from './access/admin-access.controller';
+import { ImagesModule } from '../modules/images/images.module';
+import { AdminImagesController } from './images/admin-images.controller';
 
 export const adminApiConfig = loadApiConfig('admin');
 
@@ -19,8 +21,9 @@ export const adminApiConfig = loadApiConfig('admin');
     ),
     AdminAuthModule,
     PrismaModule,
+    ImagesModule,
   ],
-  controllers: [AdminAccessController],
+  controllers: [AdminAccessController, AdminImagesController],
   providers: [AdminAccessService],
 })
 export class AdminAppModule {}

@@ -3,6 +3,9 @@ import type { Prisma } from '../../generated/prisma/client';
 import type { AuthenticatedRequest } from '../../infrastructure/auth/authenticated-request';
 
 export const PERMISSIONS = [
+  { key: 'images.read', name: 'Просмотр изображений и оригиналов', system: false },
+  { key: 'images.upload', name: 'Загрузка и обработка изображений', system: false },
+  { key: 'images.update', name: 'Изменение папок, тегов и названий изображений', system: false },
   { key: 'account.read', name: 'Просмотр своего аккаунта', system: false },
   { key: 'account.update', name: 'Изменение своего профиля', system: false },
   { key: 'accounts.read', name: 'Просмотр пользователей админки', system: false },

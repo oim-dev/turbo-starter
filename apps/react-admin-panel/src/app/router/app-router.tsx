@@ -4,6 +4,7 @@ import { ManagementLayout } from 'compositions/layouts/management'
 import { AuthenticationBoundary } from 'compositions/route-boundaries/authentication'
 import { SessionBoundary } from 'compositions/route-boundaries/session'
 import { HomeScreen } from 'compositions/screens/home'
+import { ImagesScreen } from 'compositions/screens/images'
 import { ManagementScreen } from 'compositions/screens/management'
 import { ProfileScreen } from 'compositions/screens/profile'
 import { NotFoundScreen } from 'compositions/screens/not-found'
@@ -55,6 +56,10 @@ export const appRouter = createBrowserRouter([
               {
                 path: 'profile',
                 Component: ProfileScreen
+              },
+              {
+                element: <PermissionBoundary permission="images.read" />,
+                children: [{ path: 'images', Component: ImagesScreen }]
               }
             ]
           },
