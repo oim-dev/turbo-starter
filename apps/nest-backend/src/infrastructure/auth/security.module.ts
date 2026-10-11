@@ -6,7 +6,6 @@ import {
 } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
-import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { API_CONFIG, type ApiConfig } from '../config/api-config';
 import { PrismaModule } from '../prisma/prisma.module';
 import { AccessGuard } from './access.guard';
@@ -25,18 +24,13 @@ export class SecurityModule {
     return {
       module: SecurityModule,
       global: true,
-      imports: [
-        PrismaModule,
-        JwtModule.register({}),
-        ThrottlerModule.forRoot([{ ttl: 60000, limit: 1000 }]),
-      ],
+      imports: [PrismaModule, JwtModule.register({})],
       providers: [
         { provide: API_CONFIG, useValue: config },
         { provide: SessionStore, useClass: store },
         SessionService,
         SessionCleanupService,
         BrowserOriginGuard,
-        { provide: APP_GUARD, useClass: ThrottlerGuard },
         { provide: APP_GUARD, useClass: AccessGuard },
         ...(authorizationGuard
           ? [{ provide: APP_GUARD, useClass: authorizationGuard }]

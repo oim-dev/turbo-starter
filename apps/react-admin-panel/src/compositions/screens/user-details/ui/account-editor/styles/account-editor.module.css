@@ -1,0 +1,45 @@
+.root {
+  display: grid;
+  align-items: start;
+  gap: 24px;
+
+  @media (--md) {
+    grid-template-columns: minmax(0, 1fr) 340px;
+  }
+}
+
+.panel {
+  min-width: 0;
+  padding: var(--app-panel-padding);
+}
+
+.identifier {
+  padding-top: 20px;
+  border-top: 1px solid var(--mantine-color-default-border);
+}
+
+.code {
+  margin-top: 5px;
+  color: var(--mantine-color-dimmed);
+  font-family: var(--mantine-font-family-monospace);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.saveBar {
+  position: static;
+  z-index: 10;
+  bottom: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 24px;
+  margin-top: 24px;
+  box-shadow: var(--mantine-shadow-sm);
+
+  @media (--sm) {
+    position: sticky;
+  }
+}

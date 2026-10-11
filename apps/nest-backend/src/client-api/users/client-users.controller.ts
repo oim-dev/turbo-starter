@@ -18,10 +18,8 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiTags,
-  ApiTooManyRequestsResponse,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { Throttle } from '@nestjs/throttler';
 import type { AuthenticatedRequest } from '../../infrastructure/auth/authenticated-request';
 import { ClientUsersService } from '../../modules/client-users/client-users.service';
 import {
@@ -73,7 +71,6 @@ export class ClientUsersController {
 
   @Put('me/login')
   @HttpCode(HttpStatus.NO_CONTENT)
-  @Throttle({ default: { limit: 10, ttl: 60000 } })
   @ApiOperation({
     operationId: 'changeClientUserLogin',
     summary: 'Изменить логин текущего клиента',
@@ -87,7 +84,6 @@ export class ClientUsersController {
     description: 'Неверный текущий пароль, токен или неактивная сессия.',
   })
   @ApiConflictResponse({ description: 'Логин клиента уже занят.' })
-  @ApiTooManyRequestsResponse({ description: 'Слишком много запросов.' })
   async changeLogin(
     @Req() request: AuthenticatedRequest,
     @Body() dto: ChangeClientUserLoginDto,
@@ -97,7 +93,6 @@ export class ClientUsersController {
 
   @Put('me/password')
   @HttpCode(HttpStatus.NO_CONTENT)
-  @Throttle({ default: { limit: 10, ttl: 60000 } })
   @ApiOperation({
     operationId: 'changeClientUserPassword',
     summary: 'Изменить пароль текущего клиента',
@@ -112,7 +107,6 @@ export class ClientUsersController {
   @ApiUnauthorizedResponse({
     description: 'Неверный текущий пароль, токен или неактивная сессия.',
   })
-  @ApiTooManyRequestsResponse({ description: 'Слишком много запросов.' })
   async changePassword(
     @Req() request: AuthenticatedRequest,
     @Body() dto: ChangeClientUserPasswordDto,

@@ -20,10 +20,8 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiTags,
-  ApiTooManyRequestsResponse,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { Throttle } from '@nestjs/throttler';
 import type { Request, Response } from 'express';
 import { SessionTransport } from '../../generated/prisma/client';
 import { AccessTokenDto, LoginDto } from '../../infrastructure/auth/auth.dto';
@@ -45,11 +43,7 @@ import { AdminAuthService } from './admin-auth.service';
 import { AdminKeycloakService } from './admin-keycloak.service';
 
 @ApiTags('Auth')
-@ApiTooManyRequestsResponse({
-  description: 'Слишком много запросов аутентификации.',
-})
 @Controller('auth')
-@Throttle({ default: { limit: 10, ttl: 60000 } })
 export class AdminAuthController {
   constructor(
     private readonly auth: AdminAuthService,

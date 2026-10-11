@@ -15,7 +15,6 @@ COPY apps/react-admin-panel apps/react-admin-panel
 COPY packages/admin-rest-api-sdk packages/admin-rest-api-sdk
 COPY packages/typescript-config packages/typescript-config
 
-ENV PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false
 RUN pnpm --filter @oim/admin-rest-api-sdk run build \
     && pnpm --filter @oim/react-admin-panel run lint \
     && pnpm --filter @oim/react-admin-panel run check-types \

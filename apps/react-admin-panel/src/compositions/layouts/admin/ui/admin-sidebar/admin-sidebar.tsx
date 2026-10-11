@@ -1,9 +1,9 @@
 import { CloseButton, NavLink, ScrollArea, Tooltip, UnstyledButton } from '@mantine/core'
-import { IconHome, IconLayoutSidebarLeftCollapse, IconLayoutSidebarLeftExpand, IconUser, IconUsers, IconKey } from '@tabler/icons-react'
+import { IconLayoutSidebarLeftCollapse, IconLayoutSidebarLeftExpand } from '@tabler/icons-react'
 import cl from 'clsx'
 import type { JSX } from 'react'
-import { Link, NavLink as RouterNavLink, useMatch } from 'react-router-dom'
-import { usePermission } from 'domains/auth'
+import { Link, NavLink as RouterNavLink, useLocation } from 'react-router-dom'
+import { AppIcon } from 'infra/app-icons'
 import { isDefined } from 'shared/value-predicates'
 import type { AdminSidebarProps } from './types/admin-sidebar-props.type'
 import styles from './styles/admin-sidebar.module.css'
@@ -16,16 +16,10 @@ import styles from './styles/admin-sidebar.module.css'
  *  - обозначения текущего раздела в полной и компактной навигации
  */
 export const AdminSidebar = (props: AdminSidebarProps): JSX.Element => {
-  const { isCompact, onNavigate, onToggleCompact, onClose, className, ...rootAttrs } = props
-  const isHomeActive = useMatch({ path: '/', end: true }) !== null
-  const isProfileActive = useMatch('/profile') !== null
-  const isAccessActive = useMatch('/access') !== null
-  const isKeycloakActive = useMatch('/settings/keycloak') !== null
-  const canManageAccess = usePermission('system.access.manage')
-  const canManageKeycloak = usePermission('system.keycloak.manage')
+  const { navigationItems, isCompact, onNavigate, onToggleCompact, onClose, className, ...rootAttrs } = props
+  const { pathname } = useLocation()
   const hasCloseButton = isDefined(onClose)
   const canToggleCompact = isDefined(onToggleCompact)
-  const brandLabel = isCompact ? 'A' : 'Admin Panel'
   const compactLabel = isCompact ? 'Развернуть меню' : 'Свернуть меню'
   const CompactIcon = isCompact ? IconLayoutSidebarLeftExpand : IconLayoutSidebarLeftCollapse
   const compactClassName = { [styles._compact]: isCompact }
@@ -37,64 +31,68 @@ export const AdminSidebar = (props: AdminSidebarProps): JSX.Element => {
   return (
     <div {...rootAttrs} className={cl(styles.root, className)}>
       <div className={cl(styles.brandRow, compactClassName)}>
-        <Tooltip label="Панель администратора" position="right" disabled={!isCompact} events={{ hover: true, focus: true, touch: false }}>
+        <Tooltip
+          label="BIOCAD — панель администратора"
+          position="right"
+          disabled={!isCompact}
+          events={{ hover: true, focus: true, touch: false }}
+        >
           <Link
-            className={cl(styles.brand, compactClassName)}
+            className={styles.brand}
             to="/"
-            aria-label="Панель администратора — главная"
+            aria-label="BIOCAD — главная страница админки"
             onClick={onNavigate}
           >
-            {brandLabel}
+            <AppIcon
+              icon="biocad-logo"
+              width={124}
+              height={24}
+              className={cl(styles.brandLogo, compactClassName)}
+              aria-hidden="true"
+            />
           </Link>
         </Tooltip>
-        {hasCloseButton && (
-          <CloseButton onClick={onClose} aria-label="Закрыть меню" size="lg" data-autofocus />
-        )}
+        {hasCloseButton && <CloseButton onClick={onClose} aria-label="Закрыть меню" size="lg" data-autofocus />}
       </div>
       <ScrollArea className={styles.scrollArea} type="auto" offsetScrollbars>
         <nav className={styles.navigation} aria-label="Разделы админ-панели">
-          <Tooltip label="Главная" position="right" disabled={!isCompact} events={{ hover: true, focus: true, touch: false }}>
-            <NavLink
-              component={RouterNavLink}
-              className={cl(styles.navLink, compactClassName, { [styles._active]: isHomeActive })}
-              classNames={navClassNames}
-              end
-              to="/"
-              label="Главная"
-              aria-label="Главная"
-              leftSection={<IconHome size={21} stroke={1.7} aria-hidden="true" />}
-              active={isHomeActive}
-              onClick={onNavigate}
-            />
-          </Tooltip>
-          <Tooltip label="Профиль" position="right" disabled={!isCompact} events={{ hover: true, focus: true, touch: false }}>
-            <NavLink
-              component={RouterNavLink}
-              className={cl(styles.navLink, compactClassName, { [styles._active]: isProfileActive })}
-              classNames={navClassNames}
-              to="/profile"
-              label="Профиль"
-              aria-label="Профиль"
-              leftSection={<IconUser size={21} stroke={1.7} aria-hidden="true" />}
-              active={isProfileActive}
-              onClick={onNavigate}
-            />
-          </Tooltip>
-          {canManageAccess && (
-            <Tooltip label="Управление доступом" position="right" disabled={!isCompact} events={{ hover: true, focus: true, touch: false }}>
-              <NavLink component={RouterNavLink} className={cl(styles.navLink, compactClassName, { [styles._active]: isAccessActive })} classNames={navClassNames} to="/access" label="Управление доступом" aria-label="Управление доступом" leftSection={<IconUsers size={21} stroke={1.7} aria-hidden="true" />} active={isAccessActive} onClick={onNavigate} />
-            </Tooltip>
-          )}
-          {canManageKeycloak && (
-            <Tooltip label="Keycloak" position="right" disabled={!isCompact} events={{ hover: true, focus: true, touch: false }}>
-              <NavLink component={RouterNavLink} className={cl(styles.navLink, compactClassName, { [styles._active]: isKeycloakActive })} classNames={navClassNames} to="/settings/keycloak" label="Keycloak" aria-label="Keycloak" leftSection={<IconKey size={21} stroke={1.7} aria-hidden="true" />} active={isKeycloakActive} onClick={onNavigate} />
-            </Tooltip>
-          )}
+          {navigationItems.map((entry) => {
+            const isExactMatch = pathname === entry.to
+            const isActive = entry.end === true ? isExactMatch : isExactMatch || pathname.startsWith(`${entry.to}/`)
+            const EntryIcon = entry.icon
+            return (
+              <Tooltip
+                key={entry.to}
+                label={entry.label}
+                position="right"
+                disabled={!isCompact}
+                events={{ hover: true, focus: true, touch: false }}
+              >
+                <NavLink
+                  component={RouterNavLink}
+                  className={cl(styles.navLink, compactClassName, { [styles._active]: isActive })}
+                  classNames={navClassNames}
+                  to={entry.to}
+                  end={entry.end}
+                  label={entry.label}
+                  aria-label={entry.label}
+                  leftSection={<EntryIcon size={20} stroke={1.7} aria-hidden="true" />}
+                  active={isActive}
+                  onClick={onNavigate}
+                />
+              </Tooltip>
+            )
+          })}
         </nav>
       </ScrollArea>
       {canToggleCompact && (
         <div className={styles.footer}>
-          <Tooltip label={compactLabel} position="right" disabled={!isCompact} events={{ hover: true, focus: true, touch: false }}>
+          <Tooltip
+            label={compactLabel}
+            position="right"
+            disabled={!isCompact}
+            events={{ hover: true, focus: true, touch: false }}
+          >
             <UnstyledButton
               className={cl(styles.compactButton, compactClassName)}
               onClick={onToggleCompact}

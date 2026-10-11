@@ -3,30 +3,22 @@ import type { CurrentUser } from 'domains/auth'
 /**
  * Подтверждённый профиль для формы собственного аккаунта.
  */
-export type ProfileSettingsProps = {
+export type ProfileSettingsParams = {
   /**
    * Профиль и доступные действия.
    */
   profile: CurrentUser
 }
 /**
- * Ввод выбранного действия над собственным аккаунтом.
+ * Свойства настроек личного аккаунта.
+ */
+export type ProfileSettingsProps = ProfileSettingsParams
+/**
+ * Данные формы личного имени.
  */
 export type ProfileSettingsValues = {
   /**
    * Имя пользователя.
    */
   name: string
-  /**
-   * Новый логин.
-   */
-  login: string
-  /**
-   * Подтверждение текущим паролем.
-   */
-  currentPassword: string
-  /**
-   * Новый пароль.
-   */
-  newPassword: string
 }

@@ -2,10 +2,7 @@
   "$schema": "https://turborepo.dev/schema.json",
   "ui": "tui",
   "globalEnv": ["NODE_ENV"],
-  "globalPassThroughEnv": [
-    "PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN",
-    "DOTENV_CONFIG_PATH"
-  ],
+  "globalPassThroughEnv": ["DOTENV_CONFIG_PATH"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],

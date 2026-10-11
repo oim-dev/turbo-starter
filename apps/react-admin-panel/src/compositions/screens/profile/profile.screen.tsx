@@ -1,11 +1,11 @@
-import { Alert, Badge, Button, Loader, Paper, Stack, Text, Title } from '@mantine/core'
+import { Avatar, Badge, Group, Paper, Text } from '@mantine/core'
 import cl from 'clsx'
 import type { JSX } from 'react'
 import { isAuthError, useGetCurrentUser } from 'domains/auth'
 import { reportApplicationDefect, toApplicationDefect } from 'shared/errors'
 import { isDefined } from 'shared/value-predicates'
-import { formatProfileTimestamp } from './helpers/format-profile-timestamp'
-import { getProfileErrorMessage } from './helpers/get-profile-error-message'
+import { PageHeading } from 'ui/page-heading'
+import { QueryState } from 'ui/query-state'
 import type { ProfileScreenProps } from './types/profile-screen-props.type'
 import styles from './styles/profile.module.css'
 import { ProfileSettings } from './ui/profile-settings/profile-settings'
@@ -38,73 +38,50 @@ export const ProfileScreen = (props: ProfileScreenProps): JSX.Element => {
     }
   }
 
-  if (isPending) {
-    return (
-      <section {...rootAttrs} className={rootClassName} aria-busy="true">
-        <Stack gap="lg">
-          <Title order={1}>Профиль</Title>
-          <Loader aria-hidden="true" />
-          <Text role="status" c="dimmed">Загружаем профиль администратора…</Text>
-        </Stack>
-      </section>
-    )
-  }
-
-  if (isDefined(profileError) || !isDefined(profileData)) {
-    const errorMessage = getProfileErrorMessage(profileError)
-
+  if (isPending || isDefined(profileError) || !isDefined(profileData)) {
     return (
       <section {...rootAttrs} className={rootClassName}>
-        <Stack gap="lg">
-          <Title order={1}>Профиль</Title>
-          <Alert color="red" title="Не удалось загрузить профиль">{errorMessage}</Alert>
-          <Button onClick={handleRetry} loading={currentUser.isValidating} disabled={currentUser.isValidating}>
-            Повторить загрузку
-          </Button>
-        </Stack>
+        <PageHeading
+          eyebrow="Личный аккаунт"
+          title="Мой профиль"
+          description="Ваши данные, безопасность и доступ к рабочему пространству."
+        />
+        <QueryState isLoading={isPending} title="Не удалось загрузить профиль" onRetry={handleRetry} />
       </section>
     )
   }
 
-  const roleLabel = profileData.roleName
-  const activityLabel = profileData.isActive ? 'Активна' : 'Неактивна'
-  const activityColor = profileData.isActive ? 'green' : 'gray'
-  const createdAtLabel = formatProfileTimestamp(profileData.createdAt)
-  const updatedAtLabel = formatProfileTimestamp(profileData.updatedAt)
+  const displayName = profileData.name.trim() || profileData.login
+  const activityLabel = profileData.isActive ? 'Аккаунт активен' : 'Аккаунт отключён'
+  const activityColor = profileData.isActive ? 'teal' : 'gray'
 
   return (
     <section {...rootAttrs} className={rootClassName}>
-      <Stack gap="xl">
-        <Stack gap="xs">
-          <Title order={1}>Профиль</Title>
-          <Text c="dimmed">Сведения и настройки вашей учётной записи.</Text>
-        </Stack>
-        <Paper p="xl" radius="md" withBorder>
-          <dl className={styles.details}>
-            <dt className={styles.label}>Логин</dt>
-            <dd className={styles.value}>{profileData.login}</dd>
-            <dt className={styles.label}>Имя</dt>
-            <dd className={styles.value}>{profileData.name}</dd>
-            <dt className={styles.label}>Роль</dt>
-            <dd className={styles.value}>{roleLabel}</dd>
-            <dt className={styles.label}>Учётная запись</dt>
-            <dd className={styles.value}><Badge color={activityColor} variant="light">{activityLabel}</Badge></dd>
-            <dt className={styles.label}>Идентификатор</dt>
-            <dd className={styles.value}>{profileData.id}</dd>
-            <dt className={styles.label}>Создана</dt>
-            <dd className={styles.value}><time dateTime={profileData.createdAt}>{createdAtLabel}</time></dd>
-            <dt className={styles.label}>Обновлена</dt>
-            <dd className={styles.value}><time dateTime={profileData.updatedAt}>{updatedAtLabel}</time></dd>
-          </dl>
-        </Paper>
-        {!profileData.hasLocalPassword && (
-          <Alert color="blue" title="Вход через Keycloak">
-            У этой учётной записи нет локального пароля. Пароль управляется в корпоративной системе входа;
-            сменить его в панели нельзя.
-          </Alert>
-        )}
-        <ProfileSettings profile={profileData} />
-      </Stack>
+      <PageHeading
+        eyebrow="Личный аккаунт"
+        title="Мой профиль"
+        description="Ваши данные, безопасность и доступ к рабочему пространству."
+      />
+      <Paper withBorder className={styles.identity}>
+        <Group gap="lg" wrap="nowrap">
+          <Avatar size={64} radius={20} name={displayName} color="brand" />
+          <div className={styles.identityCopy}>
+            <Text className={styles.name}>{displayName}</Text>
+            <Text c="dimmed" size="sm" className={styles.login}>
+              @{profileData.login}
+            </Text>
+          </div>
+        </Group>
+        <Group gap="sm">
+          <Badge color="gray" size="lg">
+            {profileData.roleName}
+          </Badge>
+          <Badge color={activityColor} variant="dot" size="lg">
+            {activityLabel}
+          </Badge>
+        </Group>
+      </Paper>
+      <ProfileSettings key={profileData.id} profile={profileData} />
     </section>
   )
 }

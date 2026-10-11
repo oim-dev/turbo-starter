@@ -9,10 +9,10 @@ React 19, TypeScript и Mantine 8. Архитектура и блокирующ�
 После подготовки зависимостей workspace команды выполняются из корня репозитория:
 
 ```sh
-PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false pnpm run web:dev
+pnpm run web:dev
 ```
 
-Откройте <http://localhost:3005>. Единственная прикладная страница `/` рендерится на сервере
+Откройте <http://localhost:3000>. Единственная прикладная страница `/` рендерится на сервере
 и **не вызывает API**. Для её работы не нужны запущенный backend, база данных или файловое хранилище.
 Неизвестные адреса показывают нейтральный экран 404 с возвратом на главную.
 
@@ -21,21 +21,19 @@ PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false pnpm run web:dev
 SDK собирается из уже сгенерированных исходников: запуск backend и повторная генерация OpenAPI
 для обычной работы сайта не требуются. При прямом запуске команды пакета в обход Turborepo
 SDK нужно предварительно собрать через
-`PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false pnpm --filter @oim/client-rest-api-sdk run build`.
+`pnpm --filter @oim/client-rest-api-sdk run build`.
 
 ## Проверки и production
 
 ```sh
-PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false pnpm run web:lint
-PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false pnpm run web:check-types
-PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false pnpm run web:build
-PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false pnpm run web:start
+pnpm run web:lint
+pnpm run web:check-types
+pnpm run web:build
+pnpm run web:start
 ```
 
 `typecheck` оставлен как alias для `check-types`. Next.js 16 не запускает ESLint внутри `build`.
-Все команды используют порт 3005 там, где требуется HTTP-сервер. Не запускайте dev и start на одном порту одновременно.
-Проверки не должны автоматически менять зависимости и lockfile, поэтому указан
-`PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false`.
+Все команды используют порт 3000 там, где требуется HTTP-сервер. Не запускайте dev и start на одном порту одновременно.
 
 Для локальных `build/start` используется обычный output Next.js. [Dockerfile](Dockerfile)
 включает `output: 'standalone'` через `NEXT_STANDALONE=1`, собирает SDK и приложение,
@@ -48,15 +46,15 @@ Docker-сборка выполняется с контекстом корня р
 Для обычной локальной сборки в отдельный каталог используйте одинаковое значение при build и start:
 
 ```sh
-PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false NEXT_DIST_DIR=build/preview pnpm run web:build
-PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false NEXT_DIST_DIR=build/preview pnpm run web:start
+NEXT_DIST_DIR=build/preview pnpm run web:build
+NEXT_DIST_DIR=build/preview pnpm run web:start
 ```
 
 `NEXT_STANDALONE` и `NEXT_DIST_DIR` учитываются в environment hash задачи Turbo `build`.
 Результаты под `.next/` и `build/` покрыты настроенными `outputs`. Для другого кастомного `distDir`
 сначала согласуйте покрытие `outputs` с владельцем корневой конфигурации либо запускайте
 `pnpm --filter @oim/next-web-app run build` напрямую, без кеширования Turborepo,
-с `PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false` и предварительно собранным SDK.
+с предварительно собранным SDK.
 
 `NEXT_STANDALONE=1` меняет формат результата: такой сервер запускается через сгенерированный `server.js`,
 как в Dockerfile, а не через `web:start`. При смене `distDir` проверяйте изменения `tsconfig.json`,
@@ -115,7 +113,7 @@ Next.js читает env из корня приложения с приорит�
 `.env.[NODE_ENV].local`, `.env.local`, `.env.[NODE_ENV]`, `.env`.
 В режиме test `.env.local` пропускается; режим Next.js выбирает сам.
 
-- `NEXT_PUBLIC_CLIENT_API_URL` — адрес браузерного API; по умолчанию `http://localhost:3001`, фиксируется при build;
+- `NEXT_PUBLIC_CLIENT_API_URL` — адрес браузерного API; по умолчанию `http://localhost:4000`, фиксируется при build;
 - `CLIENT_API_INTERNAL_URL` — отдельный серверный адрес для будущих публичных операций без credentials;
 - `NEXT_STANDALONE` — `0` для локального запуска, `1` для standalone-сборки;
 - `NEXT_DIST_DIR` — каталог сборки, по умолчанию `.next`.

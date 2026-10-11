@@ -59,7 +59,7 @@ export function safeAdminReturnTo(value: unknown = '/'): string {
   }
   // Проверяем нормализованный path, включая encoded имена и регистр. Query/hash
   // не должны обходить запрет возврата на API или создавать цикл входа.
-  if (/^\/(?:api|auth\/keycloak|sign-in)(?:\/|$)/i.test(url.pathname)) {
+  if (/^\/(?:api|auth\/(?:callback|keycloak)|sign-in)(?:\/|$)/i.test(url.pathname)) {
     throw new Error('Invalid return path');
   }
 
@@ -81,7 +81,7 @@ export function safeAdminReturnTo(value: unknown = '/'): string {
 }
 
 export type KeycloakErrorCode =
-  'keycloak_unavailable' | 'keycloak_denied' | 'keycloak_invalid';
+  'keycloak_unavailable' | 'keycloak_denied' | 'keycloak_invalid' | 'keycloak_inactive';
 
 export class AdminOidcError extends Error {
   constructor(readonly code: KeycloakErrorCode) {

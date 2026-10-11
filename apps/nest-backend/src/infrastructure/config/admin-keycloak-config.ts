@@ -43,8 +43,11 @@ export function validateAdminKeycloakConfig(
     config.frontendCallbackUrl,
     'frontendCallbackUrl',
   );
+  const hasBackendCallbackPath =
+    callback.pathname.endsWith('/auth/callback') ||
+    callback.pathname.endsWith('/auth/keycloak/callback');
   if (
-    !callback.pathname.endsWith('/auth/keycloak/callback') ||
+    !hasBackendCallbackPath ||
     frontend.pathname !== '/auth/keycloak/callback' ||
     callback.href === frontend.href ||
     callback.origin !== frontend.origin

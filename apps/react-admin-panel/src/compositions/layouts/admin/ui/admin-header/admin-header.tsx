@@ -15,7 +15,8 @@ import styles from './styles/admin-header.module.css'
  *  - открытия и закрытия мобильного сайдбара
  */
 export const AdminHeader = (props: AdminHeaderProps): JSX.Element => {
-  const { userLogin, isNavigationOpened, onToggleNavigation, onLogout, className, ...rootAttrs } = props
+  const { userLogin, userName, roleName, isNavigationOpened, onToggleNavigation, onLogout, className, ...rootAttrs } =
+    props
   const navigationLabel = isNavigationOpened ? 'Закрыть меню' : 'Открыть меню'
 
   return (
@@ -35,7 +36,7 @@ export const AdminHeader = (props: AdminHeaderProps): JSX.Element => {
       <Group gap="sm" wrap="nowrap" className={styles.actions}>
         <ThemeSwitcher />
         <div className={styles.divider} aria-hidden="true" />
-        <AccountMenu userLogin={userLogin} onLogout={onLogout} />
+        <AccountMenu userLogin={userLogin} userName={userName} roleName={roleName} onLogout={onLogout} />
       </Group>
     </Group>
   )

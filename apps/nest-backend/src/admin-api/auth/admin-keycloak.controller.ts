@@ -17,10 +17,8 @@ import {
   ApiOperation,
   ApiProperty,
   ApiTags,
-  ApiTooManyRequestsResponse,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { Throttle } from '@nestjs/throttler';
 import type { Request, Response } from 'express';
 import { AccessTokenDto } from '../../infrastructure/auth/auth.dto';
 import { AdminOidcCookies } from '../../infrastructure/auth/admin-oidc/admin-oidc-cookies';
@@ -40,7 +38,6 @@ export class AdminAuthProvidersDto {
 
 @ApiTags('Auth')
 @Controller('auth')
-@Throttle({ default: { limit: 20, ttl: 60000 } })
 export class AdminKeycloakController {
   constructor(
     private readonly keycloak: AdminKeycloakService,
@@ -75,7 +72,7 @@ export class AdminKeycloakController {
     );
   }
 
-  @Get('keycloak/callback')
+  @Get(['callback', 'keycloak/callback'])
   @Public()
   @ApiExcludeEndpoint()
   async callback(
@@ -110,7 +107,6 @@ export class AdminKeycloakController {
     description: 'Обязательны корректный HTTP(S) Origin и X-CSRF-Protection: 1.',
   })
   @ApiNotFoundResponse({ description: 'Keycloak отключён.' })
-  @ApiTooManyRequestsResponse({ description: 'Слишком много запросов.' })
   async complete(
     @Req() request: Request,
     @Res({ passthrough: true }) response: Response,

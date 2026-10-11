@@ -27,8 +27,14 @@ export const KeycloakCallbackScreen = () => {
   const hasSuccess = parameters.getAll('result').length === 1 && parameters.get('result') === 'success' &&
     !parameters.has('error')
   const returnTo = getSafeReturnTo(parameters.get('returnTo'))
-  const callbackError = hasSuccess ? null : getSignInErrorMessage(mapKeycloakCallbackError(parameters.get('error')))
+  const callbackOutcome = hasSuccess ? null : mapKeycloakCallbackError(parameters.get('error'))
+  const isAccessDenied = callbackOutcome?.code === 'KEYCLOAK_INACTIVE'
+  const callbackError = isDefined(callbackOutcome) ? getSignInErrorMessage(callbackOutcome) : null
   const errorMessage = callbackError ?? completionError
+  const heading = isAccessDenied ? 'Вход в панель не разрешён' : 'Вход не завершён'
+  const messageTitle = isAccessDenied ? 'Доступ к учётной записи закрыт' : 'Не удалось войти через Keycloak'
+  const messageColor = isAccessDenied ? 'blue' : 'red'
+  const returnLabel = isAccessDenied ? 'Вернуться к входу' : 'Начать вход заново'
 
   useEffect(() => {
     if (!hasSuccess) {
@@ -60,8 +66,8 @@ export const KeycloakCallbackScreen = () => {
       <main className={styles.root}>
         <Card className={styles.card} padding="xl" radius="md" withBorder>
           <Stack gap="lg">
-            <Title order={1} size="h2">Вход не завершён</Title>
-            <Alert color="red" title="Не удалось войти через Keycloak" role="alert">{errorMessage}</Alert>
+            <Title order={1} size="h2">{heading}</Title>
+            <Alert color={messageColor} title={messageTitle} role="alert">{errorMessage}</Alert>
             <Button
               aria-label="Вернуться к способам входа"
               component={Link}
@@ -70,7 +76,7 @@ export const KeycloakCallbackScreen = () => {
               to="/sign-in"
               fullWidth
             >
-              Начать вход заново
+              {returnLabel}
             </Button>
           </Stack>
         </Card>

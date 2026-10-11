@@ -196,13 +196,12 @@ SSR сохраняется **только для данных, не завися
 Команды проверок из корня репозитория:
 
 ```sh
-PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false pnpm run web:lint
-PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false pnpm run web:check-types
-PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false pnpm run web:build
+pnpm run web:lint
+pnpm run web:check-types
+pnpm run web:build
 ```
 
 Корневые команды используют Turborepo и предварительную сборку SDK через `dependsOn: ["^build"]`.
-Используй `PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false` для `pnpm run/exec`, чтобы проверки
-не запускали автоматическое обновление зависимостей. Установку и lockfile согласовывай отдельно.
+Установку зависимостей и lockfile согласовывай отдельно.
 Стандартный ESLint Next.js не валидирует Unit Architecture; архитектурный граф проверяется отдельно.
 Изменения SSR и клиентских границ дополнительно проверяются на production HTML, RSC и гидратации.

@@ -1,11 +1,12 @@
-import { createTheme, DEFAULT_THEME } from '@mantine/core'
+import { Badge, Button, createTheme, Input, Modal, Paper, Tabs } from '@mantine/core'
+import styles from '../styles/components.module.css'
 
 /**
- * Нейтральная административная тема с системным шрифтом и синим акцентом Mantine.
+ * Общая визуальная система административного рабочего пространства.
  */
 export const THEME = createTheme({
   primaryColor: 'brand',
-  primaryShade: 7,
+  primaryShade: { light: 6, dark: 5 },
   autoContrast: true,
   defaultRadius: 'md',
   fontFamily: 'system-ui, sans-serif',
@@ -26,30 +27,38 @@ export const THEME = createTheme({
     }
   },
   colors: {
-    brand: DEFAULT_THEME.colors.blue,
-    gray: [
-      '#f8f8f8',
-      '#f1f1f1',
-      '#e6e6e6',
-      '#d5d5d5',
-      '#b8b8b8',
-      '#969696',
-      '#707070',
-      '#555555',
-      '#383838',
-      '#242424'
+    brand: [
+      '#edf3ff',
+      '#dbe7ff',
+      '#bbd0ff',
+      '#91b2ff',
+      '#638dff',
+      '#4270f5',
+      '#315ce0',
+      '#244bc5',
+      '#203fa0',
+      '#203880'
     ],
-    dark: [
-      '#ededed',
-      '#c7c7c7',
-      '#a8a8a8',
-      '#7b7b7b',
-      '#535353',
-      '#3a3a3a',
-      '#2b2b2b',
-      '#222222',
-      '#181818',
-      '#111111'
-    ]
+    gray: [
+      '#f7f8fa',
+      '#f0f2f5',
+      '#e5e8ee',
+      '#d2d8e2',
+      '#a9b3c3',
+      '#7e8a9e',
+      '#5f6c80',
+      '#445166',
+      '#283549',
+      '#182336'
+    ],
+    dark: ['#e3e9f2', '#c7d0df', '#a0adc0', '#76869e', '#46536a', '#303d52', '#222e41', '#192436', '#121c2d', '#0e1624']
+  },
+  components: {
+    Button: Button.extend({ defaultProps: { radius: 'md' }, classNames: { root: styles.button } }),
+    Paper: Paper.extend({ defaultProps: { radius: 'lg' } }),
+    Input: Input.extend({ classNames: { input: styles.input } }),
+    Badge: Badge.extend({ defaultProps: { tt: 'none', fw: 600, radius: 'sm', variant: 'light' } }),
+    Modal: Modal.extend({ defaultProps: { centered: true, radius: 'lg', overlayProps: { blur: 3 } } }),
+    Tabs: Tabs.extend({ classNames: { tab: styles.tab, list: styles.tabList } })
   }
 })

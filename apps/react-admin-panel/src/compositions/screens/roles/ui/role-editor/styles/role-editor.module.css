@@ -1,0 +1,57 @@
+.root {
+  display: grid;
+  gap: 24px;
+  align-items: start;
+
+  @media (--md) {
+    grid-template-columns: minmax(0, 1fr) 280px;
+  }
+}
+
+.panel {
+  padding: var(--app-panel-padding);
+  min-width: 0;
+}
+
+.permissionPanel {
+  overflow: hidden;
+}
+
+.permissionHeader {
+  padding: 24px;
+}
+
+.groupHeading {
+  padding: 16px 24px;
+  background: var(--app-color-subtle);
+  border-block: 1px solid var(--mantine-color-default-border);
+}
+
+.permission {
+  padding: 20px 24px;
+
+  & + & {
+    border-top: 1px solid var(--mantine-color-default-border);
+  }
+}
+
+.code {
+  color: var(--mantine-color-dimmed);
+  font-family: var(--mantine-font-family-monospace);
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+
+.saveBar {
+  position: sticky;
+  z-index: 10;
+  bottom: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  margin-top: 24px;
+  box-shadow: var(--mantine-shadow-sm);
+}

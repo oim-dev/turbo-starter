@@ -1,0 +1,18 @@
+.button {
+  min-height: 38px;
+  font-weight: 600;
+}
+
+.input {
+  min-height: 42px;
+  background: var(--mantine-color-body);
+}
+
+.tab {
+  padding: 15px 4px;
+  font-weight: 600;
+}
+
+.tabList {
+  gap: 24px;
+}

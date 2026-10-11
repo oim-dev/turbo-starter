@@ -5,6 +5,8 @@ import type { AuthenticatedRequest } from '../../infrastructure/auth/authenticat
 export const PERMISSIONS = [
   { key: 'account.read', name: 'Просмотр своего аккаунта', system: false },
   { key: 'account.update', name: 'Изменение своего профиля', system: false },
+  { key: 'accounts.read', name: 'Просмотр пользователей админки', system: false },
+  { key: 'accounts.activate', name: 'Разрешение входа пользователям', system: false },
   { key: 'account.login.change', name: 'Смена своего логина', system: false },
   {
     key: 'account.password.change',

@@ -1,5 +1,7 @@
 import { AppShell, Drawer, useMantineTheme } from '@mantine/core'
 import { useDisclosure, useLocalStorage, useMediaQuery, useReducedMotion } from '@mantine/hooks'
+import { IconHome } from '@tabler/icons-react'
+import cl from 'clsx'
 import { useEffect } from 'react'
 import type { JSX } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
@@ -7,7 +9,16 @@ import { isAuthError, logout, useGetCurrentUser } from 'domains/auth'
 import { reportApplicationDefect, toApplicationDefect } from 'shared/errors'
 import { AdminHeader } from 'compositions/layouts/admin/ui/admin-header'
 import { AdminSidebar } from 'compositions/layouts/admin/ui/admin-sidebar'
+import type { AdminNavigationItem } from 'compositions/layouts/admin/ui/admin-sidebar'
+import type { AdminLayoutProps } from './types/admin-layout-props.type'
 import styles from './styles/admin.module.css'
+
+/**
+ * Навигация обычного рабочего пространства по реализованным разделам продукта.
+ */
+const DEFAULT_NAVIGATION_ITEMS: readonly AdminNavigationItem[] = [
+  { to: '/', label: 'Главная', icon: IconHome, end: true }
+]
 
 /**
  * Показывает постоянный каркас приватной панели администратора.
@@ -16,7 +27,8 @@ import styles from './styles/admin.module.css'
  *  - размещения сайдбара, шапки пользователя и тела текущего экрана
  *  - управления мобильной навигацией и завершением сеанса
  */
-export const AdminLayout = (): JSX.Element => {
+export const AdminLayout = (props: AdminLayoutProps): JSX.Element => {
+  const { navigationItems = DEFAULT_NAVIGATION_ITEMS, className, ...rootAttrs } = props
   const currentUser = useGetCurrentUser()
   const userLogin = currentUser.data?.login ?? null
   const [isNavigationOpened, { toggle: toggleNavigation, close: closeNavigation }] = useDisclosure(false)
@@ -62,7 +74,8 @@ export const AdminLayout = (): JSX.Element => {
 
   return (
     <AppShell
-      className={styles.root}
+      {...rootAttrs}
+      className={cl(styles.root, className)}
       layout="alt"
       header={{ height: 64 }}
       navbar={{ width: sidebarWidth, breakpoint: 'sm', collapsed: { mobile: true } }}
@@ -76,6 +89,8 @@ export const AdminLayout = (): JSX.Element => {
       <AppShell.Header className={styles.header} inert={isMobileNavigationOpened}>
         <AdminHeader
           userLogin={userLogin}
+          userName={currentUser.data?.name ?? ''}
+          roleName={currentUser.data?.roleName ?? ''}
           isNavigationOpened={isMobileNavigationOpened}
           onToggleNavigation={toggleNavigation}
           onLogout={handleLogout}
@@ -84,6 +99,7 @@ export const AdminLayout = (): JSX.Element => {
 
       <AppShell.Navbar className={styles.navbar} visibleFrom="sm" inert={!isDesktop}>
         <AdminSidebar
+          navigationItems={navigationItems}
           isCompact={isSidebarCompact}
           onNavigate={closeNavigation}
           onToggleCompact={handleToggleSidebar}
@@ -106,7 +122,12 @@ export const AdminLayout = (): JSX.Element => {
         <Drawer.Overlay backgroundOpacity={0.4} blur={2} />
         <Drawer.Content id="admin-navigation" aria-label="Разделы админ-панели">
           <Drawer.Body className={styles.drawerBody}>
-            <AdminSidebar isCompact={false} onNavigate={closeNavigation} onClose={closeNavigation} />
+            <AdminSidebar
+              navigationItems={navigationItems}
+              isCompact={false}
+              onNavigate={closeNavigation}
+              onClose={closeNavigation}
+            />
           </Drawer.Body>
         </Drawer.Content>
       </Drawer.Root>

@@ -32,6 +32,8 @@ import {
   UpdateAdminAccountDto,
   UpdateAdminRoleDto,
   BindAdminIdentityDto,
+  SetAdminAccountPasswordDto,
+  ActivateAdminAccountDto,
 } from '../../modules/admin-access/admin-access.dto';
 
 @Controller('access')
@@ -97,6 +99,7 @@ export class AdminAccessController {
   }
 
   @Get('users')
+  @AdminPermissions('accounts.read')
   @ApiOperation({
     operationId: 'adminAccountsList',
     summary: 'Список аккаунтов админки',
@@ -122,7 +125,7 @@ export class AdminAccessController {
   @Patch('users/:id')
   @ApiOperation({
     operationId: 'adminAccountUpdate',
-    summary: 'Изменить роль или активность аккаунта',
+    summary: 'Изменить профиль, роль или активность аккаунта и отозвать сессии',
   })
   @ApiOkResponse({ type: AdminAccountDto })
   updateAccount(
@@ -148,6 +151,22 @@ export class AdminAccessController {
     return this.access.bindIdentity(request.user, id, dto);
   }
 
+  @Post('users/:id/activate')
+  @HttpCode(200)
+  @AdminPermissions('accounts.activate')
+  @ApiOperation({
+    operationId: 'adminAccountActivate',
+    summary: 'Разрешить вход существующему пользователю без изменения его роли',
+  })
+  @ApiOkResponse({ type: AdminAccountDto })
+  activateAccount(
+    @Req() request: AuthenticatedRequest,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: ActivateAdminAccountDto,
+  ): Promise<AdminAccountDto> {
+    return this.access.activateAccount(request.user, id, dto);
+  }
+
   @Delete('users/:id/identities/:identityId')
   @HttpCode(204)
   @ApiOperation({
@@ -161,6 +180,21 @@ export class AdminAccessController {
     @Param('identityId', ParseUUIDPipe) identityId: string,
   ): Promise<void> {
     return this.access.unbindIdentity(request.user, id, identityId);
+  }
+
+  @Put('users/:id/password')
+  @HttpCode(204)
+  @ApiOperation({
+    operationId: 'adminAccountPasswordSet',
+    summary: 'Задать локальный пароль аккаунта и отозвать прежние сессии',
+  })
+  @ApiNoContentResponse()
+  setPassword(
+    @Req() request: AuthenticatedRequest,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: SetAdminAccountPasswordDto,
+  ): Promise<void> {
+    return this.access.setLocalPassword(request.user, id, dto);
   }
 
   @Delete('users/:id/local-password')

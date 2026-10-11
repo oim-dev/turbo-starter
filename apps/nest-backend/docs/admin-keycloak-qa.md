@@ -16,23 +16,27 @@ API/интерфейс, а не ADMIN_KEYCLOAK_* env. Исторические �
 Автоматические тесты и тестовая инфраструктура в репозиторий не добавлены.
 
 В отдельной базе применить миграции и запустить Admin API для создания владельца.
-Через интерфейс создать SSO-only USER и привязать проверенный `(issuer, sub)` второго
-пользователя к local admin. Не подставлять email/username вместо `sub`.
+Для первого пользователя Keycloak оставить БД без привязки: вход должен создать
+SSO-only USER с `isActive: false`, без completion/сессии. Для проверки успешного входа
+администратор разрешает вход и пользователь начинает новый flow.
+Для сценария существующего аккаунта вручную привязать проверенный
+`(issuer, sub)` второго пользователя к local admin. Не подставлять email/username вместо `sub`.
 
 ## Обязательные ручные сценарии
 
 1. Настройки в БД имеют `enabled: false`: providers `{local:true,keycloak:false}`, no-store,
-   local login/me/refresh/logout работают, Keycloak endpoints — 404.
+   local login/me/logout работают, Keycloak endpoints — 404.
 2. Ранее включённая конфигурация, затем недоступный issuer: API стартует, providers true,
    вход KC возвращает безопасный `keycloak_unavailable`, local login работает.
-3. Login navigation создаёт PKCE S256/state/nonce; callback даёт только временные
-   cookies и `result=success`. Существующий admin refresh до complete не изменён.
-4. Complete без тела под origin/CSRF: прежний AccessTokenDto, новый HttpOnly refresh,
+3. Login navigation создаёт PKCE S256/state/nonce; для активного аккаунта callback даёт только временные
+   cookies и `result=success`. Основная сессия создаётся только при complete.
+4. Complete без тела под origin/CSRF: AccessTokenDto с Bearer JWT на 7 дней,
    временные cookies очищены. `/auth/me` показывает ожидаемые локальные роль/login/id,
    `hasLocalPassword`, но не hash/identity tokens. SSO-only имеет false и USER.
 5. Неверные/пропущенные/повторные state, PKCE, nonce; неверная signature/issuer/audience,
-   просроченный или отсутствующий ID token: сессия не создаётся. Неизвестный subject,
-   inactive/unlinked аккаунт — denied, без JIT/нового OWNER. Отмена KC — denied.
+   просроченный или отсутствующий ID token: аккаунт и сессия не создаются. Новый
+   проверенный subject получает неактивный USER; inactive — `keycloak_inactive`,
+   revoked и отмена KC — `keycloak_denied`.
 6. State/grant не работают из другого браузера. Отсутствующие/чужие Origin или CSRF
    не допускают complete. Повторный/просроченный grant — 401, две конкурентные попытки
    создают ровно одну сессию. Потеря ответа требует нового входа, не retry.
@@ -44,9 +48,8 @@ API/интерфейс, а не ADMIN_KEYCLOAK_* env. Исторические �
    UTF-8 query/hash и URL-подобные query data сохраняются. Неизвестный безопасный
    app path передаётся router 404. Проверить round-trip через внешнее encoding
    `returnTo` в login URL и в callback URL без decode-all и потери hash.
-8. Старый refresh после ротации отзывает сессию; JWT прекращает доступ. KC TTL фиксирован
-   и не больше ADMIN_SESSION_TTL. `expiresIn` JWT использует существующее округление
-   до секунд; точная граница `sessionExpiresAt` всегда дополнительно проверяется в БД.
+8. Сессия и JWT истекают через 7 дней без refresh/продления; истёкший JWT прекращает
+   доступ. `expiresIn` округляется до секунд; срок сессии дополнительно проверяется в БД.
 9. Client JWT не допускается в Admin API, Admin JWT — в Client API; client registration,
    login/me и исходный OpenAPI/SDK не изменены.
 10. Unbind, disable-local, deactivate, revoke-sessions и смена local password отзывают
@@ -57,12 +60,28 @@ API/интерфейс, а не ADMIN_KEYCLOAK_* env. Исторические �
     Logout не зависит от KC. Повторный вход через ещё живую SSO-сессию — ожидаемое
     поведение, а не подтверждение global logout.
 12. В браузере: две вкладки, отмена входа, поздний callback после local login/logout,
-    callback reload/back, очистка storage, сетевой обрыв complete/refresh, восстановление
+    callback reload/back, очистка storage, сетевой обрыв complete, восстановление
     и подтверждение `/auth/me`. Приватный интерфейс до подтверждения не открывается.
 13. С реальным Keycloak: exact redirect URI, confidential client/basic, PKCE S256,
     RS256, MFA/required actions, смена JWKS, отключение пользователя и истечение своей
     сессии. Проверить отсутствие токенов в URL/storage/logs и Secure/HttpOnly/SameSite
     cookies за production reverse proxy.
+14. Первый вход без привязки: ровно один USER без пароля с `isActive: false`, имя из profile,
+    одна identity и запись аудита. Callback — `keycloak_inactive`, без completion и сессии.
+    Повторный и параллельный вход не создают дублей и не разрешают доступ.
+15. Username/email, совпадающие с OWNER, и роли OWNER в Keycloak не повышают права:
+    новый локальный аккаунт USER; после разрешения входа `/access/users`, активация
+    других пользователей и `/settings/keycloak` возвращают 403.
+16. Существующая привязка сохраняет роль и локальное имя. Отключение аккаунта,
+    отзыв identity и сессий не обходятся повторным JIT-входом; старый completion недействителен.
+17. Отмена/истечение flow или смена конфигурации до callback не оставляют созданных
+    аккаунтов и привязок. Неполный профиль использует fallback имени.
+18. `accounts.read` допускает чтение команды; `accounts.activate` — разрешение входа
+    без изменения роли. ADMIN и дополнительная роль с этими правами могут включить
+    вход; роль только для чтения не может. Повторный запрос со старой version — 409.
+19. В браузере неактивный пользователь видит «Вход в панель не разрешён» и просьбу
+    обратиться к администратору. После включения «Разрешить вход» новый вход успешен.
+    Повторное отключение блокирует JWT, незавершённый complete и новые входы.
 
 ## Фактически выполнено исполнителем (2026-10-07)
 
@@ -114,7 +133,7 @@ required actions, фактическая ротация ключей и корп
   `/api`, `/auth/keycloak`, `/sign-in` с разными регистрами/encoding/query/hash.
 - `pnpm run lint`, `pnpm run check-types`, `pnpm run build` — прошли (включая штатную
   Prisma generation и сборку обеих точек входа). Использованы
-  `PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false`, `DOTENV_CONFIG_PATH=/dev/null`,
+  `DOTENV_CONFIG_PATH=/dev/null`,
   `NODE_ENV=production` и явный неиспользуемый `DATABASE_URL`; обращения к БД не нужны.
 - SDK/OpenAPI не регенерировались. App runtime, HTTP flow и browser navigation
   **в этой поправке не запускались**: их end-to-end проверка остаётся у независимого QA.

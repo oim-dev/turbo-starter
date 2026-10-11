@@ -33,5 +33,5 @@ ENV NODE_ENV=production \
 WORKDIR /app
 COPY --from=production-dependencies --chown=node:node /out/backend ./
 USER node
-EXPOSE 3001 3002
+EXPOSE 4000 4001
 CMD ["node", "dist/client-api/main.js"]

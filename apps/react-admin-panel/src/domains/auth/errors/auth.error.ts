@@ -17,6 +17,10 @@ export const AUTH_ERROR_CODE = {
    */
   KEYCLOAK_DENIED: 'KEYCLOAK_DENIED',
   /**
+   * Локальному аккаунту ещё не разрешён вход в панель.
+   */
+  KEYCLOAK_INACTIVE: 'KEYCLOAK_INACTIVE',
+  /**
    * Результат входа истёк, уже использован либо некорректен.
    */
   KEYCLOAK_INVALID: 'KEYCLOAK_INVALID',

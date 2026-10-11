@@ -1,15 +1,21 @@
 import { createBrowserRouter } from 'react-router-dom'
 import { AdminLayout } from 'compositions/layouts/admin'
+import { ManagementLayout } from 'compositions/layouts/management'
 import { AuthenticationBoundary } from 'compositions/route-boundaries/authentication'
 import { SessionBoundary } from 'compositions/route-boundaries/session'
 import { HomeScreen } from 'compositions/screens/home'
+import { ManagementScreen } from 'compositions/screens/management'
 import { ProfileScreen } from 'compositions/screens/profile'
 import { NotFoundScreen } from 'compositions/screens/not-found'
 import { SignInScreen } from 'compositions/screens/sign-in'
 import { KeycloakCallbackScreen } from 'compositions/screens/keycloak-callback'
-import { AccessScreen } from 'compositions/screens/access'
+import { UsersScreen } from 'compositions/screens/users'
+import { UserDetailsScreen } from 'compositions/screens/user-details'
+import { RolesScreen } from 'compositions/screens/roles'
+import { PermissionsScreen } from 'compositions/screens/permissions'
 import { KeycloakSettingsScreen } from 'compositions/screens/keycloak-settings'
 import { PermissionBoundary } from 'compositions/route-boundaries/permission'
+import { ManagementRedirectBoundary } from 'compositions/route-boundaries/management-redirect'
 import { RouteErrorBoundary } from './route-error-boundary/route-error-boundary'
 import { RoutePending } from './route-pending/route-pending'
 
@@ -49,17 +55,51 @@ export const appRouter = createBrowserRouter([
               {
                 path: 'profile',
                 Component: ProfileScreen
+              }
+            ]
+          },
+          {
+            path: 'management',
+            Component: ManagementLayout,
+            children: [
+              {
+                element: <PermissionBoundary permission={['accounts.read', 'system.access.manage', 'system.keycloak.manage']} />,
+                children: [{ index: true, Component: ManagementScreen }]
               },
               {
                 element: <PermissionBoundary permission="system.access.manage" />,
-                children: [{ path: 'access', Component: AccessScreen }]
+                children: [
+                  { path: 'users/new', Component: UserDetailsScreen },
+                  { path: 'roles', Component: RolesScreen },
+                  { path: 'roles/new', Component: RolesScreen },
+                  { path: 'roles/:roleKey', Component: RolesScreen },
+                  { path: 'permissions', Component: PermissionsScreen }
+                ]
+              },
+              {
+                element: <PermissionBoundary permission="accounts.read" />,
+                children: [
+                  { path: 'users', Component: UsersScreen },
+                  { path: 'users/:accountId', Component: UserDetailsScreen }
+                ]
               },
               {
                 element: <PermissionBoundary permission="system.keycloak.manage" />,
-                children: [{ path: 'settings/keycloak', Component: KeycloakSettingsScreen }]
+                children: [{ path: 'keycloak', Component: KeycloakSettingsScreen }]
               }
             ]
-          }
+          },
+          ...[
+            'access',
+            'access/users',
+            'access/users/new',
+            'access/users/:accountId',
+            'access/roles',
+            'access/roles/new',
+            'access/roles/:roleKey',
+            'access/permissions',
+            'settings/keycloak'
+          ].map((path) => ({ path, Component: ManagementRedirectBoundary }))
         ]
       },
       {

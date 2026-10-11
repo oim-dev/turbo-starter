@@ -25,6 +25,9 @@ node_modules
 # Testing
 coverage
 
+# Local verification artifacts
+/.artifacts/
+
 # Turbo
 .turbo
 

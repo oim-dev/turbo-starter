@@ -64,6 +64,11 @@ Keycloak login — браузерная навигация, не fetch. Одно
 Обычный bootstrap приостановлен на callback. Неудачный complete не удаляет независимый прежний JWT.
 Выход не завершает глобальную Keycloak SSO-сессию. OIDC tokens и client secret не попадают в storage.
 
+Первый вход Keycloak создаёт локальный USER с `isActive: false`. Callback возвращает
+`keycloak_inactive`, домен преобразует его в `KEYCLOAK_INACTIVE`. Экран сообщает,
+что вход не разрешён и нужно связаться с администратором; complete не вызывается.
+После разрешения входа пользователь начинает новую авторизацию.
+
 Навигацией и безопасным `returnTo` владеют композиции и `shared/navigation`, не lifecycle.
 Настройки TTL одноразовых transaction/completion не меняют фиксированные 7 дней административной сессии.
 
@@ -77,7 +82,7 @@ Persistence и Bearer технические; решение о допуске, 
 После сборки актуального SDK, из корня приложения:
 
 ```sh
-PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false pnpm run lint
-PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false pnpm run check-types
-PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false pnpm run build
+pnpm run lint
+pnpm run check-types
+pnpm run build
 ```

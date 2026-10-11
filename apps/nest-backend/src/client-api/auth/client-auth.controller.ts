@@ -17,10 +17,8 @@ import {
   ApiOkResponse,
   ApiOperation,
   ApiTags,
-  ApiTooManyRequestsResponse,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { Throttle } from '@nestjs/throttler';
 import { SessionTransport } from '../../generated/prisma/client';
 import { AccessTokenDto, LoginDto } from '../../infrastructure/auth/auth.dto';
 import type { AuthenticatedRequest } from '../../infrastructure/auth/authenticated-request';
@@ -36,11 +34,7 @@ import { RegisterClientUserDto } from '../../modules/client-users/dto/register-c
 import { ClientAuthService } from './client-auth.service';
 
 @ApiTags('Auth')
-@ApiTooManyRequestsResponse({
-  description: 'Слишком много запросов аутентификации.',
-})
 @Controller('auth')
-@Throttle({ default: { limit: 10, ttl: 60000 } })
 export class ClientAuthController {
   constructor(
     private readonly auth: ClientAuthService,
@@ -51,7 +45,6 @@ export class ClientAuthController {
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
   @Public()
-  @Throttle({ default: { limit: 5, ttl: 60000 } })
   @ApiOperation({
     operationId: 'clientAuthRegister',
     security: [],

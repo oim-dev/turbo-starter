@@ -45,6 +45,8 @@ pnpm run setup
 и применяет действия из корневого `degit.json`.
 
 `pnpm install` устанавливает зависимости всех workspace-пакетов.
+Автоматическая установка перед `run`/`exec` отключена в `pnpm-workspace.yaml`
+через `verifyDepsBeforeRun: false`; зависимости обновляйте явно командой `pnpm install`.
 `pnpm run setup` последовательно:
 
 1. Восстанавливает скиллы из `skills-lock.json` в `.agents/skills/`.
@@ -71,7 +73,7 @@ pnpm backend:prisma:deploy
 pnpm backend:dev
 ```
 
-Client API: <http://localhost:3001/docs>, Admin API: <http://localhost:3002/docs>.
+Client API: <http://localhost:4000/docs>, Admin API: <http://localhost:4001/docs>.
 Начальный владелец `admin/admin` создаётся автоматически при запуске Admin API на пустой БД. Регистрация доступна
 только клиентам. Оба API имеют независимые токены и сессии.
 JWT возвращается в JSON и передаётся через Bearer; JWT и сессия действуют 7 дней,
@@ -91,8 +93,11 @@ pnpm admin:dev
 pnpm web:dev
 ```
 
-- Админка: <http://localhost:5173>, вход `admin/admin` через Admin API.
-- Next.js: <http://localhost:3005>, автономная стартовая страница.
+- Админка: <http://localhost:3001>, вход `admin/admin` через Admin API.
+- Next.js: <http://localhost:3000>, автономная стартовая страница.
+
+Локальная схема портов: интерфейсы `3000` / `3001`, их API `4000` / `4001`
+(клиентский / административный контур соответственно).
 
 Для одновременного запуска всех приложений после подготовки БД используйте
 `pnpm dev`. Turborepo предварительно собирает workspace-зависимости приложений,

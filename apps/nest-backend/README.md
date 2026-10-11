@@ -5,8 +5,8 @@ HTTP-приложения обслуживают клиентские и адм�
 
 | Приложение | API                     | Swagger | Спецификация    |
 | ---------- | ----------------------- | ------- | --------------- |
-| Client API | `http://localhost:3001` | `/docs` | `/openapi.json` |
-| Admin API  | `http://localhost:3002` | `/docs` | `/openapi.json` |
+| Client API | `http://localhost:4000` | `/docs` | `/openapi.json` |
+| Admin API  | `http://localhost:4001` | `/docs` | `/openapi.json` |
 
 Оба API по умолчанию слушают `0.0.0.0`: доступны на всех интерфейсах, локально — через `localhost`.
 
@@ -82,7 +82,7 @@ pnpm backend:dev:admin
 | PATCH | `/auth/me` | Изменить имя собственного аккаунта |
 
 Публичная регистрация администратора отсутствует. Первый владелец создаётся при запуске;
-дополнительные аккаунты создаёт OWNER через `/access/users` в интерфейсе админки.
+дополнительные аккаунты создаёт OWNER через `/management/users` в интерфейсе админки.
 После смены собственного пароля все административные сессии аккаунта отзываются.
 
 ### Роли и permissions
@@ -104,11 +104,20 @@ pnpm backend:dev:admin
 | GET / POST | `/access/roles` | Список / создание роли |
 | PUT / DELETE | `/access/roles/:key` | Изменение / удаление неназначенной дополнительной роли |
 | GET / POST | `/access/users` | Список / создание аккаунта |
-| PATCH | `/access/users/:id` | Назначение роли и изменение активности |
+| PATCH | `/access/users/:id` | Изменение имени, логина, роли и активности по ожидаемой версии |
+| PUT | `/access/users/:id/password` | Установка нового локального пароля по ожидаемой версии |
 | POST | `/access/users/:id/identities` | Привязка пользователя Keycloak по issuer/sub |
 | DELETE | `/access/users/:id/identities/:identityId` | Отзыв привязки Keycloak |
 | DELETE | `/access/users/:id/local-password` | Отключение локального пароля |
 | DELETE | `/access/users/:id/sessions` | Отзыв всех сессий аккаунта |
+
+`PATCH /access/users/:id` дополнительно принимает необязательные `name` и `login`:
+имя очищается от пробелов по краям, логин переводится в нижний регистр и остаётся уникальным.
+`PUT /access/users/:id/password` принимает `password` (12–128 символов) и текущую `version`;
+может как заменить пароль, так и включить локальный вход для аккаунта без пароля.
+Изменения выполняются в существующей транзакции управления доступом, проверяют OWNER,
+записываются в аудит без credentials и отзывают прежние сессии. Версия защищает от
+перезаписи конкурентных изменений. Схема БД и дополнительные миграции не требуются.
 | GET / PUT | `/settings/keycloak` | Чтение безопасных настроек / сохранение конфигурации |
 
 ### Keycloak + локальный пароль (только Admin API)
@@ -120,20 +129,30 @@ pnpm backend:dev:admin
 | --- | --- | --- |
 | GET | `/auth/providers` | `{ local: true, keycloak: boolean }`, public, no-store; флаг конфигурации, не health-check |
 | GET | `/auth/keycloak/login?returnTo=/profile` | Навигация на OIDC Authorization Code + PKCE S256 |
-| GET | `/auth/keycloak/callback` | Callback, проверка identity, выдача только временного completion grant |
+| GET | `/auth/callback` | Callback, проверка identity, выдача только временного completion grant; `/auth/keycloak/callback` — совместимый прежний путь |
 | POST | `/auth/keycloak/complete` | Без тела; Origin + X-CSRF-Protection: 1 и временные HttpOnly cookies; тот же AccessTokenDto с Bearer JWT, что у local login |
 
 В `/auth/me` добавлено `hasLocalPassword`. Для SSO-only аккаунта локальный вход
 запрещён, а смена пароля возвращает `403 LOCAL_PASSWORD_UNAVAILABLE`. Локальный вход
 других администраторов работает независимо от доступности Keycloak. Client API,
-его аккаунты и SDK не участвуют в этой интеграции. Нет JIT/email-link или автоматической
-выдачи OWNER: identity `(issuer, subject)` заранее связывает доверенный оператор.
+его аккаунты и SDK не участвуют в этой интеграции. Первый проверенный вход новой
+identity `(issuer, subject)` создаёт SSO-only аккаунт с ролью USER, именем из profile
+и `isActive: false`. Вход в панель разрешает администратор через существующий переключатель
+«Разрешить вход». До этого callback возвращает `keycloak_inactive`, JWT/сессия не выдаются.
+На новой БД настройки уже содержат issuer `https://route66.biocad.ru/realms/biocad`
+и callback URL админки на `http://localhost:3001`: `/api/auth/callback` и
+`/auth/keycloak/callback`. Client ID и Client Secret нужно заполнить перед включением входа.
+`accounts.read` позволяет просматривать пользователей; `accounts.activate` — разрешать вход
+через `POST /access/users/:id/activate` с ожидаемой `version`. Права есть у ADMIN/OWNER
+и могут назначаться дополнительным ролям. Роль пользователя эта операция не меняет.
+Существующие привязки сохраняют аккаунт и права; отключённые аккаунты и отозванные
+identity получают отказ. Email, логин и роли Keycloak не используются для назначения доступа.
 Logout только локальный. Контракт JWT/сессии приложения — 7 дней без продления;
 back-channel/global SSO logout и мгновенная синхронизация блокировок KC не реализованы.
 Живая SSO-сессия Keycloak может выполнить новый вход без ввода пароля.
 
 Keycloak по умолчанию выключен. OWNER вводит issuer, client ID, secret и callbacks
-в интерфейсе `/settings/keycloak`. Все настройки, включая client secret, хранятся
+в интерфейсе `/management/keycloak`. Все настройки, включая client secret, хранятся
 в БД; env-переменных Keycloak и внешнего ключа шифрования нет.
 Secret доступен только для записи и не возвращается API. Смена конфигурации
 отзывает собственные SSO-сессии и незавершённые обмены, локальные сессии сохраняются.
@@ -141,6 +160,8 @@ Secret доступен только для записи и не возвращ�
 с одинаковым фиксированным сроком.
 
 ## Браузерная авторизация
+
+Частота HTTP-запросов в Client API и Admin API не ограничивается.
 
 Access-токен приходит только в JSON; для защищённых запросов передавайте
 `Authorization: Bearer <accessToken>`. Основная авторизация не использует cookies.
@@ -218,11 +239,11 @@ pnpm rest-api-sdk:build
 Для admin-only изменений не генерируйте Client SDK:
 
 ```sh
-PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false pnpm --filter @oim/nest-backend openapi:generate
+pnpm --filter @oim/nest-backend openapi:generate
 git diff --exit-code -- apps/nest-backend/openapi/client.openapi.json
-PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false pnpm --filter @oim/admin-rest-api-sdk generate
-PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false pnpm --filter @oim/admin-rest-api-sdk check-types
-PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false pnpm --filter @oim/admin-rest-api-sdk build
+pnpm --filter @oim/admin-rest-api-sdk generate
+pnpm --filter @oim/admin-rest-api-sdk check-types
+pnpm --filter @oim/admin-rest-api-sdk build
 ```
 
 В среде проверки задайте `DOTENV_CONFIG_PATH=/dev/null`,

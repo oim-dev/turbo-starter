@@ -23,6 +23,7 @@ export const getBootstrapErrorMessage = (error: AuthError | null): string => {
       return 'Не удалось проверить сеанс. Проверьте подключение и повторите попытку.'
     case 'KEYCLOAK_UNAVAILABLE':
     case 'KEYCLOAK_DENIED':
+    case 'KEYCLOAK_INACTIVE':
     case 'KEYCLOAK_INVALID':
     case 'KEYCLOAK_UNCERTAIN':
       return getSignInErrorMessage(error)

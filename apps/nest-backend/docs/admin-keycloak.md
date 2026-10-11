@@ -2,16 +2,24 @@
 
 ## Конфигурация и Keycloak
 
-Конфигурацией управляет OWNER на странице админки `/settings/keycloak` через
+Конфигурацией управляет OWNER на странице админки `/management/keycloak` через
 `GET /settings/keycloak` и `PUT /settings/keycloak`. По умолчанию провайдер отключён.
 Настройки хранятся в `AdminKeycloakSettings`, а не в переменных `ADMIN_KEYCLOAK_*`.
+
+После развёртывания новой БД форма сразу содержит корпоративные значения:
+issuer `https://route66.biocad.ru/realms/biocad`, Redirect URI
+`http://localhost:3001/api/auth/callback` и адрес завершения входа
+`http://localhost:3001/auth/keycloak/callback`. Client ID пуст, Client Secret отсутствует,
+провайдер отключён. Владелец вводит данные клиента и включает вход; для другого
+адреса админки меняет оба callback URL. Миграция `20261011170000_corporate_keycloak_defaults`
+заполняет начальную пустую запись; ранее сохранённую конфигурацию сохраняет.
 
 | Поле API / интерфейса | Правило |
 | --- | --- |
 | `enabled` | `false` по умолчанию; `true` требует полной конфигурации и успешной проверки discovery |
 | `issuer` | Точный issuer realm, например `https://sso.example.org/realms/starter`; не `.well-known` URL |
 | `clientId`, `clientSecret` | Отдельный confidential OIDC client; secret передаётся только при записи |
-| `callbackUrl` | Например `https://admin.example.org/api/auth/keycloak/callback` |
+| `callbackUrl` | Например `https://admin.example.org/api/auth/callback` |
 | `frontendCallbackUrl` | Например `https://admin.example.org/auth/keycloak/callback` |
 | `version` | Версия из GET, обязательна при PUT; устаревшая версия возвращает 409 |
 | `clearSecret` | Явное удаление secret при отключённом провайдере |
@@ -28,6 +36,21 @@ validation не отключается никогда. Backend/frontend callback
 Frontend path фиксирован `/auth/keycloak/callback`. CORS разрешает любой origin
 (`origin: true`, `credentials: true`), allowlist-переменных нет. Это не отменяет
 проверку callback URL; публичные URL не строятся из Host/X-Forwarded-Host.
+
+Канонический backend callback — `/auth/callback`, доступный через proxy как
+`/api/auth/callback`. Прежний `/auth/keycloak/callback` также поддерживается для
+существующих конфигураций. Оба пути используют один OIDC-обработчик; в запросе
+авторизации и при обмене code используется точный `callbackUrl` из БД.
+
+Для локальной админки на порту `3001`:
+
+- Redirect URI (`callbackUrl`): `http://localhost:3001/api/auth/callback`;
+- адрес завершения входа (`frontendCallbackUrl`): `http://localhost:3001/auth/keycloak/callback`.
+
+В `Valid redirect URIs` клиента Keycloak добавляется точный backend Redirect URI.
+При смене порта или пути обновите оба адреса на странице `/management/keycloak`:
+сохранённые настройки не заменяются автоматически. Если issuer и client ID прежние,
+повторно вводить сохранённый Client Secret не требуется.
 
 В Keycloak: Standard Flow, PKCE S256, Client Authentication (secret/basic), ID token
 signature **RS256**. Точный backend redirect URI без wildcard. Direct Access Grants,
@@ -66,12 +89,15 @@ Admin API остаётся за закрытым входным proxy; ника�
    и кеширования. Это флаг настройки, а не health-check.
 2. Навигация на `/api/auth/keycloak/login?returnTo=/profile` создаёт state/nonce/PKCE
    и browser-bound OIDC-транзакцию (5 минут). Пароль вводится только на стороне KC.
-3. Backend callback одноразово потребляет state перед сетевым обменом, проверяет
-   OIDC-ответ и заранее привязанного активного администратора. Никаких JIT, email-link,
-   ClientUser fallback или выдачи OWNER. Upstream tokens не сохраняются и не выдаются JS.
-4. Callback устанавливает **только completion cookie** и возвращает на фиксированный
+3. Backend callback `/api/auth/callback` одноразово потребляет state перед сетевым обменом, проверяет
+   OIDC-ответ. Для новой `(issuer, sub)` атомарно создаёт SSO-only аккаунт USER с `isActive: false`
+   и привязку; для существующей проверяет активность аккаунта и отсутствие отзыва.
+   Upstream tokens не сохраняются и не выдаются JS.
+4. При `isActive: false` регистрация фиксируется, callback возвращает `keycloak_inactive`
+   без completion и сессии. Панель объясняет, что вход не разрешён и нужно связаться
+   с администратором. Для активного аккаунта callback устанавливает **только completion cookie** и возвращает на фиксированный
    frontend `/auth/keycloak/callback?result=success&returnTo=<path>` либо
-   `?result=error&error=keycloak_unavailable|keycloak_denied|keycloak_invalid`.
+   `?result=error&error=keycloak_unavailable|keycloak_denied|keycloak_invalid|keycloak_inactive`.
    Code/token/raw provider error не включаются в frontend URL.
 5. Frontend вызывает `POST /api/auth/keycloak/complete` без тела **один раз под общей
    межвкладочной блокировкой**, с Origin, X-CSRF-Protection: 1 и временными cookies
@@ -79,7 +105,8 @@ Admin API остаётся за закрытым входным proxy; ника�
    После успешного обмена подтверждает `/auth/me` через Bearer JWT и открывает приватный UI.
    `/auth/refresh` отсутствует; после истечения JWT нужен новый вход.
 
-Неизвестная/отключённая identity или локальный аккаунт — `keycloak_denied`, неверный
+Отозванная identity или отмена входа — `keycloak_denied`, аккаунт с запрещённым входом —
+`keycloak_inactive`, неверный
 или повторный callback — `keycloak_invalid`, недоступность провайдера/БД —
 `keycloak_unavailable`. При disabled OIDC endpoints возвращают 404.
 Неверный/просроченный/повторный completion — `401 KEYCLOAK_COMPLETION_INVALID`.
@@ -98,7 +125,7 @@ Admin API остаётся за закрытым входным proxy; ника�
   encoded separators (`/`, `\\`, `?`, `#`, `%`) и двойное encoding через `%25`.
   Dot-segments `.`/`..`, в том числе encoded и `/a/..//evil`, запрещены. Безопасные
   encoded символы и UTF-8 path нормализуются, но не могут скрыть запрещённый маршрут.
-- Нормализованный path проверяется без учёта регистра: `/api`, `/auth/keycloak`,
+- Нормализованный path проверяется без учёта регистра: `/api`, `/auth/callback`, `/auth/keycloak`,
   `/sign-in` и их подмаршруты запрещены, включая варианты с query/hash и encoded
   именами. Похожие, но другие пути (`/apiary`, `/sign-in-help`) не запрещаются.
 - Query/hash остаются **данными**, не декодируются повторно и не проверяются как
@@ -147,11 +174,45 @@ SHA-256 hashes state/binding/grant хранятся в БД; PKCE/nonce оста
 проверяют доступ на защищённых запросах. JWT и сессия имеют один срок;
 refresh-токены не выдаются, активность пользователя не продлевает сессию.
 
-## Доверенный provisioning
+## Создание аккаунта при первом входе
+
+После проверки подписи, issuer, audience, nonce, state и PKCE новая `(issuer, sub)`
+получает аккаунт USER без локального пароля с `isActive: false`. Логин — независимый `kc-<UUID>`.
+Создание аккаунта, identity и аудита `account.keycloak.create` атомарно;
+общая системная блокировка сериализует параллельные входы и ручные привязки.
+Отказ или отмена до проверки identity не создают аккаунт.
+
+Запрашиваются scopes `openid profile`. Имя берётся только из проверенного ID token:
+`name` → `given_name + family_name` → `preferred_username` → «Пользователь Keycloak».
+Пробелы нормализуются, управляющие символы удаляются, длина ограничена 120 символами.
+Наличие профильных claims зависит от client scope/mappers Keycloak.
+Имя заполняется при создании; последующие входы не перезаписывают локальный профиль.
+
+Повторный вход находит тот же аккаунт. Роли, email и username провайдера не объединяют
+аккаунты и не повышают локальные права. Отозванная identity остаётся занятой;
+её восстановление выполняет OWNER. Отключённый аккаунт не создаётся заново.
+Фото и email не сохраняются в текущей модели аккаунта. USER получает только права
+собственного аккаунта; управление командой и Keycloak ему недоступно.
+
+`authValidAfter` нового SSO-only аккаунта равен epoch: отзывов ещё не было, а первый
+flow уже начат до регистрации. Ручная привязка, восстановление и любые изменения
+credentials/прав устанавливают актуальную границу отзыва и инвалидируют прежние flow.
+
+## Ручная привязка существующего аккаунта
+
+Для нового аккаунта Keycloak администратор открывает `/management/users`, выбирает
+пользователя и включает «Разрешить вход». Используется только существующий `isActive`:
+отдельного поля активации нет. После этого пользователь начинает новый вход.
+Чтение списка требует `accounts.read`, включение — `accounts.activate`.
+Оба права доступны ADMIN и OWNER; дополнительной роли можно назначить их отдельно.
+Операция `POST /access/users/:id/activate` принимает `{version}`, включает только вход,
+проверяет наличие способа аутентификации, повышает authVersion и пишет аудит.
+Параллельное/повторное включение со старой версией возвращает 409.
+Назначение роли, изменение credentials и отключение аккаунта остаются действиями OWNER.
 
 OWNER получает точный неизменяемый `sub` пользователя из KC. Username/email/roles
 claims для идентификации или полномочий не используются. Issuer/subject —
-идентификаторы, не токены. Привязки доступны в `/access` у выбранного аккаунта,
+идентификаторы, не токены. Привязки доступны в `/management/users` у выбранного аккаунта,
 в блоке «Способы входа и сессии». Служебный CLI удалён.
 
 1. Создать аккаунт в интерфейсе с нужной ролью и первоначальным локальным паролем.

@@ -22,7 +22,7 @@ Login и Keycloak complete не получают автоматический Be
 
 Ключ: `admin-api-credential:v1:${encodeURIComponent(normalizedBaseUrl)}`.
 Base URL разрешается относительно `window.location.origin`, завершающие `/` удаляются.
-Для localhost:5173 это scope `http://localhost:5173/api`. Смена target Vite proxy не меняет
+Для localhost:3001 это scope `http://localhost:3001/api`. Смена target Vite proxy не меняет
 публичный API URL: перед переключением proxy на другое окружение нужно выйти или очистить credential.
 
 Единственный ключ хранит два варианта совместимой схемы v1:
@@ -68,7 +68,7 @@ LocalStorage доступен любому JavaScript страницы: необ
 После генерации и сборки свежего SDK оркестратором, из корня приложения:
 
 ```sh
-PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false pnpm run lint
-PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false pnpm run check-types
-PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false pnpm run build
+pnpm run lint
+pnpm run check-types
+pnpm run build
 ```

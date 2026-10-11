@@ -1,9 +1,11 @@
 packages:
   - "apps/*"
   - "packages/*"
+verifyDepsBeforeRun: false
 allowBuilds:
   "@prisma/engines": true
   "@scarf/scarf": false
+  agent-browser: true
   argon2: true
   esbuild: true
   prisma: true

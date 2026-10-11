@@ -109,6 +109,22 @@ export class CreateAdminAccountDto {
   name?: string;
 }
 export class UpdateAdminAccountDto {
+  @ApiPropertyOptional({
+    type: String,
+    minLength: 3,
+    maxLength: 64,
+    pattern: '^[a-zA-Z0-9_.-]{3,64}$',
+    description: 'Новый логин. Нормализуется в нижний регистр.',
+  })
+  @IsOptional()
+  @IsString()
+  @Matches(/^[a-zA-Z0-9_.-]{3,64}$/)
+  login?: string;
+  @ApiPropertyOptional({ type: String, maxLength: 120 })
+  @IsOptional()
+  @IsString()
+  @Length(0, 120)
+  name?: string;
   @ApiProperty({ type: String })
   @IsString()
   @Length(1, 64)
@@ -116,6 +132,24 @@ export class UpdateAdminAccountDto {
   @ApiProperty({ type: Boolean })
   @IsBoolean()
   isActive!: boolean;
+  @ApiProperty({ type: Number, minimum: 0 })
+  @IsInt()
+  @Min(0)
+  version!: number;
+}
+
+export class SetAdminAccountPasswordDto {
+  @ApiProperty({ type: String, minLength: 12, maxLength: 128 })
+  @IsString()
+  @Length(12, 128)
+  password!: string;
+  @ApiProperty({ type: Number, minimum: 0 })
+  @IsInt()
+  @Min(0)
+  version!: number;
+}
+
+export class ActivateAdminAccountDto {
   @ApiProperty({ type: Number, minimum: 0 })
   @IsInt()
   @Min(0)

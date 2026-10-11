@@ -1,9 +1,14 @@
 /**
  * Требование к доступу маршрутной ветки.
  */
-export type PermissionProps = {
+export type PermissionParams = {
   /**
-   * Серверный ключ необходимого действия.
+   * Необходимое право либо список, из которого достаточно одного подтверждённого права.
    */
-  permission: string
+  permission: string | readonly string[]
 }
+
+/**
+ * Свойства маршрутной границы без собственного корневого DOM.
+ */
+export type PermissionProps = PermissionParams

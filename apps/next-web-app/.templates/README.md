@@ -11,8 +11,8 @@
 Запускать из `apps/next-web-app` только для нового имени и отсутствующей целевой папки:
 
 ```bash
-PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false pnpm run create ui-unit welcome src/compositions/screens
-PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false pnpm run create ui-component welcome-note src/compositions/screens/welcome/ui
+pnpm run create ui-unit welcome src/compositions/screens
+pnpm run create ui-component welcome-note src/compositions/screens/welcome/ui
 ```
 
 Примеры предназначены для ещё не существующих компонентов. Позиционный путь задаёт родительскую папку вывода;

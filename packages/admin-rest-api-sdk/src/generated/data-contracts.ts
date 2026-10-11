@@ -81,6 +81,15 @@ export interface CreateAdminAccountDto {
 }
 
 export interface UpdateAdminAccountDto {
+  /**
+   * Новый логин. Нормализуется в нижний регистр.
+   * @minLength 3
+   * @maxLength 64
+   * @pattern ^[a-zA-Z0-9_.-]{3,64}$
+   */
+  login?: string;
+  /** @maxLength 120 */
+  name?: string;
   role: string;
   isActive: boolean;
   /** @min 0 */
@@ -95,6 +104,21 @@ export interface BindAdminIdentityDto {
    * @maxLength 255
    */
   subject: string;
+}
+
+export interface ActivateAdminAccountDto {
+  /** @min 0 */
+  version: number;
+}
+
+export interface SetAdminAccountPasswordDto {
+  /**
+   * @minLength 12
+   * @maxLength 128
+   */
+  password: string;
+  /** @min 0 */
+  version: number;
 }
 
 export interface LoginDto {
@@ -249,9 +273,17 @@ export interface AdminIdentityBindParams {
   id: string;
 }
 
+export interface AdminAccountActivateParams {
+  id: string;
+}
+
 export interface AdminIdentityUnbindParams {
   id: string;
   identityId: string;
+}
+
+export interface AdminAccountPasswordSetParams {
+  id: string;
 }
 
 export interface AdminLocalPasswordDisableParams {

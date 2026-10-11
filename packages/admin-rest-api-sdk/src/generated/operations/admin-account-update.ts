@@ -18,7 +18,7 @@ import { ContentType } from "../http-client.js";
  *
  * @tags Access
  * @name AdminAccountUpdate
- * @summary Изменить роль или активность аккаунта
+ * @summary Изменить профиль, роль или активность аккаунта и отозвать сессии
  * @request PATCH:/access/users/{id}
  * @secure
  */

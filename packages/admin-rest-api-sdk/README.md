@@ -30,6 +30,12 @@ SDK содержит группы `auth`, `access` и `settings`: вход и п
 последним; `createApiClient` связывает первый аргумент с транспортом.
 Смена пароля отзывает все сессии администратора; после неё нужен новый вход.
 
+Для управления другими пользователями OWNER использует `access.adminAccountUpdate`:
+`UpdateAdminAccountDto` принимает `role`, `isActive`, `version` и необязательные `name`, `login`.
+`access.adminAccountPasswordSet({ id }, { password, version })` устанавливает локальный пароль
+через `PUT /access/users/:id/password` и возвращает 204 без credentials. Обе операции отзывают
+прежние сессии изменяемого аккаунта. DTO и операция сгенерированы из backend OpenAPI.
+
 ### DTO и вспомогательные типы
 
 Все перечисленные типы доступны из root и `/data-contracts`:
@@ -67,8 +73,6 @@ CORS разрешает любой origin. Клиентских DTO и преж�
 из корня репозитория:
 
 ```sh
-export PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false
-
 pnpm --filter @oim/admin-rest-api-sdk run generate
 pnpm --filter @oim/admin-rest-api-sdk run check-types
 pnpm --filter @oim/admin-rest-api-sdk run build
@@ -87,10 +91,8 @@ pnpm --filter @oim/admin-rest-api-sdk run build
 отсутствие старых операций и воспроизводимость повторной генерации/сборки.
 
 Workspace-зависимости и root lockfile синхронизирует оркестратор. Для проверок
-нужна доступная ссылка на `@oim/typescript-config`. Перед `run`/`exec` отключайте
-автоматическую установку pnpm 11 через `PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false`.
-Это не заменяет установку отсутствующих зависимостей и не отключает загрузку
-генератора через `pnpm dlx` на отдельно согласованном этапе.
+нужна доступная ссылка на `@oim/typescript-config`. Генерация через `pnpm dlx`
+остаётся отдельным согласованным этапом.
 
 ## Публичные экспорты
 

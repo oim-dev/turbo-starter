@@ -4,6 +4,14 @@ import type { ComponentPropsWithoutRef } from 'react'
 export type AccountMenuParams = {
   /** Логин из текущей административной сессии. */
   userLogin: string | null
+  /**
+   * Отображаемое имя аккаунта.
+   */
+  userName: string
+  /**
+   * Название текущей роли.
+   */
+  roleName: string
   /** Запускает завершение сеанса и обработку его результата. */
   onLogout: () => Promise<void>
 }

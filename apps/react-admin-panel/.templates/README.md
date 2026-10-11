@@ -13,8 +13,8 @@
 Запускайте генератор из `apps/react-admin-panel`:
 
 ```bash
-PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false pnpm run create ui-unit example src/compositions/screens
-PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false pnpm run create ui-component example src/compositions/screens/home/ui
+pnpm run create ui-unit example src/compositions/screens
+pnpm run create ui-component example src/compositions/screens/home/ui
 ```
 
 Шаблоны создают минимальную рабочую границу без пустых каталогов и `null`-заглушек. После генерации адаптируйте её к

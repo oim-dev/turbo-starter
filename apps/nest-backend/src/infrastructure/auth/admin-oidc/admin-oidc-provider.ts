@@ -16,6 +16,18 @@ function transportFailure(error: unknown): AdminOidcError | undefined {
   return undefined;
 }
 
+function profileText(value: unknown): string {
+  if (typeof value !== 'string') return '';
+  return Array.from(
+    value
+      .replace(/[\p{Cc}\p{Cf}]/gu, ' ')
+      .replace(/\s+/gu, ' ')
+      .trim(),
+  )
+    .slice(0, 120)
+    .join('');
+}
+
 @Injectable()
 export class AdminOidcProvider {
   private cached?: {
@@ -138,7 +150,7 @@ export class AdminOidcProvider {
     return oidc.buildAuthorizationUrl(await this.client(config), {
       response_type: 'code',
       response_mode: 'query',
-      scope: 'openid',
+      scope: 'openid profile',
       redirect_uri: config.callbackUrl,
       state: input.state,
       nonce: input.nonce,
@@ -151,7 +163,7 @@ export class AdminOidcProvider {
     config: EnabledAdminKeycloakConfig,
     url: URL,
     input: { state: string; nonce: string; codeVerifier: string },
-  ): Promise<{ issuer: string; subject: string }> {
+  ): Promise<{ issuer: string; subject: string; name: string }> {
     try {
       const tokens = await oidc.authorizationCodeGrant(
         await this.client(config),
@@ -177,7 +189,16 @@ export class AdminOidcProvider {
         throw new AdminOidcError('keycloak_invalid');
       }
       // Upstream access/refresh/ID tokens не сохраняются и не выдаются браузеру.
-      return { issuer: claims.iss, subject: claims.sub };
+      const name =
+        profileText(claims.name) ||
+        profileText(
+          [profileText(claims.given_name), profileText(claims.family_name)]
+            .filter(Boolean)
+            .join(' '),
+        ) ||
+        profileText(claims.preferred_username) ||
+        'Пользователь Keycloak';
+      return { issuer: claims.iss, subject: claims.sub, name };
     } catch (error) {
       const failure = transportFailure(error);
       if (failure) throw failure;

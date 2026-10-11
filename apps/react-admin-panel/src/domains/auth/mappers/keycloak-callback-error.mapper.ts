@@ -6,6 +6,8 @@ import type { AuthError } from '../errors/auth.error'
  */
 export const mapKeycloakCallbackError = (error: string | null): AuthError => {
   switch (error) {
+    case 'keycloak_inactive':
+      return createAuthError(AUTH_ERROR_CODE.KEYCLOAK_INACTIVE)
     case 'keycloak_unavailable':
       return createAuthError(AUTH_ERROR_CODE.KEYCLOAK_UNAVAILABLE)
     case 'keycloak_denied':

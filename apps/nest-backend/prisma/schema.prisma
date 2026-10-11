@@ -54,11 +54,11 @@ model AdminAccessRole {
 model AdminKeycloakSettings {
   id                Int      @id @default(1)
   enabled           Boolean  @default(false)
-  issuer            String   @default("") @db.VarChar(512)
+  issuer            String   @default("https://route66.biocad.ru/realms/biocad") @db.VarChar(512)
   clientId          String   @default("") @db.VarChar(255)
   clientSecret      String?
-  callbackUrl       String   @default("") @db.VarChar(2048)
-  frontendCallbackUrl String @default("") @db.VarChar(2048)
+  callbackUrl       String   @default("http://localhost:3001/api/auth/callback") @db.VarChar(2048)
+  frontendCallbackUrl String @default("http://localhost:3001/auth/keycloak/callback") @db.VarChar(2048)
   version           Int      @default(0)
   updatedAt         DateTime @updatedAt
 }
@@ -100,7 +100,7 @@ model AdminSession {
   @@index([identityId])
 }
 
-// Только заранее привязанные оператором административные identity.
+// Привязки OWNER или первого проверенного OIDC-входа с созданием USER.
 model AdminIdentity {
   id          String                @id @default(uuid()) @db.Uuid
   userId      String                @db.Uuid

@@ -7,13 +7,11 @@
   инфраструктуру**. Проверки: `lint`, `check-types`, `build`, адресные ручные
   HTTP-сценарии. `typecheck` — совместимый alias для `check-types`.
 - В параллельной работе установку зависимостей и изменение lockfile выполняет
-  назначенный владелец. Для проверок через pnpm 11 задавать
-  `PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false`, чтобы `run`/`exec` не запускали
-  неявный workspace install. Если зависимостей не хватает, передать это владельцу,
+  назначенный владелец. Если зависимостей не хватает, передать это владельцу,
   а не менять общую build-script policy самостоятельно.
 - HTTP-контроллеры принадлежат `src/client-api` или `src/admin-api`, правила
   аккаунтов — `src/modules`, конфигурация, HTTP, auth и Prisma — `src/infrastructure`.
-- Два независимых entrypoint: client API на 3001 и admin API на 3002; оба по умолчанию слушают `0.0.0.0`.
+- Два независимых entrypoint: client API на 4000 и admin API на 4001; оба по умолчанию слушают `0.0.0.0`.
   Из корня: `pnpm --filter @oim/nest-backend <команда>`.
   `dev:client` / `dev:admin`, `build:client` / `build:admin` и
   `start:client` / `start:admin` работают отдельно. `dev`, `build` и `start`
@@ -28,11 +26,15 @@
   `ApiConfig.accessTtlSeconds` фиксирован: 604800 (7 дней) для обоих API; срок сессии
   равен сроку JWT. TTL env, `ApiConfig.sessionTtlSeconds` и refresh не используются;
   `/auth/refresh` удалён, logout через Bearer отзывает текущую сессию.
+- Ограничения частоты HTTP-запросов отключены в обоих API по решению пользователя.
 - Закрытые административные endpoint'ы требуют явного `@AdminPermissions`;
   без метаданных доступ запрещён даже OWNER. Каталог действий — `modules/admin-access`.
   Роли в БД: OWNER — все действия, ADMIN — все несистемные, USER — собственный аккаунт.
   Default нового аккаунта — USER, первоначальный admin/admin — OWNER; обязательной смены пароля нет.
   Встроенные роли неизменяемы; дополнительные роли и назначения управляются OWNER через /access.
+  `accounts.read` разрешает чтение списка пользователей, `accounts.activate` — включение
+  существующего `isActive` без изменения роли/credentials. Оба права есть у ADMIN/OWNER
+  и могут назначаться дополнительным ролям; USER по умолчанию их не получает.
   Системные permissions не делегируются. Последний активный OWNER защищён от отключения/понижения.
 - CORS разрешает любой origin и запрашиваемые заголовки: `origin: true`, `credentials: true`, без allowlist env
   и `ApiConfig.allowedOrigins`. Не использовать `*` вместе с credentials.
@@ -82,12 +84,21 @@
   upstream tokens не хранятся. Callback выдаёт только временный grant, а
   `/auth/keycloak/complete` под browser origin/CSRF guard атомарно создаёт сессию.
   `AdminUser.passwordHash` nullable, ClientUser неизменен. Привязка issuer+sub
-  только OWNER через /access/users/:id/identities, без JIT/email-link/автоматического OWNER. Изменения credentials,
+  вручную через OWNER /access/users/:id/identities либо при первом проверенном OIDC-входе:
+  новая identity атомарно получает SSO-only аккаунт USER с `isActive: false`.
+  До разрешения входа callback возвращает `keycloak_inactive`, без completion и сессии.
+  Отдельного поля/статуса активации нет. Отозванные привязки и отключённые
+  аккаунты не восстанавливаются автоматически. Email/логин/роли KC не назначают доступ.
+  Имя из проверенного profile заполняется только при создании. Изменения credentials,
   identity и активности выполняются под user lock с authVersion/отзывом сессий.
   Logout локальный; ограничения TTL/SSO и управление через UI/API описаны в `docs/admin-keycloak.md`.
   Отдельного Keycloak `sessionTtlSeconds` в settings DTO нет; срок собственных
   JWT/сессий приложения равен общему `ApiConfig.accessTtlSeconds` (7 дней).
   Настройки Keycloak читаются из БД на запрос, а не из ADMIN_KEYCLOAK_* env.
   OWNER изменяет их через /settings/keycloak, secret write-only.
+  Новая БД содержит корпоративный issuer `https://route66.biocad.ru/realms/biocad`
+  и callbacks `http://localhost:3001/api/auth/callback`,
+  `http://localhost:3001/auth/keycloak/callback`. Client ID пуст, secret отсутствует,
+  enabled=false; сохранённая владельцем конфигурация не заменяется defaults.
   Изменение версии отменяет OIDC flows и отзывает SSO-сессии.
   Общая системная блокировка всегда берётся до user locks; системные изменения журналируются без секретов.

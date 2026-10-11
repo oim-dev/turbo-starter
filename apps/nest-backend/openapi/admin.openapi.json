@@ -89,16 +89,6 @@
               }
             }
           },
-          "429": {
-            "description": "Превышен лимит запросов.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDto"
-                }
-              }
-            }
-          },
           "500": {
             "description": "Внутренняя ошибка сервера.",
             "content": {
@@ -204,16 +194,6 @@
           },
           "415": {
             "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDto"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Превышен лимит запросов.",
             "content": {
               "application/json": {
                 "schema": {
@@ -332,16 +312,6 @@
           },
           "415": {
             "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDto"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Превышен лимит запросов.",
             "content": {
               "application/json": {
                 "schema": {
@@ -479,16 +449,6 @@
               }
             }
           },
-          "429": {
-            "description": "Превышен лимит запросов.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDto"
-                }
-              }
-            }
-          },
           "500": {
             "description": "Внутренняя ошибка сервера.",
             "content": {
@@ -599,16 +559,6 @@
               }
             }
           },
-          "429": {
-            "description": "Превышен лимит запросов.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDto"
-                }
-              }
-            }
-          },
           "500": {
             "description": "Внутренняя ошибка сервера.",
             "content": {
@@ -673,7 +623,7 @@
             }
           },
           "403": {
-            "description": "Недостаточно прав. Требуются: system.access.manage.",
+            "description": "Недостаточно прав. Требуются: accounts.read.",
             "content": {
               "application/json": {
                 "schema": {
@@ -722,16 +672,6 @@
               }
             }
           },
-          "429": {
-            "description": "Превышен лимит запросов.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDto"
-                }
-              }
-            }
-          },
           "500": {
             "description": "Внутренняя ошибка сервера.",
             "content": {
@@ -753,7 +693,7 @@
           "Access"
         ],
         "x-admin-permissions": [
-          "system.access.manage"
+          "accounts.read"
         ]
       },
       "post": {
@@ -842,16 +782,6 @@
           },
           "415": {
             "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDto"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Превышен лимит запросов.",
             "content": {
               "application/json": {
                 "schema": {
@@ -989,16 +919,6 @@
               }
             }
           },
-          "429": {
-            "description": "Превышен лимит запросов.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDto"
-                }
-              }
-            }
-          },
           "500": {
             "description": "Внутренняя ошибка сервера.",
             "content": {
@@ -1015,7 +935,7 @@
             "access-token": []
           }
         ],
-        "summary": "Изменить роль или активность аккаунта",
+        "summary": "Изменить профиль, роль или активность аккаунта и отозвать сессии",
         "tags": [
           "Access"
         ],
@@ -1121,8 +1041,127 @@
               }
             }
           },
-          "429": {
-            "description": "Превышен лимит запросов.",
+          "500": {
+            "description": "Внутренняя ошибка сервера.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "summary": "Привязать пользователя Keycloak и отозвать прежние сессии",
+        "tags": [
+          "Access"
+        ],
+        "x-admin-permissions": [
+          "system.access.manage"
+        ]
+      }
+    },
+    "/access/users/{id}/activate": {
+      "post": {
+        "operationId": "adminAccountActivate",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivateAdminAccountDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminAccountDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный запрос или неизвестные входные поля.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Неверные учётные данные или токен либо неактивная сессия.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Недостаточно прав. Требуются: accounts.activate.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не найден или недоступен текущему пользователю.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт с существующими данными или повторное действие.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Превышен лимит: 64 КиБ для JSON.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1147,12 +1186,12 @@
             "access-token": []
           }
         ],
-        "summary": "Привязать пользователя Keycloak и отозвать прежние сессии",
+        "summary": "Разрешить вход существующему пользователю без изменения его роли",
         "tags": [
           "Access"
         ],
         "x-admin-permissions": [
-          "system.access.manage"
+          "accounts.activate"
         ]
       }
     },
@@ -1251,8 +1290,120 @@
               }
             }
           },
-          "429": {
-            "description": "Превышен лимит запросов.",
+          "500": {
+            "description": "Внутренняя ошибка сервера.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "summary": "Отозвать привязку пользователя Keycloak",
+        "tags": [
+          "Access"
+        ],
+        "x-admin-permissions": [
+          "system.access.manage"
+        ]
+      }
+    },
+    "/access/users/{id}/password": {
+      "put": {
+        "operationId": "adminAccountPasswordSet",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetAdminAccountPasswordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": "Некорректный запрос или неизвестные входные поля.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Неверные учётные данные или токен либо неактивная сессия.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Недостаточно прав. Требуются: system.access.manage.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не найден или недоступен текущему пользователю.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт с существующими данными или повторное действие.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Превышен лимит: 64 КиБ для JSON.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1277,7 +1428,7 @@
             "access-token": []
           }
         ],
-        "summary": "Отозвать привязку пользователя Keycloak",
+        "summary": "Задать локальный пароль аккаунта и отозвать прежние сессии",
         "tags": [
           "Access"
         ],
@@ -1365,16 +1516,6 @@
           },
           "415": {
             "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDto"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Превышен лимит запросов.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1487,16 +1628,6 @@
           },
           "415": {
             "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDto"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Превышен лимит запросов.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1647,16 +1778,6 @@
               }
             }
           },
-          "429": {
-            "description": "Слишком много запросов аутентификации.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDto"
-                }
-              }
-            }
-          },
           "500": {
             "description": "Внутренняя ошибка сервера.",
             "content": {
@@ -1754,16 +1875,6 @@
           },
           "415": {
             "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDto"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Слишком много запросов аутентификации.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1897,16 +2008,6 @@
               }
             }
           },
-          "429": {
-            "description": "Слишком много запросов аутентификации.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDto"
-                }
-              }
-            }
-          },
           "500": {
             "description": "Внутренняя ошибка сервера.",
             "content": {
@@ -2009,16 +2110,6 @@
           },
           "415": {
             "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDto"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Слишком много запросов аутентификации.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2145,16 +2236,6 @@
               }
             }
           },
-          "429": {
-            "description": "Слишком много запросов аутентификации.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDto"
-                }
-              }
-            }
-          },
           "500": {
             "description": "Внутренняя ошибка сервера.",
             "content": {
@@ -2269,16 +2350,6 @@
               }
             }
           },
-          "429": {
-            "description": "Слишком много запросов аутентификации.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDto"
-                }
-              }
-            }
-          },
           "500": {
             "description": "Внутренняя ошибка сервера.",
             "content": {
@@ -2381,16 +2452,6 @@
           },
           "415": {
             "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDto"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Превышен лимит запросов.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2524,16 +2585,6 @@
               }
             }
           },
-          "429": {
-            "description": "Слишком много запросов.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDto"
-                }
-              }
-            }
-          },
           "500": {
             "description": "Внутренняя ошибка сервера.",
             "content": {
@@ -2636,16 +2687,6 @@
           },
           "415": {
             "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDto"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Превышен лимит запросов.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2772,16 +2813,6 @@
               }
             }
           },
-          "429": {
-            "description": "Превышен лимит запросов.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorDto"
-                }
-              }
-            }
-          },
           "500": {
             "description": "Внутренняя ошибка сервера.",
             "content": {
@@ -2810,7 +2841,7 @@
   },
   "info": {
     "title": "Starter — административное API",
-    "description": "Административное API с настраиваемыми ролями. Первый владелец создаётся при запуске на пустой БД; дополнительные аккаунты — через OWNER API. Роль и permissions доступны в /auth/me; требования операции — в x-admin-permissions. OWNER имеет все права, ADMIN — все несистемные, USER — собственный аккаунт. Управление доступом и Keycloak доступно только OWNER.\n\nВход и выход через браузер требуют заголовков Origin и X-CSRF-Protection: 1. Принимается любой корректный HTTP(S) Origin без allowlist; CORS открыт.\n\nАвторизация — только Bearer JWT в заголовке Authorization. При входе JWT возвращается в accessToken, cookie авторизации не устанавливаются. JWT и сессия действуют 7 дней (604800 секунд), включая Keycloak. Продления нет; после истечения срока нужен новый вход.\n\nLogout требует валидный JWT текущей сессии и немедленно отзывает её; повторный запрос возвращает 401. Успешная смена credentials отзывает все сессии аккаунта. Клиент удаляет сохранённый JWT после выхода, успешной смены credentials или терминального отказа Bearer. Исключение: 401 CURRENT_PASSWORD_INVALID при неверном текущем пароле не отзывает сессию и не требует удаления JWT. Клиентские и административные JWT не взаимозаменяемы.",
+    "description": "Административное API с настраиваемыми ролями. Первый владелец создаётся при запуске на пустой БД. Первый вход Keycloak создаёт USER с isActive=false; до разрешения входа сессия не выдаётся. accounts.read позволяет просматривать пользователей, accounts.activate — разрешать вход без изменения роли. Роль и permissions доступны в /auth/me; требования операции — в x-admin-permissions. OWNER имеет все права, ADMIN — все несистемные, USER — собственный аккаунт. Назначение ролей, управление credentials и Keycloak доступно только OWNER.\n\nВход и выход через браузер требуют заголовков Origin и X-CSRF-Protection: 1. Принимается любой корректный HTTP(S) Origin без allowlist; CORS открыт.\n\nАвторизация — только Bearer JWT в заголовке Authorization. При входе JWT возвращается в accessToken, cookie авторизации не устанавливаются. JWT и сессия действуют 7 дней (604800 секунд), включая Keycloak. Продления нет; после истечения срока нужен новый вход.\n\nLogout требует валидный JWT текущей сессии и немедленно отзывает её; повторный запрос возвращает 401. Успешная смена credentials отзывает все сессии аккаунта. Клиент удаляет сохранённый JWT после выхода, успешной смены credentials или терминального отказа Bearer. Исключение: 401 CURRENT_PASSWORD_INVALID при неверном текущем пароле не отзывает сессию и не требует удаления JWT. Клиентские и административные JWT не взаимозаменяемы.",
     "version": "1.0.0",
     "contact": {}
   },
@@ -3059,6 +3090,17 @@
       "UpdateAdminAccountDto": {
         "type": "object",
         "properties": {
+          "login": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 64,
+            "pattern": "^[a-zA-Z0-9_.-]{3,64}$",
+            "description": "Новый логин. Нормализуется в нижний регистр."
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 120
+          },
           "role": {
             "type": "string"
           },
@@ -3092,6 +3134,36 @@
         "required": [
           "issuer",
           "subject"
+        ]
+      },
+      "ActivateAdminAccountDto": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "version"
+        ]
+      },
+      "SetAdminAccountPasswordDto": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "minLength": 12,
+            "maxLength": 128
+          },
+          "version": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "password",
+          "version"
         ]
       },
       "LoginDto": {

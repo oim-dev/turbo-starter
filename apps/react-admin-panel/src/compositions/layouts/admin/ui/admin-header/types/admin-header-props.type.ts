@@ -4,6 +4,14 @@ import type { ComponentPropsWithoutRef } from 'react'
 export type AdminHeaderParams = {
   /** Имя текущего сотрудника. */
   userLogin: string | null
+  /**
+   * Отображаемое имя аккаунта.
+   */
+  userName: string
+  /**
+   * Название назначенной роли.
+   */
+  roleName: string
   /** Состояние мобильной навигации. */
   isNavigationOpened: boolean
   /** Переключает мобильное меню. */

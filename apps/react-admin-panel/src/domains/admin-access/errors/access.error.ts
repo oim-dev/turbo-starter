@@ -16,7 +16,7 @@ export const classifyAccessError = (error: unknown): Error => {
       rejectAuthentication(getBackendAdminApiErrorAccessToken(error))
       return new AccessError('Сессия завершена. Войдите снова.')
     }
-    if (error.status === 403) return new AccessError('Управление доступом разрешено только владельцу.')
+    if (error.status === 403) return new AccessError('Недостаточно прав для этого действия. Обратитесь к администратору.')
     if (error.status === 409) return new AccessError('Конфликт: данные изменены, логин или привязка заняты либо роль используется. Последнего владельца нельзя отключить или понизить.')
     if (error.status === 400) return new AccessError('Операция недопустима. Проверьте данные и права роли. У активного аккаунта должен оставаться хотя бы один способ входа.')
     if (error.status === 404) return new AccessError('Запись больше не существует. Обновите список.')

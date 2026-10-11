@@ -16,7 +16,7 @@ import { validateSessionResponse } from './helpers/validate-session-response'
  * Один браузерный Bearer-транспорт без cookies и автоматического повтора запросов.
  */
 export const httpClient: HttpClient = new HttpClient({
-  baseUrl: (process.env.NEXT_PUBLIC_CLIENT_API_URL ?? 'http://localhost:3001').replace(/\/$/, ''),
+  baseUrl: (process.env.NEXT_PUBLIC_CLIENT_API_URL ?? 'http://localhost:4000').replace(/\/$/, ''),
   credentials: 'omit',
   cache: 'no-store',
   timeout: 12_000,

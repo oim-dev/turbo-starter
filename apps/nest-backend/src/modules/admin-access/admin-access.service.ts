@@ -19,6 +19,7 @@ import {
   PERMISSIONS,
   requireAdminPermission,
   type AdminPrincipal,
+  type AdminPermission,
 } from './admin-permissions';
 import {
   AdminAccessRoleDto,
@@ -28,6 +29,8 @@ import {
   UpdateAdminAccountDto,
   UpdateAdminRoleDto,
   BindAdminIdentityDto,
+  SetAdminAccountPasswordDto,
+  ActivateAdminAccountDto,
 } from './admin-access.dto';
 
 const accountInclude = {
@@ -94,12 +97,13 @@ export class AdminAccessService {
     action: string,
     target: string,
     work: (tx: Prisma.TransactionClient) => Promise<T>,
+    permission: AdminPermission = 'system.access.manage',
   ): Promise<T> {
     try {
       return await this.prisma.$transaction(
         async (tx) => {
           await lockAdminSecurity(tx);
-          await requireAdminPermission(tx, actor, 'system.access.manage');
+          await requireAdminPermission(tx, actor, permission);
           const result = await work(tx);
           await tx.adminSecurityAudit.create({
             data: { actorId: actor.id, action, target },
@@ -218,6 +222,8 @@ export class AdminAccessService {
       await tx.$queryRaw`SELECT id FROM "AdminUser" WHERE id = ${id}::uuid FOR UPDATE`;
       const user = await tx.adminUser.findUnique({ where: { id } });
       if (!user) throw new NotFoundException('Аккаунт не найден.');
+      if (!user.isActive && dto.isActive)
+        await requireAdminPermission(tx, actor, 'accounts.activate');
       if (
         dto.isActive &&
         user.passwordHash === null &&
@@ -246,7 +252,12 @@ export class AdminAccessService {
         );
       await tx.adminUser.update({
         where: { id },
-        data: { role: dto.role, isActive: dto.isActive },
+        data: {
+          role: dto.role,
+          isActive: dto.isActive,
+          name: dto.name?.trim(),
+          login: dto.login?.toLowerCase(),
+        },
       });
       await invalidateAdminAuthentication(tx, id);
       return account(
@@ -266,6 +277,26 @@ export class AdminAccessService {
     const user = await tx.adminUser.findUnique({ where: { id } });
     if (!user) throw new NotFoundException('Аккаунт не найден.');
     return user;
+  }
+
+  activateAccount(
+    actor: AdminPrincipal,
+    id: string,
+    dto: ActivateAdminAccountDto,
+  ): Promise<AdminAccountDto> {
+    return this.write(actor, 'account.activate', id, async (tx) => {
+      const user = await this.lockAccount(tx, id);
+      if (user.authVersion !== dto.version || user.isActive)
+        throw new ConflictException('Аккаунт изменён или вход уже разрешён. Обновите данные.');
+      if (
+        user.passwordHash === null &&
+        (await tx.adminIdentity.count({ where: { userId: id, revokedAt: null } })) === 0
+      )
+        throw new BadRequestException('Для входа нужен пароль или активная привязка Keycloak.');
+      await tx.adminUser.update({ where: { id }, data: { isActive: true } });
+      await invalidateAdminAuthentication(tx, id);
+      return account(await tx.adminUser.findUniqueOrThrow({ where: { id }, include: accountInclude }));
+    }, 'accounts.activate');
   }
 
   bindIdentity(
@@ -333,6 +364,21 @@ export class AdminAccessService {
         where: { id: identityId },
         data: { revokedAt: new Date() },
       });
+      await invalidateAdminAuthentication(tx, id);
+    });
+  }
+
+  async setLocalPassword(
+    actor: AdminPrincipal,
+    id: string,
+    dto: SetAdminAccountPasswordDto,
+  ): Promise<void> {
+    const passwordHash = await hashPassword(dto.password);
+    return this.write(actor, 'account.password.set', id, async (tx) => {
+      const user = await this.lockAccount(tx, id);
+      if (user.authVersion !== dto.version)
+        throw new ConflictException('Аккаунт изменён. Обновите данные.');
+      await tx.adminUser.update({ where: { id }, data: { passwordHash } });
       await invalidateAdminAuthentication(tx, id);
     });
   }

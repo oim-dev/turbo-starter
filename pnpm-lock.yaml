@@ -35,9 +35,6 @@ importers:
       '@nestjs/swagger':
         specifier: ^11.4.6
         version: 11.4.7(@nestjs/common@11.2.7(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.7)(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)
-      '@nestjs/throttler':
-        specifier: ^6.5.0
-        version: 6.7.1(@nestjs/common@11.2.7(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.7)(reflect-metadata@0.2.2)
       '@prisma/adapter-pg':
         specifier: 7.9.1
         version: 7.9.1
@@ -135,12 +132,12 @@ importers:
       '@mantine/hooks':
         specifier: 8.3.18
         version: 8.3.18(react@19.2.8)
-      '@tabler/icons-react':
-        specifier: ^3.46.0
-        version: 3.48.0(react@19.2.8)
       '@oim/client-rest-api-sdk':
         specifier: workspace:*
         version: link:../../packages/client-rest-api-sdk
+      '@tabler/icons-react':
+        specifier: ^3.46.0
+        version: 3.48.0(react@19.2.8)
       clsx:
         specifier: 2.1.1
         version: 2.1.1
@@ -205,12 +202,12 @@ importers:
       '@mantine/hooks':
         specifier: ^8.3.10
         version: 8.3.18(react@19.2.8)
-      '@tabler/icons-react':
-        specifier: ^3.36.0
-        version: 3.48.0(react@19.2.8)
       '@oim/admin-rest-api-sdk':
         specifier: workspace:*
         version: link:../../packages/admin-rest-api-sdk
+      '@tabler/icons-react':
+        specifier: ^3.36.0
+        version: 3.48.0(react@19.2.8)
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -254,6 +251,9 @@ importers:
       '@vitejs/plugin-react':
         specifier: ^5.1.1
         version: 5.2.0(supports-color@8.1.1)(vite@7.3.6(@types/node@24.19.1)(jiti@2.7.0)(sugarss@5.0.1(postcss@8.5.26))(terser@5.51.2))
+      agent-browser:
+        specifier: 0.39.0
+        version: 0.39.0
       eslint:
         specifier: ^9.39.1
         version: 9.39.5(jiti@2.7.0)(supports-color@8.1.1)
@@ -1431,14 +1431,6 @@ packages:
       class-validator:
         optional: true
 
-  '@nestjs/throttler@6.7.1':
-    resolution: {integrity: sha512-gAyY1AkU+cSK5DCjFOB43xax9oakameH4xZa9kAgqBqSBQZgmv3DZylLV8KyZNzOGhceL3kDVtby+CF8VAdmEA==}
-    engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
-    peerDependencies:
-      '@nestjs/common': ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0 || ^12.0.0
-      '@nestjs/core': ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0 || ^12.0.0
-      reflect-metadata: ^0.1.13 || ^0.2.0
-
   '@next/env@16.3.4':
     resolution: {integrity: sha512-cjWZnUUa6jZq2kFaNe/ZyJdZonOZ/QoN0Zka2nz/FLOrfx14pQuM9c5RaSVkWMqgdt4ksgPAMWPyHSs/CyV48Q==}
 
@@ -2425,6 +2417,11 @@ packages:
   acorn@8.18.0:
     resolution: {integrity: sha512-lGq+9yr1/GuAWaVYIHRjvvySG5/4VfKIvC8EWxStPdcDh/Ka7FG3twP6v4d5BkravUilhIAsG4Qj83t02LWUPQ==}
     engines: {node: '>=0.4.0'}
+    hasBin: true
+
+  agent-browser@0.39.0:
+    resolution: {integrity: sha512-VtImIqCpHC/xJFw91IAcLlBJzebCBjynOwIKnx4kuCeI2JicpPBMKykdjQ1wmnj2dL2voNKRv8iK+Joe6aHFtw==}
+    engines: {node: '>=24.0.0', pnpm: '>=11.0.0'}
     hasBin: true
 
   ajv-formats@3.0.1:
@@ -6194,12 +6191,6 @@ snapshots:
       class-transformer: 0.5.1
       class-validator: 0.14.4
 
-  '@nestjs/throttler@6.7.1(@nestjs/common@11.2.7(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/core@11.2.7)(reflect-metadata@0.2.2)':
-    dependencies:
-      '@nestjs/common': 11.2.7(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
-      '@nestjs/core': 11.2.7(@nestjs/common@11.2.7(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1))(@nestjs/platform-express@11.2.7)(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      reflect-metadata: 0.2.2
-
   '@next/env@16.3.4': {}
 
   '@next/eslint-plugin-next@16.3.4(eslint@10.9.1(jiti@2.7.0)(supports-color@8.1.1))':
@@ -7119,6 +7110,8 @@ snapshots:
       acorn: 8.18.0
 
   acorn@8.18.0: {}
+
+  agent-browser@0.39.0: {}
 
   ajv-formats@3.0.1(ajv@8.18.0):
     optionalDependencies:

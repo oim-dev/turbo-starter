@@ -1,8 +1,17 @@
 :root {
   --app-color-canvas: var(--mantine-color-gray-0);
+  --app-color-subtle: var(--mantine-color-gray-0);
+  --app-color-text-strong: var(--mantine-color-gray-9);
+  --app-panel-padding: 20px;
+
+  @media (--sm) {
+    --app-panel-padding: 28px;
+  }
 }
 
 :root[data-mantine-color-scheme='dark'] {
   --app-color-canvas: var(--mantine-color-dark-8);
   --mantine-color-dimmed: var(--mantine-color-dark-2);
+  --app-color-subtle: var(--mantine-color-dark-8);
+  --app-color-text-strong: var(--mantine-color-dark-0);
 }

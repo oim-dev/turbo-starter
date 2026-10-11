@@ -13,6 +13,7 @@
   align-items: center;
   justify-content: space-between;
   padding-inline: 24px;
+  border-bottom: 1px solid var(--mantine-color-default-border);
 
   &._compact {
     justify-content: center;
@@ -22,24 +23,25 @@
 
 .brand {
   display: inline-flex;
-  align-items: baseline;
+  min-height: 44px;
+  align-items: center;
   border-radius: var(--mantine-radius-sm);
-  color: var(--mantine-color-text);
+  color: var(--app-color-text-strong);
   text-decoration: none;
-  white-space: nowrap;
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-  line-height: 1;
 
   &:focus-visible {
     outline: 2px solid var(--mantine-primary-color-filled);
     outline-offset: 5px;
   }
+}
+
+.brandLogo {
+  display: block;
+  width: 124px;
+  height: 24px;
 
   &._compact {
-    font-size: 32px;
-    letter-spacing: -1px;
+    width: 56px;
   }
 }
 
@@ -50,8 +52,9 @@
 
 .navigation {
   display: grid;
-  gap: 6px;
-  padding: 20px 12px;
+  gap: 4px;
+  /* Drawer вне AppShell использует мобильный отступ темы. */
+  padding: var(--app-shell-padding, var(--mantine-spacing-md)) 12px 12px;
 }
 
 .navLink {

@@ -47,12 +47,12 @@ export default defineConfig(({ mode }) => {
   const isHttpsEnabled = env.VITE_HTTPS === 'true'
   const backendUrl = parseProxyUrl(
     'VITE_BACKEND_URL',
-    env.VITE_BACKEND_URL || 'http://127.0.0.1:3002',
+    env.VITE_BACKEND_URL || 'http://127.0.0.1:4001',
     ['http:', 'https:']
   )
   const localServer = {
     host: env.VITE_HOST || 'localhost',
-    port: parsePort(env.VITE_PORT || '5173'),
+    port: parsePort(env.VITE_PORT || '3001'),
     strictPort: true,
     proxy: {
       '/api/': {

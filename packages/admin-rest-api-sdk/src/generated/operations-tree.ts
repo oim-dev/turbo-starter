@@ -4,7 +4,9 @@
  * https://github.com/gromlab-ru/rest-api-codegen
  */
 
+import { adminAccountActivate } from "./operations/admin-account-activate.js";
 import { adminAccountCreate } from "./operations/admin-account-create.js";
+import { adminAccountPasswordSet } from "./operations/admin-account-password-set.js";
 import { adminAccountUpdate } from "./operations/admin-account-update.js";
 import { adminAccountsList } from "./operations/admin-accounts-list.js";
 import { adminAuthChangePassword } from "./operations/admin-auth-change-password.js";
@@ -38,7 +40,9 @@ export const operationsTree = {
     adminAccountCreate: adminAccountCreate,
     adminAccountUpdate: adminAccountUpdate,
     adminIdentityBind: adminIdentityBind,
+    adminAccountActivate: adminAccountActivate,
     adminIdentityUnbind: adminIdentityUnbind,
+    adminAccountPasswordSet: adminAccountPasswordSet,
     adminLocalPasswordDisable: adminLocalPasswordDisable,
     adminSessionsRevoke: adminSessionsRevoke,
   },

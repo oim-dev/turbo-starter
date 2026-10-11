@@ -56,7 +56,7 @@ Vite сообщает о основном JS chunk около 689 kB; сборк
 его предыдущая приёмка описана в admin-access-qa.md.
 
 Новый TSX создан через
-`PNPM_CONFIG_VERIFY_DEPS_BEFORE_RUN=false pnpm run create ui-component account-security src/compositions/screens/access/ui/accounts-panel/ui`
+`pnpm run create ui-component account-security src/compositions/screens/access/ui/accounts-panel/ui`
 из apps/react-admin-panel. Итоговый путь:
 `src/compositions/screens/access/ui/accounts-panel/ui/account-security/account-security.tsx`.
 

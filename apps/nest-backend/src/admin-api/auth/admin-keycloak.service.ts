@@ -23,6 +23,7 @@ import {
 import { type EnabledAdminKeycloakConfig } from '../../infrastructure/config/admin-keycloak-config';
 import { PrismaService } from '../../infrastructure/prisma/prisma.service';
 import { lockAdminIdentity } from '../../modules/admin-users/admin-identity-lock';
+import { resolveAdminOidcAccount } from '../../modules/admin-users/admin-oidc-account';
 import { AdminKeycloakSettingsService } from '../../modules/admin-settings/admin-keycloak-settings.service';
 import { lockAdminSecurity } from '../../modules/admin-access/admin-permissions';
 
@@ -171,19 +172,11 @@ export class AdminKeycloakService {
         nonce: transaction.nonce,
         codeVerifier: transaction.codeVerifier,
       });
-      const existing = await this.prisma.adminIdentity.findUnique({
-        where: { issuer_subject: verified },
-      });
-      if (!existing) throw new AdminOidcError('keycloak_denied');
       const completion = randomOidcToken();
-      await this.prisma.$transaction(async (tx) => {
+      const isActive = await this.prisma.$transaction(async (tx) => {
         await lockAdminSecurity(tx);
         await this.settings.requireCurrent(tx, config.version);
-        const account = await lockAdminIdentity(
-          tx,
-          existing.userId,
-          existing.id,
-        );
+        const account = await resolveAdminOidcAccount(tx, verified);
         await tx.$queryRaw`SELECT "stateHash" FROM "AdminOidcTransaction" WHERE "stateHash" = ${transaction.stateHash} FOR UPDATE`;
         const flow = await tx.adminOidcTransaction.findUnique({
           where: { stateHash: transaction.stateHash },
@@ -194,16 +187,24 @@ export class AdminKeycloakService {
           !flow ||
           !flow.consumedAt ||
           flow.expiresAt <= now ||
-          account.user.authValidAfter >= transaction.createdAt ||
-          account.identity.createdAt >= transaction.createdAt
+          // Ручная привязка и восстановление identity двигают authValidAfter.
+          // JIT-привязка допустима и для уже начатого первого входа.
+          account.user.authValidAfter >= transaction.createdAt
         ) {
           throw new AdminOidcError('keycloak_denied');
         }
+        // Даже при запрещённом входе сохраняем созданный аккаунт и identity.
+        // Возврат из транзакции фиксирует регистрацию, не создавая grant/сессию.
+        await tx.adminOidcTransaction.update({
+          where: { stateHash: transaction.stateHash },
+          data: { codeVerifier: '', nonce: '' },
+        });
+        if (!account.user.isActive) return false;
         await tx.adminOidcCompletion.create({
           data: {
             tokenHash: hashOidcToken(completion),
             transactionId: transaction.stateHash,
-            identityId: existing.id,
+            identityId: account.identity.id,
             authVersion: account.user.authVersion,
             expiresAt: new Date(
               Math.min(
@@ -213,12 +214,15 @@ export class AdminKeycloakService {
             ),
           },
         });
-        // Обмен code завершён, PKCE/nonce больше не нужны даже до cleanup.
-        await tx.adminOidcTransaction.update({
-          where: { stateHash: transaction.stateHash },
-          data: { codeVerifier: '', nonce: '' },
-        });
+        return true;
       });
+      if (!isActive)
+        return this.redirect(
+          config,
+          'error',
+          '/',
+          new AdminOidcError('keycloak_inactive'),
+        );
       this.cookies.set(response, 'complete', completion, config.callbackUrl);
       return this.redirect(config, 'success', transaction.returnTo);
     } catch (error) {
@@ -261,6 +265,7 @@ export class AdminKeycloakService {
         const now = new Date();
         if (
           !account ||
+          !account.user.isActive ||
           !grant ||
           grant.consumedAt ||
           grant.expiresAt <= now ||

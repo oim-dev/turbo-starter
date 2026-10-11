@@ -4,7 +4,9 @@
  * https://github.com/gromlab-ru/rest-api-codegen
  */
 
+export { adminAccountActivate } from "./admin-account-activate.js";
 export { adminAccountCreate } from "./admin-account-create.js";
+export { adminAccountPasswordSet } from "./admin-account-password-set.js";
 export { adminAccountUpdate } from "./admin-account-update.js";
 export { adminAccountsList } from "./admin-accounts-list.js";
 export { adminAuthChangePassword } from "./admin-auth-change-password.js";

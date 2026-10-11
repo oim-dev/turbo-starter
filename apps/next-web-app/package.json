@@ -5,9 +5,9 @@
   "private": true,
   "scripts": {
     "create": "pnpm dlx @gromlab/template-file-generator@0.3.1 --skip-update",
-    "dev": "next dev --port 3005",
+    "dev": "next dev --port 3000",
     "build": "next build",
-    "start": "next start --port 3005",
+    "start": "next start --port 3000",
     "lint": "eslint .",
     "check-types": "next typegen && tsc --noEmit",
     "typecheck": "pnpm run check-types"

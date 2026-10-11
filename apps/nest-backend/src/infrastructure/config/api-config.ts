@@ -25,7 +25,7 @@ export function loadApiConfig(realm: ApiRealm): ApiConfig {
     }
     return value;
   };
-  const port = integer('API_PORT', realm === 'client' ? 3001 : 3002, 65535);
+  const port = integer('API_PORT', realm === 'client' ? 4000 : 4001, 65535);
   const jwtSecret = process.env[`${prefix}_JWT_SECRET`] ?? `${realm}-secret`;
   if (!jwtSecret.trim())
     throw new Error(`${prefix}_JWT_SECRET must not be empty`);

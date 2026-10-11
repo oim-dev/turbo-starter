@@ -22,13 +22,18 @@ export const useKeycloakSettings = (): KeycloakSettingsState => {
   const profile = useGetCurrentUser()
   const canManage = profile.error === undefined && profile.data?.permissions.includes('system.keycloak.manage') === true
   const key = canManage ? ['keycloak-settings', profile.data?.id] : null
-  const query = useSWR<KeycloakSettings, KeycloakSettingsError>(key, getKeycloakSettings, { shouldRetryOnError: false, revalidateOnFocus: false })
+  const query = useSWR<KeycloakSettings, KeycloakSettingsError>(key, getKeycloakSettings, {
+    shouldRetryOnError: false,
+    revalidateOnFocus: false
+  })
   /**
    * Обновляет кеш только подтверждённым сервером результатом.
    */
   const save = async (input: KeycloakSettingsInput): Promise<KeycloakSettings> => {
     const settings = await saveKeycloakSettings(input)
     await query.mutate(settings, { revalidate: false })
+    // Смена конфигурации отзывает текущую сессию, если она создана через SSO.
+    await profile.mutate().catch(() => undefined)
     return settings
   }
   return { ...query, save }

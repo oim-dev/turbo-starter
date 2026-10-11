@@ -3,16 +3,16 @@ import type { KeycloakSettings } from 'domains/keycloak-settings'
 /**
  * Исходные данные и завершение редактирования.
  */
-export type KeycloakFormProps = {
+export type KeycloakFormParams = {
   /**
    * Подтверждённые настройки без секрета.
    */
   settings: KeycloakSettings
-  /**
-   * Уведомление успешного сохранения.
-   */
-  onSaved: () => void
 }
+/**
+ * Свойства сценария настройки провайдера без собственного корневого DOM.
+ */
+export type KeycloakFormProps = KeycloakFormParams
 /**
  * Пользовательский черновик конфигурации.
  */

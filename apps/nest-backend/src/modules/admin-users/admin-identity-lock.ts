@@ -18,7 +18,7 @@ export async function lockAdminIdentity(
     where: { id: identityId },
   });
   if (
-    !user?.isActive ||
+    !user ||
     !identity ||
     identity.userId !== user.id ||
     identity.revokedAt !== null
