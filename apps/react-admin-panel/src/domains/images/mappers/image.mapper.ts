@@ -1,4 +1,5 @@
 import { hasOwn, isArrayOf, isNumber, isOneOf, isRecord, isString } from 'shared/value-predicates'
+import { isImageSha256 } from '../helpers/is-image-sha256'
 import { IMAGE_STATUS } from '../types/image.type'
 import type { ImageFacet, ImageFacets, ImagePage, ImageVariant, ProjectImage } from '../types/image.type'
 
@@ -65,6 +66,7 @@ const isImageOriginal = (original: unknown): original is ProjectImage['original'
   return isRecord(original)
     && hasOwn(original, 'contentType') && isString(original.contentType)
     && hasOwn(original, 'byteSize') && isNonNegativeNumber(original.byteSize)
+    && hasOwn(original, 'sha256') && (original.sha256 === null || isImageSha256(original.sha256))
     && hasOwn(original, 'width') && (original.width === null || isPositiveNumber(original.width))
     && hasOwn(original, 'height') && (original.height === null || isPositiveNumber(original.height))
 }
@@ -84,6 +86,8 @@ const isProcessingError = (error: unknown): error is ProjectImage['error'] => {
 const isProjectImage = (image: unknown): image is ProjectImage => {
   return isRecord(image)
     && hasOwn(image, 'id') && isString(image.id)
+    && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(image.id)
+    && hasOwn(image, 'publicId') && isString(image.publicId) && /^[A-Za-z0-9]{8}$/.test(image.publicId)
     && hasOwn(image, 'filename') && isString(image.filename)
     && hasOwn(image, 'title') && isString(image.title)
     && hasOwn(image, 'folder') && (image.folder === null || isString(image.folder))
@@ -104,6 +108,7 @@ export const mapImage = (payload: unknown): ProjectImage => {
   if (!isProjectImage(payload)) throw new Error('Invalid image response')
   return {
     id: payload.id,
+    publicId: payload.publicId,
     filename: payload.filename,
     title: payload.title,
     folder: payload.folder,

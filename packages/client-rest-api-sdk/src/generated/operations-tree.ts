@@ -16,6 +16,7 @@ import { clientImageGet } from "./operations/client-image-get.js";
 import { clientImageList } from "./operations/client-image-list.js";
 import { clientImageMedia } from "./operations/client-image-media.js";
 import { clientImageOriginal } from "./operations/client-image-original.js";
+import { clientImageReadableMedia } from "./operations/client-image-readable-media.js";
 import { clientImageRetry } from "./operations/client-image-retry.js";
 import { clientImageUpdate } from "./operations/client-image-update.js";
 import { getClientUserProfile } from "./operations/get-client-user-profile.js";
@@ -33,6 +34,7 @@ export const operationsTree = {
     clientImageOriginal: clientImageOriginal,
   },
   media: {
+    clientImageReadableMedia: clientImageReadableMedia,
     clientImageMedia: clientImageMedia,
   },
   auth: {

@@ -34,6 +34,7 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:deploy": "prisma migrate deploy",
     "openapi:generate": "prisma generate && ts-node src/export-openapi.ts",
+    "images:backfill-hashes": "ts-node src/backfill-image-hashes.ts",
     "db:up": "docker compose -f ../../infra/dev/docker-compose.yml up -d --wait postgres",
     "db:stop": "docker compose -f ../../infra/dev/docker-compose.yml stop postgres"
   },

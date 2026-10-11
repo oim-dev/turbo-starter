@@ -24,6 +24,7 @@ import type { AuthenticatedRequest } from '../../infrastructure/auth/authenticat
 import { ImagesService } from '../../modules/images/images.service';
 import {
   CreateImageUploadDto,
+  ImageCompleteDto,
   ImageDto,
   ImageFacetsDto,
   ImageListDto,
@@ -65,7 +66,7 @@ export class ClientImagesController {
   @Post('uploads')
   @ApiOperation({
     operationId: 'clientImageCreateUpload',
-    summary: 'Создать изображение и временную ссылку для PUT в MinIO',
+    summary: 'Переиспользовать проверенный оригинал или создать ссылку для PUT',
   })
   @ApiCreatedResponse({ type: ImageUploadDto })
   create(
@@ -97,16 +98,16 @@ export class ClientImagesController {
     operationId: 'clientImageComplete',
     summary: 'Идемпотентно подтвердить загрузку',
   })
-  @ApiAcceptedResponse({ type: ImageDto })
+  @ApiAcceptedResponse({ type: ImageCompleteDto })
   @ApiOkResponse({
-    type: ImageDto,
+    type: ImageCompleteDto,
     description: 'Обработка уже завершена (ready или failed).',
   })
   async complete(
     @Req() request: AuthenticatedRequest,
     @Param('id', ParseUUIDPipe) id: string,
     @Res({ passthrough: true }) response: Response,
-  ): Promise<ImageDto> {
+  ): Promise<ImageCompleteDto> {
     const image = await this.images.complete(
       { id: request.user.id, realm: 'client' },
       id,

@@ -11,6 +11,9 @@ export type {
   ImageFacets
 } from './types/image.type'
 export { IMAGE_STATUS } from './types/image.type'
+export { IMAGE_UPLOAD_PHASE } from './types/image-upload.type'
+export { IMAGE_MAX_UPLOAD_BYTES } from './config/image-upload.config'
+export type { ImageUploadProgress, ImageUploadResult } from './types/image-upload.type'
 export {
   formatImageBytes,
   formatImageCount,

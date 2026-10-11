@@ -26,7 +26,7 @@ import styles from './styles/image-upload.module.css'
  *  - показа индивидуального прогресса и результата передачи
  */
 export const ImageUpload = (props: ImageUploadProps): JSX.Element => {
-  const { isOpened, initialBatch, initialFolder, facets, onClose, onUpload, onUploaded } = props
+  const { isOpened, initialBatch, initialFolder, facets, onClose, onUpload, onUploaded, onOpenImage } = props
   const [initialSelection] = useState(() => prepareUploadSelection(initialBatch))
   const [entries, setEntries] = useState<UploadEntry[]>(initialSelection.entries)
   const [selectionError, setSelectionError] = useState<string | null>(() => {
@@ -51,7 +51,8 @@ export const ImageUpload = (props: ImageUploadProps): JSX.Element => {
   const hasFiles = !isEmptyArray(entries)
   const hasPendingFiles = entries.some((entry) => entry.status === 'waiting')
   const completedCount = entries.filter((entry) => entry.status === 'done').length
-  const hasCompleted = completedCount > 0
+  const reusedCount = entries.filter((entry) => entry.status === 'reused').length
+  const hasCompleted = completedCount + reusedCount > 0
   const canSubmit = hasPendingFiles && !form.submitting
   const buttonLabel = formatUploadAction(entries.filter((entry) => entry.status === 'waiting').length)
 
@@ -64,7 +65,7 @@ export const ImageUpload = (props: ImageUploadProps): JSX.Element => {
    */
   const handleFileDrop = (batch: NativeFileDrop): void => {
     if (form.submitting || activeController.current !== null) {
-      setSelectionError('Сейчас идёт передача. Дождитесь её завершения или нажмите «Остановить загрузку», затем добавьте файлы снова.')
+      setSelectionError('Сейчас идёт проверка или передача файлов. Дождитесь завершения или нажмите «Остановить загрузку», затем добавьте файлы снова.')
       return
     }
     const selection = prepareUploadSelection(batch)
@@ -78,7 +79,7 @@ export const ImageUpload = (props: ImageUploadProps): JSX.Element => {
   const handleAddFiles = (files: File[]): void => handleFileDrop({ files, directoryCount: 0 })
   const isDragging = useNativeFileDrop({ isEnabled: isOpened, canDrop: !form.submitting, onDrop: handleFileDrop })
   const dropLabel = form.submitting
-    ? 'Добавление файлов — после завершения передачи'
+    ? 'Добавление файлов — после завершения проверки и передачи'
     : isDragging ? 'Отпустите файлы, чтобы добавить в очередь' : 'Перетащите изображения или выберите'
   /**
    * Освобождает память исключённого файла.
@@ -94,7 +95,7 @@ export const ImageUpload = (props: ImageUploadProps): JSX.Element => {
     if (form.submitting) return
     setEntries((current) => current.map((entry) => {
       if (entry.id !== id || (entry.status !== 'failed' && entry.status !== 'cancelled')) return entry
-      return { ...entry, status: 'waiting', progress: 0, errorMessage: null }
+      return { ...entry, status: 'waiting', progress: 0, errorMessage: null, imageId: null }
     }))
   }
   /**
@@ -113,15 +114,21 @@ export const ImageUpload = (props: ImageUploadProps): JSX.Element => {
     try {
       for (const entry of entries) {
         if (entry.status !== 'waiting' || controller.signal.aborted) continue
-        updateEntry(entry.id, { status: 'uploading', errorMessage: null })
+        updateEntry(entry.id, { status: 'checking', progress: 0, errorMessage: null })
         try {
-          await onUpload(entry.file, input, (progress) => updateEntry(entry.id, { progress }), controller.signal)
-          updateEntry(entry.id, { status: 'done', progress: 100 })
+          const uploaded = await onUpload(entry.file, input, (progress) => {
+            updateEntry(entry.id, { status: progress.phase, progress: progress.percent })
+          }, controller.signal)
+          updateEntry(entry.id, {
+            status: uploaded.isReused ? 'reused' : 'done',
+            progress: 100,
+            imageId: uploaded.image.id
+          })
         } catch (error) {
           if (controller.signal.aborted) {
             updateEntry(entry.id, {
               status: 'cancelled',
-              errorMessage: 'Передача остановлена. Проверьте медиатеку перед новой загрузкой файла.'
+              errorMessage: 'Загрузка остановлена. При повторе проверим, есть ли оригинал в медиатеке.'
             })
             return
           }
@@ -172,7 +179,7 @@ export const ImageUpload = (props: ImageUploadProps): JSX.Element => {
               <button {...fileProps} type="button" className={cl(styles.dropzone, isDragging && styles._dragging)} disabled={form.submitting}>
                 <ThemeIcon size={56} radius="xl" variant="light"><IconCloudUpload size={28} aria-hidden="true" /></ThemeIcon>
                 <Text fw={600} mt="md" aria-live="polite">{dropLabel}</Text>
-                <Text size="sm" c="dimmed" mt={4}>JPEG, PNG и WebP · можно выбрать несколько файлов</Text>
+                <Text size="sm" c="dimmed" mt={4}>JPEG, PNG и WebP · до 20 МиБ каждый · несколько файлов</Text>
                 <Group gap={5} mt="md"><IconPlus size={16} aria-hidden="true" /><Text size="sm" fw={600}>Добавить файлы</Text></Group>
               </button>
             )}
@@ -189,23 +196,28 @@ export const ImageUpload = (props: ImageUploadProps): JSX.Element => {
                   canRemove={!form.submitting}
                   onRemove={handleRemove}
                   onRequeue={handleRequeue}
+                  onOpenImage={onOpenImage}
                 />
               ))}
             </Stack>
           )}
           <Fieldset variant="unstyled" disabled={form.submitting}>
             <Stack gap="md">
-              <Autocomplete label="Папка для всех файлов" placeholder="Например, Каталог/Обложки" data={folders} key={form.key('folder')} {...form.getInputProps('folder')} />
+              <Autocomplete label="Папка для новых файлов" placeholder="Например, Каталог/Обложки" data={folders} key={form.key('folder')} {...form.getInputProps('folder')} />
               <TagsInput label="Теги" placeholder="Введите тег и нажмите Enter" data={tags} key={form.key('tags')} {...form.getInputProps('tags')} />
             </Stack>
           </Fieldset>
+          <Text size="xs" c="dimmed" lh={1.6}>Перед отправкой проверим SHA-256 оригинала. Если файл уже есть в медиатеке, используем его без повторной загрузки; его название, папка и теги сохранятся.</Text>
           <Text size="xs" c="dimmed" lh={1.6}>Сохраним исходные пропорции и подготовим размеры с шагом 200 px, до 2000 px, без увеличения. Исходник хранится отдельно.</Text>
           {hasCompleted && (
-            <Alert color="teal" icon={<IconCheck size={18} />} role="status">Передано файлов: {completedCount}. Обработка продолжится в медиатеке.</Alert>
+            <Alert color="teal" icon={<IconCheck size={18} />} role="status">
+              <Text size="sm">Новых файлов: {completedCount}. Уже в медиатеке: {reusedCount}.</Text>
+              <Text size="xs" mt={4}>Откройте результат в очереди или перейдите в медиатеку, чтобы следить за обработкой.</Text>
+            </Alert>
           )}
           <Group justify="flex-end" gap="sm">
             {form.submitting && (
-              <Button variant="light" color="red" onClick={handleStop}>Остановить загрузку</Button>
+              <Button variant="light" color="red" c="light-dark(var(--mantine-color-red-9), var(--mantine-color-red-3))" onClick={handleStop}>Остановить загрузку</Button>
             )}
             <Button variant="default" onClick={onClose} disabled={form.submitting}>Закрыть</Button>
             {hasPendingFiles && (

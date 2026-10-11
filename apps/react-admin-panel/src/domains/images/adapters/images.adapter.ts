@@ -1,12 +1,16 @@
 import { backendAdminApi } from 'infra/backend-admin-api'
 import type { AdminImageListParams, CreateImageUploadDto, UpdateImageDto } from 'infra/backend-admin-api'
+import { computeFileSha256 } from 'infra/file-digest'
 import { uploadPresignedFile } from 'infra/presigned-upload'
+import { IMAGE_MAX_UPLOAD_BYTES } from '../config/image-upload.config'
 import { ImageError } from '../errors/image.error'
 import { normalizeImageFolder, normalizeImageTags } from '../helpers/image-presentation'
 import { mapImage, mapImageFacets, mapImagePage } from '../mappers/image.mapper'
-import { mapOriginalLink, mapUploadTarget } from '../mappers/image-transfer.mapper'
+import { mapOriginalLink } from '../mappers/image-transfer.mapper'
+import { mapImageComplete, mapImageUploadDecision } from '../mappers/image-upload.mapper'
 import { classifyImageError } from '../source-errors/classify-image-error'
 import type { ImageClassification, ImageFacets, ImageFilters, ImagePage, ImageUploadInput, ProjectImage } from '../types/image.type'
+import type { ImageUploadProgress, ImageUploadResult } from '../types/image-upload.type'
 
 /**
  * Получает страницу общей галереи через административный SDK.
@@ -101,31 +105,50 @@ export const getImageOriginal = async (id: string): Promise<string> => {
 }
 
 /**
- * Создаёт загрузку, передаёт оригинал в S3 без JWT и подтверждает фоновую обработку.
+ * Проверяет SHA-256 оригинала и возвращает каноническое изображение без повторной передачи дубликата.
  */
 export const uploadImage = async (
   file: File,
   input: ImageUploadInput,
-  onProgress: (progress: number) => void,
+  onProgress: (progress: ImageUploadProgress) => void,
   signal: AbortSignal
-): Promise<ProjectImage> => {
+): Promise<ImageUploadResult> => {
+  signal.throwIfAborted()
   const contentType = file.type
   if (contentType !== 'image/jpeg' && contentType !== 'image/png' && contentType !== 'image/webp') {
     throw new ImageError('INVALID_INPUT')
   }
-  const body: CreateImageUploadDto = {
-    filename: file.name,
-    contentType,
-    byteSize: file.size,
-    folder: normalizeImageFolder(input.folder),
-    tags: normalizeImageTags(input.tags)
-  }
+  if (file.size === 0) throw new ImageError('INVALID_INPUT')
+  if (file.size > IMAGE_MAX_UPLOAD_BYTES) throw new ImageError('TOO_LARGE')
   try {
-    const created = await backendAdminApi.images.adminImageCreateUpload(body, { signal })
-    const image = mapImage(created.image)
-    const target = mapUploadTarget(created.upload)
-    await uploadPresignedFile({ ...target, file, signal, onProgress })
-    return mapImage(await backendAdminApi.images.adminImageComplete({ id: image.id }, { signal }))
+    onProgress({ phase: 'checking', percent: 0 })
+    const sha256 = await computeFileSha256(file, signal)
+    signal.throwIfAborted()
+    const body: CreateImageUploadDto = {
+      filename: file.name,
+      contentType,
+      byteSize: file.size,
+      sha256,
+      folder: normalizeImageFolder(input.folder),
+      tags: normalizeImageTags(input.tags)
+    }
+    const created = mapImageUploadDecision(await backendAdminApi.images.adminImageCreateUpload(body, { signal }), sha256)
+    signal.throwIfAborted()
+    if (created.isReused) return { image: created.image, isReused: true }
+    onProgress({ phase: 'uploading', percent: 0 })
+    await uploadPresignedFile({
+      ...created.upload,
+      file,
+      signal,
+      onProgress: (percent) => {
+        if (!signal.aborted) onProgress({ phase: 'uploading', percent })
+      }
+    })
+    signal.throwIfAborted()
+    onProgress({ phase: 'confirming', percent: 100 })
+    const completed = await backendAdminApi.images.adminImageComplete({ id: created.image.id }, { signal })
+    signal.throwIfAborted()
+    return mapImageComplete(completed, created.image.id, sha256)
   } catch (error) {
     if (signal.aborted) throw error
     throw classifyImageError(error)

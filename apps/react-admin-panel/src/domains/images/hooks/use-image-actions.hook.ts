@@ -3,6 +3,8 @@ import { useSWRConfig } from 'swr'
 import { useGetCurrentUser } from 'domains/management/auth'
 import { getImageOriginal, retryImage, updateImage, uploadImage } from '../adapters/images.adapter'
 import { isImagePending } from '../helpers/image-presentation'
+import { getLatestImage } from '../helpers/get-latest-image'
+import { getImageKey } from './use-get-image/get-image-key'
 import type { ProjectImage } from '../types/image.type'
 import type { ImageProcessingWatch } from '../types/image-processing-watch.type'
 
@@ -102,7 +104,14 @@ export const useImageActions = (): ImageActions => {
     },
     upload: async (...args) => {
       const uploaded = await uploadImage(...args)
-      trackProcessing(uploaded)
+      trackProcessing(uploaded.image)
+      if (userId !== null) {
+        await mutate<ProjectImage>(
+          getImageKey(userId, uploaded.image.id),
+          (current) => getLatestImage(current, uploaded.image),
+          { revalidate: false }
+        )
+      }
       await refresh()
       return uploaded
     },

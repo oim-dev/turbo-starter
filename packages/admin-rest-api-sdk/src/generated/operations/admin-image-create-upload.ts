@@ -17,7 +17,7 @@ import { ContentType } from "../http-client.js";
  *
  * @tags Images
  * @name AdminImageCreateUpload
- * @summary Создать изображение и временную ссылку для PUT в MinIO
+ * @summary Переиспользовать проверенный оригинал или создать ссылку для PUT
  * @request POST:/images/uploads
  * @secure
  */

@@ -16,6 +16,7 @@ export { clientImageGet } from "./client-image-get.js";
 export { clientImageList } from "./client-image-list.js";
 export { clientImageMedia } from "./client-image-media.js";
 export { clientImageOriginal } from "./client-image-original.js";
+export { clientImageReadableMedia } from "./client-image-readable-media.js";
 export { clientImageRetry } from "./client-image-retry.js";
 export { clientImageUpdate } from "./client-image-update.js";
 export { getClientUserProfile } from "./get-client-user-profile.js";

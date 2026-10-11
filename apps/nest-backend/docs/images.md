@@ -1,6 +1,8 @@
 # Изображения
 
-Изображение получает UUID при создании загрузки. Оригинал хранится побайтно,
+Изображение получает внутренний UUID и публичный 8-символьный base62 ID при создании
+загрузки. SHA-256 считается сервером по оригинальным байтам; совпадения переиспользуют
+каноническую запись. Оригинал хранится побайтно,
 а все производные заранее записываются в приватный MinIO. HTTP API не преобразует
 изображения и не подключается к RabbitMQ/imgproxy при запуске. Отдельный
 `image-worker` — Nest application context без HTTP-порта.
@@ -62,6 +64,14 @@ Client видит и изменяет только записи с `(ownerRealm=
 попытка обратиться к чужому UUID даёт 404. Admin видит глобальную галерею.
 Снимок имени и логина автора фиксируется на момент загрузки.
 
+Admin-dedup охватывает только `ownerRealm=admin`, даже если администратор видит
+клиентские изображения в общей галерее. Client-dedup ограничен `(realm,ownerId)`.
+Наличие хеша не даёт права чтения чужого файла. Admin с одним `images.upload`
+может создать/подтвердить свою новую загрузку; preflight для него всегда выдаёт PUT.
+Если сервер после PUT обнаружит дубль, связь фиксируется, но complete вернёт 403
+без канонических метаданных до предоставления `images.read`. Complete/retry чужого
+UUID без `images.read` дают 404. Права на GET/списки/оригиналы не меняются.
+
 | Метод и путь | OperationId Admin / Client | Право Admin |
 | --- | --- | --- |
 | `GET /images` | `adminImageList` / `clientImageList` | `images.read` |
@@ -80,33 +90,50 @@ scope, административные permissions к нему не приме�
 ### Загрузка
 
 1. `POST /images/uploads` принимает `CreateImageUploadDto`:
-   `{ filename, contentType, byteSize, title?, folder?, tags? }`.
+   `{ filename, contentType, byteSize, sha256?, title?, folder?, tags? }`.
+   `sha256` — ровно 64 hex символа, нормализуется в lowercase. Это подсказка для
+   preflight, не доказательство содержимого. Старые клиенты могут его не передавать.
    Принимаются только `image/jpeg`, `image/png`, `image/webp`. `byteSize` — точный
    размер файла, не оценка; превышение лимита даёт 413. Все варианты сохраняют
    пропорции исходника. Неизвестные поля, включая прежнее `presets`, дают 400.
-2. Ответ 201 — `ImageUploadDto`: `{ image, upload: { url, method:'PUT', headers,
-   expiresAt } }`. URL действителен 15 минут и указывает только на staging key.
+2. Ответ 201 — `ImageUploadDto`: `{ image, reused:false, upload: { url, method:'PUT', headers,
+   expiresAt } }` либо `{image,reused:true,upload:null}`. Во втором случае PUT и
+   complete не нужны: возвращена каноническая запись с уже проверенным сервером
+   хешем, теми же размером и MIME. `queued`/`processing` опрашиваются, `failed`
+   можно повторить через retry без новой передачи. `filename`, title/folder/tags
+   и автор существующего изображения не перезаписываются.
+   URL действителен 15 минут и указывает только на staging key.
    Браузер отправляет исходный файл и возвращённые headers непосредственно в MinIO,
    без JWT API. Создание загрузки не идемпотентно: автоматически повторять POST нельзя.
    Presigned PUT SDK не ограничивает размер тела при приёме MinIO; проверка точного
    размера выполняется на complete и ещё раз worker до преобразования.
 3. `POST /images/:id/complete` без тела делает stat staging и server-side copy в
    новый приватный UUID key, с `MatchETag` и `VersionID` при наличии versioning.
-   Ссылка на замороженный оригинал, job и outbox фиксируются одной транзакцией.
-   При параллельных complete только один результат становится оригиналом.
+   Сервер читает замороженные байты с ограничением размера, вычисляет SHA-256,
+   проверяет заявленный хеш, фактический MIME, metadata и pixel limit до постановки job.
+   Несовпадение хеша даёт 400 `IMAGE_HASH_MISMATCH`, ложный MIME — 400
+   `IMAGE_TYPE_MISMATCH`; claim/job не создаются. Можно исправить staging повторным
+   PUT до истечения ссылки и повторить complete с исходно заявленным хешем.
+   Ссылка на оригинал, уникальный hash claim, job и outbox фиксируются одной транзакцией.
+   При параллельных complete только один результат становится каноническим оригиналом.
    Повторный PUT старой staging-ссылкой не может изменить оригинал/варианты.
-4. Ответ — `ImageDto`, 202 для queued/processing, 200 для уже ready/failed.
-   Complete идемпотентен; повтор не создаёт второй job. При отсутствующем или
+4. Ответ — плоский `ImageCompleteDto` (`ImageDto` + `reused:boolean`),
+   202 для queued/processing, 200 для уже ready/failed. `reused:true` означает
+   каноническое изображение другой попытки, в том числе после гонки двух preflight misses.
+   Complete идемпотентен: UUID попытки постоянно связан с каноническим UUID,
+   повтор возвращает ту же связь и не создаёт второй job. При отсутствующем или
    изменившемся staging — 409 `UPLOAD_NOT_AVAILABLE`; при ошибке MinIO — 503.
 5. После complete UI опрашивает список/метаданные до ready/failed. GET никогда
    не создаёт сообщения, задания или производные.
 
-`ImageDto` содержит `id`, `filename`, `title`, `folder: string|null`, `tags`,
+`ImageDto` содержит `id` (UUID), `publicId` (8 base62 символов, регистр значим),
+`filename`, `title`, `folder: string|null`, `tags`,
 `status: uploading|queued|processing|ready|failed`, `createdAt`, `updatedAt`,
-`uploadedBy:{id,realm,name,login}`, `original:{contentType,byteSize,width,height}`,
+`uploadedBy:{id,realm,name,login}`, `original:{contentType,byteSize,width,height,sha256}`,
 `variants`, `error:{code,message}|null`. Геометрия оригинала до успешной
 обработки nullable, после неё учитывает EXIF orientation. Никаких S3 keys или
-служебных сообщений брокера в DTO нет.
+служебных сообщений брокера в DTO нет. `original.sha256` — только проверенное сервером
+значение; `null` до complete либо до явного backfill старого оригинала.
 
 `variants` пуст до атомарного ready всего набора. Каждый `ImageVariantDto` содержит
 `id`, `width`, `height`, `format`, `mimeType`, `byteSize`, `url`.
@@ -118,7 +145,11 @@ Manifest отсортирован по ширине, затем формату; 
 
 `GET /images` возвращает `{items,total,page,pageSize}`. Query: `page` (default 1),
 `pageSize` (default 24, максимум 100), `search`, `folder`, `tag`, `status`, `unfiled`.
-Поиск нечувствителен к регистру, подстрока имени, заголовка или тега. `%` и `_`
+Поиск по имени, заголовку или тегу нечувствителен к регистру и использует подстроку.
+Дополнительно принимаются полный UUID (регистр не важен), полный регистрозависимый
+publicId и существующий media URL любого из двух форматов (ID извлекается из пути).
+По UUID/publicId алиаса находится каноническая запись. Лимит search — 2048 символов.
+Галерея и facets скрывают алиасы; имя/title/tags канонической записи сохраняют поиск. `%` и `_`
 считаются обычными символами. Папка/тег фильтруются точным совпадением после
 нормализации; `unfiled=true` несовместим с непустым `folder`. Сортировка
 `createdAt DESC, id DESC`, count и страница читаются в одном snapshot.
@@ -133,9 +164,21 @@ NFC, trim, нижний регистр, уникальность, стабиль
 Название до 255 символов, пустая строка допустима. Метаданные не меняют object key,
 геометрию вариантов или оригинальные байты.
 
+PATCH разрешает `canonicalId` и записывает метаданные в одной READ COMMITTED
+транзакции под row lock Image, проверяя owner scope на каждом переходе и
+`images.read` для административного доступа через алиас. Если backfill уже
+объединил запись, PATCH обновляет актуальный canonical; если PATCH первым взял
+lock, backfill ждёт его COMMIT. Ответ содержит результат самой записи без
+повторного GET. PATCH не берёт job locks, сохраняя порядок backfill `job → Image`.
+
 ### Доставка
 
-`GET /media/images/:id/:variantId` принадлежит Client API (`clientImageMedia`).
+`GET /media/images/:publicId/:format/:widthxheight` принадлежит Client API
+(`clientImageReadableMedia`), например `/media/images/aB3dE6gH/avif/800x600`.
+В размерах используется латинская `x`, значения соответствуют готовым байтам,
+а не плану ресайза. Возвращается только вариант выбранной семьи manifest.
+Неизвестные ID/формат/размер или неготовый набор дают 404 без преобразований.
+Legacy `GET /media/images/:id/:variantId` (`clientImageMedia`) также сохраняется.
 Это публичный бинарный ответ только для ready-набора, с MIME из проверенного
 результата, `Content-Length`, `ETag`, `Cache-Control: public,max-age=31536000,immutable`,
 `Cross-Origin-Resource-Policy: cross-origin`. `If-None-Match` даёт 304. URL не содержит
@@ -165,8 +208,55 @@ ImageVariant записывают только внутренний маркер
 Старые объекты, строки вариантов, UUID и публичные URL сохраняются, включая
 варианты вне выбранной семьи manifest. `/media/images/:id/:variantId` продолжает
 выдавать любой существующий вариант ready-изображения по прежнему UUID.
-GET не выполняет миграцию, перегенерацию или запись; схема и исторические миграции
-для этого перехода не меняются.
+GET не выполняет миграцию, перегенерацию или запись. Новый читаемый путь использует
+ту же выбранную семью; при совпадающих размерах разных семей результат однозначен.
+Backfill сохраняет строки legacy-алиасов со статусом ready, их варианты, UUID и
+publicId: ранее опубликованные URL продолжают отдавать прежние байты.
+
+### Миграция идентичности и явный backfill
+
+Новая миграция `20261011180000_image_identity_deduplication` добавляет `publicId`,
+`claimedSha256`, `originalSha256`, self-FK `canonicalId` и таблицу `ImageHashClaim`.
+Она назначает publicId всем существующим строкам, не читая S3 и не меняя UUID/FK,
+originalKey/variantKey или байты. Миграция использует встроенный PostgreSQL CSPRNG
+`gen_random_uuid`, rejection sampling base62 и UNIQUE с повтором коллизии;
+приложение — `crypto.randomInt`, UNIQUE и до 10 попыток. Расширений/зависимостей нет.
+
+Порядок выпуска: проверить список применённых миграций, применить новую миграцию
+к выбранной БД, выпустить оба API и worker, затем отдельно запустить backfill.
+Не запускать старую версию API после миграции: новые вставки требуют publicId.
+Полная цепочка исторических миграций содержит очистку старого продукта; для
+изолированной проверки используйте отдельную БД, для существующей — её актуальную
+историю. Команды не выполняют reset и не удаляют volumes.
+
+Из корня, после явной настройки `POSTGRES_*`, `S3_ENDPOINT`, `S3_BUCKET`,
+`S3_ACCESS_KEY`, `S3_SECRET_KEY` нужной среды:
+
+```sh
+DOTENV_CONFIG_PATH=/dev/null pnpm --filter @oim/nest-backend prisma:deploy
+DOTENV_CONFIG_PATH=/dev/null pnpm --filter @oim/nest-backend images:backfill-hashes --help
+DOTENV_CONFIG_PATH=/dev/null pnpm --filter @oim/nest-backend images:backfill-hashes --apply --batch-size=50 --limit=1000
+```
+
+`--apply` обязателен; startup API/worker, migration и build backfill не запускают.
+`--batch-size` — размер страницы (до 500), обработка оригиналов последовательная;
+`--limit` ограничивает число просмотренных строк за запуск, без него проход полный.
+Возобновление — повтор команды: строки с проверенным `originalSha256` пропускаются.
+Сначала обходятся ready, затем failed с сохранённым оригиналом. Uploading/queued/
+processing пропускаются; после завершения заданий команду запускают снова.
+Повреждённый/несоответствующий MIME оригинал не получает claim, остаётся для разбора
+и следующего запуска. Логи содержат UUID, результат/код и итоговые счётчики
+`scanned/verified/aliases/errors/pending`; при ошибках exit code 1.
+
+Для каждой строки stat, чтение и проверка SHA/MIME происходят вне транзакции.
+В транзакции блокируются job, затем Image; повторно проверяются статусы и версия
+оригинала. Уникальный `(scope,sha256)` выбирает каноническую запись. Дублю ставится
+только `canonicalId` и проверенный хеш: старые metadata, job, оригинал и варианты
+не удаляются. Существующий claim никогда не переназначается (стабильность ссылок);
+если он уже есть, он выигрывает независимо от статуса. Backfill не объединяет
+активные задания и не ставит новых; legacy failed jobs остаются историей, retry
+через API разрешает алиас в канонический UUID. Для максимально предсказуемого
+выбора ready-канонических записей можно выполнять backfill до возобновления загрузок.
 
 ## Геометрия и качество
 
@@ -258,6 +348,22 @@ TIFF и незавершённый multipart удаляются best-effort пр
 
 ## Надёжность
 
+- `ImageHashClaim` имеет PK `(scope,sha256)` и UNIQUE `imageId`. Scope — `admin`
+  либо `client:<ownerId>`. Только серверная проверка может создать claim.
+  Complete блокирует строку попытки; `INSERT ... ON CONFLICT DO NOTHING` ждёт
+  победивший COMMIT, затем READ COMMITTED читает канонический UUID. Проигравшая
+  попытка сохраняет постоянный `canonicalId` без job/outbox и скрывается из галереи.
+  У победителя claim, замороженный оригинал, job и outbox фиксируются атомарно.
+  Один и тот же complete после потери ответа безопасно возвращает прежний результат.
+- Сеть и хеширование отсутствуют в DB transaction. Временный frozen-объект
+  проигравшего и staging удаляются best-effort только после подтверждённого COMMIT;
+  при неопределённом COMMIT байты не удаляются. Авария между commit и cleanup может
+  оставить приватный orphan. Неверный клиентский hash/MIME не резервирует hash claim
+  и не может заблокировать последующую корректную загрузку. Worker повторно сверяет
+  SHA-256 оригинала; полное декодирование остаётся асинхронным в imgproxy.
+- Preflight устраняет повторный PUT после серверной проверки. Одновременные первые
+  preflight до появления claim могут потребовать два PUT; complete всё равно оставляет
+  одну каноническую запись и одно новое задание обработки.
 - Одна запись job на изображение, sequential variants; одновременно по умолчанию
   два изображения на worker. Semaphore сохраняет предел и при reconnect AMQP.
 - Durable очереди `images.process.v1` и `images.dead.v1`, persistent сообщения
@@ -318,6 +424,19 @@ pnpm env:check
     в ready-наборе; падение broker между публикацией и persist outbox.
 8. Старые ready-наборы с несколькими геометриями и без original-семьи: одна семья
    в manifest, прежние UUID URL доступны, полей `presets`/`preset` в JSON нет.
-   Старое failed-задание после retry использует только пропорции исходника.
+    Старое failed-задание после retry использует только пропорции исходника.
+9. Один файл повторно с SHA-256: reused=true/upload=null, те же UUID/publicId,
+   canonical metadata/author неизменны; queued/processing/failed также переиспользуются.
+10. Две разные попытки одного файла, параллельный complete: один claim/job,
+    проигравший всегда возвращает canonical ID и reused=true; лишний frozen удалён.
+11. Ложный hash и ложный MIME с hash корректного файла: 400, claim/job отсутствуют;
+    следующая корректная загрузка проходит. SHA-256 скачать/сравнить с оригиналом.
+12. Два client owner и admin/client: одинаковые байты не раскрывают чужие записи;
+    admin upload-only не получает metadata через preflight/complete/retry.
+13. Поиск полных UUID/publicId и вставленного legacy/new media URL; частичный ID не
+    подменяет точный поиск, filename/title/tags продолжают работать.
+14. Backfill на копии legacy-данных: повтор/прерывание безопасны, ready-URL/ETag/байты
+    неизменны, один gallery item на claim, алиасы ищутся по старым ID. Новая геометрия
+    URL использует фактические width/height; неверный размер даёт 404, ETag — 304.
 
 Артефакты ручных сценариев сохраняются в `.artifacts/nest-backend/<сессия>/`.

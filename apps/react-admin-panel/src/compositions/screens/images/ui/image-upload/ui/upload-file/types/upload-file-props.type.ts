@@ -20,6 +20,10 @@ export type UploadFileParams = {
    * Возвращает неотправленный файл в очередь явной новой попытки.
    */
   onRequeue: (id: string) => void
+  /**
+   * Открывает подробности серверного результата.
+   */
+  onOpenImage: (id: string) => void
 }
 
 /**

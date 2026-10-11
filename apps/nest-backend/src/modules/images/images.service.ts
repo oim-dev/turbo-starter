@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   ConflictException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
   PayloadTooLargeException,
@@ -10,9 +11,14 @@ import { randomUUID } from 'node:crypto';
 import { Prisma, type ImageRealm } from '../../generated/prisma/client';
 import { ImageConfig } from '../../infrastructure/config/image-config';
 import { PrismaService } from '../../infrastructure/prisma/prisma.service';
-import { ImageStorage } from '../../infrastructure/storage/image-storage.service';
+import {
+  ImageStorage,
+  type StoredObject,
+} from '../../infrastructure/storage/image-storage.service';
+import { effectivePermissions } from '../admin-access/admin-permissions';
 import {
   CreateImageUploadDto,
+  ImageCompleteDto,
   ImageDto,
   ImageFacetDto,
   ImageFacetsDto,
@@ -27,6 +33,15 @@ import {
   normalizeTags,
   normalizedText,
 } from './image-normalization';
+import {
+  claimImageHash,
+  imageHashScope,
+  imageSearchId,
+  manifestFamily,
+  newImagePublicId,
+} from './image-identity';
+import { ImageOriginalVerifier } from './image-original-verifier';
+import { ImageProcessingError } from './image-error';
 
 export interface ImageActor {
   id: string;
@@ -40,6 +55,7 @@ export class ImagesService {
     private readonly prisma: PrismaService,
     private readonly storage: ImageStorage,
     private readonly config: ImageConfig,
+    private readonly verifier: ImageOriginalVerifier,
   ) {}
 
   private scope(actor: ImageActor): Prisma.ImageWhereInput {
@@ -48,23 +64,71 @@ export class ImagesService {
       : { ownerRealm: 'client', ownerId: actor.id };
   }
 
-  private async find(actor: ImageActor, id: string): Promise<ImageRecord> {
+  private async canRead(
+    actor: ImageActor,
+    tx: Prisma.TransactionClient = this.prisma,
+  ): Promise<boolean> {
+    if (actor.realm === 'client') return true;
+    const user = await tx.adminUser.findUnique({
+      where: { id: actor.id },
+      include: { accessRole: true },
+    });
+    return (
+      !!user?.isActive &&
+      effectivePermissions(user.accessRole).includes('images.read')
+    );
+  }
+
+  private async findRecord(
+    actor: ImageActor,
+    id: string,
+    uploadAccess = false,
+  ): Promise<ImageRecord> {
+    const scope =
+      uploadAccess && actor.realm === 'admin' && !(await this.canRead(actor))
+        ? { ownerRealm: actor.realm, ownerId: actor.id }
+        : this.scope(actor);
     const image = await this.prisma.image.findFirst({
-      where: { id, ...this.scope(actor) },
+      where: { id, ...scope },
       include: { variants: true },
     });
     if (!image) throw new NotFoundException('Изображение не найдено.');
     return image;
   }
 
+  private async canonical(
+    actor: ImageActor,
+    image: ImageRecord,
+  ): Promise<ImageRecord> {
+    if (!image.canonicalId) return image;
+    if (!(await this.canRead(actor)))
+      throw new ForbiddenException(
+        'Для получения переиспользованного изображения необходимо images.read.',
+      );
+    return this.findRecord(actor, image.canonicalId);
+  }
+
+  private async find(actor: ImageActor, id: string): Promise<ImageRecord> {
+    return this.canonical(actor, await this.findRecord(actor, id));
+  }
+
+  private async completion(
+    actor: ImageActor,
+    image: ImageRecord,
+  ): Promise<ImageCompleteDto> {
+    return {
+      ...this.dto(await this.canonical(actor, image)),
+      reused: image.canonicalId !== null,
+    };
+  }
+
   private dto(image: ImageRecord): ImageDto {
     // Узкая совместимость хранения: старые ready-наборы сохраняют UUID и байты,
     // но manifest включает только одну геометрию. Это не настройка обработки.
-    const variantFamily = ['original', 'square', 'landscape'].find((family) =>
-      image.variants.some((variant) => variant.preset === family),
-    );
+    const variantFamily = manifestFamily(image.variants);
     return {
       id: image.id,
+      publicId: image.publicId,
       filename: image.filename,
       title: image.title,
       folder: image.folder,
@@ -79,6 +143,7 @@ export class ImagesService {
         login: image.ownerLogin,
       },
       original: {
+        sha256: image.originalSha256,
         contentType: image.contentType,
         byteSize: image.byteSize,
         width: image.width,
@@ -98,7 +163,7 @@ export class ImagesService {
                 format: variant.format,
                 mimeType: variant.mimeType,
                 byteSize: variant.byteSize,
-                url: `${this.config.publicBaseUrl}/media/images/${image.id}/${variant.id}`,
+                url: `${this.config.publicBaseUrl}/media/images/${image.publicId}/${variant.format}/${variant.width}x${variant.height}`,
               }))
           : [],
       error: image.errorCode
@@ -119,7 +184,7 @@ export class ImagesService {
       throw new BadRequestException(
         'Нельзя одновременно задавать folder и unfiled.',
       );
-    const conditions: Prisma.Sql[] = [Prisma.sql`TRUE`];
+    const conditions: Prisma.Sql[] = [Prisma.sql`"canonicalId" IS NULL`];
     if (actor.realm === 'client')
       conditions.push(
         Prisma.sql`"ownerRealm" = 'client' AND "ownerId" = ${actor.id}::uuid`,
@@ -138,8 +203,11 @@ export class ImagesService {
     const search = query.search && normalizedText(query.search);
     if (search) {
       const pattern = `%${search.replace(/[\\%_]/g, '\\$&')}%`;
+      const identity = imageSearchId(search);
       conditions.push(
-        Prisma.sql`(filename ILIKE ${pattern} OR title ILIKE ${pattern} OR EXISTS (SELECT 1 FROM unnest(tags) AS t WHERE t ILIKE ${pattern}))`,
+        Prisma.sql`(filename ILIKE ${pattern} OR title ILIKE ${pattern} OR EXISTS (SELECT 1 FROM unnest(tags) AS t WHERE t ILIKE ${pattern})
+          OR id::text = ${identity} OR "publicId" = ${identity}
+          OR id IN (SELECT a."canonicalId" FROM "Image" a WHERE a.id::text = ${identity} OR a."publicId" = ${identity}))`,
       );
     }
     return Prisma.join(conditions, ' AND ');
@@ -209,6 +277,32 @@ export class ImagesService {
     const filename = normalizedText(dto.filename).replace(/.*[/\\]/, '');
     if (!filename)
       throw new BadRequestException('Имя файла не должно быть пустым.');
+    const sha256 = dto.sha256?.toLowerCase();
+    if (sha256 && (await this.canRead(actor))) {
+      const claim = await this.prisma.imageHashClaim.findUnique({
+        where: {
+          scope_sha256: {
+            scope: imageHashScope({
+              ownerRealm: actor.realm,
+              ownerId: actor.id,
+            }),
+            sha256,
+          },
+        },
+        include: { image: { include: { variants: true } } },
+      });
+      const existing = claim?.image;
+      if (
+        existing &&
+        existing.originalSha256 === sha256 &&
+        existing.originalKey &&
+        existing.originalEtag &&
+        existing.status !== 'uploading' &&
+        existing.byteSize === dto.byteSize &&
+        existing.contentType === dto.contentType
+      )
+        return { image: this.dto(existing), reused: true, upload: null };
+    }
     const owner =
       actor.realm === 'admin'
         ? await this.prisma.adminUser.findUniqueOrThrow({
@@ -223,28 +317,55 @@ export class ImagesService {
       Date.now() + this.config.uploadTtlSeconds * 1000,
     );
     const url = await this.storage.presignUpload(stagingKey);
-    const image = await this.prisma.image.create({
-      data: {
-        id,
-        filename,
-        title: normalizedText(dto.title ?? filename),
-        folder: normalizeFolder(dto.folder),
-        tags: normalizeTags(dto.tags ?? []),
-        // Обязательный legacy-столбец; API не принимает режимы геометрии.
-        presets: ['original'],
-        ownerId: actor.id,
-        ownerRealm: actor.realm,
-        ownerName: owner.name,
-        ownerLogin: owner.login,
-        byteSize: dto.byteSize,
-        contentType: dto.contentType,
-        stagingKey,
-        uploadExpiresAt: expiresAt,
-      },
-      include: { variants: true },
-    });
+    let image: ImageRecord | undefined;
+    for (let attempt = 0; attempt < 10; attempt++) {
+      const publicId = newImagePublicId();
+      try {
+        image = await this.prisma.image.create({
+          data: {
+            id,
+            publicId,
+            claimedSha256: sha256,
+            filename,
+            title: normalizedText(dto.title ?? filename),
+            folder: normalizeFolder(dto.folder),
+            tags: normalizeTags(dto.tags ?? []),
+            // Обязательный legacy-столбец; API не принимает режимы геометрии.
+            presets: ['original'],
+            ownerId: actor.id,
+            ownerRealm: actor.realm,
+            ownerName: owner.name,
+            ownerLogin: owner.login,
+            byteSize: dto.byteSize,
+            contentType: dto.contentType,
+            stagingKey,
+            uploadExpiresAt: expiresAt,
+          },
+          include: { variants: true },
+        });
+        break;
+      } catch (error) {
+        if (
+          !(error instanceof Prisma.PrismaClientKnownRequestError) ||
+          error.code !== 'P2002'
+        )
+          throw error;
+        // Prisma 7 driver adapters не гарантируют meta.target. Подтверждаем
+        // коллизию именно выбранного publicId, остальные UNIQUE не повторяем.
+        const collision = await this.prisma.image.findUnique({
+          where: { publicId },
+          select: { id: true },
+        });
+        if (!collision) throw error;
+      }
+    }
+    if (!image)
+      throw new ServiceUnavailableException(
+        'Не удалось выделить публичный ID. Повторите загрузку.',
+      );
     return {
       image: this.dto(image),
+      reused: false,
       upload: {
         url,
         method: 'PUT',
@@ -254,11 +375,13 @@ export class ImagesService {
     };
   }
 
-  async complete(actor: ImageActor, id: string): Promise<ImageDto> {
-    const current = await this.find(actor, id);
-    if (current.status !== 'uploading') return this.dto(current);
+  async complete(actor: ImageActor, id: string): Promise<ImageCompleteDto> {
+    const current = await this.findRecord(actor, id, true);
+    if (current.canonicalId || current.status !== 'uploading')
+      return this.completion(actor, current);
     const frozenKey = `images/originals/${id}/${randomUUID()}`;
-    let frozen;
+    let frozen: StoredObject | undefined;
+    let sha256: string;
     try {
       const stat = await this.storage.stat(current.stagingKey);
       if (
@@ -275,11 +398,22 @@ export class ImagesService {
         stat.etag,
         stat.versionId,
       );
+      sha256 = await this.verifier.verify(frozen, current);
     } catch (error) {
+      // Транзакция ещё не начиналась: этот уникальный key не может быть опубликован.
+      await this.storage
+        .remove(frozen ?? { key: frozenKey })
+        .catch(() => undefined);
       // При гонке complete победитель мог уже удалить staging.
-      const latest = await this.find(actor, id);
-      if (latest.status !== 'uploading') return this.dto(latest);
+      const latest = await this.findRecord(actor, id, true);
+      if (latest.canonicalId || latest.status !== 'uploading')
+        return this.completion(actor, latest);
       if (error instanceof BadRequestException) throw error;
+      if (error instanceof ImageProcessingError)
+        throw new BadRequestException({
+          code: error.code,
+          message: error.message,
+        });
       if (
         error &&
         typeof error === 'object' &&
@@ -299,20 +433,47 @@ export class ImagesService {
     }
     // Сеть вне транзакции. У каждой попытки новый key; проигравший никогда не
     // перезаписывает оригинал, на который уже ссылается успешно созданный job.
-    const result = await this.prisma.$transaction(async (tx) => {
-      const changed = await tx.image.updateMany({
-        where: { id, status: 'uploading', ...this.scope(actor) },
-        data: {
-          status: 'queued',
-          originalKey: frozen.key,
-          originalEtag: frozen.etag,
-          originalVersionId: frozen.versionId,
-          completedAt: new Date(),
-          errorCode: null,
-          errorMessage: null,
-        },
-      });
-      if (changed.count)
+    const verifiedOriginal = frozen;
+    const result = await this.prisma.$transaction(
+      async (tx) => {
+        await tx.$queryRaw`SELECT id FROM "Image" WHERE id = ${id}::uuid FOR UPDATE`;
+        const latest = await tx.image.findUniqueOrThrow({
+          where: { id },
+          include: { variants: true },
+        });
+        if (latest.canonicalId || latest.status !== 'uploading') return latest;
+        const canonicalId = await claimImageHash(
+          tx,
+          imageHashScope(latest),
+          sha256,
+          id,
+        );
+        if (canonicalId !== id) {
+          return tx.image.update({
+            where: { id },
+            data: {
+              canonicalId,
+              originalSha256: sha256,
+              status: 'queued',
+              completedAt: new Date(),
+            },
+            include: { variants: true },
+          });
+        }
+        const accepted = await tx.image.update({
+          where: { id },
+          data: {
+            status: 'queued',
+            originalSha256: sha256,
+            originalKey: verifiedOriginal.key,
+            originalEtag: verifiedOriginal.etag,
+            originalVersionId: verifiedOriginal.versionId,
+            completedAt: new Date(),
+            errorCode: null,
+            errorMessage: null,
+          },
+          include: { variants: true },
+        });
         await tx.imageJob.create({
           data: {
             imageId: id,
@@ -320,18 +481,16 @@ export class ImagesService {
             outbox: { create: { dispatchVersion: 1 } },
           },
         });
-      return tx.image.findUniqueOrThrow({
-        where: { id },
-        include: { variants: true },
-      });
-    });
+        return accepted;
+      },
+      { isolationLevel: 'ReadCommitted' },
+    );
     if (result.originalKey !== frozen.key)
       await this.storage.remove(frozen).catch(() => undefined);
-    else
-      await this.storage
-        .remove({ key: current.stagingKey })
-        .catch(() => undefined);
-    return this.dto(result);
+    await this.storage
+      .remove({ key: current.stagingKey })
+      .catch(() => undefined);
+    return this.completion(actor, result);
   }
 
   async update(
@@ -339,27 +498,55 @@ export class ImagesService {
     id: string,
     dto: UpdateImageDto,
   ): Promise<ImageDto> {
-    const result = await this.prisma.image.updateMany({
-      where: { id, ...this.scope(actor) },
-      data: {
-        ...(dto.title !== undefined
-          ? { title: normalizedText(dto.title) }
-          : {}),
-        ...(dto.folder !== undefined
-          ? { folder: normalizeFolder(dto.folder) }
-          : {}),
-        ...(dto.tags !== undefined ? { tags: normalizeTags(dto.tags) } : {}),
+    const data = {
+      ...(dto.title !== undefined ? { title: normalizedText(dto.title) } : {}),
+      ...(dto.folder !== undefined
+        ? { folder: normalizeFolder(dto.folder) }
+        : {}),
+      ...(dto.tags !== undefined ? { tags: normalizeTags(dto.tags) } : {}),
+    };
+    const result = await this.prisma.$transaction(
+      async (tx) => {
+        // Только Image locks: не берём job после Image (backfill: job → Image).
+        // canonicalId читаем после ожидания lock, чтобы не записать скрытый alias.
+        while (true) {
+          await tx.$queryRaw`SELECT id FROM "Image" WHERE id = ${id}::uuid FOR UPDATE`;
+          const image = await tx.image.findFirst({
+            where: { id, ...this.scope(actor) },
+            select: { canonicalId: true },
+          });
+          if (!image) throw new NotFoundException('Изображение не найдено.');
+          if (image.canonicalId) {
+            if (!(await this.canRead(actor, tx)))
+              throw new ForbiddenException(
+                'Для получения переиспользованного изображения необходимо images.read.',
+              );
+            id = image.canonicalId;
+            continue;
+          }
+          return tx.image.update({
+            where: { id, AND: this.scope(actor) },
+            data,
+            include: { variants: true },
+          });
+        }
       },
-    });
-    if (!result.count) throw new NotFoundException('Изображение не найдено.');
-    return this.get(actor, id);
+      { isolationLevel: 'ReadCommitted' },
+    );
+    return this.dto(result);
   }
 
   async retry(actor: ImageActor, id: string): Promise<ImageDto> {
-    await this.find(actor, id);
+    id = (await this.canonical(actor, await this.findRecord(actor, id, true)))
+      .id;
     await this.prisma.$transaction(async (tx) => {
       await tx.$queryRaw`SELECT id FROM "ImageJob" WHERE "imageId" = ${id}::uuid FOR UPDATE`;
       const job = await tx.imageJob.findUnique({ where: { imageId: id } });
+      const current = await tx.image.findUniqueOrThrow({ where: { id } });
+      if (current.canonicalId)
+        throw new ConflictException(
+          'Изображение объединено при backfill. Обновите метаданные и повторите retry канонического изображения.',
+        );
       if (!job)
         throw new ConflictException(
           'Подтверждённого задания нет. Загрузите изображение заново.',
@@ -415,6 +602,36 @@ export class ImagesService {
     const variant = await this.prisma.imageVariant.findFirst({
       where: { id: variantId, imageId: id, image: { status: 'ready' } },
     });
+    if (!variant) throw new NotFoundException('Готовый вариант не найден.');
+    return variant;
+  }
+
+  async publicReadableVariant(
+    publicId: string,
+    format: string,
+    dimensions: string,
+  ) {
+    if (
+      !/^[0-9A-Za-z]{8}$/.test(publicId) ||
+      !/^[a-z0-9]{1,20}$/.test(format) ||
+      !/^[1-9][0-9]{0,8}x[1-9][0-9]{0,8}$/.test(dimensions)
+    )
+      throw new NotFoundException('Готовый вариант не найден.');
+    const image = await this.prisma.image.findUnique({
+      where: { publicId },
+      include: { variants: true },
+    });
+    const [width, height] = dimensions.split('x').map(Number);
+    const family = image && manifestFamily(image.variants);
+    const variant =
+      image?.status === 'ready' &&
+      image.variants.find(
+        (item) =>
+          item.preset === family &&
+          item.format === format &&
+          item.width === width &&
+          item.height === height,
+      );
     if (!variant) throw new NotFoundException('Готовый вариант не найден.');
     return variant;
   }

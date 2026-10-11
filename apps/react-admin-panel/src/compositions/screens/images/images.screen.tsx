@@ -1,5 +1,5 @@
 import { ActionIcon, Alert, Badge, Button, Drawer, Group, Loader, Pagination, Select, Stack, Text, TextInput, Title, Tooltip } from '@mantine/core'
-import { useDebouncedCallback, useDisclosure, useReducedMotion } from '@mantine/hooks'
+import { useDebouncedCallback, useDisclosure, useFocusReturn, useReducedMotion } from '@mantine/hooks'
 import { IconCloudUpload, IconFolder, IconRefresh, IconSearch, IconTag, IconX } from '@tabler/icons-react'
 import cl from 'clsx'
 import { useState } from 'react'
@@ -58,6 +58,8 @@ export const ImagesScreen = (props: ImagesScreenProps): JSX.Element => {
   const [uploadBatch, setUploadBatch] = useState<NativeFileDrop | null>(null)
   const [dropError, setDropError] = useState<string | null>(null)
   const isUploadOpened = uploadBatch !== null && canUpload
+  // Экран переживает размонтирование панелей и сохраняет фокус при переходе из очереди в подробности.
+  useFocusReturn({ opened: isUploadOpened || selectedId !== null })
   const [isFoldersOpened, foldersDisclosure] = useDisclosure(false)
   const shouldReduceMotion = useReducedMotion()
   const images = page?.items ?? []
@@ -143,6 +145,13 @@ export const ImagesScreen = (props: ImagesScreenProps): JSX.Element => {
     setUploadBatch(null)
     handleRefresh()
   }
+  /**
+   * Открывает канонический результат новой загрузки или найденного дубликата.
+   */
+  const handleOpenUploadedImage = (id: string): void => {
+    setUploadBatch(null)
+    setSelectedId(id)
+  }
 
   return (
     <section {...rootAttrs} className={cl(styles.root, className)} aria-labelledby="images-heading">
@@ -182,8 +191,8 @@ export const ImagesScreen = (props: ImagesScreenProps): JSX.Element => {
                 setSearchDraft(event.currentTarget.value)
                 handleSearch(event.currentTarget.value)
               }}
-              placeholder="Найти по названию или тегам"
-              aria-label="Поиск изображений"
+              placeholder="Имя, ID или URL изображения"
+              aria-label="Поиск изображений по имени, ID или URL"
               leftSection={<IconSearch size={18} aria-hidden="true" />}
               size="md"
             />
@@ -241,7 +250,7 @@ export const ImagesScreen = (props: ImagesScreenProps): JSX.Element => {
       </Drawer>
       <ImageDetails key={selectedId} image={selectedImage} isOpened={selectedId !== null} isLoading={isDetailsLoading} errorMessage={detailsErrorMessage} facets={facets} canUpdate={canUpdate} canRetry={canUpload} onClose={() => setSelectedId(null)} onRefresh={handleRefresh} onSave={actions.save} onRetry={actions.retry} onOriginal={actions.original} />
       {isUploadOpened && uploadBatch !== null && (
-        <ImageUpload isOpened initialBatch={uploadBatch} initialFolder={filters.folder} facets={facets} onClose={handleCloseUpload} onUpload={actions.upload} onUploaded={handleUploaded} />
+        <ImageUpload isOpened initialBatch={uploadBatch} initialFolder={filters.folder} facets={facets} onClose={handleCloseUpload} onUpload={actions.upload} onUploaded={handleUploaded} onOpenImage={handleOpenUploadedImage} />
       )}
     </section>
   )

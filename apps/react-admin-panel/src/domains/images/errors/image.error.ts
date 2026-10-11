@@ -29,7 +29,19 @@ export const IMAGE_ERROR_CODE = {
   /**
    * Файл превышает серверный лимит.
    */
-  TOO_LARGE: 'TOO_LARGE'
+  TOO_LARGE: 'TOO_LARGE',
+  /**
+   * WebCrypto недоступен в текущем окружении браузера.
+   */
+  HASH_UNAVAILABLE: 'HASH_UNAVAILABLE',
+  /**
+   * Не удалось прочитать или проверить исходные байты.
+   */
+  FILE_CHECK_FAILED: 'FILE_CHECK_FAILED',
+  /**
+   * Сервер получил байты, отличающиеся от проверенного оригинала.
+   */
+  HASH_MISMATCH: 'HASH_MISMATCH'
 } as const
 
 /**
@@ -62,5 +74,8 @@ export const getImageErrorMessage = (error: ImageError): string => {
     case 'CONFLICT': return 'Состояние изображения изменилось. Обновите данные перед повтором.'
     case 'UPLOAD_FAILED': return 'Не удалось передать оригинал. Проверьте соединение и повторите загрузку.'
     case 'TOO_LARGE': return 'Файл превышает допустимый размер. Выберите изображение меньшего размера.'
+    case 'HASH_UNAVAILABLE': return 'Браузер не может проверить файл. Откройте приложение через HTTPS или localhost в современном браузере.'
+    case 'FILE_CHECK_FAILED': return 'Не удалось прочитать и проверить файл. Выберите его с устройства ещё раз.'
+    case 'HASH_MISMATCH': return 'Проверка файла на сервере не совпала с оригиналом. Выберите исходный файл заново и повторите загрузку.'
   }
 }

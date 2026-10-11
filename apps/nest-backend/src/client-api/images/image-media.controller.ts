@@ -12,10 +12,12 @@ import {
 import {
   ApiOkResponse,
   ApiOperation,
+  ApiParam,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import type { Request, Response } from 'express';
+import type { ImageVariant } from '../../generated/prisma/client';
 import { Public } from '../../infrastructure/auth/public.decorator';
 import { ImageStorage } from '../../infrastructure/storage/image-storage.service';
 import { ImagesService } from '../../modules/images/images.service';
@@ -31,11 +33,55 @@ export class ImageMediaController {
     private readonly storage: ImageStorage,
   ) {}
 
+  @Get(':publicId/:format/:widthxheight')
+  @Public()
+  @ApiOperation({
+    operationId: 'clientImageReadableMedia',
+    summary:
+      'Готовый вариант по publicId, формату и фактическим widthxheight (латинская x)',
+  })
+  @ApiParam({
+    name: 'publicId',
+    schema: { type: 'string', pattern: '^[0-9A-Za-z]{8}$' },
+  })
+  @ApiParam({ name: 'format', example: 'avif' })
+  @ApiParam({
+    name: 'widthxheight',
+    example: '800x600',
+    description:
+      'Точные размеры существующего файла, латинская x; преобразование по запросу не выполняется.',
+  })
+  @ApiOkResponse({
+    content: {
+      'image/avif': { schema: { type: 'string', format: 'binary' } },
+      'image/jpeg': { schema: { type: 'string', format: 'binary' } },
+      'image/png': { schema: { type: 'string', format: 'binary' } },
+    },
+  })
+  @ApiResponse({
+    status: 304,
+    description: 'Вариант не изменился (If-None-Match).',
+  })
+  async readable(
+    @Param('publicId') publicId: string,
+    @Param('format') format: string,
+    @Param('widthxheight') dimensions: string,
+    @Req() request: Request,
+    @Res({ passthrough: true }) response: Response,
+  ): Promise<StreamableFile | undefined> {
+    return this.deliver(
+      await this.images.publicReadableVariant(publicId, format, dimensions),
+      request,
+      response,
+    );
+  }
+
   @Get(':id/:variantId')
   @Public()
   @ApiOperation({
     operationId: 'clientImageMedia',
-    summary: 'Бинарный готовый вариант без runtime-преобразований',
+    summary:
+      'Legacy UUID URL: бинарный готовый вариант без runtime-преобразований',
   })
   @ApiOkResponse({
     content: {
@@ -55,6 +101,14 @@ export class ImageMediaController {
     @Res({ passthrough: true }) response: Response,
   ): Promise<StreamableFile | undefined> {
     const variant = await this.images.publicVariant(id, variantId);
+    return this.deliver(variant, request, response);
+  }
+
+  private async deliver(
+    variant: ImageVariant,
+    request: Request,
+    response: Response,
+  ): Promise<StreamableFile | undefined> {
     const etag = `"${variant.etag.replaceAll('"', '')}"`;
     response.setHeader('ETag', etag);
     response.setHeader('Cache-Control', 'public, max-age=31536000, immutable');

@@ -11,6 +11,7 @@ import {
   IsString,
   Max,
   MaxLength,
+  Matches,
   Min,
   MinLength,
   ValidateIf,
@@ -42,6 +43,19 @@ export class CreateImageUploadDto {
   @Min(1)
   @Max(2147483647)
   byteSize!: number;
+
+  @ApiPropertyOptional({
+    pattern: '^[0-9a-fA-F]{64}$',
+    description:
+      'SHA-256 исходных байтов. Нормализуется в lowercase; сервер проверяет самостоятельно. Совпадение доступного проверенного оригинала позволяет пропустить PUT.',
+  })
+  @ValidateIf((_object, value: unknown) => value !== undefined)
+  @Transform(({ value }: { value: unknown }) =>
+    typeof value === 'string' ? value.toLowerCase() : value,
+  )
+  @IsString()
+  @Matches(/^[0-9a-f]{64}$/)
+  sha256?: string;
 
   @ApiPropertyOptional({ maxLength: 255 })
   @ValidateIf((_object, value: unknown) => value !== undefined)
@@ -115,10 +129,14 @@ export class ImageListQueryDto {
   @Max(100)
   pageSize: number = 24;
 
-  @ApiPropertyOptional({ maxLength: 255 })
+  @ApiPropertyOptional({
+    maxLength: 2048,
+    description:
+      'Подстрока имени/title/тега либо полный UUID, регистрозависимый publicId из 8 base62 символов или media URL с таким ID.',
+  })
   @IsOptional()
   @IsString()
-  @MaxLength(255)
+  @MaxLength(2048)
   search?: string;
 
   @ApiPropertyOptional({ maxLength: 255 })
@@ -158,6 +176,14 @@ export class ImageUploaderDto {
 }
 
 export class ImageOriginalDto {
+  @ApiProperty({
+    type: String,
+    nullable: true,
+    pattern: '^[0-9a-f]{64}$',
+    description:
+      'Только вычисленный сервером SHA-256 оригинальных байтов; null до проверки или backfill.',
+  })
+  sha256!: string | null;
   @ApiProperty() contentType!: string;
   @ApiProperty() byteSize!: number;
   @ApiProperty({
@@ -191,6 +217,14 @@ export class ImageErrorDto {
 
 export class ImageDto {
   @ApiProperty({ format: 'uuid' }) id!: string;
+  @ApiProperty({
+    pattern: '^[0-9A-Za-z]{8}$',
+    minLength: 8,
+    maxLength: 8,
+    example: 'aB3dE6gH',
+    description: 'Постоянный публичный ID, base62 CSPRNG; регистр значим.',
+  })
+  publicId!: string;
   @ApiProperty() filename!: string;
   @ApiProperty() title!: string;
   @ApiProperty({ type: String, nullable: true }) folder!: string | null;
@@ -224,7 +258,21 @@ export class ImageUploadTargetDto {
 
 export class ImageUploadDto {
   @ApiProperty({ type: ImageDto }) image!: ImageDto;
-  @ApiProperty({ type: ImageUploadTargetDto }) upload!: ImageUploadTargetDto;
+  @ApiProperty({
+    description:
+      'true: возвращено каноническое изображение, PUT и complete не нужны; queued/processing следует опрашивать, failed можно retry.',
+  })
+  reused!: boolean;
+  @ApiProperty({ type: ImageUploadTargetDto, nullable: true })
+  upload!: ImageUploadTargetDto | null;
+}
+
+export class ImageCompleteDto extends ImageDto {
+  @ApiProperty({
+    description:
+      'true: эта попытка связана с другим каноническим изображением. Повтор complete возвращает ту же связь.',
+  })
+  reused!: boolean;
 }
 
 export class ImageListDto {

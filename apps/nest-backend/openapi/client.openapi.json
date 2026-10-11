@@ -30,8 +30,9 @@
             "name": "search",
             "required": false,
             "in": "query",
+            "description": "Подстрока имени/title/тега либо полный UUID, регистрозависимый publicId из 8 base62 символов или media URL с таким ID.",
             "schema": {
-              "maxLength": 255,
+              "maxLength": 2048,
               "type": "string"
             }
           },
@@ -429,7 +430,7 @@
             "access-token": []
           }
         ],
-        "summary": "Создать изображение и временную ссылку для PUT в MinIO",
+        "summary": "Переиспользовать проверенный оригинал или создать ссылку для PUT",
         "tags": [
           "Images"
         ]
@@ -714,7 +715,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ImageDto"
+                  "$ref": "#/components/schemas/ImageCompleteDto"
                 }
               }
             }
@@ -724,7 +725,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ImageDto"
+                  "$ref": "#/components/schemas/ImageCompleteDto"
                 }
               }
             }
@@ -1083,6 +1084,163 @@
         ]
       }
     },
+    "/media/images/{publicId}/{format}/{widthxheight}": {
+      "get": {
+        "operationId": "clientImageReadableMedia",
+        "parameters": [
+          {
+            "name": "publicId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9A-Za-z]{8}$"
+            }
+          },
+          {
+            "name": "format",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "example": "avif",
+              "type": "string"
+            }
+          },
+          {
+            "name": "widthxheight",
+            "required": true,
+            "in": "path",
+            "description": "Точные размеры существующего файла, латинская x; преобразование по запросу не выполняется.",
+            "schema": {
+              "example": "800x600",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "image/avif": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "image/jpeg": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "image/png": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            },
+            "description": ""
+          },
+          "304": {
+            "description": "Вариант не изменился (If-None-Match)."
+          },
+          "400": {
+            "description": "Некорректный запрос или неизвестные входные поля.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Неверные учётные данные или токен либо неактивная сессия.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Нет прав на действие либо некорректные заголовки браузерной авторизации.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не найден или недоступен текущему пользователю.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт с существующими данными или повторное действие.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Превышен лимит: 64 КиБ для JSON или настроенный лимит загрузки изображения.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Хранилище или другая необходимая зависимость временно недоступны.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Готовый вариант по publicId, формату и фактическим widthxheight (латинская x)",
+        "tags": [
+          "Media"
+        ]
+      }
+    },
     "/media/images/{id}/{variantId}": {
       "get": {
         "operationId": "clientImageMedia",
@@ -1222,7 +1380,7 @@
             }
           }
         },
-        "summary": "Бинарный готовый вариант без runtime-преобразований",
+        "summary": "Legacy UUID URL: бинарный готовый вариант без runtime-преобразований",
         "tags": [
           "Media"
         ]
@@ -2116,7 +2274,7 @@
   },
   "info": {
     "title": "Starter — клиентское API",
-    "description": "Публичное клиентское API. Регистрация создаёт учётную запись, но не сессию.\n\nВход и выход через браузер требуют заголовков Origin и X-CSRF-Protection: 1. Принимается любой корректный HTTP(S) Origin без allowlist; CORS открыт.\n\nАвторизация — только Bearer JWT в заголовке Authorization. При входе JWT возвращается в accessToken, cookie авторизации не устанавливаются. JWT и сессия действуют 7 дней (604800 секунд), включая Keycloak. Продления нет; после истечения срока нужен новый вход.\n\nLogout требует валидный JWT текущей сессии и немедленно отзывает её; повторный запрос возвращает 401. Успешная смена credentials отзывает все сессии аккаунта. Клиент удаляет сохранённый JWT после выхода, успешной смены credentials или терминального отказа Bearer. Исключение: 401 CURRENT_PASSWORD_INVALID при неверном текущем пароле не отзывает сессию и не требует удаления JWT. Клиентские и административные JWT не взаимозаменяемы.\n\nИзображения: /images защищён Bearer; Client видит только свои загрузки, Admin — глобальную галерею по images.read/upload/update. Presigned PUT передаёт файл непосредственно в MinIO, complete замораживает оригинал и сохраняет задание. GET не запускает обработку. Только ready-варианты публично доступны через Client API /media/images; оригинал выдаётся защищённой операцией как временная ссылка {url,expiresAt}.\n\nНовые варианты изображений сохраняют пропорции исходника после EXIF без кадрирования и увеличения. Ширины 200,400,… до min(2000,ширина исходника); некратный максимум добавляется, заменяя последнюю сеточную ширину при остатке меньше 100 px. AVIF q80 и JPEG q92 либо PNG; выбор вариантов по (width,format). Для старых ready-записей manifest выбирает одну ранее опубликованную семью без смешения геометрии, все прежние UUID URL сохраняются.",
+    "description": "Публичное клиентское API. Регистрация создаёт учётную запись, но не сессию.\n\nВход и выход через браузер требуют заголовков Origin и X-CSRF-Protection: 1. Принимается любой корректный HTTP(S) Origin без allowlist; CORS открыт.\n\nАвторизация — только Bearer JWT в заголовке Authorization. При входе JWT возвращается в accessToken, cookie авторизации не устанавливаются. JWT и сессия действуют 7 дней (604800 секунд), включая Keycloak. Продления нет; после истечения срока нужен новый вход.\n\nLogout требует валидный JWT текущей сессии и немедленно отзывает её; повторный запрос возвращает 401. Успешная смена credentials отзывает все сессии аккаунта. Клиент удаляет сохранённый JWT после выхода, успешной смены credentials или терминального отказа Bearer. Исключение: 401 CURRENT_PASSWORD_INVALID при неверном текущем пароле не отзывает сессию и не требует удаления JWT. Клиентские и административные JWT не взаимозаменяемы.\n\nИзображения: /images защищён Bearer; Client видит только свои загрузки, Admin — глобальную галерею по images.read/upload/update. Presigned PUT передаёт файл непосредственно в MinIO, complete замораживает оригинал и сохраняет задание. GET не запускает обработку. Только ready-варианты публично доступны через Client API /media/images; оригинал выдаётся защищённой операцией как временная ссылка {url,expiresAt}.\n\nImageDto сохраняет внутренний id UUID и содержит publicId (8 регистрозависимых base62 символов) и original.sha256 (серверно проверенный SHA-256 либо null). CreateImageUploadDto.sha256 необязателен: preflight возвращает {image,reused:true,upload:null} для доступного проверенного совпадения, иначе {image,reused:false,upload:{…}}. Complete возвращает плоский ImageCompleteDto с reused; при несовпадении заявленного SHA-256 — 400 IMAGE_HASH_MISMATCH. Дедупликация общая для admin-uploaded, Client — только в своём owner scope; admin без images.read не получает канонические метаданные через upload/complete/retry. Переиспользование сохраняет title/folder/tags/автора; queued/processing опрашиваются, failed можно retry без нового PUT.\n\nЧитаемые URL вариантов: /media/images/:publicId/:format/:widthxheight, латинская x и фактическая геометрия готового файла. Legacy UUID/variantId URL сохраняют байты. search ищет подстроку filename/title/tags, полный UUID/publicId или ID из media URL, включая алиасы после backfill.\n\nНовые варианты изображений сохраняют пропорции исходника после EXIF без кадрирования и увеличения. Ширины 200,400,… до min(2000,ширина исходника); некратный максимум добавляется, заменяя последнюю сеточную ширину при остатке меньше 100 px. AVIF q80 и JPEG q92 либо PNG; выбор вариантов по (width,format). Для старых ready-записей manifest выбирает одну ранее опубликованную семью без смешения геометрии, все прежние UUID URL сохраняются.",
     "version": "1.0.0",
     "contact": {}
   },
@@ -2162,6 +2320,12 @@
       "ImageOriginalDto": {
         "type": "object",
         "properties": {
+          "sha256": {
+            "type": "string",
+            "nullable": true,
+            "pattern": "^[0-9a-f]{64}$",
+            "description": "Только вычисленный сервером SHA-256 оригинальных байтов; null до проверки или backfill."
+          },
           "contentType": {
             "type": "string"
           },
@@ -2180,6 +2344,7 @@
           }
         },
         "required": [
+          "sha256",
           "contentType",
           "byteSize",
           "width",
@@ -2247,6 +2412,14 @@
             "type": "string",
             "format": "uuid"
           },
+          "publicId": {
+            "type": "string",
+            "pattern": "^[0-9A-Za-z]{8}$",
+            "minLength": 8,
+            "maxLength": 8,
+            "example": "aB3dE6gH",
+            "description": "Постоянный публичный ID, base62 CSPRNG; регистр значим."
+          },
           "filename": {
             "type": "string"
           },
@@ -2306,6 +2479,7 @@
         },
         "required": [
           "id",
+          "publicId",
           "filename",
           "title",
           "folder",
@@ -2410,6 +2584,11 @@
             "minimum": 1,
             "description": "Точный размер файла; серверный лимит по умолчанию 20 МиБ."
           },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-fA-F]{64}$",
+            "description": "SHA-256 исходных байтов. Нормализуется в lowercase; сервер проверяет самостоятельно. Совпадение доступного проверенного оригинала позволяет пропустить PUT."
+          },
           "title": {
             "type": "string",
             "maxLength": 255
@@ -2475,13 +2654,117 @@
           "image": {
             "$ref": "#/components/schemas/ImageDto"
           },
+          "reused": {
+            "type": "boolean",
+            "description": "true: возвращено каноническое изображение, PUT и complete не нужны; queued/processing следует опрашивать, failed можно retry."
+          },
           "upload": {
-            "$ref": "#/components/schemas/ImageUploadTargetDto"
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ImageUploadTargetDto"
+              }
+            ]
           }
         },
         "required": [
           "image",
+          "reused",
           "upload"
+        ]
+      },
+      "ImageCompleteDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "publicId": {
+            "type": "string",
+            "pattern": "^[0-9A-Za-z]{8}$",
+            "minLength": 8,
+            "maxLength": 8,
+            "example": "aB3dE6gH",
+            "description": "Постоянный публичный ID, base62 CSPRNG; регистр значим."
+          },
+          "filename": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "folder": {
+            "type": "string",
+            "nullable": true
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "uploading",
+              "queued",
+              "processing",
+              "ready",
+              "failed"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "uploadedBy": {
+            "$ref": "#/components/schemas/ImageUploaderDto"
+          },
+          "original": {
+            "$ref": "#/components/schemas/ImageOriginalDto"
+          },
+          "variants": {
+            "description": "Однородный по пропорциям набор готовых вариантов, пуст до ready. Выбор по (width,format). Новая обработка сохраняет пропорции исходника; для старых записей без таких вариантов возвращается одна ранее опубликованная семья.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ImageVariantDto"
+            }
+          },
+          "error": {
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ImageErrorDto"
+              }
+            ]
+          },
+          "reused": {
+            "type": "boolean",
+            "description": "true: эта попытка связана с другим каноническим изображением. Повтор complete возвращает ту же связь."
+          }
+        },
+        "required": [
+          "id",
+          "publicId",
+          "filename",
+          "title",
+          "folder",
+          "tags",
+          "status",
+          "createdAt",
+          "updatedAt",
+          "uploadedBy",
+          "original",
+          "variants",
+          "error",
+          "reused"
         ]
       },
       "UpdateImageDto": {

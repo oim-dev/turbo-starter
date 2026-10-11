@@ -130,6 +130,11 @@ export interface ImageUploaderDto {
 }
 
 export interface ImageOriginalDto {
+  /**
+   * Только вычисленный сервером SHA-256 оригинальных байтов; null до проверки или backfill.
+   * @pattern ^[0-9a-f]{64}$
+   */
+  sha256: string | null;
   contentType: string;
   byteSize: number;
   /** Ширина исходника после EXIF orientation, известна в ready. */
@@ -160,6 +165,14 @@ export interface ImageErrorDto {
 export interface ImageDto {
   /** @format uuid */
   id: string;
+  /**
+   * Постоянный публичный ID, base62 CSPRNG; регистр значим.
+   * @minLength 8
+   * @maxLength 8
+   * @pattern ^[0-9A-Za-z]{8}$
+   * @example "aB3dE6gH"
+   */
+  publicId: string;
   filename: string;
   title: string;
   folder: string | null;
@@ -207,6 +220,11 @@ export interface CreateImageUploadDto {
    * @min 1
    */
   byteSize: number;
+  /**
+   * SHA-256 исходных байтов. Нормализуется в lowercase; сервер проверяет самостоятельно. Совпадение доступного проверенного оригинала позволяет пропустить PUT.
+   * @pattern ^[0-9a-fA-F]{64}$
+   */
+  sha256?: string;
   /** @maxLength 255 */
   title?: string;
   /**
@@ -233,7 +251,38 @@ export interface ImageUploadTargetDto {
 
 export interface ImageUploadDto {
   image: ImageDto;
-  upload: ImageUploadTargetDto;
+  /** true: возвращено каноническое изображение, PUT и complete не нужны; queued/processing следует опрашивать, failed можно retry. */
+  reused: boolean;
+  upload: ImageUploadTargetDto | null;
+}
+
+export interface ImageCompleteDto {
+  /** @format uuid */
+  id: string;
+  /**
+   * Постоянный публичный ID, base62 CSPRNG; регистр значим.
+   * @minLength 8
+   * @maxLength 8
+   * @pattern ^[0-9A-Za-z]{8}$
+   * @example "aB3dE6gH"
+   */
+  publicId: string;
+  filename: string;
+  title: string;
+  folder: string | null;
+  tags: string[];
+  status: ImageCompleteDtoStatusEnum;
+  /** @format date-time */
+  createdAt: string;
+  /** @format date-time */
+  updatedAt: string;
+  uploadedBy: ImageUploaderDto;
+  original: ImageOriginalDto;
+  /** Однородный по пропорциям набор готовых вариантов, пуст до ready. Выбор по (width,format). Новая обработка сохраняет пропорции исходника; для старых записей без таких вариантов возвращается одна ранее опубликованная семья. */
+  variants: ImageVariantDto[];
+  error: ImageErrorDto | null;
+  /** true: эта попытка связана с другим каноническим изображением. Повтор complete возвращает ту же связь. */
+  reused: boolean;
 }
 
 export interface UpdateImageDto {
@@ -394,6 +443,13 @@ export type CreateImageUploadDtoContentTypeEnum =
 
 export type ImageUploadTargetDtoMethodEnum = "PUT";
 
+export type ImageCompleteDtoStatusEnum =
+  | "uploading"
+  | "queued"
+  | "processing"
+  | "ready"
+  | "failed";
+
 export type AccessTokenDtoTokenTypeEnum = "Bearer";
 
 /**
@@ -453,7 +509,10 @@ export interface AdminImageListParams {
    * @default 24
    */
   pageSize?: number;
-  /** @maxLength 255 */
+  /**
+   * Подстрока имени/title/тега либо полный UUID, регистрозависимый publicId из 8 base62 символов или media URL с таким ID.
+   * @maxLength 2048
+   */
   search?: string;
   /** @maxLength 255 */
   folder?: string;

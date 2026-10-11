@@ -41,6 +41,15 @@ enum ImageJobStatus {
 
 model Image {
   id                 String         @id @default(uuid()) @db.Uuid
+  publicId           String         @unique @db.VarChar(8)
+  // Заявленный хеш не является доказательством; originalSha256 вычисляет сервер.
+  claimedSha256      String?        @db.Char(64)
+  originalSha256     String?        @db.Char(64)
+  // Сохраняем попытки и legacy-объекты, скрывая дубли из галереи.
+  canonicalId        String?        @db.Uuid
+  canonical          Image?         @relation("ImageAliases", fields: [canonicalId], references: [id], onDelete: Restrict)
+  aliases            Image[]        @relation("ImageAliases")
+  hashClaim          ImageHashClaim?
   filename           String         @db.VarChar(255)
   title              String         @db.VarChar(255)
   folder             String?        @db.VarChar(255)
@@ -73,6 +82,17 @@ model Image {
   @@index([status, createdAt, id])
   @@index([folder])
   @@index([tags], type: Gin)
+  @@index([canonicalId])
+}
+
+model ImageHashClaim {
+  scope     String   @db.VarChar(43)
+  sha256    String   @db.Char(64)
+  imageId   String   @unique @db.Uuid
+  image     Image    @relation(fields: [imageId], references: [id], onDelete: Restrict)
+  createdAt DateTime @default(now())
+
+  @@id([scope, sha256])
 }
 
 model ImageVariant {

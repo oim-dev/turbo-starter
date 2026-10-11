@@ -1,4 +1,4 @@
-import type { ImageFacets, ImageUploadInput, ProjectImage } from 'domains/images'
+import type { ImageFacets, ImageUploadInput, ImageUploadProgress, ImageUploadResult } from 'domains/images'
 import type { NativeFileDrop } from 'infra/native-file-drop'
 
 /**
@@ -28,11 +28,20 @@ export type ImageUploadParams = {
   /**
    * Отправка оригинала и подтверждение задания.
    */
-  onUpload: (file: File, input: ImageUploadInput, onProgress: (progress: number) => void, signal: AbortSignal) => Promise<ProjectImage>
+  onUpload: (
+    file: File,
+    input: ImageUploadInput,
+    onProgress: (progress: ImageUploadProgress) => void,
+    signal: AbortSignal
+  ) => Promise<ImageUploadResult>
   /**
    * Переход к обновлённой медиатеке.
    */
   onUploaded: () => void
+  /**
+   * Открывает каноническое изображение из результата очереди.
+   */
+  onOpenImage: (id: string) => void
 }
 
 /**

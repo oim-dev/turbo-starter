@@ -36,14 +36,14 @@ export const isImagePending = (image: ProjectImage): boolean => {
  * Допускает повтор только для завершённого загрузкой задания обработки.
  */
 export const canRetryImageProcessing = (image: ProjectImage): boolean => {
-  return image.status === 'failed' && image.error?.code !== 'UPLOAD_EXPIRED'
+  return image.status === 'failed' && !['UPLOAD_EXPIRED', 'IMAGE_HASH_MISMATCH'].includes(image.error?.code ?? '')
 }
 
 /**
  * Отличает сохранённый оригинал от незавершённой передачи.
  */
 export const canDownloadImageOriginal = (image: ProjectImage): boolean => {
-  return image.status !== 'uploading' && image.error?.code !== 'UPLOAD_EXPIRED'
+  return image.status !== 'uploading' && !['UPLOAD_EXPIRED', 'IMAGE_HASH_MISMATCH'].includes(image.error?.code ?? '')
 }
 
 /**
@@ -52,6 +52,9 @@ export const canDownloadImageOriginal = (image: ProjectImage): boolean => {
 export const getImageFailureDescription = (image: ProjectImage): string => {
   if (image.error?.code === 'UPLOAD_EXPIRED') {
     return 'Загрузка оригинала не была завершена вовремя. Выберите «Загрузить изображения» и добавьте файл заново.'
+  }
+  if (image.error?.code === 'IMAGE_HASH_MISMATCH') {
+    return 'Проверка файла не совпала с оригиналом. Выберите исходный файл заново и повторите загрузку.'
   }
   if (['INVALID_IMAGE', 'UNSUPPORTED_IMAGE_TYPE', 'ANIMATION_UNSUPPORTED'].includes(image.error?.code ?? '')) {
     return 'Не удалось прочитать исходник. Проверьте, что это корректное неанимированное изображение JPEG, PNG или WebP. Повтор обработки не исправит повреждённые байты; исправленный файл нужно загрузить заново.'

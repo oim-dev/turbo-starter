@@ -7,7 +7,7 @@
 import type {
   AdminImageCompleteParams,
   ApiErrorDto,
-  ImageDto,
+  ImageCompleteDto,
 } from "../data-contracts.js";
 import type { ApiRequestClient, RequestParams } from "../http-client.js";
 
@@ -25,7 +25,7 @@ export const adminImageComplete = (
   { id }: AdminImageCompleteParams,
   params: RequestParams = {},
 ) =>
-  http.request<ImageDto, ApiErrorDto>({
+  http.request<ImageCompleteDto, ApiErrorDto>({
     path: `/images/${id}/complete`,
     method: "POST",
     format: "json",

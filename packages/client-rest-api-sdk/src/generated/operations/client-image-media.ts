@@ -12,7 +12,7 @@ import type { ApiRequestClient, RequestParams } from "../http-client.js";
  *
  * @tags Media
  * @name ClientImageMedia
- * @summary Бинарный готовый вариант без runtime-преобразований
+ * @summary Legacy UUID URL: бинарный готовый вариант без runtime-преобразований
  * @request GET:/media/images/{id}/{variantId}
  */
 export const clientImageMedia = (

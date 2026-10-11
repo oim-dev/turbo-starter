@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { randomUUID } from 'node:crypto';
+import { createHash, randomUUID } from 'node:crypto';
 import type { Prisma } from '../generated/prisma/client';
 import { ImageConfig } from '../infrastructure/config/image-config';
 import { ImageProcessor } from '../infrastructure/images/image-processor';
@@ -110,6 +110,14 @@ export class ImageJobRunner {
       throw new ImageProcessingError(
         'IMAGE_SIZE_MISMATCH',
         'Размер оригинала не совпадает с заявленным.',
+      );
+    if (
+      image.originalSha256 &&
+      createHash('sha256').update(bytes).digest('hex') !== image.originalSha256
+    )
+      throw new ImageProcessingError(
+        'ORIGINAL_CHANGED',
+        'SHA-256 замороженного оригинала изменился.',
       );
     const source = sourceMetadata(
       bytes,

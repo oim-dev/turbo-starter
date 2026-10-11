@@ -1,4 +1,4 @@
-import { Alert, Badge, Button, CopyButton, Divider, Drawer, Group, Skeleton, Stack, Text } from '@mantine/core'
+import { Alert, Badge, Button, Code, CopyButton, Divider, Drawer, Group, Skeleton, Stack, Text } from '@mantine/core'
 import { IconCheck, IconCopy, IconDownload, IconRefresh } from '@tabler/icons-react'
 import { useReducedMotion } from '@mantine/hooks'
 import { useState } from 'react'
@@ -165,13 +165,28 @@ export const ImageDetails = (props: ImageDetailsProps): JSX.Element => {
             <Alert color="red" role="alert">{actionError}</Alert>
           )}
           <dl className={styles.metadata}>
+            <div className={styles.identifier}>
+              <dt className={styles.metadataLabel}>Короткий ID</dt>
+              <dd className={styles.metadataValue}>
+                <Group gap="xs">
+                  <Code>{image.publicId}</Code>
+                  <CopyButton value={image.publicId}>
+                    {({ copied, copy }) => {
+                      const label = copied ? 'ID скопирован' : 'Копировать ID'
+                      const CopyIcon = copied ? IconCheck : IconCopy
+                      return <Button size="xs" variant="subtle" onClick={copy} leftSection={<CopyIcon size={14} aria-hidden="true" />}>{label}</Button>
+                    }}
+                  </CopyButton>
+                </Group>
+              </dd>
+            </div>
             <div><dt className={styles.metadataLabel}>Загрузил</dt><dd className={styles.metadataValue}>{authorLabel}<Text size="xs" c="dimmed">{realmLabel} · {image.uploadedBy.login}</Text></dd></div>
             <div><dt className={styles.metadataLabel}>Дата загрузки</dt><dd className={styles.metadataValue}>{createdAt}</dd></div>
             <div><dt className={styles.metadataLabel}>Исходный файл</dt><dd className={styles.metadataValue}>{image.filename}</dd></div>
             <div><dt className={styles.metadataLabel}>Размеры и вес</dt><dd className={styles.metadataValue}>{dimensions} · {originalBytes}</dd></div>
             <div><dt className={styles.metadataLabel}>Тип оригинала</dt><dd className={styles.metadataValue}>{image.original.contentType}</dd></div>
             <div><dt className={styles.metadataLabel}>Обновлено</dt><dd className={styles.metadataValue}>{updatedAt}</dd></div>
-            <div className={styles.identifier}><dt className={styles.metadataLabel}>Идентификатор</dt><dd className={styles.metadataValue}>{image.id}</dd></div>
+            <div className={styles.identifier}><dt className={styles.metadataLabel}>Системный ID</dt><dd className={styles.metadataValue}>{image.id}</dd></div>
           </dl>
           <Divider label="Классификация" labelPosition="left" />
           <ImageClassification key={image.id} image={image} facets={facets} canUpdate={canUpdate} onSave={onSave} />

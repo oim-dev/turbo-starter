@@ -21,7 +21,7 @@ export const ImageFormatFiles = (props: ImageFormatFilesProps): JSX.Element => {
   }))
 
   return (
-    <Table className={styles.root} verticalSpacing="xs" horizontalSpacing={4} highlightOnHover>
+    <Table className={styles.root} verticalSpacing="xs" horizontalSpacing={4} highlightOnHover aria-label="Размеры и URL выбранного формата">
       <Table.Thead>
         <Table.Tr>
           <Table.Th>Размер, px</Table.Th>

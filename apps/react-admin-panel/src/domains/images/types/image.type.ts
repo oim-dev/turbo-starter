@@ -90,6 +90,10 @@ export type ProjectImage = {
    */
   id: string
   /**
+   * Короткий публичный идентификатор: восемь символов base62.
+   */
+  publicId: string
+  /**
    * Исходное имя файла.
    */
   filename: string
@@ -151,6 +155,10 @@ export type ProjectImage = {
      */
     byteSize: number
     /**
+     * Проверенный сервером SHA-256 оригинальных байтов; null у старых или непроверенных оригиналов.
+     */
+    sha256: string | null
+    /**
      * Распознанная ширина.
      */
     width: number | null
@@ -193,7 +201,7 @@ export type ImageUploadInput = Omit<ImageClassification, 'title'>
  */
 export type ImageFilters = {
   /**
-   * Поиск по имени, заголовку и тегам.
+   * Серверный поиск по имени, тегам, короткому ID или URL изображения.
    */
   search: string
   /**
