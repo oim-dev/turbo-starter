@@ -1,4 +1,4 @@
-import { rejectAuthentication } from 'domains/auth'
+import { rejectAuthentication } from 'domains/management/auth'
 import { backendAdminApi, getBackendAdminApiErrorAccessToken, isBackendAdminApiError } from 'infra/backend-admin-api'
 import { toApplicationDefect } from 'shared/errors'
 import { KeycloakSettingsError } from '../errors/keycloak-settings.error'

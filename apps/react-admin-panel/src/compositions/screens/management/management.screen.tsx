@@ -3,7 +3,7 @@ import { IconArrowRight, IconKey, IconListCheck, IconShieldCheck, IconUsers } fr
 import cl from 'clsx'
 import type { JSX } from 'react'
 import { Link } from 'react-router-dom'
-import { usePermission } from 'domains/auth'
+import { usePermission } from 'domains/management/auth'
 import { PageHeading } from 'ui/page-heading'
 import type { ManagementScreenProps } from './types/management-screen-props.type'
 import styles from './styles/management.module.css'

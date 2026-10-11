@@ -1,7 +1,7 @@
 import { Alert, Button, Center, Loader, Stack, Text, Title } from '@mantine/core'
 import cl from 'clsx'
 import { useState } from 'react'
-import { isAuthError, logout, retryBootstrap } from 'domains/auth'
+import { isAuthError, logout, retryBootstrap } from 'domains/management/auth'
 import { reportApplicationDefect, toApplicationDefect } from 'shared/errors'
 import { getBootstrapErrorMessage } from '../../helpers/get-bootstrap-error-message'
 import styles from './styles/session-pending.module.css'

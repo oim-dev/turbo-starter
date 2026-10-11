@@ -23,7 +23,7 @@ import {
 import { useState } from 'react'
 import type { JSX } from 'react'
 import { Link, useMatch, useParams } from 'react-router-dom'
-import { useAccessManagement } from 'domains/admin-access'
+import { useAccessManagement } from 'domains/management/access'
 import { isDefined, isEmptyArray } from 'shared/value-predicates'
 import { PageHeading } from 'ui/page-heading'
 import { QueryState } from 'ui/query-state'

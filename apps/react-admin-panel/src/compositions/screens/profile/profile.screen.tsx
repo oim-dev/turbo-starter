@@ -1,7 +1,7 @@
 import { Avatar, Badge, Group, Paper, Text } from '@mantine/core'
 import cl from 'clsx'
 import type { JSX } from 'react'
-import { isAuthError, useGetCurrentUser } from 'domains/auth'
+import { isAuthError, useGetCurrentUser } from 'domains/management/auth'
 import { reportApplicationDefect, toApplicationDefect } from 'shared/errors'
 import { isDefined } from 'shared/value-predicates'
 import { PageHeading } from 'ui/page-heading'

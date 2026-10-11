@@ -3,7 +3,7 @@ import { IconChevronDown, IconLogout, IconUser, IconLock, IconSettings } from '@
 import cl from 'clsx'
 import type { JSX } from 'react'
 import { Link } from 'react-router-dom'
-import { usePermission } from 'domains/auth'
+import { usePermission } from 'domains/management/auth'
 import type { AccountMenuProps } from './types/account-menu-props.type'
 import styles from './styles/account-menu.module.css'
 

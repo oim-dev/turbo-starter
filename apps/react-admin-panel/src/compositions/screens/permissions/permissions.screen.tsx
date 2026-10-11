@@ -17,7 +17,7 @@ import { IconCheck, IconCopy, IconLock, IconSearch, IconShieldCheck, IconUser } 
 import { useState } from 'react'
 import type { JSX } from 'react'
 import { Link } from 'react-router-dom'
-import { describePermission, useAccessManagement } from 'domains/admin-access'
+import { describePermission, useAccessManagement } from 'domains/management/access'
 import { isDefined, isEmptyArray } from 'shared/value-predicates'
 import { PageHeading } from 'ui/page-heading'
 import { QueryState } from 'ui/query-state'

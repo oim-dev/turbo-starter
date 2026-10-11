@@ -2,7 +2,7 @@ import { Alert, Button, Fieldset, Group, Modal, PasswordInput, Stack, Text } fro
 import { useForm } from '@mantine/form'
 import { useState } from 'react'
 import type { JSX } from 'react'
-import { AccessError, useAccessManagement } from 'domains/admin-access'
+import { AccessError, useAccessManagement } from 'domains/management/access'
 import { reportApplicationDefect, toApplicationDefect } from 'shared/errors'
 import { isDefined } from 'shared/value-predicates'
 import type { AccountPasswordDialogProps, AccountPasswordValues } from './types/account-password-dialog-props.type'

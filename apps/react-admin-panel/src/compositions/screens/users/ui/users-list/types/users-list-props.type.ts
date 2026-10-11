@@ -1,5 +1,5 @@
 import type { ComponentPropsWithoutRef } from 'react'
-import type { AccessRole, ManagedAccount } from 'domains/admin-access'
+import type { AccessRole, ManagedAccount } from 'domains/management/access'
 
 /**
  * Данные списка пользователей административной панели.

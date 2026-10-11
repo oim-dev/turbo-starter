@@ -30,7 +30,7 @@ import {
 import { useState } from 'react'
 import type { JSX } from 'react'
 import { Link } from 'react-router-dom'
-import { KeycloakSettingsError, useKeycloakSettings } from 'domains/keycloak-settings'
+import { KeycloakSettingsError, useKeycloakSettings } from 'domains/management/keycloak-settings'
 import { reportApplicationDefect, toApplicationDefect } from 'shared/errors'
 import { isDefined } from 'shared/value-predicates'
 import { FormLeaveGuard } from 'ui/form-leave-guard'

@@ -1,7 +1,7 @@
 import { Alert, Loader } from '@mantine/core'
 import type { JSX } from 'react'
 import { Outlet } from 'react-router-dom'
-import { useGetCurrentUser } from 'domains/auth'
+import { useGetCurrentUser } from 'domains/management/auth'
 import type { PermissionProps } from './types/permission-props.type'
 
 /**

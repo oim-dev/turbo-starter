@@ -1,4 +1,4 @@
-import type { CurrentUser } from 'domains/auth'
+import type { CurrentUser } from 'domains/management/auth'
 
 /**
  * Подтверждённый профиль для формы собственного аккаунта.

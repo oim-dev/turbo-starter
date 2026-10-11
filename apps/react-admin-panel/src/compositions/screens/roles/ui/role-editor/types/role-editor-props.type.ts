@@ -1,4 +1,4 @@
-import type { AccessPermission, AccessRole, ManagedAccount } from 'domains/admin-access'
+import type { AccessPermission, AccessRole, ManagedAccount } from 'domains/management/access'
 
 /**
  * Контракт редактирования одной роли.

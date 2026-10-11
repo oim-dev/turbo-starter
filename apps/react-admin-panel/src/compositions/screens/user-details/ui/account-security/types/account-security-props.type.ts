@@ -1,4 +1,4 @@
-import type { ManagedAccount } from 'domains/admin-access'
+import type { ManagedAccount } from 'domains/management/access'
 
 /**
  * Выбранный аккаунт для управления способами входа.

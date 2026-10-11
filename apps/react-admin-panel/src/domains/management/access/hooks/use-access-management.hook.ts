@@ -1,6 +1,6 @@
 import useSWR from 'swr'
 import type { SWRResponse } from 'swr'
-import { useGetCurrentUser } from 'domains/auth'
+import { useGetCurrentUser } from 'domains/management/auth'
 import {
   createManagedAccount,
   deleteAccessRole,

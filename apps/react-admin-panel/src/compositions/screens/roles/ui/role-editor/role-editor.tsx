@@ -19,7 +19,7 @@ import { IconCheck, IconLock, IconShieldCheck, IconTrash, IconUsers } from '@tab
 import { useState } from 'react'
 import type { JSX } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { AccessError, describePermission, useAccessManagement } from 'domains/admin-access'
+import { AccessError, describePermission, useAccessManagement } from 'domains/management/access'
 import { reportApplicationDefect, toApplicationDefect } from 'shared/errors'
 import { isDefined, isEmptyArray } from 'shared/value-predicates'
 import { FormLeaveGuard } from 'ui/form-leave-guard'

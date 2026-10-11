@@ -1,5 +1,5 @@
 import type { ComponentPropsWithoutRef } from 'react'
-import type { AuthError } from 'domains/auth'
+import type { AuthError } from 'domains/management/auth'
 
 /**
  * Параметры неподтверждённой сессии.

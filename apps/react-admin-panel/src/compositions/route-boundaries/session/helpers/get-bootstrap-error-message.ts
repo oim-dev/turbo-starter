@@ -1,5 +1,5 @@
-import { getSignInErrorMessage } from 'domains/auth'
-import type { AuthError } from 'domains/auth'
+import { getSignInErrorMessage } from 'domains/management/auth'
+import type { AuthError } from 'domains/management/auth'
 
 /**
  * Локализует причину неподтверждённой сессии без технических сообщений источника.

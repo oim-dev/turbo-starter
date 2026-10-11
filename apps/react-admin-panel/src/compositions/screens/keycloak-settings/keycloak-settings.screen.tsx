@@ -1,5 +1,5 @@
 import type { JSX } from 'react'
-import { useKeycloakSettings } from 'domains/keycloak-settings'
+import { useKeycloakSettings } from 'domains/management/keycloak-settings'
 import { isDefined } from 'shared/value-predicates'
 import { PageHeading } from 'ui/page-heading'
 import { QueryState } from 'ui/query-state'

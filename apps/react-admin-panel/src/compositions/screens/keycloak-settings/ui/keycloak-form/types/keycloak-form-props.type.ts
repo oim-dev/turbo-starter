@@ -1,4 +1,4 @@
-import type { KeycloakSettings } from 'domains/keycloak-settings'
+import type { KeycloakSettings } from 'domains/management/keycloak-settings'
 
 /**
  * Исходные данные и завершение редактирования.

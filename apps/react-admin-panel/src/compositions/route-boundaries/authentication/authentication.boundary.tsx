@@ -1,5 +1,5 @@
 import { matchPath, Outlet, useLocation } from 'react-router-dom'
-import { AuthProvider } from 'domains/auth'
+import { AuthProvider } from 'domains/management/auth'
 
 /**
  * Выбирает режим единственного lifecycle сессии по назначению маршрутной ветки.

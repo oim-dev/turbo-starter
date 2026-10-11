@@ -6,7 +6,7 @@ import {
   isAuthError,
   mapKeycloakCallbackError,
   signInWithKeycloakCompletion
-} from 'domains/auth'
+} from 'domains/management/auth'
 import { reportApplicationDefect, toApplicationDefect } from 'shared/errors'
 import { getSafeReturnTo } from 'shared/navigation'
 import { isDefined } from 'shared/value-predicates'

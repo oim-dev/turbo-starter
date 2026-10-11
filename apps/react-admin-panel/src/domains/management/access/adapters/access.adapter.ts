@@ -1,4 +1,4 @@
-import { rejectAuthentication } from 'domains/auth'
+import { rejectAuthentication } from 'domains/management/auth'
 import { backendAdminApi, getBackendAdminApiErrorAccessToken, isBackendAdminApiError } from 'infra/backend-admin-api'
 import { AccessError, classifyAccessError } from '../errors/access.error'
 import { mapAccounts, mapPermissions, mapRoles } from '../mappers/access.mapper'

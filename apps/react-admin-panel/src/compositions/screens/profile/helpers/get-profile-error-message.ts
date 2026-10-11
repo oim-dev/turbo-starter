@@ -1,4 +1,4 @@
-import type { GetCurrentUserError } from 'domains/auth'
+import type { GetCurrentUserError } from 'domains/management/auth'
 
 /**
  * Выбирает безопасное пояснение отказа чтения профиля без технических деталей API.

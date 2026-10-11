@@ -1,6 +1,6 @@
 import useSWR from 'swr'
 import type { SWRResponse } from 'swr'
-import { useGetCurrentUser } from 'domains/auth'
+import { useGetCurrentUser } from 'domains/management/auth'
 import { getKeycloakSettings, saveKeycloakSettings } from '../adapters/keycloak-settings.adapter'
 import type { KeycloakSettingsError } from '../errors/keycloak-settings.error'
 import type { KeycloakSettings, KeycloakSettingsInput } from '../types/keycloak-settings.type'

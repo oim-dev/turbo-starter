@@ -1,4 +1,4 @@
-import type { AccessRole, ManagedAccount } from 'domains/admin-access'
+import type { AccessRole, ManagedAccount } from 'domains/management/access'
 
 /**
  * Контракт формы аккаунта.

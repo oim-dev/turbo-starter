@@ -2,7 +2,7 @@ import { IconKey, IconLayoutDashboard, IconListCheck, IconShieldCheck, IconUsers
 import type { JSX } from 'react'
 import { AdminLayout } from 'compositions/layouts/admin'
 import type { AdminNavigationItem } from 'compositions/layouts/admin'
-import { usePermission } from 'domains/auth'
+import { usePermission } from 'domains/management/auth'
 
 /**
  * Собирает layout управления с собственным меню в общем каркасе панели.
