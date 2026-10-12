@@ -75,14 +75,14 @@ export const FileDetails = (props: FileDetailsProps): JSX.Element => {
               <dt>SHA-256</dt><dd className={styles.hash}>{file.sha256 ?? 'После подтверждения загрузки'}</dd>
             </dl>
             <Divider />
+            <FileClassification file={file} facets={facets} canUpdate={canUpdate} onSave={onSave} />
+            <Divider />
             {canAddVersion && (
               <div><Button fullWidth variant="light" onClick={onVersion}>Добавить новую версию</Button><Text size="xs" c="dimmed" mt="xs">Или перетащите новый файл на открытую панель документа.</Text></div>
             )}
             {hasVersions && (
               <FileVersions fileId={file.id} currentVersion={file.currentVersion} canUpdate={canUpdate} />
             )}
-            <Divider />
-            <FileClassification file={file} facets={facets} canUpdate={canUpdate} onSave={onSave} />
           </>
         )}
       </Stack>

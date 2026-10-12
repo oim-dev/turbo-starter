@@ -1,5 +1,6 @@
 import { Alert, Autocomplete, Button, Stack, TagsInput, Text, TextInput } from '@mantine/core'
 import { useForm } from '@mantine/form'
+import { IconFileDescription, IconFolder, IconTags } from '@tabler/icons-react'
 import cl from 'clsx'
 import { useState } from 'react'
 import type { JSX } from 'react'
@@ -68,14 +69,31 @@ export const FileClassification = (props: FileClassificationProps): JSX.Element 
         <Stack gap="md">
           <TextInput
             label="Имя файла"
+            leftSection={<IconFileDescription size={16} aria-hidden="true" />}
             description="Используется в списке, ссылке и при скачивании. Имена в истории версий сохраняются."
             required
             maxLength={255}
             key={form.key('title')}
             {...form.getInputProps('title')}
           />
-          <Autocomplete label="Папка" placeholder="Например, Документы/Инструкции" maxLength={255} data={folders} key={form.key('folder')} {...form.getInputProps('folder')} />
-          <TagsInput label="Теги" placeholder="Добавьте метки" maxTags={20} data={tags} key={form.key('tags')} {...form.getInputProps('tags')} />
+          <Autocomplete
+            label="Папка"
+            leftSection={<IconFolder size={16} aria-hidden="true" />}
+            placeholder="Например, Документы/Инструкции"
+            maxLength={255}
+            data={folders}
+            key={form.key('folder')}
+            {...form.getInputProps('folder')}
+          />
+          <TagsInput
+            label="Теги"
+            leftSection={<IconTags size={16} aria-hidden="true" />}
+            placeholder="Добавьте метки"
+            maxTags={20}
+            data={tags}
+            key={form.key('tags')}
+            {...form.getInputProps('tags')}
+          />
           {canUpdate && (
             <Button type="submit" loading={form.submitting}>Сохранить изменения</Button>
           )}
