@@ -9,6 +9,8 @@ export { changeClientUserPassword } from "./change-client-user-password.js";
 export { clientAuthRegister } from "./client-auth-register.js";
 export { clientBrowserLogin } from "./client-browser-login.js";
 export { clientBrowserLogout } from "./client-browser-logout.js";
+export { clientFileHead } from "./client-file-head.js";
+export { clientFileOpen } from "./client-file-open.js";
 export { clientImageComplete } from "./client-image-complete.js";
 export { clientImageCreateUpload } from "./client-image-create-upload.js";
 export { clientImageFacets } from "./client-image-facets.js";

@@ -1,0 +1,10 @@
+.root {
+  min-width: 0;
+}
+
+.fields {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}

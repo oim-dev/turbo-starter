@@ -5,6 +5,7 @@ import { AuthenticationBoundary } from 'compositions/route-boundaries/authentica
 import { SessionBoundary } from 'compositions/route-boundaries/session'
 import { HomeScreen } from 'compositions/screens/home'
 import { ImagesScreen } from 'compositions/screens/images'
+import { FilesScreen } from 'compositions/screens/files'
 import { ManagementScreen } from 'compositions/screens/management'
 import { ProfileScreen } from 'compositions/screens/profile'
 import { NotFoundScreen } from 'compositions/screens/not-found'
@@ -60,6 +61,10 @@ export const appRouter = createBrowserRouter([
               {
                 element: <PermissionBoundary permission="images.read" />,
                 children: [{ path: 'images', Component: ImagesScreen }]
+              },
+              {
+                element: <PermissionBoundary permission="files.read" />,
+                children: [{ path: 'files', Component: FilesScreen }]
               }
             ]
           },

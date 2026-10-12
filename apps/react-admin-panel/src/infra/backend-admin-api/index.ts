@@ -22,6 +22,9 @@ export type {
   LoginDto
 } from '@oim/admin-rest-api-sdk/data-contracts'
 export type {
+  AdminFileListParams,
+  CreateFileUploadDto,
+  UpdateFileDto,
   AdminImageListParams,
   CreateImageUploadDto,
   UpdateImageDto,

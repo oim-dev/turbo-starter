@@ -301,6 +301,195 @@ export interface ImageOriginalLinkDto {
   expiresAt: string;
 }
 
+export interface FileUploaderDto {
+  /** @format uuid */
+  id: string;
+  name: string;
+  login: string;
+}
+
+export interface FileDto {
+  /**
+   * Номер выбранной текущей версии, 0 до первой публикации.
+   * @min 0
+   */
+  currentVersion: number;
+  /** @format uuid */
+  id: string;
+  /** @pattern ^[0-9A-Za-z]{8}$ */
+  publicId: string;
+  /** Имя документа, не меняется при загрузке или выборе версии. */
+  filename: string;
+  /** Редактируемое имя документа; совпадает с filename. */
+  title: string;
+  folder: string | null;
+  tags: string[];
+  status: FileDtoStatusEnum;
+  extension: string;
+  /** MIME текущей версии по исходному расширению; переименование документа его не меняет. */
+  contentType: string;
+  byteSize: number;
+  /** @pattern ^[0-9a-f]{64}$ */
+  sha256: string | null;
+  /**
+   * Ссылка с текущим именем документа. Версии не меняют URL; переименование меняет только сегмент имени. Старые ссылки работают. Null до ready.
+   * @format uri
+   */
+  url: string | null;
+  /** @format uri */
+  downloadUrl: string | null;
+  uploadedBy: FileUploaderDto;
+  /** @format date-time */
+  uploadExpiresAt: string;
+  /** @format date-time */
+  createdAt: string;
+  /** @format date-time */
+  updatedAt: string;
+}
+
+export interface FileListDto {
+  items: FileDto[];
+  total: number;
+  page: number;
+  pageSize: number;
+}
+
+export interface FileFacetDto {
+  name: string;
+  count: number;
+}
+
+export interface FileFacetsDto {
+  folders: FileFacetDto[];
+  tags: FileFacetDto[];
+  total: number;
+  unfiledCount: number;
+}
+
+export interface CreateFileUploadDto {
+  /**
+   * Редактируемое имя документа для отображения, URL и скачивания. Имена версий не меняются.
+   * @minLength 1
+   * @maxLength 255
+   */
+  title?: string;
+  /** @maxLength 255 */
+  folder?: string | null;
+  /** @maxItems 20 */
+  tags?: string[];
+  /**
+   * @maxLength 255
+   * @example "Инструкция.pdf"
+   */
+  filename: string;
+  /**
+   * Точный размер в байтах. Прикладного ограничения размера и формата нет.
+   * @min 0
+   */
+  byteSize: number;
+  /**
+   * SHA-256 исходных байтов; новые байты всегда проверяются сервером.
+   * @pattern ^[0-9a-f]{64}$
+   */
+  sha256: string;
+}
+
+export interface FileVersionDto {
+  /** @format uuid */
+  id: string;
+  number: number;
+  filename: string;
+  /** MIME исходного файла версии. Для просмотра текстовых исходников API использует text/plain. */
+  contentType: string;
+  extension: string;
+  byteSize: number;
+  /** @pattern ^[0-9a-f]{64}$ */
+  sha256: string;
+  /** @format uri */
+  url: string;
+  /** @format uri */
+  downloadUrl: string;
+  uploadedBy: FileUploaderDto;
+  /** @format date-time */
+  createdAt: string;
+}
+
+export interface FileUploadTargetDto {
+  /** @format uri */
+  url: string | null;
+  method: FileUploadTargetDtoMethodEnum;
+  /** Размер части для multipart, не лимит файла. */
+  partSize: number | null;
+  headers: Record<string, string>;
+  /** @format date-time */
+  expiresAt: string;
+}
+
+export interface FileUploadDto {
+  file: FileDto;
+  version: FileVersionDto | null;
+  reused: boolean;
+  /** @format uuid */
+  uploadId: string | null;
+  upload: FileUploadTargetDto | null;
+}
+
+export interface CreateFileVersionUploadDto {
+  /**
+   * @maxLength 255
+   * @example "Инструкция.pdf"
+   */
+  filename: string;
+  /**
+   * Точный размер в байтах. Прикладного ограничения размера и формата нет.
+   * @min 0
+   */
+  byteSize: number;
+  /**
+   * SHA-256 исходных байтов; новые байты всегда проверяются сервером.
+   * @pattern ^[0-9a-f]{64}$
+   */
+  sha256: string;
+}
+
+export interface FileCompleteDto {
+  file: FileDto;
+  version: FileVersionDto;
+  /** Содержимое уже было в S3. */
+  reused: boolean;
+}
+
+export interface FileUploadPartDto {
+  /** @format uri */
+  url: string;
+  headers: Record<string, string>;
+  /** @format date-time */
+  expiresAt: string;
+  /** @format date-time */
+  uploadExpiresAt: string;
+}
+
+export interface SetFileCurrentVersionDto {
+  /**
+   * Номер версии для постоянной ссылки.
+   * @min 1
+   */
+  version: number;
+}
+
+export interface UpdateFileDto {
+  /**
+   * Редактируемое имя документа для отображения, URL и скачивания. Имена версий не меняются.
+   * @minLength 1
+   * @maxLength 255
+   */
+  title?: string;
+  /** @maxLength 255 */
+  folder?: string | null;
+  /** @maxItems 20 */
+  tags?: string[];
+}
+
 export interface LoginDto {
   /**
    * @minLength 3
@@ -450,6 +639,10 @@ export type ImageCompleteDtoStatusEnum =
   | "ready"
   | "failed";
 
+export type FileDtoStatusEnum = "uploading" | "ready" | "expired";
+
+export type FileUploadTargetDtoMethodEnum = "PUT" | "MULTIPART";
+
 export type AccessTokenDtoTokenTypeEnum = "Bearer";
 
 /**
@@ -554,6 +747,66 @@ export interface AdminImageRetryParams {
 }
 
 export interface AdminImageOriginalParams {
+  id: string;
+}
+
+export interface AdminFileListParams {
+  /**
+   * @min 1
+   * @default 1
+   */
+  page?: number;
+  /**
+   * @min 1
+   * @max 100
+   * @default 20
+   */
+  pageSize?: number;
+  /**
+   * Имя, название, тег, полный UUID/publicId или постоянная ссылка файла.
+   * @maxLength 2048
+   */
+  search?: string;
+  /** @maxLength 255 */
+  folder?: string;
+  /** @maxLength 64 */
+  tag?: string;
+  status?: StatusEnum1;
+  /** @maxLength 255 */
+  extension?: string;
+  unfiled?: boolean;
+}
+
+export type StatusEnum1 = "uploading" | "ready" | "expired";
+
+export type AdminFileListParams1StatusEnum = "uploading" | "ready" | "expired";
+
+export interface AdminFileGetParams {
+  id: string;
+}
+
+export interface AdminFileUpdateParams {
+  id: string;
+}
+
+export interface AdminFileVersionsParams {
+  id: string;
+}
+
+export interface AdminFileCreateVersionUploadParams {
+  id: string;
+}
+
+export interface AdminFileCompleteParams {
+  id: string;
+}
+
+export interface AdminFileUploadPartParams {
+  id: string;
+  part: number;
+}
+
+export interface AdminFileSetCurrentVersionParams {
   id: string;
 }
 

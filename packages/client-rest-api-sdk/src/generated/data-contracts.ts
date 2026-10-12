@@ -416,6 +416,48 @@ export interface ClientImageMediaParams {
   variantId: string;
 }
 
+export interface ClientFileHeadParams {
+  /**
+   * Номер неизменяемой версии. По умолчанию выбранная текущая.
+   * @min 1
+   */
+  version?: number;
+  /** Принудительное скачивание (attachment). Без параметра — просмотр inline; текстовые исходники отдаются как text/plain. */
+  download?: DownloadEnum;
+  publicId: string;
+  /** @example "Инструкция.pdf" */
+  filename: string;
+}
+
+/** Принудительное скачивание (attachment). Без параметра — просмотр inline; текстовые исходники отдаются как text/plain. */
+export type DownloadEnum = "1";
+
+/** Принудительное скачивание (attachment). Без параметра — просмотр inline; текстовые исходники отдаются как text/plain. */
+export type ClientFileHeadParams1DownloadEnum = "1";
+
+export interface ClientFileOpenParams {
+  /**
+   * Номер неизменяемой версии. По умолчанию выбранная текущая.
+   * @min 1
+   */
+  version?: number;
+  /** Принудительное скачивание (attachment). Без параметра — просмотр inline; текстовые исходники отдаются как text/plain. */
+  download?: DownloadEnum1;
+  /** @pattern ^[0-9A-Za-z]{8}$ */
+  publicId: string;
+  /**
+   * Читаемое имя; байты и заголовки определяются ID и версией из БД.
+   * @example "Инструкция.pdf"
+   */
+  filename: any;
+}
+
+/** Принудительное скачивание (attachment). Без параметра — просмотр inline; текстовые исходники отдаются как text/plain. */
+export type DownloadEnum1 = "1";
+
+/** Принудительное скачивание (attachment). Без параметра — просмотр inline; текстовые исходники отдаются как text/plain. */
+export type ClientFileOpenParams1DownloadEnum = "1";
+
 export type ClientBrowserLoginParamsXCsrfProtectionEnum = "1";
 
 export type ClientBrowserLogoutParamsXCsrfProtectionEnum = "1";

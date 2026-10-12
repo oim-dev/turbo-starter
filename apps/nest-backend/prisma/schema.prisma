@@ -13,6 +13,101 @@ enum SessionTransport {
   MOBILE
 }
 
+enum FileStatus {
+  uploading
+  ready
+  expired
+}
+
+model StoredFile {
+  id                String     @id @default(uuid()) @db.Uuid
+  publicId          String     @unique @db.VarChar(8)
+  filename          String     @db.VarChar(255)
+  publicFilename    String     @db.VarChar(255)
+  title             String     @db.VarChar(255)
+  folder            String?    @db.VarChar(255)
+  tags              String[]
+  status            FileStatus @default(uploading)
+  contentType       String     @db.VarChar(100)
+  extension         String     @db.VarChar(255)
+  byteSize          BigInt
+  currentVersionId  String?    @unique @db.Uuid
+  currentVersion    FileVersion? @relation("CurrentFileVersion", fields: [currentVersionId], references: [id], onDelete: Restrict)
+  ownerId           String     @db.Uuid
+  ownerName         String     @db.VarChar(120)
+  ownerLogin        String     @db.VarChar(64)
+  uploadExpiresAt   DateTime
+  completedAt       DateTime?
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  versions          FileVersion[]
+  uploads           FileUpload[]
+
+  @@index([createdAt, id])
+  @@index([status, uploadExpiresAt])
+  @@index([folder])
+  @@index([tags], type: Gin)
+}
+
+model FileBlob {
+  id              String   @id @default(uuid()) @db.Uuid
+  sha256          String   @unique @db.Char(64)
+  byteSize        BigInt
+  extension       String   @db.VarChar(255)
+  objectKey       String   @unique
+  objectEtag      String
+  objectVersionId String?
+  createdAt       DateTime @default(now())
+  versions        FileVersion[]
+}
+
+model FileVersion {
+  id          String     @id @default(uuid()) @db.Uuid
+  fileId      String     @db.Uuid
+  file        StoredFile @relation(fields: [fileId], references: [id], onDelete: Restrict)
+  number      Int
+  filename    String     @db.VarChar(255)
+  contentType String     @db.VarChar(100)
+  extension   String     @db.VarChar(255)
+  blobId      String     @db.Uuid
+  blob        FileBlob   @relation(fields: [blobId], references: [id], onDelete: Restrict)
+  ownerId     String     @db.Uuid
+  ownerName   String     @db.VarChar(120)
+  ownerLogin  String     @db.VarChar(64)
+  createdAt   DateTime   @default(now())
+  uploads     FileUpload[]
+  currentFor  StoredFile? @relation("CurrentFileVersion")
+
+  @@unique([fileId, number])
+  @@index([blobId])
+}
+
+model FileUpload {
+  id              String       @id @default(uuid()) @db.Uuid
+  fileId          String       @db.Uuid
+  file            StoredFile   @relation(fields: [fileId], references: [id], onDelete: Restrict)
+  isNewFile       Boolean
+  filename        String       @db.VarChar(255)
+  contentType     String       @db.VarChar(100)
+  extension       String       @db.VarChar(255)
+  byteSize        BigInt
+  claimedSha256   String       @db.Char(64)
+  ownerId         String       @db.Uuid
+  ownerName       String       @db.VarChar(120)
+  ownerLogin      String       @db.VarChar(64)
+  stagingKey      String       @unique
+  multipartUploadId String?
+  multipartPartSize BigInt?
+  expiresAt       DateTime
+  resultVersionId String?      @db.Uuid
+  reused          Boolean      @default(false)
+  resultVersion   FileVersion? @relation(fields: [resultVersionId], references: [id], onDelete: Restrict)
+  createdAt       DateTime     @default(now())
+
+  @@index([expiresAt])
+  @@index([fileId])
+}
+
 enum ImageStatus {
   uploading
   queued

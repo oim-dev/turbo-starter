@@ -1386,6 +1386,263 @@
         ]
       }
     },
+    "/files/{publicId}/{filename}": {
+      "head": {
+        "operationId": "clientFileHead",
+        "parameters": [
+          {
+            "name": "publicId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "version",
+            "required": false,
+            "in": "query",
+            "description": "Номер неизменяемой версии. По умолчанию выбранная текущая.",
+            "schema": {
+              "minimum": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "download",
+            "required": false,
+            "in": "query",
+            "description": "Принудительное скачивание (attachment). Без параметра — просмотр inline; текстовые исходники отдаются как text/plain.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1"
+              ]
+            }
+          },
+          {
+            "name": "filename",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "example": "Инструкция.pdf",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Заголовки выбранной версии."
+          }
+        },
+        "summary": "Метаданные публичного файла без тела и без раскрытия S3",
+        "tags": [
+          "Files"
+        ]
+      },
+      "get": {
+        "operationId": "clientFileOpen",
+        "parameters": [
+          {
+            "name": "publicId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9A-Za-z]{8}$"
+            }
+          },
+          {
+            "name": "version",
+            "required": false,
+            "in": "query",
+            "description": "Номер неизменяемой версии. По умолчанию выбранная текущая.",
+            "schema": {
+              "minimum": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "download",
+            "required": false,
+            "in": "query",
+            "description": "Принудительное скачивание (attachment). Без параметра — просмотр inline; текстовые исходники отдаются как text/plain.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1"
+              ]
+            }
+          },
+          {
+            "name": "filename",
+            "required": true,
+            "in": "path",
+            "description": "Читаемое имя; байты и заголовки определяются ID и версией из БД.",
+            "schema": {
+              "example": "Инструкция.pdf"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "application/pdf": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "video/mp4": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "video/webm": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "audio/mpeg": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "image/png": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "*/*": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            },
+            "description": ""
+          },
+          "206": {
+            "description": "Запрошенный диапазон байтов; Content-Range."
+          },
+          "304": {
+            "description": "ETag выбранной версии совпал."
+          },
+          "400": {
+            "description": "Некорректный запрос или неизвестные входные поля.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Неверные учётные данные или токен либо неактивная сессия.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Нет прав на действие либо некорректные заголовки браузерной авторизации.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не найден или недоступен текущему пользователю.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт с существующими данными или повторное действие.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Превышен лимит: 64 КиБ для JSON или настроенный лимит загрузки изображения.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "416": {
+            "description": "Диапазон не удовлетворим; Content-Range: bytes */size."
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Хранилище или другая необходимая зависимость временно недоступны.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Просмотр файла inline с MIME версии; download=1 — скачивание; version=N — конкретная версия",
+        "tags": [
+          "Files"
+        ]
+      }
+    },
     "/auth/register": {
       "post": {
         "description": "Создаёт только учётную запись; для создания сессии необходимо отдельно выполнить вход.",
@@ -2274,7 +2531,7 @@
   },
   "info": {
     "title": "Starter — клиентское API",
-    "description": "Публичное клиентское API. Регистрация создаёт учётную запись, но не сессию.\n\nВход и выход через браузер требуют заголовков Origin и X-CSRF-Protection: 1. Принимается любой корректный HTTP(S) Origin без allowlist; CORS открыт.\n\nАвторизация — только Bearer JWT в заголовке Authorization. При входе JWT возвращается в accessToken, cookie авторизации не устанавливаются. JWT и сессия действуют 7 дней (604800 секунд), включая Keycloak. Продления нет; после истечения срока нужен новый вход.\n\nLogout требует валидный JWT текущей сессии и немедленно отзывает её; повторный запрос возвращает 401. Успешная смена credentials отзывает все сессии аккаунта. Клиент удаляет сохранённый JWT после выхода, успешной смены credentials или терминального отказа Bearer. Исключение: 401 CURRENT_PASSWORD_INVALID при неверном текущем пароле не отзывает сессию и не требует удаления JWT. Клиентские и административные JWT не взаимозаменяемы.\n\nИзображения: /images защищён Bearer; Client видит только свои загрузки, Admin — глобальную галерею по images.read/upload/update. Presigned PUT передаёт файл непосредственно в MinIO, complete замораживает оригинал и сохраняет задание. GET не запускает обработку. Только ready-варианты публично доступны через Client API /media/images; оригинал выдаётся защищённой операцией как временная ссылка {url,expiresAt}.\n\nImageDto сохраняет внутренний id UUID и содержит publicId (8 регистрозависимых base62 символов) и original.sha256 (серверно проверенный SHA-256 либо null). CreateImageUploadDto.sha256 необязателен: preflight возвращает {image,reused:true,upload:null} для доступного проверенного совпадения, иначе {image,reused:false,upload:{…}}. Complete возвращает плоский ImageCompleteDto с reused; при несовпадении заявленного SHA-256 — 400 IMAGE_HASH_MISMATCH. Дедупликация общая для admin-uploaded, Client — только в своём owner scope; admin без images.read не получает канонические метаданные через upload/complete/retry. Переиспользование сохраняет title/folder/tags/автора; queued/processing опрашиваются, failed можно retry без нового PUT.\n\nЧитаемые URL вариантов: /media/images/:publicId/:format/:widthxheight, латинская x и фактическая геометрия готового файла. Legacy UUID/variantId URL сохраняют байты. search ищет подстроку filename/title/tags, полный UUID/publicId или ID из media URL, включая алиасы после backfill.\n\nНовые варианты изображений сохраняют пропорции исходника после EXIF без кадрирования и увеличения. Ширины 200,400,… до min(2000,ширина исходника); некратный максимум добавляется, заменяя последнюю сеточную ширину при остатке меньше 100 px. AVIF q80 и JPEG q92 либо PNG; выбор вариантов по (width,format). Для старых ready-записей manifest выбирает одну ранее опубликованную семью без смешения геометрии, все прежние UUID URL сохраняются.",
+    "description": "Публичное клиентское API. Регистрация создаёт учётную запись, но не сессию.\n\nФайлы: любые расширения и содержимое, без прикладного лимита размера. /files защищён files.read/upload/update. SHA-256 обязателен; проверенные совпадения переиспользуются без передачи. Для крупных файлов S3 multipart: части подписываются POST /files/uploads/:id/parts/:part, complete проверяет точный размер и SHA-256 и публикует версию. Публичный Client API /files/:publicId/:filename отдаёт поток 200/206 без редиректов и раскрытия S3, поддерживает HEAD, Range, ETag. Имя документа берётся из первой загрузки и меняется только явно через PATCH /files/:id (title); оно задаёт отображение, URL и имя скачивания. Старые ссылки работают, имена и ссылки версий неизменны. По умолчанию выдаётся текущая версия; новая загрузка делает её текущей, PATCH /files/:id/current-version позволяет выбрать другую. Кеш требует revalidation; ETag учитывает версию, имя и MIME ответа. ?version=N — конкретная неизменяемая версия. Обычная ссылка — inline с MIME версии (текстовые исходники, включая MD, как text/plain), ?download=1 — attachment с исходным MIME. MIME определяется по расширению при загрузке и сохраняется в БД/S3; старый application/octet-stream уточняется по расширению версии. Размер хранится BIGINT, публичный контракт — точное число байтов.\n\nВход и выход через браузер требуют заголовков Origin и X-CSRF-Protection: 1. Принимается любой корректный HTTP(S) Origin без allowlist; CORS открыт.\n\nАвторизация — только Bearer JWT в заголовке Authorization. При входе JWT возвращается в accessToken, cookie авторизации не устанавливаются. JWT и сессия действуют 7 дней (604800 секунд), включая Keycloak. Продления нет; после истечения срока нужен новый вход.\n\nLogout требует валидный JWT текущей сессии и немедленно отзывает её; повторный запрос возвращает 401. Успешная смена credentials отзывает все сессии аккаунта. Клиент удаляет сохранённый JWT после выхода, успешной смены credentials или терминального отказа Bearer. Исключение: 401 CURRENT_PASSWORD_INVALID при неверном текущем пароле не отзывает сессию и не требует удаления JWT. Клиентские и административные JWT не взаимозаменяемы.\n\nИзображения: /images защищён Bearer; Client видит только свои загрузки, Admin — глобальную галерею по images.read/upload/update. Presigned PUT передаёт файл непосредственно в MinIO, complete замораживает оригинал и сохраняет задание. GET не запускает обработку. Только ready-варианты публично доступны через Client API /media/images; оригинал выдаётся защищённой операцией как временная ссылка {url,expiresAt}.\n\nImageDto сохраняет внутренний id UUID и содержит publicId (8 регистрозависимых base62 символов) и original.sha256 (серверно проверенный SHA-256 либо null). CreateImageUploadDto.sha256 необязателен: preflight возвращает {image,reused:true,upload:null} для доступного проверенного совпадения, иначе {image,reused:false,upload:{…}}. Complete возвращает плоский ImageCompleteDto с reused; при несовпадении заявленного SHA-256 — 400 IMAGE_HASH_MISMATCH. Дедупликация общая для admin-uploaded, Client — только в своём owner scope; admin без images.read не получает канонические метаданные через upload/complete/retry. Переиспользование сохраняет title/folder/tags/автора; queued/processing опрашиваются, failed можно retry без нового PUT.\n\nЧитаемые URL вариантов: /media/images/:publicId/:format/:widthxheight, латинская x и фактическая геометрия готового файла. Legacy UUID/variantId URL сохраняют байты. search ищет подстроку filename/title/tags, полный UUID/publicId или ID из media URL, включая алиасы после backfill.\n\nНовые варианты изображений сохраняют пропорции исходника после EXIF без кадрирования и увеличения. Ширины 200,400,… до min(2000,ширина исходника); некратный максимум добавляется, заменяя последнюю сеточную ширину при остатке меньше 100 px. AVIF q80 и JPEG q92 либо PNG; выбор вариантов по (width,format). Для старых ready-записей manifest выбирает одну ранее опубликованную семью без смешения геометрии, все прежние UUID URL сохраняются.",
     "version": "1.0.0",
     "contact": {}
   },

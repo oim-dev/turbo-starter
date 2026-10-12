@@ -15,6 +15,16 @@ import { adminAuthProviders } from "./operations/admin-auth-providers.js";
 import { adminBrowserLogin } from "./operations/admin-browser-login.js";
 import { adminBrowserLogout } from "./operations/admin-browser-logout.js";
 import { adminChangeLogin } from "./operations/admin-change-login.js";
+import { adminFileComplete } from "./operations/admin-file-complete.js";
+import { adminFileCreateUpload } from "./operations/admin-file-create-upload.js";
+import { adminFileCreateVersionUpload } from "./operations/admin-file-create-version-upload.js";
+import { adminFileFacets } from "./operations/admin-file-facets.js";
+import { adminFileGet } from "./operations/admin-file-get.js";
+import { adminFileList } from "./operations/admin-file-list.js";
+import { adminFileSetCurrentVersion } from "./operations/admin-file-set-current-version.js";
+import { adminFileUpdate } from "./operations/admin-file-update.js";
+import { adminFileUploadPart } from "./operations/admin-file-upload-part.js";
+import { adminFileVersions } from "./operations/admin-file-versions.js";
 import { adminIdentityBind } from "./operations/admin-identity-bind.js";
 import { adminIdentityUnbind } from "./operations/admin-identity-unbind.js";
 import { adminImageComplete } from "./operations/admin-image-complete.js";
@@ -63,6 +73,18 @@ export const operationsTree = {
     adminImageComplete: adminImageComplete,
     adminImageRetry: adminImageRetry,
     adminImageOriginal: adminImageOriginal,
+  },
+  files: {
+    adminFileList: adminFileList,
+    adminFileFacets: adminFileFacets,
+    adminFileCreateUpload: adminFileCreateUpload,
+    adminFileGet: adminFileGet,
+    adminFileUpdate: adminFileUpdate,
+    adminFileVersions: adminFileVersions,
+    adminFileCreateVersionUpload: adminFileCreateVersionUpload,
+    adminFileComplete: adminFileComplete,
+    adminFileUploadPart: adminFileUploadPart,
+    adminFileSetCurrentVersion: adminFileSetCurrentVersion,
   },
   auth: {
     adminBrowserLogin: adminBrowserLogin,

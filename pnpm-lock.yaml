@@ -68,6 +68,9 @@ importers:
       image-size:
         specifier: ^2.0.4
         version: 2.0.4
+      mime-types:
+        specifier: 3.0.2
+        version: 3.0.2
       minio:
         specifier: ^8.0.7
         version: 8.0.7
@@ -99,6 +102,9 @@ importers:
       '@types/express':
         specifier: ^5.0.0
         version: 5.0.6
+      '@types/mime-types':
+        specifier: ^3.0.1
+        version: 3.0.1
       '@types/node':
         specifier: ^24.0.0
         version: 24.19.1
@@ -229,6 +235,9 @@ importers:
       dayjs:
         specifier: 1.11.23
         version: 1.11.23
+      hash-wasm:
+        specifier: 4.12.0
+        version: 4.12.0
       postcss-custom-media:
         specifier: ^12.0.0
         version: 12.0.1(postcss@8.5.26)
@@ -1981,6 +1990,9 @@ packages:
   '@types/lodash@4.17.25':
     resolution: {integrity: sha512-+K1NIO8I+F9/wNulfVvu23QYd0Pe9/OCqRrim4NoYIf1VoEDL90Ve4ClzpyqBLc7NpGGWRvYNCKZ1BE/Jpf8dQ==}
 
+  '@types/mime-types@3.0.1':
+    resolution: {integrity: sha512-xRMsfuQbnRq1Ef+C+RKaENOxXX87Ygl38W1vDfPHRku02TgQr+Qd8iivLtAMcR0KF5/29xlnFihkTlbqFrGOVQ==}
+
   '@types/ms@2.1.0':
     resolution: {integrity: sha512-GsCCIZDE/p3i96vtEqx+7dBUGXrc7zeSK3wwPHIaRThS+9OhWIXRqzs4d6k1SVU8g91DrNRWxWUGhp5KXQb2VA==}
 
@@ -3541,6 +3553,9 @@ packages:
   has-tostringtag@1.0.2:
     resolution: {integrity: sha512-NqADB8VjPFLM2V0VvHUewwwsw0ZWBaIdgo+ieHtK3hasLz4qeCRjYcqfB6AQrBggRKppKF8L52/VqdVsO47Dlw==}
     engines: {node: '>= 0.4'}
+
+  hash-wasm@4.12.0:
+    resolution: {integrity: sha512-+/2B2rYLb48I/evdOIhP+K/DD2ca2fgBjp6O+GBEnCDk2e4rpeXIK8GvIyRPjTezgmWn9gmKwkQjjx6BtqDHVQ==}
 
   hasown@2.0.4:
     resolution: {integrity: sha512-T2UbfbBEF32wiepXIsMlTW9+dDYC6wMh/t/vYA4tuOMKqWz/n3vr1NFSxQiyP+zk2mXsoMA/i/7qV6LKut1t1A==}
@@ -6808,6 +6823,8 @@ snapshots:
 
   '@types/lodash@4.17.25': {}
 
+  '@types/mime-types@3.0.1': {}
+
   '@types/ms@2.1.0': {}
 
   '@types/node@20.19.43':
@@ -8605,6 +8622,8 @@ snapshots:
   has-tostringtag@1.0.2:
     dependencies:
       has-symbols: 1.1.0
+
+  hash-wasm@4.12.0: {}
 
   hasown@2.0.4:
     dependencies:

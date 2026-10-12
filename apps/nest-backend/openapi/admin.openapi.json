@@ -2908,6 +2908,1402 @@
         ]
       }
     },
+    "/files": {
+      "get": {
+        "operationId": "adminFileList",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "pageSize",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "Имя, название, тег, полный UUID/publicId или постоянная ссылка файла.",
+            "schema": {
+              "maxLength": 2048,
+              "type": "string"
+            }
+          },
+          {
+            "name": "folder",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maxLength": 255,
+              "type": "string"
+            }
+          },
+          {
+            "name": "tag",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maxLength": 64,
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "uploading",
+                "ready",
+                "expired"
+              ]
+            }
+          },
+          {
+            "name": "extension",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "maxLength": 255,
+              "type": "string"
+            }
+          },
+          {
+            "name": "unfiled",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileListDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный запрос или неизвестные входные поля.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Неверные учётные данные или токен либо неактивная сессия.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Недостаточно прав. Требуются: files.read.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не найден или недоступен текущему пользователю.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт с существующими данными или повторное действие.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Превышен лимит: 64 КиБ для JSON или настроенный лимит загрузки изображения.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Хранилище или другая необходимая зависимость временно недоступны.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "summary": "Список документов с поиском и фильтрами",
+        "tags": [
+          "Files"
+        ],
+        "x-admin-permissions": [
+          "files.read"
+        ]
+      }
+    },
+    "/files/facets": {
+      "get": {
+        "operationId": "adminFileFacets",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileFacetsDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный запрос или неизвестные входные поля.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Неверные учётные данные или токен либо неактивная сессия.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Недостаточно прав. Требуются: files.read.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не найден или недоступен текущему пользователю.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт с существующими данными или повторное действие.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Превышен лимит: 64 КиБ для JSON или настроенный лимит загрузки изображения.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Хранилище или другая необходимая зависимость временно недоступны.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "summary": "Папки и теги документов",
+        "tags": [
+          "Files"
+        ],
+        "x-admin-permissions": [
+          "files.read"
+        ]
+      }
+    },
+    "/files/uploads": {
+      "post": {
+        "operationId": "adminFileCreateUpload",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFileUploadDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileUploadDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный запрос или неизвестные входные поля.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Неверные учётные данные или токен либо неактивная сессия.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Недостаточно прав. Требуются: files.read, files.upload.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не найден или недоступен текущему пользователю.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт с существующими данными или повторное действие.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Превышен лимит: 64 КиБ для JSON или настроенный лимит загрузки изображения.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Хранилище или другая необходимая зависимость временно недоступны.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "summary": "Создать загрузку документа и временную ссылку PUT",
+        "tags": [
+          "Files"
+        ],
+        "x-admin-permissions": [
+          "files.read",
+          "files.upload"
+        ]
+      }
+    },
+    "/files/{id}": {
+      "get": {
+        "operationId": "adminFileGet",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный запрос или неизвестные входные поля.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Неверные учётные данные или токен либо неактивная сессия.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Недостаточно прав. Требуются: files.read.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не найден или недоступен текущему пользователю.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт с существующими данными или повторное действие.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Превышен лимит: 64 КиБ для JSON или настроенный лимит загрузки изображения.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Хранилище или другая необходимая зависимость временно недоступны.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "summary": "Метаданные документа и постоянные ссылки",
+        "tags": [
+          "Files"
+        ],
+        "x-admin-permissions": [
+          "files.read"
+        ]
+      },
+      "patch": {
+        "operationId": "adminFileUpdate",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateFileDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный запрос или неизвестные входные поля.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Неверные учётные данные или токен либо неактивная сессия.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Недостаточно прав. Требуются: files.update.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не найден или недоступен текущему пользователю.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт с существующими данными или повторное действие.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Превышен лимит: 64 КиБ для JSON или настроенный лимит загрузки изображения.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Хранилище или другая необходимая зависимость временно недоступны.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "summary": "Изменить название, папку и теги документа",
+        "tags": [
+          "Files"
+        ],
+        "x-admin-permissions": [
+          "files.update"
+        ]
+      }
+    },
+    "/files/{id}/versions": {
+      "get": {
+        "operationId": "adminFileVersions",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FileVersionDto"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный запрос или неизвестные входные поля.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Неверные учётные данные или токен либо неактивная сессия.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Недостаточно прав. Требуются: files.read.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не найден или недоступен текущему пользователю.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт с существующими данными или повторное действие.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Превышен лимит: 64 КиБ для JSON или настроенный лимит загрузки изображения.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Хранилище или другая необходимая зависимость временно недоступны.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "summary": "История неизменяемых версий, новые первыми",
+        "tags": [
+          "Files"
+        ],
+        "x-admin-permissions": [
+          "files.read"
+        ]
+      }
+    },
+    "/files/{id}/versions/uploads": {
+      "post": {
+        "operationId": "adminFileCreateVersionUpload",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFileVersionUploadDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileUploadDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный запрос или неизвестные входные поля.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Неверные учётные данные или токен либо неактивная сессия.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Недостаточно прав. Требуются: files.read, files.upload.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не найден или недоступен текущему пользователю.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт с существующими данными или повторное действие.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Превышен лимит: 64 КиБ для JSON или настроенный лимит загрузки изображения.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Хранилище или другая необходимая зависимость временно недоступны.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "summary": "Добавить версию из существующих байтов или подготовить PUT новой версии",
+        "tags": [
+          "Files"
+        ],
+        "x-admin-permissions": [
+          "files.read",
+          "files.upload"
+        ]
+      }
+    },
+    "/files/uploads/{id}/complete": {
+      "post": {
+        "operationId": "adminFileComplete",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileCompleteDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный запрос или неизвестные входные поля.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Неверные учётные данные или токен либо неактивная сессия.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Недостаточно прав. Требуются: files.read, files.upload.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не найден или недоступен текущему пользователю.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт с существующими данными или повторное действие.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Превышен лимит: 64 КиБ для JSON или настроенный лимит загрузки изображения.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Хранилище или другая необходимая зависимость временно недоступны.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "summary": "Идемпотентно проверить и опубликовать документ",
+        "tags": [
+          "Files"
+        ],
+        "x-admin-permissions": [
+          "files.read",
+          "files.upload"
+        ]
+      }
+    },
+    "/files/uploads/{id}/parts/{part}": {
+      "post": {
+        "operationId": "adminFileUploadPart",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "part",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileUploadPartDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный запрос или неизвестные входные поля.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Неверные учётные данные или токен либо неактивная сессия.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Недостаточно прав. Требуются: files.read, files.upload.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не найден или недоступен текущему пользователю.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт с существующими данными или повторное действие.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Превышен лимит: 64 КиБ для JSON или настроенный лимит загрузки изображения.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Хранилище или другая необходимая зависимость временно недоступны.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "summary": "Подписать одну часть S3 multipart и продлить активную загрузку",
+        "tags": [
+          "Files"
+        ],
+        "x-admin-permissions": [
+          "files.read",
+          "files.upload"
+        ]
+      }
+    },
+    "/files/{id}/current-version": {
+      "patch": {
+        "operationId": "adminFileSetCurrentVersion",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetFileCurrentVersionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный запрос или неизвестные входные поля.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Неверные учётные данные или токен либо неактивная сессия.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Недостаточно прав. Требуются: files.update.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не найден или недоступен текущему пользователю.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт с существующими данными или повторное действие.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Превышен лимит: 64 КиБ для JSON или настроенный лимит загрузки изображения.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Неподдерживаемое кодирование содержимого или кодировка символов.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Внутренняя ошибка сервера.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Хранилище или другая необходимая зависимость временно недоступны.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "access-token": []
+          }
+        ],
+        "summary": "Выбрать версию для постоянной ссылки без изменения истории",
+        "tags": [
+          "Files"
+        ],
+        "x-admin-permissions": [
+          "files.update"
+        ]
+      }
+    },
     "/auth/login": {
       "post": {
         "description": "Возвращает Bearer JWT в accessToken на 7 дней (604800 секунд). Cookie авторизации не устанавливается; незавершённый OIDC flow отменяется. По истечении срока требуется новый вход.",
@@ -4188,7 +5584,7 @@
   },
   "info": {
     "title": "Starter — административное API",
-    "description": "Административное API с настраиваемыми ролями. Первый владелец создаётся при запуске на пустой БД. Первый вход Keycloak создаёт USER с isActive=false; до разрешения входа сессия не выдаётся. accounts.read позволяет просматривать пользователей, accounts.activate — разрешать вход без изменения роли. Роль и permissions доступны в /auth/me; требования операции — в x-admin-permissions. OWNER имеет все права, ADMIN — все несистемные, USER — собственный аккаунт. Назначение ролей, управление credentials и Keycloak доступно только OWNER.\n\nВход и выход через браузер требуют заголовков Origin и X-CSRF-Protection: 1. Принимается любой корректный HTTP(S) Origin без allowlist; CORS открыт.\n\nАвторизация — только Bearer JWT в заголовке Authorization. При входе JWT возвращается в accessToken, cookie авторизации не устанавливаются. JWT и сессия действуют 7 дней (604800 секунд), включая Keycloak. Продления нет; после истечения срока нужен новый вход.\n\nLogout требует валидный JWT текущей сессии и немедленно отзывает её; повторный запрос возвращает 401. Успешная смена credentials отзывает все сессии аккаунта. Клиент удаляет сохранённый JWT после выхода, успешной смены credentials или терминального отказа Bearer. Исключение: 401 CURRENT_PASSWORD_INVALID при неверном текущем пароле не отзывает сессию и не требует удаления JWT. Клиентские и административные JWT не взаимозаменяемы.\n\nИзображения: /images защищён Bearer; Client видит только свои загрузки, Admin — глобальную галерею по images.read/upload/update. Presigned PUT передаёт файл непосредственно в MinIO, complete замораживает оригинал и сохраняет задание. GET не запускает обработку. Только ready-варианты публично доступны через Client API /media/images; оригинал выдаётся защищённой операцией как временная ссылка {url,expiresAt}.\n\nImageDto сохраняет внутренний id UUID и содержит publicId (8 регистрозависимых base62 символов) и original.sha256 (серверно проверенный SHA-256 либо null). CreateImageUploadDto.sha256 необязателен: preflight возвращает {image,reused:true,upload:null} для доступного проверенного совпадения, иначе {image,reused:false,upload:{…}}. Complete возвращает плоский ImageCompleteDto с reused; при несовпадении заявленного SHA-256 — 400 IMAGE_HASH_MISMATCH. Дедупликация общая для admin-uploaded, Client — только в своём owner scope; admin без images.read не получает канонические метаданные через upload/complete/retry. Переиспользование сохраняет title/folder/tags/автора; queued/processing опрашиваются, failed можно retry без нового PUT.\n\nЧитаемые URL вариантов: /media/images/:publicId/:format/:widthxheight, латинская x и фактическая геометрия готового файла. Legacy UUID/variantId URL сохраняют байты. search ищет подстроку filename/title/tags, полный UUID/publicId или ID из media URL, включая алиасы после backfill.\n\nНовые варианты изображений сохраняют пропорции исходника после EXIF без кадрирования и увеличения. Ширины 200,400,… до min(2000,ширина исходника); некратный максимум добавляется, заменяя последнюю сеточную ширину при остатке меньше 100 px. AVIF q80 и JPEG q92 либо PNG; выбор вариантов по (width,format). Для старых ready-записей manifest выбирает одну ранее опубликованную семью без смешения геометрии, все прежние UUID URL сохраняются.",
+    "description": "Административное API с настраиваемыми ролями. Первый владелец создаётся при запуске на пустой БД. Первый вход Keycloak создаёт USER с isActive=false; до разрешения входа сессия не выдаётся. accounts.read позволяет просматривать пользователей, accounts.activate — разрешать вход без изменения роли. Роль и permissions доступны в /auth/me; требования операции — в x-admin-permissions. OWNER имеет все права, ADMIN — все несистемные, USER — собственный аккаунт. Назначение ролей, управление credentials и Keycloak доступно только OWNER.\n\nФайлы: любые расширения и содержимое, без прикладного лимита размера. /files защищён files.read/upload/update. SHA-256 обязателен; проверенные совпадения переиспользуются без передачи. Для крупных файлов S3 multipart: части подписываются POST /files/uploads/:id/parts/:part, complete проверяет точный размер и SHA-256 и публикует версию. Публичный Client API /files/:publicId/:filename отдаёт поток 200/206 без редиректов и раскрытия S3, поддерживает HEAD, Range, ETag. Имя документа берётся из первой загрузки и меняется только явно через PATCH /files/:id (title); оно задаёт отображение, URL и имя скачивания. Старые ссылки работают, имена и ссылки версий неизменны. По умолчанию выдаётся текущая версия; новая загрузка делает её текущей, PATCH /files/:id/current-version позволяет выбрать другую. Кеш требует revalidation; ETag учитывает версию, имя и MIME ответа. ?version=N — конкретная неизменяемая версия. Обычная ссылка — inline с MIME версии (текстовые исходники, включая MD, как text/plain), ?download=1 — attachment с исходным MIME. MIME определяется по расширению при загрузке и сохраняется в БД/S3; старый application/octet-stream уточняется по расширению версии. Размер хранится BIGINT, публичный контракт — точное число байтов.\n\nВход и выход через браузер требуют заголовков Origin и X-CSRF-Protection: 1. Принимается любой корректный HTTP(S) Origin без allowlist; CORS открыт.\n\nАвторизация — только Bearer JWT в заголовке Authorization. При входе JWT возвращается в accessToken, cookie авторизации не устанавливаются. JWT и сессия действуют 7 дней (604800 секунд), включая Keycloak. Продления нет; после истечения срока нужен новый вход.\n\nLogout требует валидный JWT текущей сессии и немедленно отзывает её; повторный запрос возвращает 401. Успешная смена credentials отзывает все сессии аккаунта. Клиент удаляет сохранённый JWT после выхода, успешной смены credentials или терминального отказа Bearer. Исключение: 401 CURRENT_PASSWORD_INVALID при неверном текущем пароле не отзывает сессию и не требует удаления JWT. Клиентские и административные JWT не взаимозаменяемы.\n\nИзображения: /images защищён Bearer; Client видит только свои загрузки, Admin — глобальную галерею по images.read/upload/update. Presigned PUT передаёт файл непосредственно в MinIO, complete замораживает оригинал и сохраняет задание. GET не запускает обработку. Только ready-варианты публично доступны через Client API /media/images; оригинал выдаётся защищённой операцией как временная ссылка {url,expiresAt}.\n\nImageDto сохраняет внутренний id UUID и содержит publicId (8 регистрозависимых base62 символов) и original.sha256 (серверно проверенный SHA-256 либо null). CreateImageUploadDto.sha256 необязателен: preflight возвращает {image,reused:true,upload:null} для доступного проверенного совпадения, иначе {image,reused:false,upload:{…}}. Complete возвращает плоский ImageCompleteDto с reused; при несовпадении заявленного SHA-256 — 400 IMAGE_HASH_MISMATCH. Дедупликация общая для admin-uploaded, Client — только в своём owner scope; admin без images.read не получает канонические метаданные через upload/complete/retry. Переиспользование сохраняет title/folder/tags/автора; queued/processing опрашиваются, failed можно retry без нового PUT.\n\nЧитаемые URL вариантов: /media/images/:publicId/:format/:widthxheight, латинская x и фактическая геометрия готового файла. Legacy UUID/variantId URL сохраняют байты. search ищет подстроку filename/title/tags, полный UUID/publicId или ID из media URL, включая алиасы после backfill.\n\nНовые варианты изображений сохраняют пропорции исходника после EXIF без кадрирования и увеличения. Ширины 200,400,… до min(2000,ширина исходника); некратный максимум добавляется, заменяя последнюю сеточную ширину при остатке меньше 100 px. AVIF q80 и JPEG q92 либо PNG; выбор вариантов по (width,format). Для старых ready-записей manifest выбирает одну ранее опубликованную семью без смешения геометрии, все прежние UUID URL сохраняются.",
     "version": "1.0.0",
     "contact": {}
   },
@@ -5028,6 +6424,491 @@
           "url",
           "expiresAt"
         ]
+      },
+      "FileUploaderDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "login": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "login"
+        ]
+      },
+      "FileDto": {
+        "type": "object",
+        "properties": {
+          "currentVersion": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Номер выбранной текущей версии, 0 до первой публикации."
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "publicId": {
+            "type": "string",
+            "pattern": "^[0-9A-Za-z]{8}$"
+          },
+          "filename": {
+            "type": "string",
+            "description": "Имя документа, не меняется при загрузке или выборе версии."
+          },
+          "title": {
+            "type": "string",
+            "description": "Редактируемое имя документа; совпадает с filename."
+          },
+          "folder": {
+            "type": "string",
+            "nullable": true
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "uploading",
+              "ready",
+              "expired"
+            ]
+          },
+          "extension": {
+            "type": "string"
+          },
+          "contentType": {
+            "type": "string",
+            "description": "MIME текущей версии по исходному расширению; переименование документа его не меняет."
+          },
+          "byteSize": {
+            "type": "number"
+          },
+          "sha256": {
+            "type": "string",
+            "nullable": true,
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "url": {
+            "type": "string",
+            "nullable": true,
+            "format": "uri",
+            "description": "Ссылка с текущим именем документа. Версии не меняют URL; переименование меняет только сегмент имени. Старые ссылки работают. Null до ready."
+          },
+          "downloadUrl": {
+            "type": "string",
+            "nullable": true,
+            "format": "uri"
+          },
+          "uploadedBy": {
+            "$ref": "#/components/schemas/FileUploaderDto"
+          },
+          "uploadExpiresAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "currentVersion",
+          "id",
+          "publicId",
+          "filename",
+          "title",
+          "folder",
+          "tags",
+          "status",
+          "extension",
+          "contentType",
+          "byteSize",
+          "sha256",
+          "url",
+          "downloadUrl",
+          "uploadedBy",
+          "uploadExpiresAt",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "FileListDto": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FileDto"
+            }
+          },
+          "total": {
+            "type": "number"
+          },
+          "page": {
+            "type": "number"
+          },
+          "pageSize": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "page",
+          "pageSize"
+        ]
+      },
+      "FileFacetDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "count": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "name",
+          "count"
+        ]
+      },
+      "FileFacetsDto": {
+        "type": "object",
+        "properties": {
+          "folders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FileFacetDto"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FileFacetDto"
+            }
+          },
+          "total": {
+            "type": "number"
+          },
+          "unfiledCount": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "folders",
+          "tags",
+          "total",
+          "unfiledCount"
+        ]
+      },
+      "CreateFileUploadDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255,
+            "description": "Редактируемое имя документа для отображения, URL и скачивания. Имена версий не меняются."
+          },
+          "folder": {
+            "type": "string",
+            "nullable": true,
+            "maxLength": 255
+          },
+          "tags": {
+            "maxItems": 20,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "filename": {
+            "type": "string",
+            "maxLength": 255,
+            "example": "Инструкция.pdf"
+          },
+          "byteSize": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Точный размер в байтах. Прикладного ограничения размера и формата нет."
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "description": "SHA-256 исходных байтов; новые байты всегда проверяются сервером."
+          }
+        },
+        "required": [
+          "filename",
+          "byteSize",
+          "sha256"
+        ]
+      },
+      "FileVersionDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "number": {
+            "type": "number"
+          },
+          "filename": {
+            "type": "string"
+          },
+          "contentType": {
+            "type": "string",
+            "description": "MIME исходного файла версии. Для просмотра текстовых исходников API использует text/plain."
+          },
+          "extension": {
+            "type": "string"
+          },
+          "byteSize": {
+            "type": "number"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "downloadUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "uploadedBy": {
+            "$ref": "#/components/schemas/FileUploaderDto"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "number",
+          "filename",
+          "contentType",
+          "extension",
+          "byteSize",
+          "sha256",
+          "url",
+          "downloadUrl",
+          "uploadedBy",
+          "createdAt"
+        ]
+      },
+      "FileUploadTargetDto": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "method": {
+            "type": "string",
+            "enum": [
+              "PUT",
+              "MULTIPART"
+            ]
+          },
+          "partSize": {
+            "type": "number",
+            "nullable": true,
+            "description": "Размер части для multipart, не лимит файла."
+          },
+          "headers": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "url",
+          "method",
+          "partSize",
+          "headers",
+          "expiresAt"
+        ]
+      },
+      "FileUploadDto": {
+        "type": "object",
+        "properties": {
+          "file": {
+            "$ref": "#/components/schemas/FileDto"
+          },
+          "version": {
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/FileVersionDto"
+              }
+            ]
+          },
+          "reused": {
+            "type": "boolean"
+          },
+          "uploadId": {
+            "type": "string",
+            "nullable": true,
+            "format": "uuid"
+          },
+          "upload": {
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/FileUploadTargetDto"
+              }
+            ]
+          }
+        },
+        "required": [
+          "file",
+          "version",
+          "reused",
+          "uploadId",
+          "upload"
+        ]
+      },
+      "CreateFileVersionUploadDto": {
+        "type": "object",
+        "properties": {
+          "filename": {
+            "type": "string",
+            "maxLength": 255,
+            "example": "Инструкция.pdf"
+          },
+          "byteSize": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Точный размер в байтах. Прикладного ограничения размера и формата нет."
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "description": "SHA-256 исходных байтов; новые байты всегда проверяются сервером."
+          }
+        },
+        "required": [
+          "filename",
+          "byteSize",
+          "sha256"
+        ]
+      },
+      "FileCompleteDto": {
+        "type": "object",
+        "properties": {
+          "file": {
+            "$ref": "#/components/schemas/FileDto"
+          },
+          "version": {
+            "$ref": "#/components/schemas/FileVersionDto"
+          },
+          "reused": {
+            "type": "boolean",
+            "description": "Содержимое уже было в S3."
+          }
+        },
+        "required": [
+          "file",
+          "version",
+          "reused"
+        ]
+      },
+      "FileUploadPartDto": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "headers": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "uploadExpiresAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "url",
+          "headers",
+          "expiresAt",
+          "uploadExpiresAt"
+        ]
+      },
+      "SetFileCurrentVersionDto": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "number",
+            "minimum": 1,
+            "description": "Номер версии для постоянной ссылки."
+          }
+        },
+        "required": [
+          "version"
+        ]
+      },
+      "UpdateFileDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255,
+            "description": "Редактируемое имя документа для отображения, URL и скачивания. Имена версий не меняются."
+          },
+          "folder": {
+            "type": "string",
+            "nullable": true,
+            "maxLength": 255
+          },
+          "tags": {
+            "maxItems": 20,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
       },
       "LoginDto": {
         "type": "object",

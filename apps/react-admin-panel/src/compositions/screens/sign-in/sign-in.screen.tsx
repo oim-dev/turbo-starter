@@ -1,4 +1,4 @@
-import { Card, Stack, Text, Title } from '@mantine/core'
+import { Card, Stack, Title } from '@mantine/core'
 import cl from 'clsx'
 import { useEffect, useState } from 'react'
 import type { JSX } from 'react'
@@ -44,19 +44,11 @@ export const SignInScreen = (props: SignInScreenProps): JSX.Element => {
       <Card className={styles.card} padding="xl" radius="md" withBorder>
         <Stack gap="xl">
           <Stack gap="xs">
-            <Text c="dimmed" fw={600} size="sm">Панель администратора</Text>
-            <Title order={1} size="h2">Вход в панель</Title>
-            <Text c="dimmed" size="sm">
-              Используйте учётную запись панели.
-            </Text>
+            <Title order={1} size="h2">Панель администратора</Title>
           </Stack>
 
           <SignInForm />
           <KeycloakSignIn onContinue={handleKeycloakSignIn} isRedirecting={isRedirecting} />
-
-          <Text c="dimmed" size="sm" ta="center">
-            Доступ для пользователей с выданной учётной записью.
-          </Text>
         </Stack>
       </Card>
     </main>

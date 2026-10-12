@@ -1,0 +1,47 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mantine-spacing-lg);
+  min-width: 0;
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mantine-spacing-md);
+
+  @media (--sm) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.title {
+  font-size: 28px;
+  letter-spacing: -0.7px;
+}
+
+.toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--mantine-spacing-sm);
+
+  @media (--sm) {
+    grid-template-columns: minmax(0, 1fr) 180px;
+  }
+}
+
+.search {
+  min-width: 0;
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--mantine-spacing-sm);
+
+  @media (--sm) {
+    grid-template-columns: minmax(0, 300px) minmax(0, 240px);
+  }
+}

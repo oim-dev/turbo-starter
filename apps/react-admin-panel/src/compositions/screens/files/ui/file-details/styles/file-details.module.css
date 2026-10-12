@@ -1,0 +1,29 @@
+.root {
+  min-width: 0;
+}
+
+.title {
+  overflow-wrap: anywhere;
+}
+
+.metadata {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  gap: 12px;
+  margin: 0;
+  font-size: var(--mantine-font-size-sm);
+
+  & dt {
+    color: var(--mantine-color-dimmed);
+  }
+
+  & dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+}
+
+.hash {
+  font-family: var(--mantine-font-family-monospace);
+  font-size: var(--mantine-font-size-xs);
+}

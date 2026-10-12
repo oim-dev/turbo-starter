@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import './environment';
+import { StorageConfig } from './storage-config';
 
 function positiveInteger(name: string, fallback: number, max: number): number {
   const value = Number(process.env[name] ?? fallback);
@@ -21,25 +22,7 @@ function httpUrl(name: string, fallback: string): string {
 
 // Getter'ы ленивые: построение графа OpenAPI не открывает сеть и не читает secrets.
 @Injectable()
-export class ImageConfig {
-  get endpoint() {
-    return httpUrl('S3_ENDPOINT', 'http://localhost:9000');
-  }
-  get internalEndpoint() {
-    return httpUrl('S3_INTERNAL_ENDPOINT', 'http://minio:9000');
-  }
-  get bucket() {
-    return process.env.S3_BUCKET ?? 'default-bucket';
-  }
-  get region() {
-    return process.env.S3_REGION ?? 'us-east-1';
-  }
-  get accessKey() {
-    return process.env.S3_ACCESS_KEY ?? 'user';
-  }
-  get secretKey() {
-    return process.env.S3_SECRET_KEY ?? 'password';
-  }
+export class ImageConfig extends StorageConfig {
   get rabbitUrl() {
     return (
       process.env.RABBITMQ_URL ??

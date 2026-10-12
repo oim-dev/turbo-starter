@@ -9,6 +9,8 @@ import { changeClientUserPassword } from "./operations/change-client-user-passwo
 import { clientAuthRegister } from "./operations/client-auth-register.js";
 import { clientBrowserLogin } from "./operations/client-browser-login.js";
 import { clientBrowserLogout } from "./operations/client-browser-logout.js";
+import { clientFileHead } from "./operations/client-file-head.js";
+import { clientFileOpen } from "./operations/client-file-open.js";
 import { clientImageComplete } from "./operations/client-image-complete.js";
 import { clientImageCreateUpload } from "./operations/client-image-create-upload.js";
 import { clientImageFacets } from "./operations/client-image-facets.js";
@@ -36,6 +38,10 @@ export const operationsTree = {
   media: {
     clientImageReadableMedia: clientImageReadableMedia,
     clientImageMedia: clientImageMedia,
+  },
+  files: {
+    clientFileHead: clientFileHead,
+    clientFileOpen: clientFileOpen,
   },
   auth: {
     clientAuthRegister: clientAuthRegister,

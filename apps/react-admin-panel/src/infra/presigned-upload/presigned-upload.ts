@@ -33,7 +33,7 @@ export const uploadPresignedFile = (input: PresignedUploadInput): Promise<void> 
     }
     request.open('PUT', input.url)
     request.withCredentials = false
-    request.timeout = 300_000
+    request.timeout = input.timeoutMs ?? 300_000
     for (const [name, header] of Object.entries(input.headers)) {
       if (name.toLowerCase() === 'authorization' || name.toLowerCase() === 'cookie') {
         reject(new PresignedUploadError(0))
@@ -42,7 +42,7 @@ export const uploadPresignedFile = (input: PresignedUploadInput): Promise<void> 
       request.setRequestHeader(name, header)
     }
     request.upload.onprogress = (event) => {
-      if (event.lengthComputable) input.onProgress(Math.round((event.loaded / event.total) * 100))
+      if (event.lengthComputable && event.total > 0) input.onProgress(Math.round((event.loaded / event.total) * 100))
     }
     request.onload = () => {
       cleanup()

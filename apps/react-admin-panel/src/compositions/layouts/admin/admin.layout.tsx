@@ -1,6 +1,6 @@
 import { AppShell, Drawer, useMantineTheme } from '@mantine/core'
 import { useDisclosure, useLocalStorage, useMediaQuery, useReducedMotion } from '@mantine/hooks'
-import { IconHome, IconLibraryPhoto } from '@tabler/icons-react'
+import { IconFiles, IconHome, IconLibraryPhoto } from '@tabler/icons-react'
 import cl from 'clsx'
 import { useEffect } from 'react'
 import type { JSX } from 'react'
@@ -30,9 +30,11 @@ const DEFAULT_NAVIGATION_ITEMS: readonly AdminNavigationItem[] = [
 export const AdminLayout = (props: AdminLayoutProps): JSX.Element => {
   const { navigationItems: customNavigationItems, className, ...rootAttrs } = props
   const canReadImages = usePermission('images.read')
+  const canReadFiles = usePermission('files.read')
   const navigationItems = customNavigationItems ?? [
     ...DEFAULT_NAVIGATION_ITEMS,
-    ...(canReadImages ? [{ to: '/images', label: 'Изображения', icon: IconLibraryPhoto }] : [])
+    ...(canReadImages ? [{ to: '/images', label: 'Изображения', icon: IconLibraryPhoto }] : []),
+    ...(canReadFiles ? [{ to: '/files', label: 'Файлы', icon: IconFiles }] : [])
   ]
   const currentUser = useGetCurrentUser()
   const userLogin = currentUser.data?.login ?? null

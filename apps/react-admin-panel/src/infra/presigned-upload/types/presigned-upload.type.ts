@@ -19,6 +19,10 @@ export type PresignedUploadInput = {
    */
   signal: AbortSignal
   /**
+   * Общий дедлайн передачи; 0 оставляет передачу без ограничения времени.
+   */
+  timeoutMs?: number
+  /**
    * Прогресс фактической отправки от 0 до 100.
    */
   onProgress: (progress: number) => void
