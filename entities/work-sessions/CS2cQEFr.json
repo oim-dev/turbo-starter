@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "CS2cQEFr",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "CS2cQEFr",
+    "key": "S-CS2cQEFr",
+    "title": "Добавить правила задач и параллельной разработки в AGENTS",
+    "description": [
+      "Пользователь требует фактически добавить ранее обсуждённые инструкции в AGENTS.md: постановка самодостаточных задач Relay для нескольких параллельных исполнителей, обязательное делегирование задач разработки, фоновый режим при наличии, отдельные worktree и дочерние сессии, работа исполнителя, приёмка и локальное слияние основным агентом без PR. Учесть реализованную автоматическую установку зависимостей и скиллов командой worktree:create. Сохранить краткость, не дублировать инструкцию в README или библиотеке документов."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "EtPi4VLM",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-10-18T21:50:25.417Z",
+    "updatedAt": "2026-10-18T21:50:25.417Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-10-18T21:50:25.417Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T21:50:25.417Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
