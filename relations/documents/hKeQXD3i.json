@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "owner": {
+    "kind": "document",
+    "id": "hKeQXD3i"
+  },
+  "storage": "inline",
+  "entries": [
+    {
+      "slot": "document-links",
+      "edge": {
+        "type": "references",
+        "from": {
+          "kind": "document",
+          "id": "PdZBBuP8"
+        },
+        "to": {
+          "kind": "document",
+          "id": "hKeQXD3i"
+        },
+        "description": [
+          "Полный жизненный цикл worktree-окружения, кратко представленного в DOC-11."
+        ],
+        "id": "i7IqpLXu",
+        "revision": 1,
+        "source": "graph",
+        "createdAt": "2026-10-18T20:25:29.369Z",
+        "createdBy": "openai/gpt-6-astra",
+        "active": true,
+        "updatedAt": "2026-10-18T20:25:29.369Z",
+        "updatedBy": "openai/gpt-6-astra"
+      }
+    },
+    {
+      "slot": "document-links",
+      "edge": {
+        "type": "documents",
+        "from": {
+          "kind": "document",
+          "id": "hKeQXD3i"
+        },
+        "to": {
+          "kind": "project",
+          "id": "lHAg5ziz"
+        },
+        "description": [
+          "Изоляция локальной инфраструктуры и рабочих копий задач."
+        ],
+        "id": "n1qM2P1P",
+        "revision": 1,
+        "source": "graph",
+        "createdAt": "2026-10-18T20:25:29.369Z",
+        "createdBy": "openai/gpt-6-astra",
+        "active": true,
+        "updatedAt": "2026-10-18T20:25:29.369Z",
+        "updatedBy": "openai/gpt-6-astra"
+      }
+    }
+  ]
+}
