@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "owner": {
+    "kind": "document",
+    "id": "DAtwMsZd"
+  },
+  "storage": "inline",
+  "entries": [
+    {
+      "slot": "document-links",
+      "edge": {
+        "type": "documents",
+        "from": {
+          "kind": "document",
+          "id": "DAtwMsZd"
+        },
+        "to": {
+          "kind": "project",
+          "id": "lHAg5ziz"
+        },
+        "description": [
+          "Действующая модель административного доступа шаблона."
+        ],
+        "id": "VQNpd2U4",
+        "revision": 1,
+        "source": "graph",
+        "createdAt": "2026-10-18T20:05:53.025Z",
+        "createdBy": "openai/gpt-6-astra",
+        "active": true,
+        "updatedAt": "2026-10-18T20:05:53.025Z",
+        "updatedBy": "openai/gpt-6-astra"
+      }
+    }
+  ]
+}
