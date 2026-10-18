@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "i7Htiuf9",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "i7Htiuf9",
+    "key": "CP-i7Htiuf9",
+    "sessionId": "02TA1WMa",
+    "runId": "3ddblo86",
+    "sequence": 3,
+    "title": "Удалить 12 локальных материалов подготовки",
+    "summary": "",
+    "body": [
+      "## Намерение",
+      "Удалить перечисленные в docs/drafts/template двенадцать файлов и пустой каталог по прямому поручению пользователя. Основание — завершённая публикация DOC-2–DOC-11 в Relay и готовая навигация из корневого README.",
+      "",
+      "## Проверка",
+      "Сверить состав файлов перед удалением, выполнить адресное удаление, проверить отсутствие каталога, оставшихся Markdown-ссылок на него и ошибок git diff --check. Сохранить в истории, что локальные пути из прежней сессии теперь исторические, а знания читаются по DOC-ключам."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T20:20:03.907Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T20:20:03.907Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T20:20:03.907Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
