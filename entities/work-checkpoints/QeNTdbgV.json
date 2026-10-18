@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "QeNTdbgV",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "QeNTdbgV",
+    "key": "CP-QeNTdbgV",
+    "sessionId": "ps78GjDc",
+    "runId": "DjcvdH8N",
+    "sequence": 7,
+    "title": "Инструкции упорядочены; публичная установка сохранена",
+    "summary": "В Git осталась публичная инструкция установки; skills и worktrees перенесены в профильные разделы, дубль изображений удалён.",
+    "body": [
+      "## Итог по четырём документам",
+      "1. docs/development/new-project-setup.md сохранён в Git по уточнению пользователя. Файл совпадает с HEAD и публично читается через https://raw.githubusercontent.com/oim-dev/turbo-starter/main/docs/development/new-project-setup.md. В README добавлены локальная и публичная ссылки. DOC-12 (development, active, ревизия 2) служит навигацией к этому каноническому источнику, а не второй копией.",
+      "2. skills.md перенесён в DOC-13 «Работа с проектными скиллами», development, instruction/active, ревизия 1; локальный файл удалён.",
+      "3. worktrees.md перенесён в DOC-14 «Изолированные worktree-окружения», infrastructure, instruction/active, ревизия 1; локальный файл удалён.",
+      "4. images-implementation.md удалён как дубль DOC-8 и действующих backend/frontend контрактов; его историческое распределение работ не переносилось. Уникальные положения о владельце связи изображения и SDK MinIO добавлены в DOC-8 (ревизия 4).",
+      "",
+      "## Навигация",
+      "DOC-11 (ревизия 5) ведёт к DOC-12/DOC-13/DOC-14. Новые записи прикреплены к PROJECT и как материалы DOC-11. В README обоих SDK, dev-agents и infra/dev заменены ссылки на удалённые файлы; корневой README содержит ключи профильных инструкций.",
+      "",
+      "## Проверки",
+      "Полные тексты DOC-12/DOC-13/DOC-14 перечитаны и совпали с подготовленными материалами; разделы, active и прикрепления проверены. Изменённые DOC-8/DOC-11 перечитаны сразу после записи. Поиск в Git не нашёл трёх удалённых путей; поиск docs/development в Relay показывает только допустимый публичный источник DOC-12. Проверены шесть локальных Markdown и 25 файловых ссылок. agents:build прошёл: 0 агентов, 0 файлов, записей и удалений нет; agents:check подтвердил актуальность. git diff --check и doctor check прошли, последний показал 16 сущностей и 0 задач. Публичный raw URL вернул полный Markdown без авторизации. В docs/development остался один файл new-project-setup.md.",
+      "",
+      "## Границы",
+      "Рабочие env, код инструментов, приложения и существовавшее изменение AGENTS.md не менялись. Новая установка, создание worktree и runtime-сценарии не запускались: поручение касалось документации. Временные материалы подготовки находятся вне репозитория под /tmp/opencode/relay-development-migration; источники знаний — соответствующие DOC-ключи и публичная инструкция Git."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [
+      {
+        "ref": {
+          "kind": "document",
+          "id": "P9Iitieb"
+        },
+        "key": "DOC-8",
+        "title": "Изображения: медиатека и фоновая обработка"
+      },
+      {
+        "ref": {
+          "kind": "document",
+          "id": "PdZBBuP8"
+        },
+        "key": "DOC-11",
+        "title": "Разработка и локальная инфраструктура"
+      },
+      {
+        "ref": {
+          "kind": "document",
+          "id": "keC6UW0i"
+        },
+        "key": "DOC-12",
+        "title": "Установка и запуск нового проекта"
+      },
+      {
+        "ref": {
+          "kind": "document",
+          "id": "1TOiEyJU"
+        },
+        "key": "DOC-13",
+        "title": "Работа с проектными скиллами"
+      },
+      {
+        "ref": {
+          "kind": "document",
+          "id": "hKeQXD3i"
+        },
+        "key": "DOC-14",
+        "title": "Изолированные worktree-окружения"
+      }
+    ],
+    "createdAt": "2026-10-18T20:30:42.637Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "result",
+    "intentId": "qVZhBDIh",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T20:30:42.637Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T20:30:42.637Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
