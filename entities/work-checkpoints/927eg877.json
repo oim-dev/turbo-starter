@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "927eg877",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "927eg877",
+    "key": "CP-927eg877",
+    "sessionId": "yUIxAt0e",
+    "runId": "D926KTx1",
+    "sequence": 5,
+    "title": "Удалить дублирующий документ о работе через Relay",
+    "summary": "",
+    "body": [
+      "Дополнение пользователя к текущему поручению: удалить «Работа с проектом через Relay» (DOC-15) как бесполезный документ. Прочитать актуальную запись и каскад, удалить только её; проверить отсутствие в библиотеке. Канонические правила уже находятся в AGENTS.md, новый документ не нужен."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T21:24:41.442Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T21:24:41.442Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T21:24:41.442Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
