@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "agent-run",
   "id": "17zHOixa",
-  "revision": 1,
+  "revision": 2,
   "key": null,
   "aliases": [],
   "data": {
@@ -23,18 +23,20 @@
     "client": "opencode",
     "sourceSessionId": null,
     "startedAt": "2026-10-18T22:50:19.650Z",
-    "endedAt": null,
+    "endedAt": "2026-10-18T22:52:55.155Z",
     "startedSequence": 2,
-    "endedSequence": null,
-    "endReason": null,
+    "endedSequence": 6,
+    "endReason": "completed",
     "predecessorRunId": null,
     "reason": [
       "Подключаюсь как назначенный субагент для read-only сопоставления девяти MD с DOC-5..DOC-11; работаю в общей копии, сохраняю только собственную историю Relay."
     ],
-    "endSummary": null
+    "endSummary": [
+      "Read-only исследование завершено. Полная таблица девяти файлов и основания сохранены в CP-YAVwZ8Py; промежуточная сверка — CP-Wbk9dude. Основные контракты покрыты DOC-5..DOC-11, для семи файлов покрытие достаточно. Перед удалением admin-keycloak.md полезно сохранить точную настройку внешнего Keycloak (confidential/Standard Flow/PKCE S256/client_secret_basic/RS256, origin endpoints), а из images.md — ограничение полноразмерного внутреннего TIFF для imgproxy. Новых документов не требуется; достаточно краткого дополнения подходящих существующих знаний. Само удаление не меняет runtime, сохранять девять файлов целиком оснований нет. Исторические QA и команды не переносить. Файлы и библиотека не изменялись; выполнены полное чтение источников и адресная статическая проверка кода/Compose/README. Ссылки на удаляемые MD в DOC-6..DOC-9 переданы основному агенту. После изменения корневого AGENTS правило запрета новых проектных MD соблюдено: результаты только в истории Relay. Для принятия: session.id BQ2KLiUt."
+    ]
   },
   "createdAt": "2026-10-18T22:50:19.650Z",
   "createdBy": "gpt-6-astra-docs-audit",
-  "updatedAt": "2026-10-18T22:50:19.650Z",
+  "updatedAt": "2026-10-18T22:52:55.155Z",
   "updatedBy": "gpt-6-astra-docs-audit"
 }
