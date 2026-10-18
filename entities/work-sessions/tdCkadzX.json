@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "tdCkadzX",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "tdCkadzX",
+    "key": "S-tdCkadzX",
+    "title": "Добавить финальное предупреждение установщику",
+    "description": [
+      "Пользователь просит в самом конце инструкции установки добавить предупреждение КАПСОМ: агент ни при каких условиях не ведёт разработку в установочной сессии, даже по просьбе пользователя; для разработки сообщает о необходимости перезапуска из каталога установленного проекта."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "rjJ08efp",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-10-18T22:37:56.482Z",
+    "updatedAt": "2026-10-18T22:37:56.482Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-10-18T22:37:56.482Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T22:37:56.482Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
