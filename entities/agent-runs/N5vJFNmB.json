@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "agent-run",
   "id": "N5vJFNmB",
-  "revision": 1,
+  "revision": 2,
   "key": null,
   "aliases": [],
   "data": {
@@ -23,18 +23,20 @@
     "client": "opencode",
     "sourceSessionId": null,
     "startedAt": "2026-10-18T21:03:22.930Z",
-    "endedAt": null,
+    "endedAt": "2026-10-18T21:04:03.300Z",
     "startedSequence": 2,
-    "endedSequence": null,
-    "endReason": null,
+    "endedSequence": 5,
+    "endReason": "completed",
     "predecessorRunId": null,
     "reason": [
       ""
     ],
-    "endSummary": null
+    "endSummary": [
+      "Упоминания команды pnpm run setup в README сокращены с пяти до одного. Команда и полное пояснение сосредоточены в «Подготовка и запуск»; вход агента использует ссылку, дубли из раздела Relay и таблицы удалены. Обязательность подготовки и все существенные условия сохранены. Проверены Markdown, 18 локальных ссылок/якорей и git diff --check. Итог CP-OLd237oo."
+    ]
   },
   "createdAt": "2026-10-18T21:03:22.930Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-10-18T21:03:22.930Z",
+  "updatedAt": "2026-10-18T21:04:03.300Z",
   "updatedBy": "openai/gpt-6-astra"
 }
