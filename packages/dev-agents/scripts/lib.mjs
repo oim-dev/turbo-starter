@@ -107,7 +107,6 @@ export async function prepareBundle(root = repoRoot) {
   const manifest = parseJson(await source("manifest.json"), `${sourceRoot}/manifest.json`);
   objectShape(manifest, ["version", "orchestrator", "agents"], "manifest.json");
   requireCondition(manifest.version === 1, "manifest.json: поддерживается только version: 1");
-  requireCondition(validName(manifest.orchestrator), "manifest.json: неверное имя orchestrator");
   requireCondition(Array.isArray(manifest.agents), "manifest.json: agents должен быть массивом");
   const names = new Set();
   for (const agent of manifest.agents) {
@@ -123,12 +122,20 @@ export async function prepareBundle(root = repoRoot) {
     relativePath(agent.prompt);
     requireCondition(agent.prompt.endsWith(".md"), `${agent.name}: prompt должен ссылаться на .md`);
   }
-  const primaries = manifest.agents.filter((agent) => agent.kind === "orchestrator");
-  requireCondition(primaries.length === 1, "manifest.json: требуется ровно один оркестратор");
-  requireCondition(
-    primaries[0].name === manifest.orchestrator,
-    "manifest.json: orchestrator не совпадает с именем оркестратора",
-  );
+  if (manifest.agents.length === 0) {
+    requireCondition(
+      manifest.orchestrator === undefined,
+      "manifest.json: при пустом agents поле orchestrator должно отсутствовать",
+    );
+  } else {
+    requireCondition(validName(manifest.orchestrator), "manifest.json: неверное имя orchestrator");
+    const primaries = manifest.agents.filter((agent) => agent.kind === "orchestrator");
+    requireCondition(primaries.length === 1, "manifest.json: требуется ровно один оркестратор");
+    requireCondition(
+      primaries[0].name === manifest.orchestrator,
+      "manifest.json: orchestrator не совпадает с именем оркестратора",
+    );
+  }
   const agents = [];
   for (const agent of [...manifest.agents].sort((a, b) =>
     a.name < b.name ? -1 : a.name > b.name ? 1 : 0,

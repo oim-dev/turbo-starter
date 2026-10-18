@@ -87,7 +87,7 @@
   API позволяет только его запись; внешнего ключа шифрования нет.
   `.env` повторяет структуру `.env.example`, отличаться могут только значения.
   При синхронизации сохранять действующие значения; примеры `.env.example` и `env.example`
-  вести идентично. Общие правила и `env:check` описаны в корневом AGENTS.md. При проверках с Prisma/ts-node
+  вести идентично. Соответствие проверяет `pnpm env:check`. При проверках с Prisma/ts-node
   отключать чтение env-файлов через `DOTENV_CONFIG_PATH=/dev/null`: эта настройка заменяет
   и локальный `.env`, и `infra/dev/.env`. Для изолированной среды явно задавать `POSTGRES_HOST`,
   `POSTGRES_PORT`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB`.

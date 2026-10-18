@@ -60,6 +60,35 @@ NEXT_DIST_DIR=build/preview pnpm run web:start
 как в Dockerfile, а не через `web:start`. При смене `distDir` проверяйте изменения `tsconfig.json`,
 которые Next.js может автоматически внести для сгенерированных типов маршрутов.
 
+## Браузерный инструмент
+
+`agent-browser` закреплён в devDependencies приложения. Конфигурация — [agent-browser.json](agent-browser.json),
+правила проверки — [AGENTS.md](AGENTS.md#проверка-через-agent-browser).
+Для проверки SSR и гидратации предварительно выполните `pnpm run web:build` и
+`pnpm run web:start` из корня репозитория. Для остальных сценариев можно использовать dev-сервер.
+
+Команды браузерного инструмента выполняются из `apps/next-web-app`.
+Пример для одного терминала:
+
+```sh
+pnpm run browser:install
+pnpm run browser skills get core
+SESSION="web-check-$(date +%s)-$$"
+mkdir -p "../../.artifacts/next-web-app/$SESSION"
+pnpm run browser --session "$SESSION" open http://localhost:3000
+pnpm run browser --session "$SESSION" snapshot -i
+pnpm run browser --session "$SESSION" screenshot "../../.artifacts/next-web-app/$SESSION/home.png"
+pnpm run browser --session "$SESSION" close
+```
+
+`browser:install` однократно скачивает Chrome в кеш машины; на Linux при нехватке
+системных библиотек добавьте `--with-deps`. Для каждой задачи используйте уникальную
+изолированную сессию и передавайте её во всех командах. Между отдельными вызовами
+инструментов агента shell-переменные могут не сохраняться: повторяйте выбранное имя явно.
+Конфиг включает headless Chrome с видимыми полосами прокрутки и явной обработкой диалогов.
+Артефакты сохраняйте в корневом `.artifacts/next-web-app/<имя-сессии>/` — каталог исключён из Git.
+DOM-снимок после гидратации не доказывает SSR: проверяйте также серверный HTML и RSC payload.
+
 ## Сохраняемая инфраструктура API
 
 `src/infra/client-api` использует workspace SDK `@oim/client-rest-api-sdk`:

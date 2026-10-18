@@ -58,6 +58,7 @@ export async function checkLinks(root, profiles) {
 
   const instructions = new Set([
     "AGENTS.md",
+    `${PACKAGE}/AGENTS.md`,
     "apps/react-admin-panel/AGENTS.md",
     "apps/next-web-app/AGENTS.md",
     ...documents.keys(),
@@ -80,9 +81,8 @@ export async function checkLinks(root, profiles) {
   ];
   const collect = async (path) => {
     const entries = await readdir(join(root, path), { withFileTypes: true }).catch((error) => {
-      if (error.code !== "ENOENT" && error.code !== "ENOTDIR") throw error;
-      report(path, "Отсутствует каталог сценариев");
-      return [];
+      if (error.code === "ENOENT") return [];
+      throw error;
     });
     entries.sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
     for (const entry of entries) {

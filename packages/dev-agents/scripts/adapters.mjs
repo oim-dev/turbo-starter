@@ -47,6 +47,7 @@ function tomlString(value, multiline = false) {
 /** Преобразует проверенные исходники в независимые проектные настройки сред. */
 export async function renderAdapters(agents, orchestrator) {
   const output = new Map();
+  if (agents.length === 0) return output;
 
   for (const agent of agents) {
     const primary = agent.kind === "orchestrator";

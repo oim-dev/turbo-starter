@@ -1,337 +1,127 @@
-# OIM
+# Turbo Starter
 
-Универсальная основа проекта на **Turborepo** и **pnpm**: общие пакеты,
-сборщик AI-агентов, проектные скиллы и Relay для хранения знаний и задач.
-Приложения: NestJS backend с клиентским и административным API и фоновой
-обработкой изображений, React-админка с галереей и Next.js со стартовой страницей.
+Fullstack-шаблон на **TypeScript, pnpm и Turborepo** для проектов с веб-приложением,
+административной панелью и backend. Все приложения, общие пакеты и локальная
+инфраструктура входят в комплект.
 
-Корневой пакет — `@oim/oim`; все приложения и общие пакеты используют scope `@oim`.
+## Что внутри
 
-## Требования
+| Приложение                                                   | Назначение                                                                                                           |
+| ------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------- |
+| [`apps/next-web-app`](apps/next-web-app/README.md)           | Next.js 16, React 19 и Mantine. Стартовая страница с серверным рендерингом и подготовленная интеграция с Client API. |
+| [`apps/react-admin-panel`](apps/react-admin-panel/README.md) | React SPA на Vite и Mantine: пользователи, роли, настройки входа, изображения и файлы.                               |
+| [`apps/nest-backend`](apps/nest-backend/README.md)           | NestJS 11, Prisma и PostgreSQL: отдельные Client API и Admin API, воркер обработки изображений.                      |
 
-- **Node.js 24+** и входящий в его поставку `npm`/`npx`.
-- **pnpm 11.25.0** — версия закреплена в `package.json`.
-- **Git**.
-- **Docker Engine и Docker Compose v2+** для PostgreSQL, MinIO и обработки изображений.
-- Доступ к GitHub и npm registry для скачивания шаблона, зависимостей и скиллов.
+Готовые возможности:
 
-Если pnpm ещё не установлен:
+- Клиентские и административные аккаунты, вход и профиль, роли и права доступа.
+  В админке дополнительно поддерживается вход через Keycloak.
+- Медиатека: загрузка изображений, поиск, папки, теги, предпросмотр
+  и фоновая подготовка размеров и форматов.
+- Файлы: загрузка в S3, история версий, выбор текущей версии,
+  постоянные ссылки, просмотр и скачивание.
+- Два типизированных REST SDK из OpenAPI, общие пакеты конфигураций
+  в `packages/`.
+- Docker Compose с PostgreSQL, MinIO, RabbitMQ и imgproxy в `infra/dev/`.
 
-```bash
-npm install --global pnpm@11.25.0
-```
+Веб-приложение содержит основу для будущего интерфейса; готовые экраны управления
+находятся в админке. Keycloak подключается через её настройки.
 
-Проверить окружение:
+## Установка
 
-```bash
-node --version
-pnpm --version
-git --version
-```
+Требуются **Node.js 24+**, **pnpm 11.25.0**, **Git**, **Docker Engine и Docker Compose v2+**.
+Установить pnpm можно командой `npm install --global pnpm@11.25.0`.
 
-## Быстрый старт
-
-Скачайте шаблон через [tiged](https://github.com/tiged/tiged#readme)
-в новый каталог. Замените `my-project` на имя своего каталога:
+Скачайте шаблон через [tiged](https://github.com/tiged/tiged#readme),
+заменив `my-project` на имя своего проекта:
 
 ```bash
 pnpm dlx tiged@latest oim-dev/turbo-starter#main my-project
 cd my-project
-pnpm install
-pnpm run setup
-```
-
-Глобальная установка tiged не требуется. Он скачивает файлы шаблона без истории Git
-и применяет действия из корневого `degit.json`.
-
-`pnpm install` устанавливает зависимости всех workspace-пакетов.
-Автоматическая установка перед `run`/`exec` отключена в `pnpm-workspace.yaml`
-через `verifyDepsBeforeRun: false`; зависимости обновляйте явно командой `pnpm install`.
-`pnpm run setup` последовательно:
-
-1. Восстанавливает скиллы из `skills-lock.json` в `.agents/skills/`.
-2. Собирает профили агентов и конфигурации OpenCode, Claude Code и Codex.
-
-После подготовки откройте проект в выбранном агентском клиенте. Если клиент уже
-был запущен, перезапустите его, чтобы он загрузил скиллы и профили.
-
-Для собственного репозитория инициализируйте Git:
-
-```bash
 git init -b main
+pnpm install
 ```
 
-Укажите имя нового проекта в корневом `package.json`, добавьте нужные приложения
-в `apps/` и адаптируйте инструкции агентов под их структуру.
+Tiged копирует весь шаблон без истории Git. Укажите имя проекта в корневом `package.json`.
+Для разработки с AI-агентом выполните `pnpm run setup` — подготовку проектных скиллов
+и инструментов агента.
 
-### Локальный backend
+## Локальный запуск
 
-```bash
-pnpm infra:dev:up
-pnpm backend:prisma:generate
-pnpm backend:prisma:deploy
-pnpm backend:dev
-```
-
-Client API: <http://localhost:4000/docs>, Admin API: <http://localhost:4001/docs>.
-Начальный владелец `admin/admin` создаётся автоматически при запуске Admin API на пустой БД. Регистрация доступна
-только клиентам. Оба API имеют независимые токены и сессии.
-JWT возвращается в JSON и передаётся через Bearer; JWT и сессия действуют 7 дней,
-без refresh и основных auth-cookies. Logout отзывает текущую сессию по Bearer JWT.
-CORS разрешает любой origin без allowlist; временные cookies остаются только для Admin OIDC.
-
-Значения по умолчанию описаны в [инфраструктуре разработки](infra/dev/README.md).
-При наличии перенесённых `.env` согласуйте их структуру с текущими `.env.example` перед запуском.
-Подробнее: [backend](apps/nest-backend/README.md).
-
-### Инфраструктура изображений
+Все команды выполняются из корня нового проекта:
 
 ```bash
 pnpm infra:dev:images
+pnpm backend:prisma:deploy
+pnpm dev
 ```
 
-Профиль поднимает PostgreSQL, приватный MinIO с CORS для browser PUT,
-RabbitMQ и imgproxy. После подготовки схемы `pnpm backend:dev` запускает оба API
-и воркер. Для отдельного запуска worker используйте `pnpm backend:dev:worker`.
-Воркер работает на host и вызывает imgproxy по
-`http://localhost:18080`; imgproxy скачивает original по подписанному URL
-`http://minio:9000` внутри Docker network. Для загрузки из браузера используется
-`http://localhost:9000`. Команды, dev-ключи и настройка адресов описаны в
-[infra/dev/README.md](infra/dev/README.md#профиль-изображений).
+Первая команда поднимает PostgreSQL, MinIO, RabbitMQ и imgproxy, вторая применяет
+миграции к БД. `pnpm dev` запускает сайт, админку, оба API и воркер изображений.
+Prisma Client и REST SDK подготавливаются автоматически.
 
-Backend работает с хранилищем через официальный SDK MinIO. Браузер вычисляет SHA-256
-исходных байтов перед созданием загрузки: при `reused: true` использует найденное
-изображение без PUT и complete, иначе загружает файл по подписанному URL и подтверждает
-загрузку. Сервер проверяет хеш и запускает фоновую обработку. Дедупликация общая для
-загрузок администраторов, а в Client API ограничена владельцем; права доступа сохраняются.
-Статусы и готовые варианты возвращает REST API. Галерея админки доступна по `/images`:
-поиск по имени, заголовку, тегам, полному UUID, `publicId` или media URL, папки, теги,
-drag-and-drop, предпросмотр и метаданные.
-Готовые файлы сгруппированы по форматам во вкладках. Размеры создаются автоматически
-с сохранением пропорций и шагом 200 px; короткий остаток меньше 100 px заменяет
-предыдущую ступень. Выбирать пресеты при загрузке не требуется.
-Внутренний `id` остаётся UUID; отдельный `publicId` — 8 символов base62, не усечённый хеш.
-Готовые варианты доступны по `/media/images/:publicId/:format/:widthxheight`
-с фактическими размерами и латинской `x`, без преобразований при чтении.
-Старые UUID/variantId-ссылки сохраняются. Обновление существующих данных требует
-новой миграции и явного возобновляемого backfill оригиналов; порядок и команды —
-в [документации backend](apps/nest-backend/docs/images.md).
-Контракт и сценарии приёмки: [изображения](docs/development/images-implementation.md).
+Приложения работают локальными процессами, инфраструктура — в Docker.
+При первом запуске собирается образ MinIO, поэтому подготовка может занять несколько минут.
 
-### Интерфейсы
+### Интерфейсы и сервисы
 
-В отдельных терминалах:
+Адреса по умолчанию после запуска:
 
-```bash
-pnpm admin:dev
-pnpm web:dev
-```
+| Сервис                                              | Адрес                        |
+| --------------------------------------------------- | ---------------------------- |
+| Веб-приложение                                      | <http://localhost:3000>      |
+| Админка                                             | <http://localhost:3001>      |
+| Client API                                          | <http://localhost:4000>      |
+| Swagger Client API                                  | <http://localhost:4000/docs> |
+| Admin API                                           | <http://localhost:4001>      |
+| Swagger Admin API                                   | <http://localhost:4001/docs> |
+| Консоль MinIO — управление S3-хранилищем            | <http://localhost:9001>      |
+| S3 API MinIO                                        | <http://localhost:9000>      |
+| Панель RabbitMQ                                     | <http://localhost:15672>     |
+| RabbitMQ — AMQP                                     | `localhost:5672`             |
+| imgproxy — служебный HTTP для обработки изображений | <http://localhost:18080>     |
+| PostgreSQL                                          | `localhost:5544`             |
 
-- Админка: <http://localhost:3001>, вход `admin/admin` через Admin API.
-- Next.js: <http://localhost:3000>, автономная стартовая страница.
+Данные для локальной разработки:
 
-Локальная схема портов: интерфейсы `3000` / `3001`, их API `4000` / `4001`
-(клиентский / административный контур соответственно).
+- **Админка:** `admin` / `admin`. Владелец создаётся при первом запуске Admin API,
+  если административных аккаунтов ещё нет.
+- **MinIO:** `user` / `password`, bucket `default-bucket`.
+- **RabbitMQ:** `image` / `image-password`.
+- **PostgreSQL:** `user` / `password`, база `default-db`.
 
-Для одновременного запуска всех приложений после подготовки БД используйте
-`pnpm dev`. Turborepo предварительно собирает workspace-зависимости приложений,
-включая SDK. Их транспорт, сессии и конфигурация сохранены в `src/infra` приложений;
-списки операций генерируются из OpenAPI соответствующего backend API.
+Для остановки приложений нажмите `Ctrl+C`, затем выполните `pnpm infra:dev:down`.
+Данные Docker volumes сохраняются.
 
-## Переменные окружения
+## Настройки окружения
 
-Все env-файлы используют единый формат: трёхстрочные заголовки блоков с разделителем
-`# ==================================`, сразу под ними — заполненные `KEY=value`,
-между блоками — одна пустая строка. Пояснения хранятся в README, примеры — без закомментированных переменных.
+Для стандартного локального запуска достаточно встроенных значений.
+Чтобы изменить настройки, скопируйте соответствующий пример в рабочий файл
+в том же каталоге и измените значения:
 
-| Каталог | Канонический шаблон | Рабочий файл |
-| --- | --- | --- |
-| `apps/nest-backend` | `.env.example` | `.env` |
-| `apps/react-admin-panel` | `.env.example` | `.env.local` |
-| `apps/next-web-app` | `.env.example` | `.env.local` |
-| `infra/dev` | `.env.example` | `.env` |
+| Пример                                                                       | Рабочий файл |
+| ---------------------------------------------------------------------------- | ------------ |
+| [`apps/nest-backend/.env.example`](apps/nest-backend/.env.example)           | `.env`       |
+| [`apps/react-admin-panel/.env.example`](apps/react-admin-panel/.env.example) | `.env.local` |
+| [`apps/next-web-app/.env.example`](apps/next-web-app/.env.example)           | `.env.local` |
+| [`infra/dev/.env.example`](infra/dev/.env.example)                           | `.env`       |
 
-`env.example` в каждом каталоге — идентичная копия `.env.example` для совместимости ссылок.
-Для стандартного локального запуска используйте полные копии примеров с их dev-значениями:
-дополнительная настройка значений не требуется.
-Рабочий файл повторяет заголовки, отступы, порядок и набор переменных своего шаблона;
-отличаться могут только значения. При обновлении шаблона сохраняйте существующие рабочие
-значения и добавляйте новые параметры в те же блоки. Рабочие env-файлы исключены из Git.
+Рабочие env-файлы исключены из Git. Их структуру проверяет `pnpm env:check`:
+состав и порядок переменных должны совпадать с примером, отличаться могут значения.
 
-`pnpm run env:check` проверяет все env-файлы исходников, включая игнорируемые рабочие файлы,
-не выводя значения переменных. Проверка также запускается перед корневым `lint`.
-Отсутствие рабочих файлов в свежем checkout допустимо: создавайте их из соответствующего примера.
+## Основные команды
 
-## Структура
+| Команда                      | Назначение                                     |
+| ---------------------------- | ---------------------------------------------- |
+| `pnpm web:dev`               | Запустить только веб-приложение                |
+| `pnpm admin:dev`             | Запустить только админку                       |
+| `pnpm backend:dev`           | Запустить оба API и воркер                     |
+| `pnpm build`                 | Собрать приложения и пакеты                    |
+| `pnpm lint`                  | Проверить env-файлы и код                      |
+| `pnpm check-types`           | Проверить типы                                 |
+| `pnpm rest-api-sdk:generate` | Обновить OpenAPI и оба SDK после изменения API |
+| `pnpm infra:dev:logs`        | Смотреть логи инфраструктуры                   |
 
-```text
-apps/
-  nest-backend/             # NestJS: Client API, Admin API и image-worker
-  react-admin-panel/        # React SPA: аккаунты, управление доступом и галерея
-  next-web-app/             # Next.js: автономная стартовая страница
-packages/
-  client-rest-api-sdk/       # Контракт и клиент Client API
-  admin-rest-api-sdk/        # Контракт и клиент Admin API
-  dev-agents/               # Исходники ролей, сценарии и сборщик агентов
-  eslint-config/            # Общие конфигурации ESLint
-  typescript-config/        # Общие конфигурации TypeScript
-  ui/                       # Базовые React-компоненты
-infra/dev/                  # PostgreSQL; storage: MinIO; images: MinIO, RabbitMQ, imgproxy
-infra/prod/                 # Перенесённая production-конфигурация
-docs/development/           # Инструкции для разработчиков
-.relay/                     # Конфигурация и хранилище Relay
-degit.json                  # Действия tiged при создании проекта
-skills-lock.json            # Источники проектных скиллов
-pnpm-workspace.yaml         # Workspace: apps/* и packages/*
-turbo.json                  # Задачи Turborepo
-```
-
-После добавления workspace-пакетов выполните `pnpm install`.
-
-## Команды
-
-Все команды выполняются из корня проекта.
-
-| Команда                         | Назначение                                           |
-| ------------------------------- | ---------------------------------------------------- |
-| `pnpm install`                  | Установить зависимости workspace                     |
-| `pnpm run setup`                | Установить скиллы и собрать агентов                  |
-| `pnpm dev`                      | Запустить задачи разработки приложений и пакетов     |
-| `pnpm build`                    | Выполнить задачи сборки, включая сборку агентов      |
-| `pnpm lint`                     | Запустить ESLint в пакетах, где есть скрипт `lint`   |
-| `pnpm check-types`              | Проверить типы в пакетах с соответствующим скриптом  |
-| `pnpm format`                   | Отформатировать файлы TypeScript, TSX и Markdown     |
-| `pnpm env:check`                | Проверить формат примеров и соответствие рабочих env |
-| `pnpm agents:build`             | Пересобрать только профили и конфигурации агентов    |
-| `pnpm agents:check`             | Проверить актуальность профилей и локальные ссылки   |
-| `pnpm infra:dev:up`             | Запустить локальную PostgreSQL                       |
-| `pnpm infra:dev:storage`        | Запустить MinIO и подготовить приватный bucket       |
-| `pnpm infra:dev:images`         | Запустить инфраструктуру изображений с healthchecks |
-| `pnpm infra:dev:down`           | Остановить dev-инфраструктуру с сохранением volumes  |
-| `pnpm backend:dev:worker`       | Запустить локальный воркер изображений               |
-| `pnpm backend:dev`              | Запустить оба API и воркер в режиме разработки       |
-| `pnpm backend:dev:client`       | Запустить только Client API                          |
-| `pnpm backend:dev:admin`        | Запустить только Admin API                           |
-| `pnpm backend:lint`             | Проверить код backend                                |
-| `pnpm backend:check-types`      | Сгенерировать Prisma Client и проверить типы backend |
-| `pnpm backend:build`            | Собрать обе серверные точки входа                    |
-| `pnpm rest-api-sdk:generate`    | Экспортировать OpenAPI и перегенерировать оба SDK    |
-| `pnpm rest-api-sdk:build`       | Собрать оба SDK                                      |
-| `pnpm rest-api-sdk:check-types` | Проверить типы обоих SDK                             |
-| `pnpm admin:dev`                | Запустить React-админку и собрать её SDK             |
-| `pnpm admin:lint`               | Проверить код админки                                |
-| `pnpm admin:check-types`        | Проверить типы админки                               |
-| `pnpm admin:build`              | Собрать админку вместе с зависимостями               |
-| `pnpm web:dev`                  | Запустить Next.js и собрать его SDK                  |
-| `pnpm web:lint`                 | Проверить код Next.js-приложения                     |
-| `pnpm web:check-types`          | Проверить типы Next.js-приложения                    |
-| `pnpm web:build`                | Собрать Next.js вместе с зависимостями               |
-| `pnpm web:start`                | Запустить собранное Next.js-приложение               |
-
-Turborepo запускает задачи, определённые в `package.json` отдельных пакетов.
-Для работы с одним приложением используйте фильтр по имени его пакета:
-
-```bash
-pnpm dev --filter=<имя-пакета>
-pnpm build --filter=<имя-пакета>
-```
-
-## Агенты и скиллы
-
-Сборщик создаёт пять ролей: `orchestrator-agent`, `engineering-agent`,
-`frontend-agent`, `research-agent` и `qa-agent`.
-Главная роль — `orchestrator-agent`.
-
-Исходники находятся в `packages/dev-agents/`. Генерируемые профили в
-`.opencode/agents/`, `.claude/agents/`, `.codex/agents/`, конфигурации
-`opencode.json`, `.claude/settings.json`, `.codex/config.toml` и
-`agents-lock.json` исключены из Git и создаются локально командой `pnpm run setup`.
-Изменяйте исходники, затем выполняйте `pnpm agents:build`.
-
-Проектные скиллы:
-
-- `react-reference`;
-- `relay`;
-- `rest-api-codegen-ru`;
-- `svg-sprites-ru`;
-- `template-generation`;
-- `unit-architecture`.
-
-В Git хранится `skills-lock.json`, а установленные каталоги скиллов игнорируются.
-В текущем lock-файле не закреплены SHA коммитов источников: восстановление загружает
-актуальное содержимое их веток по умолчанию. Правила закрепления и обновления версий
-описаны в [инструкции по скиллам](docs/development/skills.md).
-
-Подробнее о ролях и генерации — в [README пакета агентов](packages/dev-agents/README.md).
-
-### Проверка профилей агентов
-
-`pnpm run setup` собирает профили, но не запускает `agents:check`.
-При адаптации профилей сверяйте ссылки с фактическими приложениями и их локальными
-`AGENTS.md`/`README.md`. Источники ролей, документация и проверка
-`packages/dev-agents/scripts/links.mjs` должны описывать один состав проекта.
-
-После адаптации порядок проверки, в том числе в CI:
-
-```bash
-pnpm install --frozen-lockfile
-pnpm run setup
-pnpm agents:check
-```
-
-## Relay
-
-Relay хранит знания о проекте, документы, задачи и планы в `.relay/`.
-`pnpm run setup` не запускает Relay Server.
-
-Проверить подключение и состояние:
-
-```bash
-npx @oim-dev/relay-cli config get
-npx @oim-dev/relay-cli project get
-npx @oim-dev/relay-cli product overview
-```
-
-Запустить веб-интерфейс в отдельном терминале из корня проекта:
-
-```bash
-npx @oim-dev/relay-server --open
-```
-
-По умолчанию интерфейс доступен по адресу <http://127.0.0.1:4700/>.
-Ориентируйтесь на адрес, напечатанный сервером. Он работает, пока запущен процесс;
-для остановки нажмите `Ctrl+C`.
-
-Настройки адреса и порта доступны в справке установленной версии:
-
-```bash
-npx @oim-dev/relay-server --help
-```
-
-Если вы начинаете проект без каталога `.relay/`, сначала создайте хранилище:
-
-```bash
-npx @oim-dev/relay-cli init
-```
-
-## Очистка шаблона через tiged
-
-Корневой [`degit.json`](degit.json) — заготовка для удаления демонстрационных
-приложений при создании нового проекта:
-
-```json
-[
-  {
-    "action": "remove",
-    "files": ["apps/web", "apps/api"]
-  }
-]
-```
-
-Tiged выполняет эти действия в скачанной копии. Если в репозитории шаблона позже
-появятся `apps/web` и `apps/api`, они будут удалены из создаваемого проекта.
-Другие каталоги `apps/` этим списком не затрагиваются. Сейчас указанных приложений
-в шаблоне нет; файл сохранён для будущего использования.
-
-Действия `degit.json` выполняются при скачивании через tiged, а не при `pnpm install`
-или `pnpm run setup`.
+Подробности запуска и разработки — в README [backend](apps/nest-backend/README.md),
+[админки](apps/react-admin-panel/README.md), [веб-приложения](apps/next-web-app/README.md)
+и [инфраструктуры](infra/dev/README.md).

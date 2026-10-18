@@ -9,9 +9,10 @@
     },
     "relay": {
       "source": "oim-dev/relay",
+      "ref": "167466b3bc0538a39f7853ffaa38f7e7a5a07658",
       "sourceType": "github",
       "skillPath": "skills/relay/SKILL.md",
-      "computedHash": "82909e5b139b0ea79be58ac56725eab01c7925080ba58d7440cba248f8a28b4b"
+      "computedHash": "be3e481a89de04a4ebe37e9dd613d99112856bf12c4dedb9c11fbb6c3d68c333"
     },
     "rest-api-codegen-ru": {
       "source": "gromlab-ru/rest-api-codegen",

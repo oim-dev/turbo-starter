@@ -1,6 +1,0 @@
-[
-  {
-    "action": "remove",
-    "files": ["apps/web", "apps/api"]
-  }
-]
