@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "mXOaJ9QQ",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "mXOaJ9QQ",
+    "key": "S-mXOaJ9QQ",
+    "title": "Упростить README и убрать дублирование документации шаблона",
+    "description": [
+      "Пользователь просит подчистить README.md: убрать описание создания проекта через tiged и оставить ссылку на docs/development/new-project-setup.md; установку описать как подготовку и запуск существующего проекта. Устранить дублирование сведений о документации шаблона между README и агентскими инструкциями, оставив один канонический раздел в AGENTS.md с понятным текстом из README. Сохранить остальные текущие изменения, проверить навигацию и Markdown."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "b9i3qgOS",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-10-18T21:00:33.551Z",
+    "updatedAt": "2026-10-18T21:00:33.551Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-10-18T21:00:33.551Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T21:00:33.551Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
