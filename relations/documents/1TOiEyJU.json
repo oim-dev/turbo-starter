@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "owner": {
+    "kind": "document",
+    "id": "1TOiEyJU"
+  },
+  "storage": "inline",
+  "entries": [
+    {
+      "slot": "document-links",
+      "edge": {
+        "type": "documents",
+        "from": {
+          "kind": "document",
+          "id": "1TOiEyJU"
+        },
+        "to": {
+          "kind": "project",
+          "id": "lHAg5ziz"
+        },
+        "description": [
+          "Сопровождение набора проектных скиллов."
+        ],
+        "id": "gKRmFV91",
+        "revision": 1,
+        "source": "graph",
+        "createdAt": "2026-10-18T20:25:21.865Z",
+        "createdBy": "openai/gpt-6-astra",
+        "active": true,
+        "updatedAt": "2026-10-18T20:25:21.865Z",
+        "updatedBy": "openai/gpt-6-astra"
+      }
+    },
+    {
+      "slot": "document-links",
+      "edge": {
+        "type": "references",
+        "from": {
+          "kind": "document",
+          "id": "PdZBBuP8"
+        },
+        "to": {
+          "kind": "document",
+          "id": "1TOiEyJU"
+        },
+        "description": [
+          "Порядок установки и обновления скиллов, упомянутых в инструментах разработки DOC-11."
+        ],
+        "id": "saL1mhQj",
+        "revision": 1,
+        "source": "graph",
+        "createdAt": "2026-10-18T20:25:21.865Z",
+        "createdBy": "openai/gpt-6-astra",
+        "active": true,
+        "updatedAt": "2026-10-18T20:25:21.865Z",
+        "updatedBy": "openai/gpt-6-astra"
+      }
+    }
+  ]
+}
