@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "owner": {
+    "kind": "document",
+    "id": "596fZynB"
+  },
+  "storage": "inline",
+  "entries": [
+    {
+      "slot": "document-links",
+      "edge": {
+        "type": "documents",
+        "from": {
+          "kind": "document",
+          "id": "596fZynB"
+        },
+        "to": {
+          "kind": "project",
+          "id": "lHAg5ziz"
+        },
+        "description": [
+          "Файловая библиотека и правила неизменяемых версий и текущей публикации."
+        ],
+        "id": "Ahu1zCzq",
+        "revision": 1,
+        "source": "graph",
+        "createdAt": "2026-10-18T20:06:14.086Z",
+        "createdBy": "openai/gpt-6-astra",
+        "active": true,
+        "updatedAt": "2026-10-18T20:06:14.086Z",
+        "updatedBy": "openai/gpt-6-astra"
+      }
+    }
+  ]
+}
