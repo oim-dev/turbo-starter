@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "I7W18IoF",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "I7W18IoF",
+    "key": "CP-I7W18IoF",
+    "sessionId": "KPFWIYiG",
+    "runId": "nY4CGgGI",
+    "sequence": 4,
+    "title": "Контейнеры проекта остановлены до изменений",
+    "summary": "",
+    "body": [
+      "По Docker Compose-меткам и config определён проект turbo-starter-dev из текущего infra/dev/docker-compose.yml. Работали четыре контейнера: PostgreSQL, MinIO, RabbitMQ и imgproxy. Они остановлены адресно через docker stop; minio-init и прежние проверочные контейнеры уже были остановлены. Последующий docker ps вернул пустой список. Images, volumes и данные не удалялись. До этого момента исходники не менялись. Далее — анализ профилей Compose и всех их потребителей."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T21:14:44.748Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "progress",
+    "intentId": "OCFP66N1",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T21:14:44.748Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T21:14:44.748Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
