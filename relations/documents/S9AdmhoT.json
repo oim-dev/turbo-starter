@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "owner": {
+    "kind": "document",
+    "id": "S9AdmhoT"
+  },
+  "storage": "inline",
+  "entries": [
+    {
+      "slot": "document-links",
+      "edge": {
+        "type": "documents",
+        "from": {
+          "kind": "document",
+          "id": "S9AdmhoT"
+        },
+        "to": {
+          "kind": "project",
+          "id": "lHAg5ziz"
+        },
+        "description": [
+          "Архитектура шаблона и расположение ответственности в репозитории."
+        ],
+        "id": "O9JMBZhT",
+        "revision": 1,
+        "source": "graph",
+        "createdAt": "2026-10-18T20:05:40.681Z",
+        "createdBy": "openai/gpt-6-astra",
+        "active": true,
+        "updatedAt": "2026-10-18T20:05:40.681Z",
+        "updatedBy": "openai/gpt-6-astra"
+      }
+    }
+  ]
+}
