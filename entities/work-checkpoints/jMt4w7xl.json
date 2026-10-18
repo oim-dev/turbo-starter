@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "jMt4w7xl",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "jMt4w7xl",
+    "key": "CP-jMt4w7xl",
+    "sessionId": "ZYNUKv1Y",
+    "runId": "lCjLWxRa",
+    "sequence": 3,
+    "title": "Ограничить сессию установкой и проверкой готовности",
+    "summary": "",
+    "body": [
+      "В начале документа явно задать границы установщика. Убрать обязательное чтение README/AGENTS, общих прикладных скиллов и описание frontend-архитектурных правил. Зависимость браузерной проверки от apps/react-admin-panel/AGENTS.md заменить минимальными командами установки инструмента, собственной сессии, snapshot, errors и close, сверенными с установленным agent-browser --help. Подготовка skills остаётся для будущего агента; Relay используется только для установки базы и собственной истории этого поручения. Проверить Markdown, bash-синтаксис и отсутствие перенаправления к инструкциям разработки."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T22:30:42.569Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T22:30:42.569Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T22:30:42.569Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
