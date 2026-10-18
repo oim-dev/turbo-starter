@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "jM2lh0is",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "jM2lh0is",
+    "key": "CP-jM2lh0is",
+    "sessionId": "37xkE7ZH",
+    "runId": "BhuCSkcG",
+    "sequence": 7,
+    "title": "Автоподготовка worktree проверена реальным запуском и замером",
+    "summary": "",
+    "body": [
+      "## Реализация",
+      "worktree:create после создания копии/env/снимка выполняет pnpm install --frozen-lockfile и pnpm run setup в worktree с очищенным от управляемых параметров родительским окружением. Статус prepared выставляется только после успеха. Общая блокировка реестра освобождается перед долгой установкой, индивидуальная блокировка сохраняется. README и существующий DOC-14 обновлены.",
+      "",
+      "## Реальный замер",
+      "Создан чистый worktree bootstrap-timing-mvecrkly из HEAD b899ea50e0b64c939c62f73f2ac29960410c0fc9 штатной доработанной командой в ~/worktrees на том же файловом разделе. Создание и env: 1.248 с; установка зависимостей: 1.355 с; шесть skills и agents:build: 12.749 с; всего 15.352 с. Установлены 953 пакета, downloaded 0, использован существующий pnpm-store с hard links. Скиллы реально восстановлены из репозиториев; наличие всех шести SKILL.md проверено, git status копии чистый, prepared подтверждён. Во время install проверено: registry.lock свободен, instance lock удерживается.",
+      "",
+      "## Отказы и очистка",
+      "Две отдельные проверки с контролируемым отказом install и setup подтвердили: create завершается ошибкой, phase остаётся creating, up блокируется; параметры родительского окружения не протекают в установку. Проверочные копии удалены штатно, основной benchmark worktree также удалён после замера. Docker-сервисы не запускались; docker ps пуст. Артефакты замера и проверок сохранены в .artifacts/worktrees/bootstrap-timing-mvecrkly/ (create.log, timings.json, failure-checks.json).",
+      "",
+      "## Далее",
+      "Завершить проверку сохранённой инструкции DOC-14 и итоговую сверку Git, передать пользователю реальные времена и условия замера. В предложении общего протокола отдельные install/setup основного агента теперь заменяются ожиданием успешного worktree:create."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T21:46:45.578Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "progress",
+    "intentId": "F1al4IQc",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T21:46:45.578Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T21:46:45.578Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
