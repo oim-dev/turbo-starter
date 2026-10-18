@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "07mE4hsV",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "07mE4hsV",
+    "key": "S-07mE4hsV",
+    "title": "Разделить README и инструкции AI-агента",
+    "description": [
+      "Пользователь требует чётко разделить назначение документов: README объясняет проект, агентский порядок работы находится в AGENTS.md и должен быть продуманным, информативным и кратким. Удалить из README сценарий входа AI-агента и служебные указания, оставить описание роли Relay, подготовки и запуска проекта. Сверить существующий AGENTS.md, убрать избыточность и сохранить обязательные правила без механического копирования. Актуализировать навигационный DOC-15. Проверить Markdown, ссылки и отсутствие дублирующего протокола."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "ij6WGXxF",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-10-18T21:05:03.181Z",
+    "updatedAt": "2026-10-18T21:05:03.181Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-10-18T21:05:03.181Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T21:05:03.181Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
