@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "fLIv6gSO",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "fLIv6gSO",
+    "key": "CP-fLIv6gSO",
+    "sessionId": "ZBRnRMBK",
+    "runId": "mv6sg00v",
+    "sequence": 9,
+    "title": "Установка базы сохранена; наполнение ожидает решения дефекта",
+    "summary": "Диагностика закончена, передача — файлом. Основная база доступна локально, Web остановлен; библиотека ещё пуста.",
+    "body": [
+      "## Состояние",
+      "Relay 0.12.0 установлен штатным Git init. Основная база turbo-starter (lHAg5ziz) привязана к репозиторию, расположена в /home/gromov/.relay/turbo-starter-39c984edfc303e6aaf6097c1c03dbe8f, ветка relay-data. Пользователь поручил наполнять только документы; паспорт и другие предметные сущности не заполнены. Исходники проекта не менялись.",
+      "",
+      "## Блокер совместной работы",
+      "Подтверждён STORAGE_BUSY при записи в Git-базу с работающим Relay Server и задержкой Git-синхронизации. Диагностическое намерение CP-eTKP93cW закрыто результатом CP-MLKya0mi. По выбору пользователя подготовлен файл для передачи разработчику: .artifacts/dev-agents/relay-repro/relay-0.12.0-storage-busy.tar.gz. Полный отчёт .artifacts/dev-agents/relay-repro/BUG-REPORT.md. Внешний issue не создавался. Основной сервер на 4700 и все собственные тестовые серверы остановлены; локальная запись проверена и работает.",
+      "",
+      "## Продолжение переноса знаний",
+      "После исправления либо явного выбора временного local-режима вернуться к исходному предложению документов. Предварительный состав: карта монорепозитория; архитектура React SPA; архитектура Next.js/SSR; backend и миграции; OpenAPI/SDK; авторизация и сессии; роли и permissions; Keycloak; изображения; файлы и версии; локальный запуск/инфраструктура; env; worktree; генерация TSX и правила разработки; проверки; правила ведения базы знаний Relay. Источники: корневой и прикладные README/AGENTS.md, apps/nest-backend/docs, apps/react-admin-panel/docs и встроенные README auth/transport, packages/*-rest-api-sdk/README.md, infra/dev/README.md, docs/development. Датированные QA-отчёты требуют обозначения исторического статуса. Состав ещё не представлен для согласования и не создан в библиотеке.",
+      "",
+      "## Следующий шаг",
+      "Пользователь передаёт архив разработчику Relay. При продолжении прочитать session context и session intents, возобновить S-ZBRnRMBK, повторить reproducer на исправленной версии и затем согласовать состав документов. Не инициализировать существующую базу повторно."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T14:45:39.733Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "progress",
+    "intentId": "u2GBHjyC",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T14:45:39.733Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T14:45:39.733Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
