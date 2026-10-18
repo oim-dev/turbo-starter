@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "TKDlQVml",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "TKDlQVml",
+    "key": "CP-TKDlQVml",
+    "sessionId": "KPFWIYiG",
+    "runId": "nY4CGgGI",
+    "sequence": 6,
+    "title": "Compose и потребители согласованы, структурные проверки пройдены",
+    "summary": "",
+    "body": [
+      "## Изменения",
+      "В Compose удалены profiles storage/images, все пять сервисов включены по умолчанию. infra:dev:up/down напрямую управляют полным Compose, специальные storage/images scripts удалены. Из snapshot/compose worktree удалён жёсткий профиль. Обновлены README корня, infra/dev, инструкция нового проекта и две ссылки документации backend.",
+      "",
+      "## Проверки",
+      "Config текущей среды валиден, config с dev-примером показывает пять сервисов без профиля. Эффективная новая конфигурация целиком сопоставлена с исходной из HEAD с включённым images после удаления полей profiles: совпадают все сервисы, зависимости, параметры, volumes и сети. Проверены экспортируемые snapshot/compose на временной среде с примерами env: все сервисы сохраняются, minio healthy → minio-init completed → imgproxy, имена volumes и метки образов worktree корректны. Фикстура удалена. Node syntax, JSON, Markdown, env:check и git diff --check прошли; устаревших команд/профилей в исходниках и текущих документах нет.",
+      "",
+      "## Ограничение dry-run",
+      "Установлен Docker Compose 5.3.1. Dry-run основного окружения обращается к состоянию остановленного MinIO и завершается ошибкой зависимости; на новом имени проекта dry-run с --wait и без него показывает последовательность запуска, но не завершается и прерван таймаутом. Проверка dry-run не считается успешной. Реальный запуск не выполнялся. Состояние повторно проверено: все контейнеры остановлены, три volumes основного проекта существуют, новые проверочные контейнеры не созданы.",
+      "",
+      "## Далее",
+      "Сохранить новый контракт отдельным проектным решением инфраструктуры, завершить итоговую сверку и передать пользователю команды и ограничения проверки."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T21:21:07.940Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "progress",
+    "intentId": "OCFP66N1",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T21:21:07.940Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T21:21:07.940Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
