@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "8qH4LH1e",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "8qH4LH1e",
+    "key": "CP-8qH4LH1e",
+    "sessionId": "ZZREzhFf",
+    "runId": "LFjz09hH",
+    "sequence": 3,
+    "title": "Сопоставить справочник шаблона с исходниками",
+    "summary": "",
+    "body": [
+      "## Цель",
+      "Составить краткую карту Turbo Starter: приложения, инфраструктура, контракты API, основные сценарии и обязательные правила дальнейших изменений.",
+      "",
+      "## Основания и порядок",
+      "Прочитаны корневые конфигурации, README приложений и AGENTS.md; подключение Relay подтверждено для turbo-starter, выполнены overview и список template-documentation. Прочитать целиком выбранные DOC-2 и DOC-4, затем сверить их с entrypoint, маршрутизацией, модулями, Prisma и пакетами SDK. Справочник шаблона использовать как описание исходной основы. Контекст предыдущей завершённой сессии объясняет существующую правку README.md.",
+      "",
+      "## Проверка",
+      "Выборочное чтение исходников и итоговый git status. Работа ознакомительная, функциональная приёмка приложений не входит в поручение. Историю исследования и краткий итог сохранить в этой сессии. Relay Web отвечает HTTP 200 на http://localhost:4700/."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T20:45:04.718Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T20:45:04.718Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T20:45:04.718Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
