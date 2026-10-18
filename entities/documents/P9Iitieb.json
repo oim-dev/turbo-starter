@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "document",
   "id": "P9Iitieb",
-  "revision": 2,
+  "revision": 3,
   "key": "DOC-8",
   "aliases": [],
   "data": {
@@ -177,7 +177,7 @@
     ],
     "documentKind": "description",
     "sectionId": "template-documentation",
-    "documentStatus": "draft",
+    "documentStatus": "active",
     "pinned": false,
     "relations": [
       {
@@ -225,6 +225,6 @@
   },
   "createdAt": "2026-10-18T20:06:07.764Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-10-18T20:10:30.698Z",
+  "updatedAt": "2026-10-18T20:13:01.444Z",
   "updatedBy": "openai/gpt-6-astra"
 }
