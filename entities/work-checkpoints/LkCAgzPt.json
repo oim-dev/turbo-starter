@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "LkCAgzPt",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "LkCAgzPt",
+    "key": "CP-LkCAgzPt",
+    "sessionId": "mXOaJ9QQ",
+    "runId": "b9i3qgOS",
+    "sequence": 3,
+    "title": "Разделить локальный запуск и создание проекта, оставить один справочный раздел",
+    "summary": "",
+    "body": [
+      "В README объединить установку зависимостей, setup и локальный запуск в раздел «Подготовка и запуск». Получение шаблона через tiged, git init и переименование проекта оставить в каноническом docs/development/new-project-setup.md, из README дать ссылку. Удалить из README раздел «Документация стартового шаблона», перенести его понятное описание и команду выбора документов в одноимённый раздел AGENTS.md. Обновить ссылку AGENTS на переименованный раздел README. В DOC-15 сохранить навигацию к единственному месту правил шаблона вместо повторения текста. Основания: прочитаны текущие README/AGENTS, DOC-12 и DOC-15, проверено наличие полной инструкции создания нового проекта. Проверка: Markdown, локальные ссылки и якоря, отсутствие tiged и дублирующего раздела в README, git diff --check."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T21:00:47.509Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T21:00:47.509Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T21:00:47.509Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
