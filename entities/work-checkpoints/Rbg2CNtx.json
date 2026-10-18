@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "Rbg2CNtx",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "Rbg2CNtx",
+    "key": "CP-Rbg2CNtx",
+    "sessionId": "CS2cQEFr",
+    "runId": "EtPi4VLM",
+    "sequence": 3,
+    "title": "Закрепить весь цикл от постановки задачи до интеграции",
+    "summary": "",
+    "body": [
+      "Добавить в AGENTS.md после общих правил выполнения два раздела: «Постановка задач» и «Параллельное исполнение». Первый задаёт самостоятельность задач, полноту постановки, владельцев общих контрактов и реальные зависимости/критерии. Второй распределяет действия основного агента и исполнителя: готовая база, worktree:create с автоподготовкой, fork до запуска, background/cwd, attach собственного run, изолированный runtime, checkpoints с местом работы, коммиты и review, проверка и последовательный merge без PR, явное принятие и done, остановка/очистка. Дать ссылки на TASKS/PLANNING/HISTORY и DOC-14 вместо копирования подробной справки. Проверить соответствие ранее прочитанным правилам Relay, наличие ссылок и Markdown. Новых документов библиотеки не создавать."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T21:50:32.943Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T21:50:32.943Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T21:50:32.943Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
