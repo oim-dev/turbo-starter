@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "flRyDb0b",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "flRyDb0b",
+    "key": "CP-flRyDb0b",
+    "sessionId": "BQ2KLiUt",
+    "runId": "17zHOixa",
+    "sequence": 3,
+    "title": "Проверить достаточность Relay для удаления девяти MD",
+    "summary": "Полная сверка локальных источников с DOC-5..DOC-11 без изменений файлов и библиотеки.",
+    "body": [
+      "## Поручение",
+      "Прочитать девять Markdown-файлов в apps/nest-backend/docs и apps/react-admin-panel/docs, сопоставить с полными DOC-5..DOC-11 существующего проекта turbo-starter (project-0dr4, lHAg5ziz). Основной агент удаляет дубли и занимается корневым правилом и ссылками. Пользователю нужны полезные знания, а не новые отчётные документы.",
+      "",
+      "## Границы",
+      "Read-only по файлам и библиотеке; разрешены только записи собственной истории. Работа в общей копии /home/gromov/projects/biocad/turbo-starter, ветка main, без worktree и других агентов. README и AGENTS остаются. Исторические QA-отчёты и команды, уже имеющиеся в README, не считать основанием для новых документов.",
+      "",
+      "## Проверка и результат",
+      "Прочитать полные источники, при обнаружении существенного непокрытого контракта адресно проверить код/потребителей. Подготовить таблицу каждый локальный файл → Relay → достаточно либо важный пробел. Отдельно оценить блокирует ли пробел удаление. Сохранить выводы и фактические проверки в result, закрыть сессию и передать основной сессии ключ результата."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T22:50:28.128Z",
+    "createdBy": "gpt-6-astra-docs-audit",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T22:50:28.128Z",
+  "createdBy": "gpt-6-astra-docs-audit",
+  "updatedAt": "2026-10-18T22:50:28.128Z",
+  "updatedBy": "gpt-6-astra-docs-audit"
+}
