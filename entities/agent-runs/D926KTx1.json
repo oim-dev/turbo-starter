@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "agent-run",
   "id": "D926KTx1",
-  "revision": 1,
+  "revision": 2,
   "key": null,
   "aliases": [],
   "data": {
@@ -23,18 +23,20 @@
     "client": "opencode",
     "sourceSessionId": null,
     "startedAt": "2026-10-18T21:23:32.909Z",
-    "endedAt": null,
+    "endedAt": "2026-10-18T21:25:07.087Z",
     "startedSequence": 2,
-    "endedSequence": null,
-    "endReason": null,
+    "endedSequence": 7,
+    "endReason": "completed",
     "predecessorRunId": null,
     "reason": [
       ""
     ],
-    "endSummary": null
+    "endSummary": [
+      "Удалены DOC-16 «Единое dev-окружение Docker Compose» и DOC-15 «Работа с проектом через Relay»; отсутствие подтверждено списками соответствующих разделов. В AGENTS.md добавлены правила полезности библиотеки, приоритета существующих источников и хранения отчётов в сессиях/checkpoints и задачах. Новых документов не создано. Markdown и git diff --check прошли. Результаты: CP-qW8NH0fF и CP-Sz5jdqIz."
+    ]
   },
   "createdAt": "2026-10-18T21:23:32.909Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-10-18T21:23:32.909Z",
+  "updatedAt": "2026-10-18T21:25:07.087Z",
   "updatedBy": "openai/gpt-6-astra"
 }
