@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "F1al4IQc",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "F1al4IQc",
+    "key": "CP-F1al4IQc",
+    "sessionId": "37xkE7ZH",
+    "runId": "BhuCSkcG",
+    "sequence": 6,
+    "title": "Подготавливать зависимости и скиллы при создании worktree",
+    "summary": "",
+    "body": [
+      "Пользователь выделил предварительную установку skills как проблему, которую нужно решить сейчас до внедрения предложенного протокола. Доработать scripts/worktrees/cli.mjs: worktree:create должен автоматически устанавливать зависимости и выполнять setup в созданной копии, а prepared выставлять только после успешной подготовки. Проверить изоляцию окружения, отказ на незавершённой подготовке и фактическую доступность skills новому агенту. Согласовать краткую документацию и существующий DOC-14; новых документов библиотеки не создавать. Предложение общего протокола из CP-vvKrlXOk остаётся проектом правил, к файлам ещё не применялось."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T21:39:26.772Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T21:39:26.772Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T21:39:26.772Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
