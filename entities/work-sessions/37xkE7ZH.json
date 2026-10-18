@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "work-session",
   "id": "37xkE7ZH",
-  "revision": 7,
+  "revision": 8,
   "key": null,
   "aliases": [],
   "data": {
@@ -17,19 +17,19 @@
     "originCheckpointId": null,
     "createdByRunId": null,
     "parentSequence": null,
-    "status": "open",
-    "currentRunId": "BhuCSkcG",
-    "sequence": 8,
+    "status": "completed",
+    "currentRunId": null,
+    "sequence": 10,
     "result": [
-      ""
+      "Подготовлено предложение параллельного выполнения задач (CP-vvKrlXOk). По уточнению пользователя сразу устранён bootstrap-пробел: worktree:create сам устанавливает зависимости/skills и выставляет prepared только после успеха; долгая подготовка освобождает общую блокировку. Реальный полный замер доработанной команды: 15,352 с, из них 1,248 с копия/env, 1,355 с зависимости, 12,749 с шесть skills и agents:build; использован тёплый pnpm-store. Проверены реальные файлы, готовность, блокировки, ошибки install/setup и изоляция среды. Тестовые копии/ветки убраны, артефакты сохранены в .artifacts/worktrees/bootstrap-timing-mvecrkly/. README и DOC-14 актуализированы; общий агентский протокол ещё не применён. Полный итог доработки и замера — CP-YgGyfN2O."
     ],
     "createdAt": "2026-10-18T21:36:05.931Z",
-    "updatedAt": "2026-10-18T21:47:52.541Z",
-    "closedAt": null,
-    "revision": 7
+    "updatedAt": "2026-10-18T21:48:00.275Z",
+    "closedAt": "2026-10-18T21:48:00.275Z",
+    "revision": 8
   },
   "createdAt": "2026-10-18T21:36:05.931Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-10-18T21:47:52.541Z",
+  "updatedAt": "2026-10-18T21:48:00.275Z",
   "updatedBy": "openai/gpt-6-astra"
 }
