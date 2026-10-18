@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "mdXOqLzd",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "mdXOqLzd",
+    "key": "CP-mdXOqLzd",
+    "sessionId": "0G38DPYy",
+    "runId": "mEyZrFQV",
+    "sequence": 3,
+    "title": "Проверить состав, создать коммит и выполнить push",
+    "summary": "",
+    "body": [
+      "В main изменены десять согласованных файлов: AGENTS/README, Compose и корневые скрипты, два worktree-helper и связанные инструкции запуска. Выполнен git diff --check, замечаний нет. Проверки реализации уже сохранены в предыдущих сессиях: Compose/config/снимки/env, реальный bootstrap worktree и ошибки установки, Markdown/ссылки. Прочитать итоговый diff, обновить сведения origin, явно добавить только перечисленные файлы, проверить staged diff, создать обычный коммит и push origin main. Подтвердить чистый статус и совпадение локального/удалённого коммита."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T22:03:47.795Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T22:03:47.795Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T22:03:47.795Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
