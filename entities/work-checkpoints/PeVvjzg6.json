@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "PeVvjzg6",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "PeVvjzg6",
+    "key": "CP-PeVvjzg6",
+    "sessionId": "hDiejhuF",
+    "runId": "7B8e4tQX",
+    "sequence": 4,
+    "title": "Инструкция установки обходится без артефактов и DOC-ссылок",
+    "summary": "",
+    "body": [
+      "В docs/development/new-project-setup.md убраны создание .artifacts, сохранение relay/dev логов в отдельные файлы, требование собирать скриншоты/трассировки/отчёты и передавать пути к ним. Ошибки браузера и логи приложений проверяются на месте, результаты описываются в установочной сессии Relay, сохраняются способы остановки процессов.",
+      "",
+      "Ссылка на импортированный DOC-14 заменена прямым объяснением: origin указывает на новый репозиторий; при работе без origin во все worktree-команды передаётся одинаковый --repo с его URL. Создание worktree не является шагом установки. В начале закреплена автономность от библиотеки Relay. Существующий DOC-12 согласован с передачей результатов вместо файлов логов и перечитан.",
+      "",
+      "Поиск не находит в инструкции DOC-ключей, .artifacts и требований сохранять артефакты/логи. Markdown, bash-синтаксис и git diff --check прошли. Новые документы библиотеки и файлы проверок не создавались."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [
+      {
+        "ref": {
+          "kind": "document",
+          "id": "keC6UW0i"
+        },
+        "key": "DOC-12",
+        "title": "Установка и запуск нового проекта"
+      }
+    ],
+    "createdAt": "2026-10-18T22:27:21.838Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "result",
+    "intentId": "gdz7qt2w",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T22:27:21.838Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T22:27:21.838Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
