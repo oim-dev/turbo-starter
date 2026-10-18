@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "KPFWIYiG",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "KPFWIYiG",
+    "key": "S-KPFWIYiG",
+    "title": "Упростить Compose и команды dev-инфраструктуры",
+    "description": [
+      "Пользователь просит исправить сам Compose и команды, чтобы полная dev-инфраструктура запускалась как dev-окружение, а не через профиль изображений. До изменений убедиться, что все контейнеры проекта остановлены. Определить принадлежащие проекту контейнеры, остановить их без удаления данных, изучить Compose и его потребителей, согласовать обычный запуск всего окружения и обновить команды/документацию. Проверить конфигурацию и связанные сценарии без самовольного запуска остановленной инфраструктуры."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "nY4CGgGI",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-10-18T21:14:02.020Z",
+    "updatedAt": "2026-10-18T21:14:02.020Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-10-18T21:14:02.020Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T21:14:02.020Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
