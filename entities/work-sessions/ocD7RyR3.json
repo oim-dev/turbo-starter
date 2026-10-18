@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "ocD7RyR3",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "ocD7RyR3",
+    "key": "S-ocD7RyR3",
+    "title": "Уточнение назначения документации стартового шаблона",
+    "description": [
+      "Пользователь предложил заменить статический перечень документов в README командой npx @oim-dev/relay-cli document list --section template-documentation, чтобы агент выбирал чтение по актуальным аннотациям. Затем уточнил: это документы исходного шаблона, а не развиваемого проекта; они нужны для понимания стартовой основы и не обновляются по мере дальнейшей разработки проекта. Обновить раздел README и вводный DOC-2, явно отделив справочник шаблона от проектных требований и текущей реализации. Проверить команду списка, Markdown и сохранённый текст. Коммит и push новых изменений этим поручением не запрошены."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "aDl1G570",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-10-18T20:40:02.284Z",
+    "updatedAt": "2026-10-18T20:40:02.284Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-10-18T20:40:02.284Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T20:40:02.284Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
