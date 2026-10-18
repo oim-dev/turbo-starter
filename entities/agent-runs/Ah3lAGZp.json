@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "agent-run",
   "id": "Ah3lAGZp",
-  "revision": 1,
+  "revision": 2,
   "key": null,
   "aliases": [],
   "data": {
@@ -23,18 +23,20 @@
     "client": "opencode",
     "sourceSessionId": null,
     "startedAt": "2026-10-18T19:25:00.804Z",
-    "endedAt": null,
+    "endedAt": "2026-10-18T19:29:47.735Z",
     "startedSequence": 2,
-    "endedSequence": null,
-    "endReason": null,
+    "endedSequence": 6,
+    "endReason": "completed",
     "predecessorRunId": null,
     "reason": [
       ""
     ],
-    "endSummary": null
+    "endSummary": [
+      "Создан и проверен DOC-1 «Turbo Starter — устройство шаблона и готовые возможности», ревизия 2: действующее закреплённое описание в architecture. Он предназначен для первичного контекста агента и описывает состав, готовые реализации, границы Next-сайта, архитектурных владельцев, инструменты и источники. Все 42 пути существуют, полный сохранённый текст совпал с подготовленным Markdown, doctor check прошёл. В библиотеке один документ; логи и отчёты в неё не добавлялись. Предложение шести следующих руководств и их источники сохранено в CP-mGsl7sqQ: архитектура/расширение, локальная среда/worktree, REST/SDK, auth/access/Keycloak, изображения, файлы/версии. Следующим рекомендовано руководство по архитектуре. Остальные документы пока только предложены; паспорт и прочие предметные сущности не заполнялись. Relay Web остаётся доступен на http://127.0.0.1:4700/."
+    ]
   },
   "createdAt": "2026-10-18T19:25:00.804Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-10-18T19:25:00.804Z",
+  "updatedAt": "2026-10-18T19:29:47.735Z",
   "updatedBy": "openai/gpt-6-astra"
 }
