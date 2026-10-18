@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "P9Y3Uprt",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "P9Y3Uprt",
+    "key": "CP-P9Y3Uprt",
+    "sessionId": "ZZREzhFf",
+    "runId": "LFjz09hH",
+    "sequence": 5,
+    "title": "Первичное знакомство с Turbo Starter завершено",
+    "summary": "",
+    "body": [
+      "## Результат",
+      "Изучены инструкции AGENTS.md, архитектурные профили frontend и основы Unit Architecture/React Reference, README корня и приложений/инфраструктуры/SDK, workspace-команды и Turbo, документы Relay DOC-2 и DOC-4. Описание сверено с маршрутизатором админки, framework-файлами и HomeScreen сайта, тремя NestJS-модулями запуска, Prisma schema, AdminPermissionsGuard, ApiConfig и публичными frontend-фасетами авторизации/API.",
+      "",
+      "## Карта проекта",
+      "- apps/next-web-app: Next.js 16, React 19 и Mantine; одна стартовая прикладная страница без API, сохранены отдельные server/client API-фасеты.",
+      "- apps/react-admin-panel: Vite SPA, React Router, Mantine, SWR/Zustand; вход и профиль, административные аккаунты, роли/permissions, Keycloak, медиатека и документы с версиями. Предметная область нового приложения зарезервирована в domains/application.",
+      "- apps/nest-backend: NestJS 11 и Prisma 7; Client API, Admin API и image worker. PostgreSQL хранит метаданные и сессии, MinIO — объекты, RabbitMQ/imgproxy обслуживают обработку изображений.",
+      "- packages: два REST SDK из OpenAPI, общие конфигурации TypeScript/ESLint и dev-agents; реестр агентов пуст.",
+      "- scripts: проверка env и изолированные worktree-окружения; команды dev/build/lint/check-types организованы через pnpm/Turborepo.",
+      "",
+      "## Существенные контракты",
+      "Контуры Client/Admin независимы по аккаунтам и Bearer-сессиям. JWT действует 604800 секунд, refresh отсутствует. AdminPermissionsGuard проверяет текущую роль из БД и запрещает закрытый endpoint без явных прав. Документы разделены на StoredFile/FileVersion/FileBlob/FileUpload; текущая версия задаётся currentVersionId. Изображения имеют scope-владение, задания и outbox. Приватные данные Next.js загружаются только в браузере после проверки сессии.",
+      "",
+      "## Проверки и границы",
+      "Выполнено выборочное чтение кода и полное чтение названных документов; это ознакомление, не полный аудит или функциональная приёмка. Build/lint/check-types и запуск приложений не выполнялись. Итоговый git status совпадает с исходным: main, только ранее существовавшая правка README.md. Исходники и env не изменялись. Relay Web доступен на http://localhost:4700/ через существующий процесс.",
+      "",
+      "## Продолжение",
+      "Для следующего конкретного поручения выбрать владельца, прочитать профильные материалы по затронутой области и выполнить предусмотренные проектом проверки. Справочник template-documentation остаётся описанием исходного шаблона; новые продуктовые решения документируются отдельно."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [
+      {
+        "ref": {
+          "kind": "document",
+          "id": "anndkBeV"
+        },
+        "key": "DOC-2",
+        "title": "Turbo Starter: назначение и возможности шаблона"
+      },
+      {
+        "ref": {
+          "kind": "document",
+          "id": "S9AdmhoT"
+        },
+        "key": "DOC-4",
+        "title": "Архитектура, приложения и пакеты"
+      }
+    ],
+    "createdAt": "2026-10-18T20:45:56.814Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "result",
+    "intentId": "8qH4LH1e",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T20:45:56.814Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T20:45:56.814Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
