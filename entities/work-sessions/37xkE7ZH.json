@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "37xkE7ZH",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "37xkE7ZH",
+    "key": "S-37xkE7ZH",
+    "title": "Спроектировать правила параллельной разработки через Relay и worktree",
+    "description": [
+      "Пользователь просит предложить оформление агентских инструкций: создавать самодостаточные задачи для 3–5–10 и более параллельных исполнителей; задачи разработки делегировать субагентам, в фоне при поддержке среды; основной агент заранее готовит worktree и дочерние сессии Relay; исполнитель подключается, регистрируется, запускает нужное окружение, ведёт checkpoints и передаёт результат; основной проверяет и интегрирует изменения в свою ветку без PR. Подготовить продуманный краткий проект правил с учётом действующих механизмов, без применения к файлам или запуска исполнителей."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "BhuCSkcG",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-10-18T21:36:05.931Z",
+    "updatedAt": "2026-10-18T21:36:05.931Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-10-18T21:36:05.931Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T21:36:05.931Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
