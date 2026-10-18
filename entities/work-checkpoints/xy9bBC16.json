@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "xy9bBC16",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "xy9bBC16",
+    "key": "CP-xy9bBC16",
+    "sessionId": "JBvD3VJm",
+    "runId": "os1rWPZt",
+    "sequence": 3,
+    "title": "Проверить отдельные документы и покрытие в Relay",
+    "summary": "",
+    "body": [
+      "Уточнение пользователя: агентские инструкции и README не удалять. Область удаления — отдельные документы docs-каталогов и аналогичных мест; README/AGENTS исключены. Корневой AGENTS дополняется только прямо запрошенным правилом создания Markdown. Изучить перечень отслеживаемых MD, содержание кандидатов и покрытие существующим справочником Relay. Найти ссылки на удаляемые файлы и учитывать ограничение на сопутствующие правки. Сохранить пользовательские изменения docs/development/new-project-setup.md — это явно необходимое исключение. Новые документы библиотеки не создавать автоматически вместо удаляемых."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T22:49:14.165Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T22:49:14.165Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T22:49:14.165Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
