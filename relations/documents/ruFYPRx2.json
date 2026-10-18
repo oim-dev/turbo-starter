@@ -9,6 +9,7 @@
     {
       "slot": "document-links",
       "edge": {
+        "id": "GKDSRmBg",
         "type": "documents",
         "from": {
           "kind": "document",
@@ -19,15 +20,40 @@
           "id": "lHAg5ziz"
         },
         "description": [
-          "Инвентаризация реализованных возможностей и границ текущего шаблона."
+          "Описывает соответствующую область шаблона Turbo Starter."
         ],
-        "id": "GKDSRmBg",
+        "revision": 2,
+        "source": "graph",
+        "createdBy": "openai/gpt-6-astra",
+        "createdAt": "2026-10-18T20:05:32.995Z",
+        "active": true,
+        "updatedAt": "2026-10-18T20:10:19.217Z",
+        "updatedBy": "openai/gpt-6-astra",
+        "historyCount": 2
+      }
+    },
+    {
+      "slot": "document-links",
+      "edge": {
+        "type": "references",
+        "from": {
+          "kind": "document",
+          "id": "anndkBeV"
+        },
+        "to": {
+          "kind": "document",
+          "id": "ruFYPRx2"
+        },
+        "description": [
+          "Материал для подробного чтения по ссылке из DOC-2; раскрывает соответствующую область шаблона."
+        ],
+        "id": "TxhG1DOB",
         "revision": 1,
         "source": "graph",
-        "createdAt": "2026-10-18T20:05:32.995Z",
+        "createdAt": "2026-10-18T20:10:19.217Z",
         "createdBy": "openai/gpt-6-astra",
         "active": true,
-        "updatedAt": "2026-10-18T20:05:32.995Z",
+        "updatedAt": "2026-10-18T20:10:19.217Z",
         "updatedBy": "openai/gpt-6-astra"
       }
     }
