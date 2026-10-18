@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "work-session",
   "id": "ocD7RyR3",
-  "revision": 3,
+  "revision": 4,
   "key": null,
   "aliases": [],
   "data": {
@@ -17,19 +17,19 @@
     "originCheckpointId": null,
     "createdByRunId": null,
     "parentSequence": null,
-    "status": "open",
-    "currentRunId": "aDl1G570",
-    "sequence": 4,
+    "status": "completed",
+    "currentRunId": null,
+    "sequence": 6,
     "result": [
-      ""
+      "README упрощён до получения списка раздела template-documentation и самостоятельного выбора чтения по аннотациям. В README и вводном DOC-2 явно закреплено: это фиксированный справочник исходного шаблона, который не актуализируется при развитии производного проекта; проектная документация ведётся отдельно. Команда списка, полный текст DOC-2, Markdown README и git diff --check проверены. Итог CP-fpL5yRoB. В рабочем дереве только изменение README.md, коммит не выполнялся."
     ],
     "createdAt": "2026-10-18T20:40:02.284Z",
-    "updatedAt": "2026-10-18T20:41:30.458Z",
-    "closedAt": null,
-    "revision": 3
+    "updatedAt": "2026-10-18T20:41:39.832Z",
+    "closedAt": "2026-10-18T20:41:39.832Z",
+    "revision": 4
   },
   "createdAt": "2026-10-18T20:40:02.284Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-10-18T20:41:30.458Z",
+  "updatedAt": "2026-10-18T20:41:39.832Z",
   "updatedBy": "openai/gpt-6-astra"
 }
