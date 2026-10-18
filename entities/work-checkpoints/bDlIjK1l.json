@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "bDlIjK1l",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "bDlIjK1l",
+    "key": "CP-bDlIjK1l",
+    "sessionId": "mXOaJ9QQ",
+    "runId": "b9i3qgOS",
+    "sequence": 4,
+    "title": "README сфокусирован на запуске текущего проекта",
+    "summary": "",
+    "body": [
+      "В README удалены команды tiged, cd нового проекта, git init и переименование package.json. Подготовка зависимостей, обязательный setup и запуск инфраструктуры/приложений объединены в «Подготовка и запуск»; создание нового проекта доступно по ссылке на docs/development/new-project-setup.md. Раздел о документации стартового шаблона удалён из README, его понятный текст перенесён в единственный одноимённый раздел AGENTS.md. Ссылка AGENTS на подготовку обновлена под новый якорь. Далее: актуализировать навигацию DOC-15, проверить Markdown, ссылки, отсутствие дублей и diff."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T21:01:31.288Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "progress",
+    "intentId": "LkCAgzPt",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T21:01:31.288Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T21:01:31.288Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
