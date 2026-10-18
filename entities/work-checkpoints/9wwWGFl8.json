@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "9wwWGFl8",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "9wwWGFl8",
+    "key": "CP-9wwWGFl8",
+    "sessionId": "ocD7RyR3",
+    "runId": "aDl1G570",
+    "sequence": 3,
+    "title": "Сделать справочник шаблона явной точкой ознакомления",
+    "summary": "",
+    "body": [
+      "Заменить таблицы ключей и обязательный порядок чтения в README компактным описанием фиксированного справочника шаблона, командой document list --section template-documentation и чтением выбранного ключа через document get. Явно указать: материалы описывают исходный шаблон, не актуализируются при развитии производного проекта и не заменяют его собственную документацию. Добавить такое же пояснение в начало DOC-2 по прочитанной ревизии. Проверить сохранённое содержание, работу команды списка и git diff --check."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T20:40:10.297Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T20:40:10.297Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T20:40:10.297Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
