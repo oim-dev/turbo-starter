@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "qVZhBDIh",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "qVZhBDIh",
+    "key": "CP-qVZhBDIh",
+    "sessionId": "ps78GjDc",
+    "runId": "DjcvdH8N",
+    "sequence": 3,
+    "title": "Сопоставить документы и перенести уникальные инструкции",
+    "summary": "",
+    "body": [
+      "## План",
+      "Прочитать images-implementation.md, new-project-setup.md, skills.md, worktrees.md и действующие документы Relay по изображениям и разработке. Проверить подходящие разделы и отсутствие дублей. Сохранить самостоятельные инструкции по их предмету, дополнить существующие документы при необходимости. Обновить ссылки в Git и Relay, затем удалить локальные источники.",
+      "",
+      "## Проверка",
+      "Перед изменением читать полное содержание и ревизии. После записи сравнить полный текст и прикрепления, проверить все DOC-ключи и пути источников. Поиск по репозиторию и действующим документам Relay должен подтвердить отсутствие ссылок на удалённые пути. Проверки Markdown и git diff --check; дополнительная проверка зависит от затронутых владельцев документации. Никаких автоматических повторов неопределённых операций записи."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T20:21:45.588Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T20:21:45.588Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T20:21:45.588Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
