@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "agent-run",
   "id": "5RTuqoBe",
-  "revision": 1,
+  "revision": 2,
   "key": null,
   "aliases": [],
   "data": {
@@ -23,18 +23,20 @@
     "client": "opencode",
     "sourceSessionId": null,
     "startedAt": "2026-10-18T21:59:39.702Z",
-    "endedAt": null,
+    "endedAt": "2026-10-18T22:01:02.754Z",
     "startedSequence": 2,
-    "endedSequence": null,
-    "endReason": null,
+    "endedSequence": 5,
+    "endReason": "completed",
     "predecessorRunId": null,
     "reason": [
       ""
     ],
-    "endSummary": null
+    "endSummary": [
+      "AGENTS.md уточнён: самостоятельная работа по умолчанию, необязательный помощник без worktree, изолированное исполнение продуктовой задачи Relay только при конкретной необходимости. Фон и наличие задачи не требуют worktree автоматически; полный worktree/merge-протокол ограничен изолированным режимом. Markdown, ссылки и git diff --check прошли. Итог CP-p7SYKum2."
+    ]
   },
   "createdAt": "2026-10-18T21:59:39.702Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-10-18T21:59:39.702Z",
+  "updatedAt": "2026-10-18T22:01:02.754Z",
   "updatedBy": "openai/gpt-6-astra"
 }
