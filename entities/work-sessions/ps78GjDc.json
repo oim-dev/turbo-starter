@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "work-session",
   "id": "ps78GjDc",
-  "revision": 6,
+  "revision": 7,
   "key": null,
   "aliases": [],
   "data": {
@@ -17,19 +17,19 @@
     "originCheckpointId": null,
     "createdByRunId": null,
     "parentSequence": null,
-    "status": "open",
-    "currentRunId": "DjcvdH8N",
-    "sequence": 7,
+    "status": "completed",
+    "currentRunId": null,
+    "sequence": 9,
     "result": [
-      ""
+      "Обработаны четыре документа docs/development. Публичная инструкция new-project-setup.md сохранена в репозитории и проверена по внешнему raw URL; DOC-12 в разделе «Разработка» указывает на неё как на канонический источник. Скиллы перенесены в DOC-13 («Разработка»), worktree — в DOC-14 («Инфраструктура»); оба локальных файла удалены. images-implementation.md удалён как дубль, необходимые положения и ссылки актуализированы в DOC-8 и DOC-11. README и ссылки потребителей обновлены. Полные тексты и метаданные Relay проверены; отсутствуют ссылки на три удалённых пути, проверены 25 локальных ссылок. agents:build, agents:check, git diff --check и doctor check прошли. Полный итог и основания: CP-QeNTdbgV. В docs/development осталась только самостоятельная публичная инструкция установки."
     ],
     "createdAt": "2026-10-18T20:21:36.064Z",
-    "updatedAt": "2026-10-18T20:30:42.637Z",
-    "closedAt": null,
-    "revision": 6
+    "updatedAt": "2026-10-18T20:30:51.326Z",
+    "closedAt": "2026-10-18T20:30:51.326Z",
+    "revision": 7
   },
   "createdAt": "2026-10-18T20:21:36.064Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-10-18T20:30:42.637Z",
+  "updatedAt": "2026-10-18T20:30:51.326Z",
   "updatedBy": "openai/gpt-6-astra"
 }
