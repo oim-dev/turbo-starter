@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "ps78GjDc",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "ps78GjDc",
+    "key": "S-ps78GjDc",
+    "title": "Перенос инструкций docs/development в Relay",
+    "description": [
+      "Пользователь поручил прочитать четыре документа docs/development, удалить лишние и уже описанные в документации шаблона, а остальные перенести в соответствующие разделы Relay. Сопоставить содержание с DOC-2–DOC-11 и кодом инструментов, сохранить уникальные применимые инструкции, исключить исторические планы/дубли. После сохранения и проверки обновить ссылки в репозитории и Relay, удалить перенесённые или избыточные локальные документы. Критерии: полезное содержание доступно по реальным DOC-ключам, файлы-источники указаны от корня, удалённые пути не остаются действующими ссылками, исходный код и существующее изменение AGENTS.md сохраняются. Выбран прежний проект turbo-starter: десять действующих документов, шесть разделов, незавершённых сессий нет."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "DjcvdH8N",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-10-18T20:21:36.064Z",
+    "updatedAt": "2026-10-18T20:21:36.064Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-10-18T20:21:36.064Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T20:21:36.064Z",
+  "updatedBy": "openai/gpt-6-astra"
+}

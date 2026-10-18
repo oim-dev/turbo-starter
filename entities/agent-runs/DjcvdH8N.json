@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "agent-run",
+  "id": "DjcvdH8N",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "DjcvdH8N",
+    "key": "RUN-DjcvdH8N",
+    "sessionId": "ps78GjDc",
+    "actor": "openai/gpt-6-astra",
+    "operator": {
+      "name": "Sergei Gromov",
+      "email": "zz-gromov@ya.ru",
+      "source": "git"
+    },
+    "git": {
+      "branch": "main",
+      "commit": "824b9ee2290194e19a50b4b0918f245780f4349e"
+    },
+    "client": "opencode",
+    "sourceSessionId": null,
+    "startedAt": "2026-10-18T20:21:36.064Z",
+    "endedAt": null,
+    "startedSequence": 2,
+    "endedSequence": null,
+    "endReason": null,
+    "predecessorRunId": null,
+    "reason": [
+      ""
+    ],
+    "endSummary": null
+  },
+  "createdAt": "2026-10-18T20:21:36.064Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T20:21:36.064Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
