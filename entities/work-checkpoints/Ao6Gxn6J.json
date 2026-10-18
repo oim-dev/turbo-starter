@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "Ao6Gxn6J",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "Ao6Gxn6J",
+    "key": "CP-Ao6Gxn6J",
+    "sessionId": "ouzcKHJ7",
+    "runId": "OzhWRPzh",
+    "sequence": 4,
+    "title": "Все изменения закоммичены и отправлены в origin/main",
+    "summary": "",
+    "body": [
+      "Создан коммит b899ea50e0b64c939c62f73f2ac29960410c0fc9 — docs: перенести документацию шаблона в Relay. Включены все девять текущих файлов, в том числе AGENTS.md по прямому уточнению пользователя. Индекс прошёл git diff --cached --check. Обычный git push origin main успешен: 824b9ee → b899ea5. git ls-remote подтвердил полный SHA удалённой main, совпадающий с HEAD. git status показывает чистое рабочее дерево и main...origin/main без расхождения. Публичная инструкция установки сохранена; опубликованные знания Relay доступны по DOC-2–DOC-14."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T20:35:05.362Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "result",
+    "intentId": "c5fguusn",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T20:35:05.362Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T20:35:05.362Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
