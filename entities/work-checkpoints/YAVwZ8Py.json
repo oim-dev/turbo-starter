@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "YAVwZ8Py",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "YAVwZ8Py",
+    "key": "CP-YAVwZ8Py",
+    "sessionId": "BQ2KLiUt",
+    "runId": "17zHOixa",
+    "sequence": 5,
+    "title": "Покрытие девяти MD: семь достаточны, два узких эксплуатационных пробела",
+    "summary": "Все основные требования покрыты. Перед удалением стоит сохранить контракт настройки Keycloak и ограничения TIFF в существующих знаниях; новых документов не требуется.",
+    "body": [
+      "## Итог",
+      "",
+      "Все основные продуктовые и технические контракты девяти файлов уже представлены в DOC-5..DOC-11. Семь файлов можно убрать без дополнительного переноса знаний. У двух содержательных backend-файлов найдены короткие эксплуатационные сведения, которые в Relay раскрыты недостаточно и не продублированы в сохраняемых README. Они не оправдывают сохранение файлов целиком или создание новых документов, но чистое удаление без сохранения этих абзацев обеднит рабочие знания.",
+      "",
+      "## Таблица покрытия",
+      "",
+      "| Локальный файл | Документы Relay | Достаточность |",
+      "| --- | --- | --- |",
+      "| `apps/nest-backend/docs/admin-access.md` | DOC-6, DOC-5, DOC-7 | Достаточно: роли, каталог прав, все/любое, optimistic version, отзыв сессий, последний OWNER, activation, UI/API. Миграционные особенности остаются в backend README. |",
+      "| `apps/nest-backend/docs/admin-access-qa.md` | DOC-6, DOC-7, DOC-11 | Достаточно для устойчивых знаний. Исторические результаты 09.10, seed, encrypted secret, DATABASE_URL и старые UI-пути не переносить в библиотеку. |",
+      "| `apps/nest-backend/docs/admin-keycloak.md` | DOC-7, DOC-6, DOC-5 | Основной протокол покрыт; важный узкий пробел — точная конфигурация внешнего confidential client и discovery endpoints, см. ниже. |",
+      "| `apps/nest-backend/docs/admin-keycloak-qa.md` | DOC-7, DOC-6, DOC-11 | Достаточно для поведения. Актуальные сценарии отражены в контрактах; отчёты 07.10 с refresh, TTL env и CLI не служат действующей спецификацией. Общий с admin-keycloak.md конфигурационный нюанс не требует отдельного QA-документа. |",
+      "| `apps/nest-backend/docs/backend-startup-qa.md` | DOC-7, DOC-6, DOC-11 | Достаточно: bootstrap только пустой таблицы, независимая очистка, управление identity через UI. Старые сбросы БД, порты, даты и результаты проверок не являются знаниями для переноса. |",
+      "| `apps/nest-backend/docs/files.md` | DOC-9, DOC-10, DOC-6 | Достаточно: документ/версия/blob, произвольные файлы, multipart, SHA-256, publication/name, MIME, Range/ETag, idempotent complete и cleanup. |",
+      "| `apps/nest-backend/docs/images.md` | DOC-8, DOC-10, DOC-11 | Основной сквозной контракт покрыт; узкий эксплуатационный пробел — ограничения imgproxy для полноразмерного промежуточного TIFF, см. ниже. |",
+      "| `apps/react-admin-panel/docs/files-integration.md` | DOC-9, DOC-5, DOC-10 | Достаточно: владельцы, права, DnD новой версии, очередь/отмена/multipart, reuse, SWR, URL и текущая версия. Генерационный журнал и старые артефакты не переносить. |",
+      "| `apps/react-admin-panel/docs/images-gallery-integration.md` | DOC-8, DOC-5, DOC-10 | Достаточно: владельцы, canonical ID/reuse, единственный polling, готовый manifest/srcset, DnD, исходник и UI. Детали generation counters и внутреннего графа доступны у владельцев в коде. |",
+      "",
+      "## Два полезных дополнения без новых документов",
+      "",
+      "### 1. Keycloak: внешняя конфигурация",
+      "",
+      "В `admin-keycloak.md:55-58` зафиксирован отдельный confidential client: Standard Flow, PKCE S256, Client Authentication `client_secret_basic`, подпись ID token RS256; точный backend redirect URI без wildcard. Authorization/token/JWKS endpoints обязаны иметь origin issuer. DOC-7 описывает Authorization Code + PKCE и проверку подписи, но не RS256/basic и требование origin endpoints. Сохраняемый backend README этого тоже не раскрывает.",
+      "",
+      "Это не только деталь реализации: настройка производится во внешнем Keycloak и нужна владельцу нового deployment. Подтверждение кодом: `apps/nest-backend/src/infrastructure/auth/admin-oidc/admin-oidc-provider.ts:53-65` задаёт RS256, ClientSecretBasic и обязательные проверки; строки 67-110 отклоняют иной origin и redirects; 150-158 задают code/S256. Внешние HTTPS/loopback, issuer вместо discovery URL и совпадение callback origins отдельно проверяет `src/infrastructure/config/admin-keycloak-config.ts`.",
+      "",
+      "Минимальный полезный абзац в существующем источнике: «В Keycloak нужен confidential client: Standard Flow, PKCE S256, Client Authentication secret/basic и ID token RS256; зарегистрируйте точный backend callback. Authorization, token и JWKS endpoints должны иметь origin issuer; server-to-server redirects не поддерживаются». Предметный владелец знания — DOC-7; действующие инструкции проекта запрещают бездумно актуализировать справочник шаблона при продуктовой разработке, поэтому место сохранения определяет основной агент в рамках документационной чистки, без нового отчётного документа.",
+      "",
+      "### 2. Изображения: внутренний TIFF не равен публичному варианту",
+      "",
+      "`images.md:322-345` описывает полноразмерный несжатый TIFF indexed PNG. Его допустимый размер — `min(IMAGE_MAX_SOURCE_PIXELS, width × height) × 4 + 1 МиБ`; 20 МиБ относится к входной загрузке. Нельзя переносить предел ширины готовых вариантов 2000 px на глобальный `IMGPROXY_MAX_RESULT_DIMENSION`: он разрушит полноразмерную нормализацию. Если вводится `IMGPROXY_MAX_SRC_FILE_SIZE`, он должен пропускать внутренний TIFF, а не только исходный PNG. DOC-8 сообщает полноразмерную TIFF-нормализацию, но не эти эксплуатационные ограничения; backend README отсылает за ними обратно в удаляемый images.md. Infra README их не содержит.",
+      "",
+      "Подтверждение кодом: `apps/nest-backend/src/infrastructure/images/imgproxy-processor.ts:27-79` нормализует без resize, сохраняет полную геометрию и проверяет формулу размера, `:118-127` отдельно задаёт resize публичных вариантов. В `infra/dev/docker-compose.yml:113-125` нет глобального 2000/20 МиБ ограничения, то есть штатная конфигурация уже корректна. Поэтому это не runtime-блокер удаления файлов, а полезное знание для будущей перенастройки инфраструктуры. Достаточно короткого абзаца в существующем источнике DOC-8/инфраструктурной инструкции; копирование всего TIFF-протокола не нужно.",
+      "",
+      "## Что не блокирует удаление",
+      "",
+      "- Точная последовательность блокировок, TTL lease/heartbeat, MIME fallback, детали If-Range, алгоритм returnTo, CAS и поколения SWR — локальная реализация уже описанных принципов; целевые владельцы перечислены в Relay, а реализация доступна в коде.",
+      "- Backfill уже представлен в DOC-8 как явный возобновляемый процесс с сохранением URL. `apps/nest-backend/src/backfill-image-hashes.ts:15-18` содержит собственную справку, параметры и правило продолжения; отдельный новый документ с командами не нужен.",
+      "- Команды запуска, миграций, SDK и проверок остаются в README и DOC-10/11. Исторические QA и журналы генерации не нужно переносить в библиотеку.",
+      "- Ссылки на удаляемые MD остаются в разделах источников DOC-6, DOC-7, DOC-8 и DOC-9. Это навигационная работа основного агента, а не необходимость сохранять копии.",
+      "",
+      "## Решение по удалению",
+      "",
+      "Сохранять девять файлов целиком оснований нет. Для удаления без потери полезных эксплуатационных знаний рекомендованы только два небольших дополнения существующих источников, особенно настройка Keycloak. Файлы, документы библиотеки и общие процессы я не менял. Новых Markdown-отчётов и новых документов не создавал; весь результат находится в истории этой сессии.",
+      "",
+      "## Фактические проверки",
+      "",
+      "Полностью прочитаны девять файлов, DOC-5 rev4, DOC-6 rev3, DOC-7 rev3, DOC-8 rev4, DOC-9 rev3, DOC-10 rev3, DOC-11 rev5; backend/frontend/infra README. Адресно прочитаны OIDC provider/config/returnTo, TIFF processor, backfill CLI и Compose; поиском проверено отсутствие RS256/basic в остальных app MD/TSX. Это статическая проверка покрытия и контрактов, не новая runtime/QA-приёмка. Relay Web отвечает HTTP 200 по `http://127.0.0.1:4700/` через существующий процесс.",
+      "",
+      "Передача: основной агент читает результат, сохраняет выбранные краткие эксплуатационные знания в допустимом существующем источнике и завершает чистку ссылок. Для явного принятия дочерней сессии использовать постоянный session.id `BQ2KLiUt`.",
+      ""
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [
+      {
+        "ref": {
+          "kind": "document",
+          "id": "FWeAQpkQ"
+        },
+        "key": "DOC-5",
+        "title": "Административная панель"
+      },
+      {
+        "ref": {
+          "kind": "document",
+          "id": "DAtwMsZd"
+        },
+        "key": "DOC-6",
+        "title": "Роли и права административного доступа"
+      },
+      {
+        "ref": {
+          "kind": "document",
+          "id": "CX1Nfv4q"
+        },
+        "key": "DOC-7",
+        "title": "Аккаунты, сессии и корпоративный вход"
+      },
+      {
+        "ref": {
+          "kind": "document",
+          "id": "P9Iitieb"
+        },
+        "key": "DOC-8",
+        "title": "Изображения: медиатека и фоновая обработка"
+      },
+      {
+        "ref": {
+          "kind": "document",
+          "id": "596fZynB"
+        },
+        "key": "DOC-9",
+        "title": "Документы и версии файлов"
+      },
+      {
+        "ref": {
+          "kind": "document",
+          "id": "uwOltY7M"
+        },
+        "key": "DOC-10",
+        "title": "API, OpenAPI и REST SDK"
+      },
+      {
+        "ref": {
+          "kind": "document",
+          "id": "PdZBBuP8"
+        },
+        "key": "DOC-11",
+        "title": "Разработка и локальная инфраструктура"
+      }
+    ],
+    "createdAt": "2026-10-18T22:52:46.268Z",
+    "createdBy": "gpt-6-astra-docs-audit",
+    "kind": "result",
+    "intentId": "flRyDb0b",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T22:52:46.268Z",
+  "createdBy": "gpt-6-astra-docs-audit",
+  "updatedAt": "2026-10-18T22:52:46.268Z",
+  "updatedBy": "gpt-6-astra-docs-audit"
+}
