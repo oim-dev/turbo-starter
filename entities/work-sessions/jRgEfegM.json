@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "jRgEfegM",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "jRgEfegM",
+    "key": "S-jRgEfegM",
+    "title": "Переписать инструкцию как ограниченный сценарий установки",
+    "description": [
+      "Пользователь требует целиком пересмотреть docs/development/new-project-setup.md и оставить только установку нового проекта по ссылке. Установщик получает шаблон, готовит зависимости/скиллы, импортирует готовую базу Relay, настраивает окружение, запускает и проверяет готовность. В новом проекте он не читает правила разработки, не ведёт сессии/задачи Relay, не делает продуктовую QA и не готовит процессы параллельной разработки. Удалить все такие примеси из документа, проверить команды и синтаксис, согласовать существующую навигацию DOC-12."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "q9PNB6pj",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-10-18T22:32:40.143Z",
+    "updatedAt": "2026-10-18T22:32:40.143Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-10-18T22:32:40.143Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T22:32:40.143Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
