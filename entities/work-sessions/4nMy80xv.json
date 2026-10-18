@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "4nMy80xv",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "4nMy80xv",
+    "key": "S-4nMy80xv",
+    "title": "Убрать инструкции о workspace Relay",
+    "description": [
+      "Пользователь уточнил: в этом проекте нет workspace Relay; убрать информацию о нём из агентских инструкций. Удалить советы выбора workspace-проекта из AGENTS.md и входа агента в README.md, описать работу с настроенной базой текущего репозитория. Зафиксировать уточнение в существующем DOC-15 и проверить diff."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "IGhU5EjV",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-10-18T20:53:26.028Z",
+    "updatedAt": "2026-10-18T20:53:26.028Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-10-18T20:53:26.028Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T20:53:26.028Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
