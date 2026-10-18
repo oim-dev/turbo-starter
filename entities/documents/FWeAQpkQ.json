@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "document",
   "id": "FWeAQpkQ",
-  "revision": 2,
+  "revision": 3,
   "key": "DOC-5",
   "aliases": [],
   "data": {
@@ -84,8 +84,7 @@
       "этого документа. У изображений такого версионирования нет.",
       "",
       "Действия чтения, загрузки и изменения управляются отдельными permissions.",
-      "Подробности: «Изображения» ([DOC-8](http://127.0.0.1:4700/projects/project-0dr4/documents/P9Iitieb))",
-      "и «Документы и версии файлов» ([DOC-9](http://127.0.0.1:4700/projects/project-0dr4/documents/596fZynB)).",
+      "Подробности: «Изображения» (`DOC-8`) и «Документы и версии файлов» (`DOC-9`).",
       "",
       "## Общие механизмы интерфейса",
       "",
@@ -166,6 +165,6 @@
   },
   "createdAt": "2026-10-18T20:05:47.247Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-10-18T20:10:23.765Z",
+  "updatedAt": "2026-10-18T20:11:50.235Z",
   "updatedBy": "openai/gpt-6-astra"
 }

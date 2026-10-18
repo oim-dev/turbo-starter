@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "document",
   "id": "PdZBBuP8",
-  "revision": 2,
+  "revision": 3,
   "key": "DOC-11",
   "aliases": [],
   "data": {
@@ -144,7 +144,7 @@
       "  кастомные агенты и оркестратор сейчас не являются готовой возможностью шаблона.",
       "",
       "`setup` не создаёт продуктовую память Relay автоматически. Вход в документацию",
-      "шаблона — «Обзор шаблона» ([DOC-2](http://127.0.0.1:4700/projects/project-0dr4/documents/anndkBeV)).",
+      "шаблона — «Обзор шаблона» (`DOC-2`).",
       "",
       "## Проверки и поставка",
       "",
@@ -221,6 +221,6 @@
   },
   "createdAt": "2026-10-18T20:06:26.326Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-10-18T20:10:37.561Z",
+  "updatedAt": "2026-10-18T20:11:52.495Z",
   "updatedBy": "openai/gpt-6-astra"
 }
