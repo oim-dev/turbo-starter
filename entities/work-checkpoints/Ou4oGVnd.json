@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "Ou4oGVnd",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "Ou4oGVnd",
+    "key": "CP-Ou4oGVnd",
+    "sessionId": "A1Zcntys",
+    "runId": "puG7pJp5",
+    "sequence": 3,
+    "title": "Сверить infra:dev-команды с составом контейнеров",
+    "summary": "",
+    "body": [
+      "Прочитать текущие package.json и infra/dev/docker-compose.yml, сопоставить infra:dev:up, storage и images с запускаемыми сервисами и объяснить выбор команды README. Справочный контекст ранее прочитан в DOC-11 и README инфраструктуры; вывод подтвердить текущими исходниками. Вопрос касается назначения команд, запуск контейнеров и изменение скриптов не требуются."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T21:09:36.577Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T21:09:36.577Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T21:09:36.577Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
