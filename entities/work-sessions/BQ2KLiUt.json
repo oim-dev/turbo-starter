@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "BQ2KLiUt",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "BQ2KLiUt",
+    "key": "S-BQ2KLiUt",
+    "title": "Сопоставить документы приложений с библиотекой Relay",
+    "description": [
+      "Read-only исследование для удаления дублей документации. Прочитать девять Markdown-файлов в apps/nest-backend/docs и apps/react-admin-panel/docs и сопоставить их с полными документами Relay DOC-5, DOC-6, DOC-7, DOC-8, DOC-9, DOC-10, DOC-11 по применимости. Определить покрытие основных требований и реализации, отметить действительно важные сведения, которых нет в Relay. Исторические QA-отчёты не переносить в библиотеку. README и AGENTS не являются кандидатами удаления. Файлы и документы библиотеки не менять; только собственная история Relay и краткая таблица выводов. Работа в текущей копии без worktree; основной агент параллельно правит только корневое правило и рассматривает ссылки. Перед чтением сделать attach к этой дочерней сессии со своим run и вести intent/result по skill relay; завершить сессию перед передачей результата."
+    ],
+    "parentSessionId": "JBvD3VJm",
+    "originCheckpointId": "xy9bBC16",
+    "createdByRunId": "os1rWPZt",
+    "parentSequence": 4,
+    "status": "pending",
+    "currentRunId": null,
+    "sequence": 1,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-10-18T22:49:48.538Z",
+    "updatedAt": "2026-10-18T22:49:48.538Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-10-18T22:49:48.538Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T22:49:48.538Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
