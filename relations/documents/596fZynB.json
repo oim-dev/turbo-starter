@@ -9,6 +9,57 @@
     {
       "slot": "document-links",
       "edge": {
+        "type": "references",
+        "from": {
+          "kind": "document",
+          "id": "anndkBeV"
+        },
+        "to": {
+          "kind": "document",
+          "id": "596fZynB"
+        },
+        "description": [
+          "Материал для подробного чтения по ссылке из DOC-2; раскрывает соответствующую область шаблона."
+        ],
+        "id": "3DFCGLSx",
+        "revision": 1,
+        "source": "graph",
+        "createdAt": "2026-10-18T20:10:33.015Z",
+        "createdBy": "openai/gpt-6-astra",
+        "active": true,
+        "updatedAt": "2026-10-18T20:10:33.015Z",
+        "updatedBy": "openai/gpt-6-astra"
+      }
+    },
+    {
+      "slot": "document-links",
+      "edge": {
+        "type": "references",
+        "from": {
+          "kind": "document",
+          "id": "FWeAQpkQ"
+        },
+        "to": {
+          "kind": "document",
+          "id": "596fZynB"
+        },
+        "description": [
+          "Материал для подробного чтения по ссылке из DOC-5; раскрывает соответствующую область шаблона."
+        ],
+        "id": "4HlEz9cx",
+        "revision": 1,
+        "source": "graph",
+        "createdAt": "2026-10-18T20:10:33.015Z",
+        "createdBy": "openai/gpt-6-astra",
+        "active": true,
+        "updatedAt": "2026-10-18T20:10:33.015Z",
+        "updatedBy": "openai/gpt-6-astra"
+      }
+    },
+    {
+      "slot": "document-links",
+      "edge": {
+        "id": "Ahu1zCzq",
         "type": "documents",
         "from": {
           "kind": "document",
@@ -19,15 +70,40 @@
           "id": "lHAg5ziz"
         },
         "description": [
-          "Файловая библиотека и правила неизменяемых версий и текущей публикации."
+          "Описывает соответствующую область шаблона Turbo Starter."
         ],
-        "id": "Ahu1zCzq",
+        "revision": 2,
+        "source": "graph",
+        "createdBy": "openai/gpt-6-astra",
+        "createdAt": "2026-10-18T20:06:14.086Z",
+        "active": true,
+        "updatedAt": "2026-10-18T20:10:33.015Z",
+        "updatedBy": "openai/gpt-6-astra",
+        "historyCount": 2
+      }
+    },
+    {
+      "slot": "document-links",
+      "edge": {
+        "type": "references",
+        "from": {
+          "kind": "document",
+          "id": "ruFYPRx2"
+        },
+        "to": {
+          "kind": "document",
+          "id": "596fZynB"
+        },
+        "description": [
+          "Материал для подробного чтения по ссылке из DOC-3; раскрывает соответствующую область шаблона."
+        ],
+        "id": "xJfzvxbk",
         "revision": 1,
         "source": "graph",
-        "createdAt": "2026-10-18T20:06:14.086Z",
+        "createdAt": "2026-10-18T20:10:33.015Z",
         "createdBy": "openai/gpt-6-astra",
         "active": true,
-        "updatedAt": "2026-10-18T20:06:14.086Z",
+        "updatedAt": "2026-10-18T20:10:33.015Z",
         "updatedBy": "openai/gpt-6-astra"
       }
     }
