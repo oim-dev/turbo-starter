@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "49XSQW4H",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "49XSQW4H",
+    "key": "CP-49XSQW4H",
+    "sessionId": "ps78GjDc",
+    "runId": "DjcvdH8N",
+    "sequence": 5,
+    "title": "Три инструкции перенесены, ссылки обновлены",
+    "summary": "DOC-12 и DOC-13 созданы в «Разработке», DOC-14 — в «Инфраструктуре»; DOC-8 и DOC-11 актуализированы.",
+    "body": [
+      "## Сохранённые инструкции",
+      "DOC-12 «Установка и запуск нового проекта», ID keC6UW0i, и DOC-13 «Работа с проектными скиллами», ID 1TOiEyJU, опубликованы в development. DOC-14 «Изолированные worktree-окружения», ID hKeQXD3i, опубликован в infrastructure. Все instruction/active, ревизия 1, прикреплены к PROJECT и как материалы чтения DOC-11. Полный текст каждой записи через document get совпал с подготовленным Markdown; links и resolve проверены.",
+      "",
+      "## Обновлены существующие знания",
+      "DOC-8, ревизия 4: удалена ссылка на images-implementation.md, явно сохранено владение связью изображения с бизнес-сущностью и использование официального SDK MinIO. Детальные контракты и приёмка доступны в остающихся документах backend/frontend. DOC-11, ревизия 5: старые пути заменены DOC-12/DOC-13/DOC-14, добавлены исходники инструментов; оба текста перечитаны и сверены.",
+      "",
+      "## Репозиторий",
+      "В README добавлена таблица профильных инструкций. Ссылки в корневом README, README обоих SDK, dev-agents и infra/dev обновлены на реальные ключи Relay. Перед удалением подтверждена доступность уникального содержания в новой библиотеке.",
+      "",
+      "## Следующий шаг",
+      "Удалить четыре файла docs/development, проверить остаточные ссылки в Git и действующих документах Relay. По локальным правилам dev-agents выполнить agents:build и agents:check; проверить Markdown, diff и целостность Relay. Установочные команды, создание worktree и изменение env в рамках этой работы не выполняются."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [
+      {
+        "ref": {
+          "kind": "document",
+          "id": "P9Iitieb"
+        },
+        "key": "DOC-8",
+        "title": "Изображения: медиатека и фоновая обработка"
+      },
+      {
+        "ref": {
+          "kind": "document",
+          "id": "PdZBBuP8"
+        },
+        "key": "DOC-11",
+        "title": "Разработка и локальная инфраструктура"
+      },
+      {
+        "ref": {
+          "kind": "document",
+          "id": "keC6UW0i"
+        },
+        "key": "DOC-12",
+        "title": "Установка и запуск нового проекта"
+      },
+      {
+        "ref": {
+          "kind": "document",
+          "id": "1TOiEyJU"
+        },
+        "key": "DOC-13",
+        "title": "Работа с проектными скиллами"
+      },
+      {
+        "ref": {
+          "kind": "document",
+          "id": "hKeQXD3i"
+        },
+        "key": "DOC-14",
+        "title": "Изолированные worktree-окружения"
+      }
+    ],
+    "createdAt": "2026-10-18T20:27:02.929Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "progress",
+    "intentId": "qVZhBDIh",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T20:27:02.929Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T20:27:02.929Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
