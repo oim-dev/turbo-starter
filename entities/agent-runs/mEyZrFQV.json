@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "agent-run",
   "id": "mEyZrFQV",
-  "revision": 1,
+  "revision": 2,
   "key": null,
   "aliases": [],
   "data": {
@@ -23,18 +23,20 @@
     "client": "opencode",
     "sourceSessionId": null,
     "startedAt": "2026-10-18T22:03:40.300Z",
-    "endedAt": null,
+    "endedAt": "2026-10-18T22:04:44.231Z",
     "startedSequence": 2,
-    "endedSequence": null,
-    "endReason": null,
+    "endedSequence": 5,
+    "endReason": "completed",
     "predecessorRunId": null,
     "reason": [
       ""
     ],
-    "endSummary": null
+    "endSummary": [
+      "Согласованные изменения закоммичены: 2aaaef186ab544a5e4c50a10075debf405223d56 (10 файлов) и отправлены обычным push в origin/main. Удалённый SHA подтверждён через ls-remote; локальное рабочее дерево чистое, main синхронизирована. Итог CP-agz3MmQR."
+    ]
   },
   "createdAt": "2026-10-18T22:03:40.300Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-10-18T22:03:40.300Z",
+  "updatedAt": "2026-10-18T22:04:44.231Z",
   "updatedBy": "openai/gpt-6-astra"
 }
