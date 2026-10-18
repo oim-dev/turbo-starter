@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "VKQmxFT6",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "VKQmxFT6",
+    "key": "CP-VKQmxFT6",
+    "sessionId": "07mE4hsV",
+    "runId": "ij6WGXxF",
+    "sequence": 4,
+    "title": "Описание проекта отделено от рабочего протокола агента",
+    "summary": "",
+    "body": [
+      "В README раздел Relay сокращён до описания базы знаний/задач/истории, Web-доступа и одной ссылки на AGENTS. Удалены пошаговый вход, команды обзора/диагностики, правила сессий и перезапуска клиента. Блок подготовки содержит команду setup один раз и два предложения о её назначении и отдельном подключении Relay. AGENTS переработан до компактного протокола: вход, восстановление skills, проверка подключения, чтение задачи и истории, собственное участие/intent, актуализация знаний, checkpoints, результат/пауза и ошибки записи. Сохранены выбор документов справочника шаблона и исходные env-правила. Далее — обновить навигацию DOC-15, проверить Markdown и ссылки, сверить сохранение обязательных требований."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T21:06:48.049Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "progress",
+    "intentId": "jOxOHKgL",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T21:06:48.049Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T21:06:48.049Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
