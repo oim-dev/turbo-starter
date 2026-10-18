@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "ZYNUKv1Y",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "ZYNUKv1Y",
+    "key": "S-ZYNUKv1Y",
+    "title": "Убрать инструкции разработки из сценария установки",
+    "description": [
+      "Пользователь указывает, что установочная сессия должна только установить проект и проверить работу, поэтому чтение README/AGENTS и инструкций разработки из неё лишнее. Убрать такие требования и архитектурные отсылки, явно обозначить роль установщика, включить минимальную автономную браузерную проверку без артефактов. Сохранить подготовку скиллов для следующей сессии и техническую настройку Relay."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "lCjLWxRa",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-10-18T22:30:35.523Z",
+    "updatedAt": "2026-10-18T22:30:35.523Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-10-18T22:30:35.523Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T22:30:35.523Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
