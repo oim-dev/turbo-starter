@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "yUIxAt0e",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "yUIxAt0e",
+    "key": "S-yUIxAt0e",
+    "title": "Удалить отчётный документ и ограничить библиотеку Relay",
+    "description": [
+      "Пользователь требует удалить документ «Единое dev-окружение Docker Compose» (DOC-16) и закрепить в агентских инструкциях правило: библиотека Relay содержит только важные переиспользуемые материалы, реально помогающие выполнять продуктовые и технические задачи, а не отчёты о работе. Удалить именно DOC-16 через предметный CLI после проверки каскада; добавить краткий критерий полезности документов и хранение отчётов в сессиях/checkpoints/задачах. Нового документа в библиотеке для этого изменения не создавать."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "D926KTx1",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-10-18T21:23:32.909Z",
+    "updatedAt": "2026-10-18T21:23:32.909Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-10-18T21:23:32.909Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T21:23:32.909Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
