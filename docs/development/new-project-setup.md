@@ -97,7 +97,7 @@ MINIO_INIT_IMAGE=my-project-minio-init:dev
 
 ```bash
 pnpm env:check
-docker compose -f infra/dev/docker-compose.yml --profile images config --quiet
+docker compose -f infra/dev/docker-compose.yml config --quiet
 ```
 
 ## 4. Запусти инфраструктуру и приложения
@@ -106,12 +106,12 @@ docker compose -f infra/dev/docker-compose.yml --profile images config --quiet
 
 ```bash
 mkdir -p .artifacts/dev-agents/setup
-pnpm infra:dev:images
+pnpm infra:dev:up
 pnpm backend:prisma:deploy
 pnpm dev
 ```
 
-- `infra:dev:images` собирает MinIO, запускает инфраструктуру, создаёт приватный
+- `infra:dev:up` собирает MinIO, запускает всю инфраструктуру, создаёт приватный
   bucket и ожидает healthchecks. Первая сборка может занять несколько минут.
 - `backend:prisma:deploy` применяет миграции к БД нового проекта.
 - `dev` автоматически подготавливает Prisma Client, оба REST SDK и SVG-спрайт,
@@ -139,7 +139,7 @@ pnpm dev
 ## 5. Проверь готовность
 
 ```bash
-docker compose -f infra/dev/docker-compose.yml --profile images ps -a
+docker compose -f infra/dev/docker-compose.yml ps -a
 pnpm lint
 DOTENV_CONFIG_PATH=/dev/null pnpm check-types
 pnpm agents:check

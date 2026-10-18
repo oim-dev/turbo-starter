@@ -21,7 +21,7 @@ pnpm --filter @oim/nest-backend dev:worker
 `dev`, `build`, `start` backend охватывают все три процесса. Отдельные команды:
 `build:worker`, `start:worker`; последняя запускает `dist/image-worker/main.js`.
 Для контейнера backend worker используется тот же runtime image и команда
-`node dist/image-worker/main.js`. Инфраструктура — профиль `images` из
+`node dist/image-worker/main.js`. Воркер использует общую dev-инфраструктуру из
 [infra/dev](../../../infra/dev/README.md).
 
 Новая миграция `20261011120000_images_pipeline` добавляет `Image`, `ImageVariant`,

@@ -1,21 +1,36 @@
 # Локальная инфраструктура
 
-Docker Compose запускает PostgreSQL 16, а профиль `images` добавляет MinIO,
+Docker Compose запускает единое dev-окружение: PostgreSQL 16, MinIO,
 инициализацию приватного bucket, RabbitMQ 4 management и imgproxy. NestJS API,
 воркер изображений и клиентские приложения работают локальными процессами на host.
 Все команды ниже выполняются из корня репозитория. Опубликованные порты привязаны
 к `127.0.0.1`.
 
-## База данных
+## Запуск и остановка
 
 При необходимости скопируйте `infra/dev/.env.example` в `infra/dev/.env` и задайте
 свои значения. `env.example` — идентичная совместимая копия шаблона.
 Рабочий `.env` повторяет структуру примера, отличаться могут только значения.
 Без файла используются значения из примера.
 
-```sh
-pnpm infra:dev:up
-```
+| Команда | Назначение |
+| --- | --- |
+| `pnpm infra:dev:up` | Запустить все сервисы и дождаться готовности |
+| `pnpm infra:dev:logs` | Смотреть логи инфраструктуры |
+| `pnpm infra:dev:down` | Остановить окружение и удалить контейнеры и сеть |
+
+Инициализация bucket выполняется после готовности MinIO; imgproxy запускается
+после успешного завершения `minio-init`. Повторная инициализация безопасна.
+Данные PostgreSQL, MinIO и RabbitMQ сохраняются в именованных volumes после остановки.
+
+Имя проекта задаётся `COMPOSE_PROJECT_NAME` в `infra/dev/.env`, по умолчанию —
+`turbo-starter-dev`. `MINIO_IMAGE` и `MINIO_INIT_IMAGE` задают теги собираемых образов.
+
+Изолированные копии полного проекта создаются командами worktree, описанными в Relay
+`DOC-14` «Изолированные worktree-окружения». Они согласованно заполняют env-файлы
+инфраструктуры и приложений, выделяют порты и отдельные Docker volumes.
+
+## База данных
 
 По умолчанию PostgreSQL доступен по адресу `localhost:5544`, база — `default-db`,
 пользователь — `user`, пароль — `password`.
@@ -42,34 +57,14 @@ TTL и origins не задаются через env. Настройки auth о�
 Все настройки Keycloak задаются через админку и хранятся в БД. Secure временных
 OIDC cookies определяется callback URL, SameSite фиксирован Lax.
 
-Имя проекта задаётся `COMPOSE_PROJECT_NAME` в `infra/dev/.env`, по умолчанию —
-`turbo-starter-dev`. `MINIO_IMAGE` и `MINIO_INIT_IMAGE` задают теги собираемых образов.
-Данные PostgreSQL, MinIO и RabbitMQ
-сохраняются в отдельных именованных volumes. Команды остановки не удаляют данные:
-
-```sh
-pnpm infra:dev:logs
-pnpm infra:dev:down
-```
-
-Изолированные копии полного проекта создаются командами worktree, описанными в Relay
-`DOC-14` «Изолированные worktree-окружения». Они согласованно заполняют env-файлы
-инфраструктуры и приложений, выделяют порты и отдельные Docker volumes.
-
-## Необязательное S3-хранилище
-
-Профиль `storage` запускает MinIO отдельно от очереди и обработчика изображений.
+## S3-хранилище
 
 Образ MinIO собирается автоматически из закреплённых исходников MinIO и `mc`
 через `minio.Dockerfile`: публичные community-образы больше не распространяются.
 Первая сборка загружает Go-зависимости; последующие используют Docker build cache.
 Устанавливать Go на рабочую машину не требуется.
 
-```sh
-pnpm infra:dev:storage
-```
-
-Команда дожидается готовности MinIO, идемпотентно создаёт bucket и устанавливает
+При запуске окружения `minio-init` дожидается готовности MinIO, создаёт bucket и устанавливает
 `mc anonymous set none`. Для документов добавляет отдельное lifecycle-правило
 `files/staging/`: текущие и нетекущие версии временных объектов истекают через
 сутки. Повторный init не дублирует правило и сохраняет остальные правила bucket.
@@ -101,24 +96,13 @@ MinIO обрабатывает preflight для PUT, разрешает `Content
 раскрывает `ETag`. При смене адреса UI добавьте полный origin в список через запятую
 и повторите запуск инфраструктуры, чтобы пересоздать MinIO с новым окружением.
 
-## Профиль изображений
-
-```sh
-pnpm infra:dev:images
-pnpm backend:prisma:generate
-pnpm backend:prisma:deploy
-pnpm backend:dev
-```
+## Обработка изображений
 
 `backend:dev` запускает оба API и worker. Для отдельного запуска только worker:
 
 ```sh
 pnpm backend:dev:worker
 ```
-
-`infra:dev:images` поднимает PostgreSQL, MinIO, `minio-init`, RabbitMQ и imgproxy.
-Команда ждёт healthchecks долгоживущих сервисов; imgproxy запускается после
-успешного завершения `minio-init`. Повторный запуск инициализации безопасен.
 
 ### Адреса host и Docker network
 
@@ -172,8 +156,8 @@ volume. При существующих данных новые credentials сл
 Диагностика:
 
 ```sh
-docker compose -f infra/dev/docker-compose.yml --profile images ps -a
-docker compose -f infra/dev/docker-compose.yml --profile images logs --follow rabbitmq imgproxy minio-init
+docker compose -f infra/dev/docker-compose.yml ps -a
+docker compose -f infra/dev/docker-compose.yml logs --follow rabbitmq imgproxy minio-init
 ```
 
 ## Изолированная проверка
@@ -185,8 +169,8 @@ docker compose -f infra/dev/docker-compose.yml --profile images logs --follow ra
 ```sh
 POSTGRES_PORT=5545 S3_PORT=19000 S3_CONSOLE_PORT=19001 \
 RABBITMQ_PORT=15673 RABBITMQ_MANAGEMENT_PORT=15674 IMGPROXY_PORT=18081 \
-docker compose -p image-pipeline-check --env-file infra/dev/.env.example \
-  -f infra/dev/docker-compose.yml --profile images up -d --wait
+docker compose -p turbo-starter-check --env-file infra/dev/.env.example \
+  -f infra/dev/docker-compose.yml up -d --wait
 ```
 
 Для уже собранного MinIO можно добавить к `up` флаг `--no-build`.
@@ -200,14 +184,12 @@ docker compose -p image-pipeline-check --env-file infra/dev/.env.example \
 
 ```sh
 docker compose -f infra/dev/docker-compose.yml config --quiet
-docker compose -f infra/dev/docker-compose.yml --profile storage config --quiet
-docker compose -f infra/dev/docker-compose.yml --profile images config --quiet
 pnpm env:check
 ```
 
 Остановка проверочного экземпляра с сохранением данных:
 
 ```sh
-docker compose -p image-pipeline-check --env-file infra/dev/.env.example \
-  -f infra/dev/docker-compose.yml --profile images down
+docker compose -p turbo-starter-check --env-file infra/dev/.env.example \
+  -f infra/dev/docker-compose.yml down
 ```

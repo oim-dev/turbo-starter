@@ -294,7 +294,7 @@ pnpm --filter @oim/nest-backend start:worker
 ## Изображения
 
 Полный контракт, переменные окружения, политика качества и ручная приёмка:
-[docs/images.md](docs/images.md). Инфраструктура — профиль `images` в
+[docs/images.md](docs/images.md). Локальная инфраструктура описана в
 [infra/dev](../../infra/dev/README.md).
 
 `POST /images/uploads` выдаёт presigned PUT в staging MinIO; идемпотентный complete

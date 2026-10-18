@@ -39,7 +39,7 @@ const help = `Worktree-окружения (Linux, Node.js 24+, Git, pnpm, Docker
   --repo <URL>     Явный SSH/HTTPS URL вместо origin, например после tiged
   --help          Эта справка
 
-create создаёт ветку work/<имя> из коммита и четыре env-файла.
+create создаёт ветку work/<имя>, env-файлы, устанавливает зависимости и проектные скиллы.
 up устанавливает зависимости, запускает Docker, миграции и приложения в терминале.
 down останавливает экземпляр с сохранением данных.
 remove удаляет Docker volumes, собственные образы, worktree и его артефакты.
@@ -269,27 +269,33 @@ async function main() {
           cwd: path,
         });
         await snapshot(record, directory);
-        record.phase = "prepared";
-        await saveJson(recordFile, record);
-        printEnvironment(record);
-        const quote = (value) => `'${value.replaceAll("'", "'\\''")}'`;
-        let repoArgument = "";
-        if (options.repo) {
-          let publicRemote = remote;
-          if (remote.includes("://")) {
-            const url = new URL(remote);
-            url.username = "";
-            url.password = "";
-            publicRemote = url.toString();
-          }
-          repoArgument = ` --repo ${quote(publicRemote)}`;
-        }
-        console.log(
-          `Готово. Запуск: pnpm worktree:up ${name} --root ${quote(root)}${repoArgument}`,
-        );
       } finally {
         await releaseRegistry();
       }
+      // Установка может быть долгой; другие окружения уже могут резервировать свои порты.
+      const env = withoutEnvironment(await environmentKeys(path));
+      console.log(`Установка зависимостей worktree: ${path}`);
+      await run("pnpm", ["install", "--frozen-lockfile"], { cwd: path, env });
+      console.log(`Подготовка проектных скиллов worktree: ${path}`);
+      await run("pnpm", ["run", "setup"], { cwd: path, env });
+      record.phase = "prepared";
+      await saveJson(recordFile, record);
+      printEnvironment(record);
+      const quote = (value) => `'${value.replaceAll("'", "'\\''")}'`;
+      let repoArgument = "";
+      if (options.repo) {
+        let publicRemote = remote;
+        if (remote.includes("://")) {
+          const url = new URL(remote);
+          url.username = "";
+          url.password = "";
+          publicRemote = url.toString();
+        }
+        repoArgument = ` --repo ${quote(publicRemote)}`;
+      }
+      console.log(
+        `Готово. Запуск: pnpm worktree:up ${name} --root ${quote(root)}${repoArgument}`,
+      );
       return;
     }
 

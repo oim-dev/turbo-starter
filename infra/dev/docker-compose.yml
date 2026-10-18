@@ -1,5 +1,5 @@
 # Docker Compose для локальной разработки
-# PostgreSQL запускается по умолчанию; профили storage и images добавляют сервисы.
+# Все инфраструктурные сервисы запускаются вместе.
 # Backend и Frontend запускаются отдельно в dev режиме
 
 name: turbo-starter-dev
@@ -25,7 +25,6 @@ services:
 
   # S3-compatible object storage
   minio:
-    profiles: [storage, images]
     image: ${MINIO_IMAGE:-turbo-starter-minio:dev}
     build:
       context: .
@@ -52,7 +51,6 @@ services:
 
   # Идемпотентно создаёт приватный bucket.
   minio-init:
-    profiles: [storage, images]
     image: ${MINIO_INIT_IMAGE:-turbo-starter-minio-init:dev}
     build:
       context: .
@@ -78,7 +76,6 @@ services:
     restart: "no"
 
   rabbitmq:
-    profiles: [images]
     image: rabbitmq:4.3.6-management-alpine@sha256:3ef7f7e89fed709a78f79b8b5f4e30e1312a1d4089da752e23595566d9d61a95
     hostname: rabbitmq
     restart: unless-stopped
@@ -103,7 +100,6 @@ services:
 
   # Вызывается только host-воркером; original скачивается по подписанному S3 URL.
   imgproxy:
-    profiles: [images]
     image: darthsim/imgproxy@sha256:10e03149338f22e27c561b598f12da90109492a401d9afe5811a000cacdbe5c8
     restart: unless-stopped
     cpus: "2.0"
