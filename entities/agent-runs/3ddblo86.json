@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "agent-run",
   "id": "3ddblo86",
-  "revision": 1,
+  "revision": 2,
   "key": null,
   "aliases": [],
   "data": {
@@ -23,18 +23,20 @@
     "client": "opencode",
     "sourceSessionId": null,
     "startedAt": "2026-10-18T20:19:56.248Z",
-    "endedAt": null,
+    "endedAt": "2026-10-18T20:20:56.923Z",
     "startedSequence": 2,
-    "endedSequence": null,
-    "endReason": null,
+    "endedSequence": 5,
+    "endReason": "completed",
     "predecessorRunId": null,
     "reason": [
       ""
     ],
-    "endSummary": null
+    "endSummary": [
+      "По поручению пользователя удалены все 12 локальных материалов docs/drafts/template и каталог черновиков. Проверено отсутствие каталога и Markdown-ссылок на него; git diff --check прошёл. Каноническая документация доступна в Relay по DOC-2–DOC-11, порядок чтения сохранён в корневом README. Итог и проверки: CP-K6hO1qD9."
+    ]
   },
   "createdAt": "2026-10-18T20:19:56.248Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-10-18T20:19:56.248Z",
+  "updatedAt": "2026-10-18T20:20:56.923Z",
   "updatedBy": "openai/gpt-6-astra"
 }
