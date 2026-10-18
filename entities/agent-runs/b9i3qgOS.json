@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "agent-run",
   "id": "b9i3qgOS",
-  "revision": 1,
+  "revision": 2,
   "key": null,
   "aliases": [],
   "data": {
@@ -23,18 +23,20 @@
     "client": "opencode",
     "sourceSessionId": null,
     "startedAt": "2026-10-18T21:00:33.551Z",
-    "endedAt": null,
+    "endedAt": "2026-10-18T21:01:58.084Z",
     "startedSequence": 2,
-    "endedSequence": null,
-    "endReason": null,
+    "endedSequence": 6,
+    "endReason": "completed",
     "predecessorRunId": null,
     "reason": [
       ""
     ],
-    "endSummary": null
+    "endSummary": [
+      "README очищен по обоим пунктам: получение нового проекта через tiged заменено ссылкой на docs/development/new-project-setup.md, подготовка и запуск текущего репозитория объединены; описание справочника шаблона перенесено из README в единственный раздел AGENTS.md с понятными формулировками. Обновлён якорь ссылки и навигационный DOC-15. Markdown, 19 локальных ссылок/якорей, поиск дублей и git diff --check проверены успешно. Итог — CP-bTBGbzn6, промежуточный материал — CP-bDlIjK1l."
+    ]
   },
   "createdAt": "2026-10-18T21:00:33.551Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-10-18T21:00:33.551Z",
+  "updatedAt": "2026-10-18T21:01:58.084Z",
   "updatedBy": "openai/gpt-6-astra"
 }
