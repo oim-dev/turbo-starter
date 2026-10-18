@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "kUl3DxAo",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "kUl3DxAo",
+    "key": "CP-kUl3DxAo",
+    "sessionId": "4nMy80xv",
+    "runId": "IGhU5EjV",
+    "sequence": 3,
+    "title": "Упростить вход агента до базы текущего проекта",
+    "summary": "",
+    "body": [
+      "Удалить найденные упоминания выбора проекта в workspace Relay из AGENTS.md и README.md. Указать использование настроенного подключения текущего репозитория. Уточнение пользователя сохранить в действующем DOC-15 по прочитанной ревизии 1. Проверить отсутствие этих упоминаний в изменённых файлах и git diff --check. Упоминания pnpm workspace относятся к структуре монорепозитория, а не к Relay."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T20:53:31.460Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T20:53:31.460Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T20:53:31.460Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
