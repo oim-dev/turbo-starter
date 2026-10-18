@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "agent-run",
   "id": "OzhWRPzh",
-  "revision": 1,
+  "revision": 2,
   "key": null,
   "aliases": [],
   "data": {
@@ -23,18 +23,20 @@
     "client": "opencode",
     "sourceSessionId": null,
     "startedAt": "2026-10-18T20:34:25.551Z",
-    "endedAt": null,
+    "endedAt": "2026-10-18T20:35:11.949Z",
     "startedSequence": 2,
-    "endedSequence": null,
-    "endReason": null,
+    "endedSequence": 5,
+    "endReason": "completed",
     "predecessorRunId": null,
     "reason": [
       ""
     ],
-    "endSummary": null
+    "endSummary": [
+      "Все изменения проекта, включая AGENTS.md, включены в b899ea50e0b64c939c62f73f2ac29960410c0fc9 (docs: перенести документацию шаблона в Relay) и отправлены в origin/main. Удалённый SHA проверен через git ls-remote, рабочее дерево чистое. Проверки и подтверждение push сохранены в CP-Ao6Gxn6J."
+    ]
   },
   "createdAt": "2026-10-18T20:34:25.551Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-10-18T20:34:25.551Z",
+  "updatedAt": "2026-10-18T20:35:11.949Z",
   "updatedBy": "openai/gpt-6-astra"
 }
