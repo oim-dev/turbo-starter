@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "02TA1WMa",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "02TA1WMa",
+    "key": "S-02TA1WMa",
+    "title": "Удаление локальных черновиков после публикации",
+    "description": [
+      "Пользователь поручил удалить черновики шаблона после публикации документации. Удалить каталог docs/drafts/template с десятью предметными Markdown, локальным реестром и отчётом исследования. Канонические документы DOC-2–DOC-11 уже действуют в Relay, корневой README ведёт к ним по ключам. Проверить отсутствие каталога и ссылок на него в оставшихся Markdown. Входной обзор подтвердил 10 действующих документов и завершённую сессию публикации S-6g5VL5TM; поиск нашёл ссылки на каталог только внутри удаляемых файлов."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "3ddblo86",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-10-18T20:19:56.248Z",
+    "updatedAt": "2026-10-18T20:19:56.248Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-10-18T20:19:56.248Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T20:19:56.248Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
