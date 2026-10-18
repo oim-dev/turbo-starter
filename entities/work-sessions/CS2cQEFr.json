@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "work-session",
   "id": "CS2cQEFr",
-  "revision": 3,
+  "revision": 4,
   "key": null,
   "aliases": [],
   "data": {
@@ -17,19 +17,19 @@
     "originCheckpointId": null,
     "createdByRunId": null,
     "parentSequence": null,
-    "status": "open",
-    "currentRunId": "EtPi4VLM",
-    "sequence": 4,
+    "status": "completed",
+    "currentRunId": null,
+    "sequence": 6,
     "result": [
-      ""
+      "Инструкции фактически добавлены в корневой AGENTS.md: проработанная постановка задач, фоновое делегирование, отдельные worktree и дочерние сессии Relay, собственная регистрация и checkpoints исполнителя, коммиты/review, приёмка и последовательное локальное слияние без PR. Учтена автоподготовка зависимостей/skills в worktree:create. Проверены Markdown, ссылки, соответствие механизмам и git diff --check. Итог CP-0HX6nLBC; новых документов библиотеки не создано."
     ],
     "createdAt": "2026-10-18T21:50:25.417Z",
-    "updatedAt": "2026-10-18T21:52:42.894Z",
-    "closedAt": null,
-    "revision": 3
+    "updatedAt": "2026-10-18T21:52:48.974Z",
+    "closedAt": "2026-10-18T21:52:48.974Z",
+    "revision": 4
   },
   "createdAt": "2026-10-18T21:50:25.417Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-10-18T21:52:42.894Z",
+  "updatedAt": "2026-10-18T21:52:48.974Z",
   "updatedBy": "openai/gpt-6-astra"
 }
