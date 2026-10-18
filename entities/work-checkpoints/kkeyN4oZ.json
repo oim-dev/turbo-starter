@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "kkeyN4oZ",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "kkeyN4oZ",
+    "key": "CP-kkeyN4oZ",
+    "sessionId": "ps78GjDc",
+    "runId": "DjcvdH8N",
+    "sequence": 4,
+    "title": "Определены дубль и три самостоятельные инструкции",
+    "summary": "Изображения уже описаны; установка и skills переходят в development, worktrees — в infrastructure.",
+    "body": [
+      "## Разбор четырёх файлов",
+      "images-implementation.md повторяет контракт DOC-8 и действующие backend/frontend документы изображений. Оставшиеся разделы о распределении работ между general-agent и конкретном старом стенде — исторический план, не текущая инструкция. Файл можно удалить после снятия ссылок; важные архитектурные положения о владельце связи изображения сохранить в DOC-8.",
+      "",
+      "new-project-setup.md содержит уникальный сквозной порядок установки новой копии, согласование четырёх env, создание собственных Docker-ресурсов, проверку готовности и передачу разработки в новую агентскую сессию. Перенести как instruction в development.",
+      "",
+      "skills.md содержит восстановление, фиксацию SHA, обновление закреплённых и незакреплённых skills и смысл полей lockfile; обзор DOC-11 этих процедур не заменяет. Перенести как instruction в development.",
+      "",
+      "worktrees.md раскрывает параметры CLI, размещение, десять портов, env, start/stop/remove, владение процессами и Docker, последствия удаления и восстановление. Перенести как instruction в infrastructure.",
+      "",
+      "## Ссылки и состояние",
+      "Разделы development и infrastructure существуют и пусты. Поиск Relay нашёл удаляемые пути только в DOC-8 (ревизия 3) и DOC-11 (ревизия 4). В репозитории шесть мест: корневой README, README dev-agents, обоих SDK и infra/dev. Изменяются Markdown-ссылки; рабочие env и код не затрагиваются.",
+      "",
+      "## Продолжение",
+      "Подготовить полные инструкции с корневыми путями и DOC-ключами, создать и перечитать записи, обновить DOC-8/DOC-11 и шесть мест в репозитории. Затем удалить четыре локальных файла и проверить отсутствие старых ссылок."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [
+      {
+        "ref": {
+          "kind": "document",
+          "id": "P9Iitieb"
+        },
+        "key": "DOC-8",
+        "title": "Изображения: медиатека и фоновая обработка"
+      },
+      {
+        "ref": {
+          "kind": "document",
+          "id": "PdZBBuP8"
+        },
+        "key": "DOC-11",
+        "title": "Разработка и локальная инфраструктура"
+      }
+    ],
+    "createdAt": "2026-10-18T20:22:49.133Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "progress",
+    "intentId": "qVZhBDIh",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T20:22:49.133Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T20:22:49.133Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
