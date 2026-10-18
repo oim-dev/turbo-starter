@@ -9,6 +9,32 @@
     {
       "slot": "document-links",
       "edge": {
+        "type": "references",
+        "from": {
+          "kind": "document",
+          "id": "ruFYPRx2"
+        },
+        "to": {
+          "kind": "document",
+          "id": "S9AdmhoT"
+        },
+        "description": [
+          "Материал для подробного чтения по ссылке из DOC-3; раскрывает соответствующую область шаблона."
+        ],
+        "id": "2xGmd2Np",
+        "revision": 1,
+        "source": "graph",
+        "createdAt": "2026-10-18T20:10:21.477Z",
+        "createdBy": "openai/gpt-6-astra",
+        "active": true,
+        "updatedAt": "2026-10-18T20:10:21.477Z",
+        "updatedBy": "openai/gpt-6-astra"
+      }
+    },
+    {
+      "slot": "document-links",
+      "edge": {
+        "id": "O9JMBZhT",
         "type": "documents",
         "from": {
           "kind": "document",
@@ -19,15 +45,40 @@
           "id": "lHAg5ziz"
         },
         "description": [
-          "Архитектура шаблона и расположение ответственности в репозитории."
+          "Описывает соответствующую область шаблона Turbo Starter."
         ],
-        "id": "O9JMBZhT",
+        "revision": 2,
+        "source": "graph",
+        "createdBy": "openai/gpt-6-astra",
+        "createdAt": "2026-10-18T20:05:40.681Z",
+        "active": true,
+        "updatedAt": "2026-10-18T20:10:21.477Z",
+        "updatedBy": "openai/gpt-6-astra",
+        "historyCount": 2
+      }
+    },
+    {
+      "slot": "document-links",
+      "edge": {
+        "type": "references",
+        "from": {
+          "kind": "document",
+          "id": "anndkBeV"
+        },
+        "to": {
+          "kind": "document",
+          "id": "S9AdmhoT"
+        },
+        "description": [
+          "Материал для подробного чтения по ссылке из DOC-2; раскрывает соответствующую область шаблона."
+        ],
+        "id": "ZRzIZSDm",
         "revision": 1,
         "source": "graph",
-        "createdAt": "2026-10-18T20:05:40.681Z",
+        "createdAt": "2026-10-18T20:10:21.477Z",
         "createdBy": "openai/gpt-6-astra",
         "active": true,
-        "updatedAt": "2026-10-18T20:05:40.681Z",
+        "updatedAt": "2026-10-18T20:10:21.477Z",
         "updatedBy": "openai/gpt-6-astra"
       }
     }
