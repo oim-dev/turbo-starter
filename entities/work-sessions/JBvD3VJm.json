@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "JBvD3VJm",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "JBvD3VJm",
+    "key": "S-JBvD3VJm",
+    "title": "Удалить дублирующие Markdown-документы приложений",
+    "description": [
+      "Пользователь просит проверить и удалить лишние Markdown-документы из apps/react-admin-panel/docs, apps/nest-backend/docs и аналогичных мест, поскольку описание шаблона перенесено в Relay. Добавить в корневой AGENTS.md запрет на создание Markdown-файлов по умолчанию с осознанными исключениями, например публичной инструкцией новой установки. Проверить покрытие знаний в Relay и ссылки, сохранить необходимые инструкции и существующие пользовательские изменения установочного документа. Состояние работы, задачи и знания направлять в подходящие сущности Relay без отчётных дублей."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "os1rWPZt",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-10-18T22:48:32.551Z",
+    "updatedAt": "2026-10-18T22:48:32.551Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-10-18T22:48:32.551Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T22:48:32.551Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
