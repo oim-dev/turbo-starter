@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "YgGyfN2O",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "YgGyfN2O",
+    "key": "CP-YgGyfN2O",
+    "sessionId": "37xkE7ZH",
+    "runId": "BhuCSkcG",
+    "sequence": 8,
+    "title": "worktree:create подготавливает скиллы автоматически; реальный замер — 15,352 с",
+    "summary": "",
+    "body": [
+      "## Итог реализации",
+      "В scripts/worktrees/cli.mjs создание окружения автоматически выполняет frozen-установку зависимостей и setup в новой рабочей копии. Только после успеха выставляется prepared. Управляемые параметры родительского окружения очищаются. Общая блокировка реестра освобождается перед установкой, индивидуальная защищает экземпляр до конца. Обновлены справка CLI, README и существующая инструкция DOC-14 (ревизия 3, полный текст перечитан).",
+      "",
+      "## Реальный замер после изменения скрипта",
+      "Штатный pnpm run worktree:create создал чистую копию HEAD в стандартном ~/worktrees. Создание/env/снимок: 1,248 с; установка 953 пакетов: 1,355 с; восстановление шести скиллов и agents:build: 12,749 с; всего 15,352 с. Условия: Node 24.18.1, pnpm 11.25.0, существующий pnpm-store, hard links, downloaded 0. Все шесть SKILL.md присутствовали, node_modules подготовлен, статус prepared, git status копии чистый. Освобождение registry.lock и удержание instance lock проверены во время установки.",
+      "",
+      "## Проверки",
+      "Контролируемые отказы install и setup оставляют phase creating и блокируют up; среда установочных команд изолирована. Node syntax, Prettier для CLI, Markdown README и git diff --check прошли. Тестовые worktree и их ветки удалены; git worktree list снова содержит только основную копию и базу Relay. Docker-сервисы не запускались.",
+      "",
+      "## Артефакты",
+      ".artifacts/worktrees/bootstrap-timing-mvecrkly/create.log",
+      ".artifacts/worktrees/bootstrap-timing-mvecrkly/timings.json",
+      ".artifacts/worktrees/bootstrap-timing-mvecrkly/failure-checks.json",
+      "",
+      "## Влияние на предложение делегирования",
+      "Основной агент теперь должен дождаться успешного worktree:create и затем запускать нового субагента в готовой копии. Отдельные ручные install/setup из первоначального предложения CP-vvKrlXOk больше не нужны. Сам общий протокол пока остаётся предложением; библиотека не пополнялась отчётами."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [
+      {
+        "ref": {
+          "kind": "document",
+          "id": "hKeQXD3i"
+        },
+        "key": "DOC-14",
+        "title": "Изолированные worktree-окружения"
+      }
+    ],
+    "createdAt": "2026-10-18T21:47:52.541Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "result",
+    "intentId": "F1al4IQc",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T21:47:52.541Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T21:47:52.541Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
