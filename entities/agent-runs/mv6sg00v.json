@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "agent-run",
   "id": "mv6sg00v",
-  "revision": 1,
+  "revision": 2,
   "key": null,
   "aliases": [],
   "data": {
@@ -23,18 +23,20 @@
     "client": "opencode",
     "sourceSessionId": null,
     "startedAt": "2026-10-18T14:28:41.320Z",
-    "endedAt": null,
+    "endedAt": "2026-10-18T14:45:48.649Z",
     "startedSequence": 2,
-    "endedSequence": null,
-    "endReason": null,
+    "endedSequence": 10,
+    "endReason": "paused",
     "predecessorRunId": null,
     "reason": [
       ""
     ],
-    "endSummary": null
+    "endSummary": [
+      "Диагностика по запросу пользователя завершена: баг Relay 0.12.0 подтверждён независимыми прогонами, полный результат CP-MLKya0mi. Пользователь выбрал файл для передачи разработчику: .artifacts/dev-agents/relay-repro/relay-0.12.0-storage-busy.tar.gz. Основная база установлена и доступна локально; её Web-сервер остановлен из-за воспроизведённой конкуренции записи с синхронизацией. Исходное намерение CP-u2GBHjyC остаётся открытым: после исправления/согласования временного режима проверить совместную работу и предложить состав документов для переноса. Документы основной библиотеки, паспорт и прочие предметные сущности не заполнены. Перед продолжением прочитать context и intents; не повторять init."
+    ]
   },
   "createdAt": "2026-10-18T14:28:41.320Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-10-18T14:28:41.320Z",
+  "updatedAt": "2026-10-18T14:45:48.649Z",
   "updatedBy": "openai/gpt-6-astra"
 }
