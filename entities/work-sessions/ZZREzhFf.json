@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "ZZREzhFf",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "ZZREzhFf",
+    "key": "S-ZZREzhFf",
+    "title": "Первичное знакомство с Turbo Starter",
+    "description": [
+      "Поручение пользователя: «Привет, ознакомьтесь с проектом». Изучить инструкции проекта, справочник стартового шаблона, структуру workspace, основные точки входа и владельцев кода; подготовить краткую карту проекта и правил дальнейшей работы. Ознакомление не предполагает изменений реализации, запуска миграций или сервисов приложений. Критерий результата: описание устройства подтверждено документацией и выборочным чтением исходников."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "LFjz09hH",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-10-18T20:44:55.934Z",
+    "updatedAt": "2026-10-18T20:44:55.934Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-10-18T20:44:55.934Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T20:44:55.934Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
