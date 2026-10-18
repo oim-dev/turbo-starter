@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "YzcfQTaU",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "YzcfQTaU",
+    "key": "CP-YzcfQTaU",
+    "sessionId": "pwgQ5pfA",
+    "runId": "53N7Udtl",
+    "sequence": 5,
+    "title": "Инструкция включает установку полной базы Relay из шаблона",
+    "summary": "",
+    "body": [
+      "## Результат",
+      "Обновлён docs/development/new-project-setup.md как самостоятельный сценарий новой установки. После tiged, git init и подготовки скиллов агент выполняет init --template https://github.com/oim-dev/turbo-starter.git --template-ref relay-data с именем и slug нового проекта. Явно описаны полная копия базы со всеми документами и историей, новый ID проекта, проверка подключения, отдельная установочная сессия и Relay Server с фактическим адресом. Унаследованная история не принимается за текущие поручения. Создание документов вручную не требуется.",
+      "",
+      "Дополнительно: frozen-установка зависимостей; явный cwd для вызовов; требования встроенных worktree-команд; проверки lint/types/build/agents до dev; первоначальный коммит кода для worktree; состояние origin и контекст Relay в передаче пользователю. Существующий DOC-12 актуализирован как навигация и перечитан; новые документы библиотеки не создавались.",
+      "",
+      "## Основания",
+      "Прочитаны справки init/config/document и relay-server, фактические скрипты проекта и Compose. Проверены последние релизы Relay v0.12.0 и v0.13.0: v0.13.0 добавляет полный импорт базы из Git-шаблона с новым ID, независимой историей и возможностью работы без origin и первого коммита кода. CLI установленной версии — 0.13.0.",
+      "Источники: https://github.com/oim-dev/relay/releases/tag/v0.12.0 и https://github.com/oim-dev/relay/releases/tag/v0.13.0.",
+      "",
+      "## Реальная проверка",
+      "В пустом временном Git-репозитории с отдельным RELAY_HOME выполнен init из опубликованного turbo-starter/relay-data. Получены новое имя, slug и ID, импортированные документы доступны. main осталась без первого коммита, индекс и рабочая копия чистые, origin отсутствует. Relay Server 0.13.0 запущен на свободном порту с новой конфигурацией: Web вернул HTTP 200, CLI через HTTP получил обзор именно нового проекта. Проверочный сервер остановлен, временный Git и его Relay worktree удалены; текущий проект не переинициализировался.",
+      "",
+      "Артефакты: .artifacts/relay/new-project-template-check/ — init/config/overview/documents/http-overview/server logs. Markdown и 11 bash-блоков проверены, команды pnpm сверены с package.json, git diff --check прошёл. Вспомогательный валидатор команд исправлен, чтобы не считать pnpm --version названием script. Полная установка и запуск приложений повторно не выполнялись: фактически проверена новая часть Relay и согласованность документа с текущим проектом."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [
+      {
+        "ref": {
+          "kind": "document",
+          "id": "keC6UW0i"
+        },
+        "key": "DOC-12",
+        "title": "Установка и запуск нового проекта"
+      }
+    ],
+    "createdAt": "2026-10-18T22:23:39.460Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "result",
+    "intentId": "jHhnWGkG",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T22:23:39.460Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T22:23:39.460Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
