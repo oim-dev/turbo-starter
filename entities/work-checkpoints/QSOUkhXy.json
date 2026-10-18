@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "QSOUkhXy",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "QSOUkhXy",
+    "key": "CP-QSOUkhXy",
+    "sessionId": "A1Zcntys",
+    "runId": "puG7pJp5",
+    "sequence": 4,
+    "title": "Назначение команд dev-инфраструктуры подтверждено",
+    "summary": "",
+    "body": [
+      "По текущему package.json infra:dev:up выполняет docker compose up -d --wait postgres, то есть поднимает только PostgreSQL. infra:dev:images включает профиль images и поднимает весь Compose: PostgreSQL, MinIO, одноразовый minio-init, RabbitMQ и imgproxy. Профили и зависимости подтверждены чтением infra/dev/docker-compose.yml. Поэтому README использует images для полного окружения, необходимого медиатеке и воркеру, запускаемому pnpm dev. Название images отражает Compose-профиль обработки изображений, а не сборку Docker-образов. Предложение для обсуждения: сделать infra:dev:up командой полного dev-окружения; простая замена строки README без изменения скрипта этого не даст. Код и документация по вопросу не менялись; контейнеры не запускались."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T21:09:55.505Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "result",
+    "intentId": "Ou4oGVnd",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T21:09:55.505Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T21:09:55.505Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
