@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "document",
   "id": "CX1Nfv4q",
-  "revision": 3,
+  "revision": 4,
   "key": "DOC-7",
   "aliases": [],
   "data": {
@@ -108,6 +108,11 @@
       "На новой БД провайдер выключен, заданы корпоративный issuer и локальные callbacks;",
       "client ID и secret требуют заполнения. Keycloak не запускается локальным Compose.",
       "",
+      "Во внешнем Keycloak нужен confidential client: Standard Flow, PKCE S256,",
+      "Client Authentication `client_secret_basic` и подпись ID token **RS256**.",
+      "Зарегистрируйте точный backend Redirect URI без wildcard. Authorization, token",
+      "и JWKS endpoints должны иметь origin issuer; серверные HTTP-редиректы не поддерживаются.",
+      "",
       "Применяется Authorization Code + PKCE S256 с проверкой подписи ID token, issuer,",
       "audience, nonce и времени. Внешние адреса требуют HTTPS, локальный HTTP допустим",
       "для loopback. Backend и frontend callbacks имеют один origin и разные пути:",
@@ -152,12 +157,11 @@
       "",
       "- Контракт backend — `apps/nest-backend/README.md`;",
       "  конфигурация JWT — `apps/nest-backend/src/infrastructure/config/api-config.ts`.",
-      "- Keycloak: настройка и протокол — `apps/nest-backend/docs/admin-keycloak.md`;",
-      "  ручная приёмка — `apps/nest-backend/docs/admin-keycloak-qa.md`.",
+      "- OIDC provider — `apps/nest-backend/src/infrastructure/auth/admin-oidc/admin-oidc-provider.ts`;",
+      "  проверка настроек — `apps/nest-backend/src/infrastructure/config/admin-keycloak-config.ts`.",
       "- Auth-домен SPA — `apps/react-admin-panel/src/domains/management/auth/README.md`;",
       "  технический transport/storage — `apps/react-admin-panel/src/infra/backend-admin-api/README.md`.",
-      "- Контракт браузерной сессии сайта — `apps/next-web-app/README.md`.",
-      ""
+      "- Контракт браузерной сессии сайта — `apps/next-web-app/README.md`."
     ],
     "documentKind": "description",
     "sectionId": "template-documentation",
@@ -199,6 +203,6 @@
   },
   "createdAt": "2026-10-18T20:05:59.478Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-10-18T20:13:00.181Z",
+  "updatedAt": "2026-10-18T22:56:32.609Z",
   "updatedBy": "openai/gpt-6-astra"
 }

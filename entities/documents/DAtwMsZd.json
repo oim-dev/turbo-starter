@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "document",
   "id": "DAtwMsZd",
-  "revision": 3,
+  "revision": 4,
   "key": "DOC-6",
   "aliases": [],
   "data": {
@@ -118,10 +118,7 @@
       "- Каталог и вычисление прав — `apps/nest-backend/src/modules/admin-access/admin-permissions.ts`.",
       "- Декоратор и guard — `apps/nest-backend/src/infrastructure/auth/admin-roles.ts`.",
       "- Контроллер управления — `apps/nest-backend/src/admin-api/access/admin-access.controller.ts`;",
-      "  сервис — `apps/nest-backend/src/modules/admin-access/admin-access.service.ts`.",
-      "- Действующее техническое описание — `apps/nest-backend/docs/admin-access.md`;",
-      "  сценарии ручной приёмки — `apps/nest-backend/docs/admin-access-qa.md`.",
-      ""
+      "  сервис — `apps/nest-backend/src/modules/admin-access/admin-access.service.ts`."
     ],
     "documentKind": "description",
     "sectionId": "template-documentation",
@@ -163,6 +160,6 @@
   },
   "createdAt": "2026-10-18T20:05:53.006Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-10-18T20:12:58.958Z",
+  "updatedAt": "2026-10-18T22:56:30.266Z",
   "updatedBy": "openai/gpt-6-astra"
 }
