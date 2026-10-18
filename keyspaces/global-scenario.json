@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "global-scenario",
+  "entityKind": "scenario",
+  "owner": {
+    "kind": "project",
+    "id": "lHAg5ziz"
+  },
+  "prefix": "SCENARIO",
+  "format": "{prefix}-{number}"
+}

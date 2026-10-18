@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "board",
+  "id": "twGILXFc",
+  "revision": 1,
+  "key": "BOARD-PRODUCT",
+  "aliases": [],
+  "data": {
+    "slug": "product",
+    "applicationId": null,
+    "scope": "product"
+  },
+  "createdAt": "2026-10-18T14:28:15.067Z",
+  "createdBy": "relay",
+  "updatedAt": "2026-10-18T14:28:15.067Z",
+  "updatedBy": "relay"
+}

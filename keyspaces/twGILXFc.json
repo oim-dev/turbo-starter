@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "twGILXFc",
+  "entityKind": "task",
+  "owner": {
+    "kind": "board",
+    "id": "twGILXFc"
+  },
+  "prefix": "PRODUCT",
+  "format": "{prefix}-{number}"
+}

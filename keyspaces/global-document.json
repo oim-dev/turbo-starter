@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "id": "global-document",
+  "entityKind": "document",
+  "owner": {
+    "kind": "project",
+    "id": "lHAg5ziz"
+  },
+  "prefix": "DOC",
+  "format": "{prefix}-{number}"
+}
