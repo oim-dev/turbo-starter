@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "owner": {
+    "kind": "document",
+    "id": "keC6UW0i"
+  },
+  "storage": "inline",
+  "entries": [
+    {
+      "slot": "document-links",
+      "edge": {
+        "type": "references",
+        "from": {
+          "kind": "document",
+          "id": "PdZBBuP8"
+        },
+        "to": {
+          "kind": "document",
+          "id": "keC6UW0i"
+        },
+        "description": [
+          "Подробный порядок первоначальной установки в дополнение к обзору среды DOC-11."
+        ],
+        "id": "7MpmIxJS",
+        "revision": 1,
+        "source": "graph",
+        "createdAt": "2026-10-18T20:25:14.716Z",
+        "createdBy": "openai/gpt-6-astra",
+        "active": true,
+        "updatedAt": "2026-10-18T20:25:14.716Z",
+        "updatedBy": "openai/gpt-6-astra"
+      }
+    },
+    {
+      "slot": "document-links",
+      "edge": {
+        "type": "documents",
+        "from": {
+          "kind": "document",
+          "id": "keC6UW0i"
+        },
+        "to": {
+          "kind": "project",
+          "id": "lHAg5ziz"
+        },
+        "description": [
+          "Установка новой копии проекта из шаблона."
+        ],
+        "id": "M4t2J8ho",
+        "revision": 1,
+        "source": "graph",
+        "createdAt": "2026-10-18T20:25:14.716Z",
+        "createdBy": "openai/gpt-6-astra",
+        "active": true,
+        "updatedAt": "2026-10-18T20:25:14.716Z",
+        "updatedBy": "openai/gpt-6-astra"
+      }
+    }
+  ]
+}
