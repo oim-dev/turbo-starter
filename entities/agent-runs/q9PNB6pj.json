@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "agent-run",
   "id": "q9PNB6pj",
-  "revision": 1,
+  "revision": 2,
   "key": null,
   "aliases": [],
   "data": {
@@ -23,18 +23,20 @@
     "client": "opencode",
     "sourceSessionId": null,
     "startedAt": "2026-10-18T22:32:40.143Z",
-    "endedAt": null,
+    "endedAt": "2026-10-18T22:35:47.091Z",
     "startedSequence": 2,
-    "endedSequence": null,
-    "endReason": null,
+    "endedSequence": 6,
+    "endReason": "completed",
     "predecessorRunId": null,
     "reason": [
       ""
     ],
-    "endSummary": null
+    "endSummary": [
+      "Файл установки полностью очищен от ведения проекта и работы в Relay: только получение шаблона, зависимости/скиллы, импорт готовой базы, окружение, запуск, минимальные проверки и передача пользователю. Сессии/checkpoints, чтение инструкций разработки, Git-коммиты/worktree и продуктовая QA удалены. DOC-12 согласован. Проверки Markdown/bash/команд/diff прошли; изменение Git пока локально. Итог CP-N3Uv1B0A."
+    ]
   },
   "createdAt": "2026-10-18T22:32:40.143Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-10-18T22:32:40.143Z",
+  "updatedAt": "2026-10-18T22:35:47.091Z",
   "updatedBy": "openai/gpt-6-astra"
 }
