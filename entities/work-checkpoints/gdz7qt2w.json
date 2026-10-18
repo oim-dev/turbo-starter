@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "gdz7qt2w",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "gdz7qt2w",
+    "key": "CP-gdz7qt2w",
+    "sessionId": "hDiejhuF",
+    "runId": "7B8e4tQX",
+    "sequence": 3,
+    "title": "Убрать сбор файлов проверок и внешнюю зависимость установки",
+    "summary": "",
+    "body": [
+      "В docs/development/new-project-setup.md убрать каталог .artifacts, сохранение relay/dev логов в файлы, сбор скриншотов/трассировок и передачу путей к ним. Проверку ошибок браузера и логов сохранить как наблюдение, результаты — в установочной сессии Relay. Ссылку на DOC-14 заменить кратким объяснением origin/--repo и примером для будущих worktree. Уточнить автономность документа от библиотеки Relay, проверить отсутствие DOC-ключей и директив сохранения артефактов, Markdown и bash-синтаксис. Существующую навигацию DOC-12 согласовать без создания новых документов."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T22:25:30.265Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T22:25:30.265Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T22:25:30.265Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
