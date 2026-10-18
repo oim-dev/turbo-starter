@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "lgFCMXkY",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "lgFCMXkY",
+    "key": "CP-lgFCMXkY",
+    "sessionId": "pwgQ5pfA",
+    "runId": "53N7Udtl",
+    "sequence": 4,
+    "title": "Подтверждена инициализация Relay из репозитория шаблона",
+    "summary": "",
+    "body": [
+      "Уточнение пользователя: новый проект должен устанавливать базу Relay из этого репозитория. Справка CLI подтверждает init --template <repository>, --template-ref (по умолчанию relay-data), --name и --slug. Создаётся независимая полная копия базы с новым ID проекта; существующая база не заменяется. Кодовый HEAD и индекс не изменяются, origin и первый коммит для init не обязательны. Нужен новый Git-проект без конфигурации; адрес сервера/унаследованное подключение необходимо исключить из bootstrap.",
+      "",
+      "В инструкции отсутствуют сам init, запуск Relay Server, регистрация новой установочной сессии, проверка build и первоначальный коммит кода для worktree. Полная копия наследует историю: установщик должен создавать собственную сессию, а не продолжать унаследованные поручения. План: подтвердить init из https://github.com/oim-dev/turbo-starter.git в изолированном временном Git/RELAY_HOME, затем добавить раздел Relay и остальные подтверждённые шаги."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T22:14:27.535Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "progress",
+    "intentId": "jHhnWGkG",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T22:14:27.535Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T22:14:27.535Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
