@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "G8sctaRu",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "G8sctaRu",
+    "key": "CP-G8sctaRu",
+    "sessionId": "37xkE7ZH",
+    "runId": "BhuCSkcG",
+    "sequence": 3,
+    "title": "Согласовать постановку задач, делегирование и приёмку с механизмами проекта",
+    "summary": "",
+    "body": [
+      "Разработать предложение для AGENTS.md с тремя частями: декомпозиция самодостаточных задач, подготовка/запуск исполнителей, приёмка/интеграция. Сверить правила Relay TASKS/HISTORY с worktree create/up/down/remove: базовый коммит, подготовка skills до запуска дочернего клиента, изоляция ресурсов, собственный run ребёнка, явное принятие, commit/merge и критерии готовности. Отдельно учесть зависимости, общие контракты/lockfile/миграции, ограниченность ресурсов и поддержку фона. Результат — проект текста в ответе и истории; файлы и библиотека документов не изменяются."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T21:36:12.860Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T21:36:12.860Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T21:36:12.860Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
