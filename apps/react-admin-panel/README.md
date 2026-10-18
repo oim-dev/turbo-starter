@@ -87,9 +87,9 @@ pnpm run browser --session "$SESSION" close
 - [Шаблоны](.templates/README.md) — создание новых TSX через генератор.
 - [Авторизация](src/domains/management/auth/README.md) — сессии, выход и координация вкладок.
 - [REST SDK](../../packages/admin-rest-api-sdk/README.md) — API-клиент и генерация.
-- [Keycloak](../nest-backend/docs/admin-keycloak.md) — настройка корпоративного входа.
-- [Галерея изображений](docs/images-gallery-integration.md) — владельцы и жизненный цикл медиатеки.
-- [Файлы и версии](docs/files-integration.md) — владельцы, DnD, дедупликация и история документов.
+- Keycloak — Relay: `DOC-7` «Аккаунты, сессии и корпоративный вход».
+- Галерея изображений — Relay: `DOC-8` «Изображения: медиатека и фоновая обработка».
+- Файлы и версии — Relay: `DOC-9` «Документы и версии файлов».
 
 ### Доменные группы
 
