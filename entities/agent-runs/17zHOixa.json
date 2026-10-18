@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "agent-run",
+  "id": "17zHOixa",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "17zHOixa",
+    "key": "RUN-17zHOixa",
+    "sessionId": "BQ2KLiUt",
+    "actor": "gpt-6-astra-docs-audit",
+    "operator": {
+      "name": "Sergei Gromov",
+      "email": "zz-gromov@ya.ru",
+      "source": "inherited"
+    },
+    "git": {
+      "branch": "main",
+      "commit": "2aaaef186ab544a5e4c50a10075debf405223d56"
+    },
+    "client": "opencode",
+    "sourceSessionId": null,
+    "startedAt": "2026-10-18T22:50:19.650Z",
+    "endedAt": null,
+    "startedSequence": 2,
+    "endedSequence": null,
+    "endReason": null,
+    "predecessorRunId": null,
+    "reason": [
+      "Подключаюсь как назначенный субагент для read-only сопоставления девяти MD с DOC-5..DOC-11; работаю в общей копии, сохраняю только собственную историю Relay."
+    ],
+    "endSummary": null
+  },
+  "createdAt": "2026-10-18T22:50:19.650Z",
+  "createdBy": "gpt-6-astra-docs-audit",
+  "updatedAt": "2026-10-18T22:50:19.650Z",
+  "updatedBy": "gpt-6-astra-docs-audit"
+}
