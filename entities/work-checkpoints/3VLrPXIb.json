@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "3VLrPXIb",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "3VLrPXIb",
+    "key": "CP-3VLrPXIb",
+    "sessionId": "ZYNUKv1Y",
+    "runId": "lCjLWxRa",
+    "sequence": 4,
+    "title": "Установочная сессия отделена от инструкций разработки",
+    "summary": "",
+    "body": [
+      "В docs/development/new-project-setup.md в начале явно ограничена роль установщика: установка, окружение и проверки; продуктовая разработка начинается после передачи в новой сессии. Удалены обязательное чтение README/AGENTS, требование читать применимые прикладные скиллы и отсылки к frontend-архитектуре.",
+      "",
+      "Браузерная проверка теперь описана непосредственно: установка проектного agent-browser, уникальная headless-сессия, open/snapshot, проверка errors/console и закрытие своей сессии. Команды сверены с установленным --help и scripts приложения. Подготовка скиллов сохраняется для следующего агента; техническая работа с Relay остаётся частью установки базы и истории.",
+      "",
+      "Поиск подтверждает отсутствие ссылок на AGENTS/README, архитектурные материалы, DOC-ключи и .artifacts. Markdown, 13 bash-блоков и git diff --check прошли. Изменён только установочный документ; новых документов библиотеки и файлов проверок не создавалось."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T22:31:53.136Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "result",
+    "intentId": "jMt4w7xl",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T22:31:53.136Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T22:31:53.136Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
