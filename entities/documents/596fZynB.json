@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "document",
   "id": "596fZynB",
-  "revision": 3,
+  "revision": 4,
   "key": "DOC-9",
   "aliases": [],
   "data": {
@@ -178,16 +178,14 @@
       "",
       "## Владельцы и источники",
       "",
-      "- Полный файловый контракт — `apps/nest-backend/docs/files.md`.",
       "- FilesService — `apps/nest-backend/src/modules/files/files.service.ts`;",
       "  план multipart — `apps/nest-backend/src/modules/files/file-upload-plan.ts`.",
       "- Admin-контроллер — `apps/nest-backend/src/admin-api/files/admin-files.controller.ts`;",
       "  публичная доставка — `apps/nest-backend/src/client-api/files/file-delivery.controller.ts`.",
-      "- Интеграция SPA — `apps/react-admin-panel/docs/files-integration.md`:",
-      "  `apps/react-admin-panel/src/domains/files`, `apps/react-admin-panel/src/compositions/screens/files`,",
+      "- Интеграция SPA — `apps/react-admin-panel/src/domains/files`,",
+      "  `apps/react-admin-panel/src/compositions/screens/files`,",
       "  общие upload/digest/drop-интеграции.",
-      "- Схема — `apps/nest-backend/prisma/schema.prisma`; S3-инфраструктура — `infra/dev/README.md`.",
-      ""
+      "- Схема — `apps/nest-backend/prisma/schema.prisma`; S3-инфраструктура — `infra/dev/README.md`."
     ],
     "documentKind": "description",
     "sectionId": "template-documentation",
@@ -239,6 +237,6 @@
   },
   "createdAt": "2026-10-18T20:06:14.065Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-10-18T20:13:02.690Z",
+  "updatedAt": "2026-10-18T22:56:37.314Z",
   "updatedBy": "openai/gpt-6-astra"
 }
