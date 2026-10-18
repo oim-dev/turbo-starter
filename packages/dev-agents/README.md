@@ -92,4 +92,4 @@ node packages/dev-agents/scripts/check.mjs --root /путь/к/проекту
 - Claude Code: [профили](https://code.claude.com/docs/en/sub-agents),
   [настройки](https://code.claude.com/docs/en/settings).
 - Codex: [агенты](https://developers.openai.com/codex/agent-configuration/subagents.md).
-- Установка проектных скиллов: [инструкция](../../docs/development/skills.md).
+- Установка и обновление проектных скиллов: Relay `DOC-13` «Работа с проектными скиллами».
