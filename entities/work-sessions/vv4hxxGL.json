@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "vv4hxxGL",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "vv4hxxGL",
+    "key": "S-vv4hxxGL",
+    "title": "Разграничить самостоятельную работу и делегирование с worktree",
+    "description": [
+      "Пользователь уточнил: основной агент должен работать самостоятельно по умолчанию; worktree и обязательное делегирование нужны только продуктовым задачам Relay с реальной потребностью в изоляции от других работ. README, исследования и небольшие непересекающиеся изменения не требуют отдельного worktree; допускается обычный субагент в текущей копии. Исправить чрезмерно широкую формулировку AGENTS.md, определить три режима и ограничить область полного worktree-протокола."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "5RTuqoBe",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-10-18T21:59:39.702Z",
+    "updatedAt": "2026-10-18T21:59:39.702Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-10-18T21:59:39.702Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T21:59:39.702Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
