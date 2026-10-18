@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "agent-run",
   "id": "7B8e4tQX",
-  "revision": 1,
+  "revision": 2,
   "key": null,
   "aliases": [],
   "data": {
@@ -23,18 +23,20 @@
     "client": "opencode",
     "sourceSessionId": null,
     "startedAt": "2026-10-18T22:25:22.135Z",
-    "endedAt": null,
+    "endedAt": "2026-10-18T22:27:27.696Z",
     "startedSequence": 2,
-    "endedSequence": null,
-    "endReason": null,
+    "endedSequence": 5,
+    "endReason": "completed",
     "predecessorRunId": null,
     "reason": [
       ""
     ],
-    "endSummary": null
+    "endSummary": [
+      "Инструкция установки упрощена: сбор артефактов и сохранение отдельных лог-файлов удалены, проверки и способы остановки сохранены. Ссылок на DOC-записи в инструкции больше нет; origin/--repo объяснены непосредственно. Навигационный DOC-12 согласован. Markdown, bash-блоки, поиск и git diff --check прошли. Итог CP-PeVvjzg6."
+    ]
   },
   "createdAt": "2026-10-18T22:25:22.135Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-10-18T22:25:22.135Z",
+  "updatedAt": "2026-10-18T22:27:27.696Z",
   "updatedBy": "openai/gpt-6-astra"
 }
