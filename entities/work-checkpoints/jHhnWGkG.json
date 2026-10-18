@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "jHhnWGkG",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "jHhnWGkG",
+    "key": "CP-jHhnWGkG",
+    "sessionId": "pwgQ5pfA",
+    "runId": "53N7Udtl",
+    "sequence": 3,
+    "title": "Проверить полный путь от шаблона до готовности к разработке",
+    "summary": "",
+    "body": [
+      "Прочитаны инструкция, текущие package.json и AGENTS.md; рабочее дерево чистое. Сверить новый проект после tiged с обязательным Relay-процессом и готовностью Git к worktree, уточнить реальные команды инициализации/подключения Relay через справку, проверить порядок build/checks и запуска. Затем обновить только подтверждённые пункты и существующую навигацию DOC-12 при необходимости. Проверки документа: ссылки, Markdown, соответствие CLI и коду. Не создавать отчётный документ библиотеки; runtime текущего проекта и его база не переинициализируются."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T22:07:52.569Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T22:07:52.569Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T22:07:52.569Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
