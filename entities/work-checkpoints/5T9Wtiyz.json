@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "5T9Wtiyz",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "5T9Wtiyz",
+    "key": "CP-5T9Wtiyz",
+    "sessionId": "jRgEfegM",
+    "runId": "q9PNB6pj",
+    "sequence": 4,
+    "title": "Установочный сценарий сокращён до семи технических этапов",
+    "summary": "",
+    "body": [
+      "Документ переписан целиком, с 301 до 208 строк. Остались: проверка среды; получение шаблона и зависимости/setup; импорт полной базы Relay и запуск Web; env; сборка, инфраструктура и миграции; health/HTTP/стартовые интерфейсы; передача пользователю и завершение установщика.",
+      "",
+      "Удалены чтение skill Relay и проектных правил, overview проектной работы, все инструкции о сессиях/намерениях/checkpoints, требования первого коммита и настройки worktree/origin, lint/typecheck как цикл разработки, подробный agent-browser workflow и продуктовые сценарии регистрации/загрузки. Сохранена только техническая инициализация базы и минимальная проверка готовности. Далее — согласовать перечень содержания DOC-12 и проверить текст/команды."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T22:33:55.277Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "progress",
+    "intentId": "3og9rnZH",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T22:33:55.277Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T22:33:55.277Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
