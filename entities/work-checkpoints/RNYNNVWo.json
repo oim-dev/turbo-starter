@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "RNYNNVWo",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "RNYNNVWo",
+    "key": "CP-RNYNNVWo",
+    "sessionId": "4nMy80xv",
+    "runId": "IGhU5EjV",
+    "sequence": 4,
+    "title": "Инструкции используют только базу текущего проекта",
+    "summary": "",
+    "body": [
+      "Из AGENTS.md и раздела входа агента в README.md удалены указания выбора проекта в workspace Relay. Вместо них явно задано использование настроенного подключения к базе текущего репозитория. В DOC-15 добавлено подтверждённое пользователем правило одной проектной базы без отдельного выбора проекта; сохранённый текст ревизии 2 прочитан и проверен. Поиск по проектным Markdown подтверждает отсутствие упоминаний workspace Relay; оставшиеся workspace относятся к pnpm и SDK монорепозитория. git diff --check проходит. Правка локальная документационная, новые проверки runtime не требуются."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [
+      {
+        "ref": {
+          "kind": "document",
+          "id": "nsQalSJy"
+        },
+        "key": "DOC-15",
+        "title": "Работа с проектом через Relay"
+      }
+    ],
+    "createdAt": "2026-10-18T20:54:00.552Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "result",
+    "intentId": "kUl3DxAo",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T20:54:00.552Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T20:54:00.552Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
