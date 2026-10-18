@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "3PbsVbyg",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "3PbsVbyg",
+    "key": "CP-3PbsVbyg",
+    "sessionId": "ps78GjDc",
+    "runId": "DjcvdH8N",
+    "sequence": 6,
+    "title": "Инструкция установки сохранена публично в репозитории",
+    "summary": "По уточнению пользователя new-project-setup.md восстановлен; DOC-12 теперь указывает на канонический публичный источник.",
+    "body": [
+      "## Уточнение пользователя",
+      "«Установка и запуск нового проекта» должна остаться в документах репозитория и быть доступной по публичной ссылке. Восстановлен docs/development/new-project-setup.md полностью; git diff --exit-code для файла подтвердил совпадение с HEAD.",
+      "",
+      "## Источник и навигация",
+      "Публичное чтение raw.githubusercontent.com/oim-dev/turbo-starter/main/docs/development/new-project-setup.md успешно вернуло полный документ без авторизации. DOC-12 обновлён до ревизии 2: содержит назначение, охват, путь Git и публичные адреса полной инструкции; независимой копии инструкции в Relay больше нет. В корневом README добавлены локальная и публичная ссылки. Основной текст установки остаётся самодостаточным, без зависимости от Relay.",
+      "",
+      "## Итоговый состав",
+      "В docs/development остаётся new-project-setup.md. skills.md перенесён в DOC-13 (development), worktrees.md — в DOC-14 (infrastructure), images-implementation.md удалён как дубль DOC-8 и технических документов. DOC-11 ведёт к DOC-12/DOC-13/DOC-14. README обоих SDK, dev-agents и infra/dev используют актуальные DOC-ключи.",
+      "",
+      "## Проверки на этом рубеже",
+      "agents:build прошёл с 0 агентов/0 файлов, ничего не записал и не удалил. agents:check подтвердил актуальность сборки и ссылок. Осталась финальная сверка текстов Relay, Markdown и отсутствия трёх удалённых путей."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [
+      {
+        "ref": {
+          "kind": "document",
+          "id": "P9Iitieb"
+        },
+        "key": "DOC-8",
+        "title": "Изображения: медиатека и фоновая обработка"
+      },
+      {
+        "ref": {
+          "kind": "document",
+          "id": "PdZBBuP8"
+        },
+        "key": "DOC-11",
+        "title": "Разработка и локальная инфраструктура"
+      },
+      {
+        "ref": {
+          "kind": "document",
+          "id": "keC6UW0i"
+        },
+        "key": "DOC-12",
+        "title": "Установка и запуск нового проекта"
+      },
+      {
+        "ref": {
+          "kind": "document",
+          "id": "1TOiEyJU"
+        },
+        "key": "DOC-13",
+        "title": "Работа с проектными скиллами"
+      },
+      {
+        "ref": {
+          "kind": "document",
+          "id": "hKeQXD3i"
+        },
+        "key": "DOC-14",
+        "title": "Изолированные worktree-окружения"
+      }
+    ],
+    "createdAt": "2026-10-18T20:29:48.496Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "progress",
+    "intentId": "qVZhBDIh",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T20:29:48.496Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T20:29:48.496Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
