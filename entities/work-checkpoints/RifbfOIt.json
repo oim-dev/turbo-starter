@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "RifbfOIt",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "RifbfOIt",
+    "key": "CP-RifbfOIt",
+    "sessionId": "ZZREzhFf",
+    "runId": "LFjz09hH",
+    "sequence": 4,
+    "title": "Карта приложений подтверждена документацией и точками входа",
+    "summary": "",
+    "body": [
+      "## Вывод",
+      "Turbo Starter содержит три workspace-приложения и пять прикладных процессов: Next.js, React SPA, Client API, Admin API и image worker. DOC-2 и DOC-4 прочитаны полностью и сопоставлены с package.json, turbo.json, ClientAppModule, AdminAppModule, ImageWorkerModule, app-router.tsx админки, layout/page/HomeScreen сайта и перечнем моделей Prisma.",
+      "",
+      "## Основные границы",
+      "Сайт имеет нейтральную главную страницу без API; готовые экраны входа, профиля, управления административными аккаунтами/ролями/Keycloak, изображениями и файлами расположены в админке. API разделяют БД и предметные модули, но имеют самостоятельные аккаунты и сессии. Публичная доставка файлов и изображений подключена в ClientAppModule. SDK независимы от React; frontend владеет настройками транспорта и сессии.",
+      "",
+      "## Правила дальнейшей работы",
+      "Frontend использует Unit Architecture и строгие совместимые правила React Reference; TSX создаются через локальные шаблоны. Backend запрещает добавление автоматических тестов: lint/check-types/build и ручные HTTP-сценарии. Generated SDK/Prisma вручную не редактируются. Изменение схемы требует новой миграции. Env повторяют .env.example и проверяются env:check. В Next.js приватные данные загружаются только в браузере после проверки сессии.",
+      "",
+      "## Далее",
+      "Завершить выборочное чтение auth/API и Prisma, подтвердить итоговый git status и сохранить итог ознакомления. Сборка и runtime-приёмка не выполнялись."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [
+      {
+        "ref": {
+          "kind": "document",
+          "id": "anndkBeV"
+        },
+        "key": "DOC-2",
+        "title": "Turbo Starter: назначение и возможности шаблона"
+      },
+      {
+        "ref": {
+          "kind": "document",
+          "id": "S9AdmhoT"
+        },
+        "key": "DOC-4",
+        "title": "Архитектура, приложения и пакеты"
+      }
+    ],
+    "createdAt": "2026-10-18T20:45:31.952Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "progress",
+    "intentId": "8qH4LH1e",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T20:45:31.952Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T20:45:31.952Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
