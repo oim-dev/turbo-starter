@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "u5XY8QaY",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "u5XY8QaY",
+    "key": "S-u5XY8QaY",
+    "title": "Закрепить Relay как базу проекта для агентов",
+    "description": [
+      "Поручение пользователя: подготовить проект к разработке через Relay, добавить инструкции в AGENTS.md и описать в README.md, что проект ведётся через Relay и Relay является базой проекта. Каждый новый агент должен сразу понимать обязательный порядок входа в работу и ведения проектного контекста. Согласовать корневые инструкции с установленным skill relay, существующим подключением и отдельным фиксированным справочником template-documentation. Сохранить существующие пользовательские изменения README. Проверить понятность протокола, команды чтения и diff; история выполнения хранится в Relay."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "jljmGZUS",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-10-18T20:49:39.589Z",
+    "updatedAt": "2026-10-18T20:49:39.589Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-10-18T20:49:39.589Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T20:49:39.589Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
