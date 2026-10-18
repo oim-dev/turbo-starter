@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "45FNsirE",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "45FNsirE",
+    "key": "CP-45FNsirE",
+    "sessionId": "KPFWIYiG",
+    "runId": "nY4CGgGI",
+    "sequence": 7,
+    "title": "Dev-инфраструктура запускается обычным Compose без профилей",
+    "summary": "",
+    "body": [
+      "## Результат",
+      "Перед правками остановлены четыре работавших контейнера проекта. Финальный docker ps пуст, три исходных volumes PostgreSQL/MinIO/RabbitMQ существуют. Данные, образы и остановленные контейнеры не удалялись.",
+      "",
+      "Из infra/dev/docker-compose.yml удалены профили storage/images: PostgreSQL, MinIO, minio-init, RabbitMQ и imgproxy входят в обычный состав. В package.json оставлены общие infra:dev:up/down/logs; up выполняет compose up -d --wait без выбора postgres, down — обычный compose down. Специальные storage/images-команды удалены. Обновлён worktree Docker-helper, README и связанные инструкции запуска. Текущие исходники и документация не содержат старых команд и жёстких профилей.",
+      "",
+      "Новый контракт сохранён и перечитан в DOC-16 «Единое dev-окружение Docker Compose». Исторический справочник template-documentation не обновлялся. Существующие пользовательские изменения AGENTS и README сохранены.",
+      "",
+      "## Проверки",
+      "- Compose config текущего окружения проходит; config с dev-примером включает все пять сервисов.",
+      "- Эффективная конфигурация целиком равна прежнему полному окружению после удаления только полей profiles: зависимости, healthchecks, порты, переменные, ресурсы и volumes сохранены.",
+      "- Реальные функции snapshot/compose проверены на временной среде из dev-примеров: полный состав, порядок зависимостей, собственные имена volumes/образов и build labels корректны. Временная среда удалена.",
+      "- node --check Docker-helper, JSON package, Markdown изменённых документов, pnpm env:check и git diff --check прошли.",
+      "- Повторно подтверждено отсутствие работающих контейнеров; проверочные Docker-ресурсы не созданы.",
+      "",
+      "## Ограничение",
+      "Dry-run установленного Compose 5.3.1 не завершился: для остановленного основного MinIO получена ошибка зависимости; на новом имени проекта dry-run зависал после вывода порядка запуска, включая запуск без --wait. Эти проверки прерваны таймаутом и не считаются успешными. Реальная готовность сервисов после изменений не проверялась запуском: окружение оставлено остановленным. Структурная эквивалентность и worktree-сценарий подтверждены независимо."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [
+      {
+        "ref": {
+          "kind": "document",
+          "id": "SVkrIZI8"
+        },
+        "key": "DOC-16",
+        "title": "Единое dev-окружение Docker Compose"
+      }
+    ],
+    "createdAt": "2026-10-18T21:21:39.180Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "result",
+    "intentId": "OCFP66N1",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T21:21:39.180Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T21:21:39.180Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
