@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "hPWx6eJc",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "hPWx6eJc",
+    "key": "CP-hPWx6eJc",
+    "sessionId": "ZBRnRMBK",
+    "runId": "mv6sg00v",
+    "sequence": 6,
+    "title": "Контрольные базы работают; проверяем задержку Git-синхронизации",
+    "summary": "В трёх изолированных базах все 12 записей успешны. Следующий фактор — длительность ls-remote/fetch при активном сервере.",
+    "body": [
+      "## Контрольное воспроизведение",
+      "Подготовлен .artifacts/dev-agents/relay-repro/reproduce.py. Он создаёт отдельную базу, сохраняет документ без сервера, запускает собственный сервер на свободном порту, проверяет запись через local и HTTP, останавливает сервер и повторно проверяет локальную запись. После каждой записи читает наличие записи; при ошибке нет автоматического повтора. Все команды и длительности сохранены.",
+      "",
+      "## Результаты",
+      "- file-control: файловая база, 4/4 записи успешны, запись 0.336–0.400 с.",
+      "- git-no-origin: Git-база без origin, 4/4 успешны, запись 0.433–0.500 с.",
+      "- git-local-origin: Git-база с отдельным локальным bare origin, 4/4 успешны, запись 0.459–0.523 с.",
+      "Во всех случаях doctor check прошёл. Тестовые серверы завершены; тестовые документы есть только в изолированных базах. Основная библиотека не заполнялась.",
+      "",
+      "## Вывод",
+      "Само присутствие сервера не вызывает ошибку во всех конфигурациях. Предыдущая гипотеза слишком широкая. Следующий контролируемый фактор — задержка Git ls-remote/fetch, отсутствующая у локального origin. В исходном проекте origin находится на GitHub. Проверим локальный origin с явно обозначенной искусственной задержкой команд, без обращения к внешним репозиториям.",
+      "",
+      "## Артефакты",
+      ".artifacts/dev-agents/relay-repro/file-control/results.json",
+      ".artifacts/dev-agents/relay-repro/git-no-origin/results.json",
+      ".artifacts/dev-agents/relay-repro/git-local-origin/results.json",
+      "Рядом — полные логи каждой команды и сервера."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T14:36:38.921Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "progress",
+    "intentId": "eTKP93cW",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T14:36:38.921Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T14:36:38.921Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
