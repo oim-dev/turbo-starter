@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "owner": {
+    "kind": "document",
+    "id": "uwOltY7M"
+  },
+  "storage": "inline",
+  "entries": [
+    {
+      "slot": "document-links",
+      "edge": {
+        "type": "documents",
+        "from": {
+          "kind": "document",
+          "id": "uwOltY7M"
+        },
+        "to": {
+          "kind": "project",
+          "id": "lHAg5ziz"
+        },
+        "description": [
+          "Контракты взаимодействия приложений и сопровождение REST SDK."
+        ],
+        "id": "igMNsOT9",
+        "revision": 1,
+        "source": "graph",
+        "createdAt": "2026-10-18T20:06:20.652Z",
+        "createdBy": "openai/gpt-6-astra",
+        "active": true,
+        "updatedAt": "2026-10-18T20:06:20.652Z",
+        "updatedBy": "openai/gpt-6-astra"
+      }
+    }
+  ]
+}
