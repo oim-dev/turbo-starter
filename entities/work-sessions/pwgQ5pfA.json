@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "work-session",
   "id": "pwgQ5pfA",
-  "revision": 4,
+  "revision": 5,
   "key": null,
   "aliases": [],
   "data": {
@@ -17,19 +17,19 @@
     "originCheckpointId": null,
     "createdByRunId": null,
     "parentSequence": null,
-    "status": "open",
-    "currentRunId": "53N7Udtl",
-    "sequence": 5,
+    "status": "completed",
+    "currentRunId": null,
+    "sequence": 7,
     "result": [
-      ""
+      "Инструкция нового проекта актуализирована: полный импорт Relay из этого репозитория через init --template, свой проект/сессия/Web, проверки сборки до dev и первый Git-коммит для worktree. Последние релизы 0.12.0/0.13.0 и CLI-справка сверены. Реальный импорт в пустой временный Git и доступ через новый Relay Server/HTTP успешно проверены; тестовая среда очищена. Markdown, bash-синтаксис, команды проекта и diff проверены. Обновлён существующий DOC-12. Изменение Git — docs/development/new-project-setup.md; полный итог CP-YzcfQTaU."
     ],
     "createdAt": "2026-10-18T22:07:45.303Z",
-    "updatedAt": "2026-10-18T22:23:39.460Z",
-    "closedAt": null,
-    "revision": 4
+    "updatedAt": "2026-10-18T22:23:46.775Z",
+    "closedAt": "2026-10-18T22:23:46.775Z",
+    "revision": 5
   },
   "createdAt": "2026-10-18T22:07:45.303Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-10-18T22:23:39.460Z",
+  "updatedAt": "2026-10-18T22:23:46.775Z",
   "updatedBy": "openai/gpt-6-astra"
 }

@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "agent-run",
   "id": "53N7Udtl",
-  "revision": 1,
+  "revision": 2,
   "key": null,
   "aliases": [],
   "data": {
@@ -23,18 +23,20 @@
     "client": "opencode",
     "sourceSessionId": null,
     "startedAt": "2026-10-18T22:07:45.303Z",
-    "endedAt": null,
+    "endedAt": "2026-10-18T22:23:46.775Z",
     "startedSequence": 2,
-    "endedSequence": null,
-    "endReason": null,
+    "endedSequence": 6,
+    "endReason": "completed",
     "predecessorRunId": null,
     "reason": [
       ""
     ],
-    "endSummary": null
+    "endSummary": [
+      "Инструкция нового проекта актуализирована: полный импорт Relay из этого репозитория через init --template, свой проект/сессия/Web, проверки сборки до dev и первый Git-коммит для worktree. Последние релизы 0.12.0/0.13.0 и CLI-справка сверены. Реальный импорт в пустой временный Git и доступ через новый Relay Server/HTTP успешно проверены; тестовая среда очищена. Markdown, bash-синтаксис, команды проекта и diff проверены. Обновлён существующий DOC-12. Изменение Git — docs/development/new-project-setup.md; полный итог CP-YzcfQTaU."
+    ]
   },
   "createdAt": "2026-10-18T22:07:45.303Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-10-18T22:07:45.303Z",
+  "updatedAt": "2026-10-18T22:23:46.775Z",
   "updatedBy": "openai/gpt-6-astra"
 }
