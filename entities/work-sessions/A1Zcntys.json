@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "A1Zcntys",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "A1Zcntys",
+    "key": "S-A1Zcntys",
+    "title": "Объяснить команды запуска dev-инфраструктуры",
+    "description": [
+      "Пользователь спрашивает, какие сервисы запускает infra:dev:images и почему эта команда приведена в README вместо infra:dev:up. Проверить действующие скрипты и Compose, объяснить различие и причину выбора команды для полного запуска проекта."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "puG7pJp5",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-10-18T21:09:30.338Z",
+    "updatedAt": "2026-10-18T21:09:30.338Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-10-18T21:09:30.338Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T21:09:30.338Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
