@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "FVZCuGdh",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "FVZCuGdh",
+    "key": "CP-FVZCuGdh",
+    "sessionId": "tdCkadzX",
+    "runId": "rjJ08efp",
+    "sequence": 4,
+    "title": "Предупреждение добавлено в самый конец инструкции",
+    "summary": "",
+    "body": [
+      "Последним блоком docs/development/new-project-setup.md добавлено выделенное предупреждение КАПСОМ: не вести разработку в установочной сессии даже по просьбе пользователя; объяснить необходимость завершить её, перезапустить клиент и открыть новую сессию из каталога установленного проекта. Расположение подтверждено чтением конца файла, git diff --check прошёл."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T22:38:19.053Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "result",
+    "intentId": "phnJokSA",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T22:38:19.053Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T22:38:19.053Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
