@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "ThEILZ8r",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "ThEILZ8r",
+    "key": "CP-ThEILZ8r",
+    "sessionId": "37xkE7ZH",
+    "runId": "BhuCSkcG",
+    "sequence": 4,
+    "title": "Выявлены условия корректного параллельного исполнения",
+    "summary": "",
+    "body": [
+      "Сверены TASKS/HISTORY/PLANNING с DOC-14 и scripts/worktrees/cli.mjs. Задача должна быть самодостаточной, зависимости и критерии — отдельными записями, общие контракты/lockfile/миграции требуют владельца. Child-сессия создаётся fork до запуска, ребёнок делает attach со своим run, completed означает передачу, родитель явно принимает результат.",
+      "",
+      "Особенности реализации: create берёт только выбранный коммит и создаёт env/снимок, но не устанавливает зависимости и skills. Поэтому основной агент должен выбрать зафиксированную базу и подготовить зависимости/skills до запуска нового дочернего клиента в рабочем каталоге worktree. up запускает весь стек и миграции своей БД; выборочного режима в CLI нет. remove удаляет также volumes и артефакты, поэтому остановку и удаление нельзя смешивать. Итоговое предложение учитывает эти ограничения, последовательную интеграцию без PR и закрытие задач только после приёмки общего результата."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T21:37:12.464Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "progress",
+    "intentId": "G8sctaRu",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T21:37:12.464Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T21:37:12.464Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
