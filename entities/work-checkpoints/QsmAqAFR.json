@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "QsmAqAFR",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "QsmAqAFR",
+    "key": "CP-QsmAqAFR",
+    "sessionId": "KPFWIYiG",
+    "runId": "nY4CGgGI",
+    "sequence": 5,
+    "title": "Определён единый контракт Compose без функциональных профилей",
+    "summary": "",
+    "body": [
+      "## Вывод исследования",
+      "Все dev-сервисы принадлежат одному окружению: PostgreSQL, MinIO, minio-init, RabbitMQ и imgproxy. Профили storage/images искусственно дробят его; корневой up выбирает только postgres, а полное окружение включается images. Две жёсткие ссылки на профиль найдены в scripts/worktrees/docker.mjs: создание снимка и вызовы Compose. Дополнительно устаревшие команды/описания есть в README, инструкции нового проекта, infra/dev/README и документации backend.",
+      "",
+      "## Решение",
+      "Удалить profiles из четырёх сервисов Compose. Корневые up/down/logs должны напрямую управлять всем Compose без профилей и списка сервисов. Удалить специальные storage/images scripts, обновить обоих потребителей worktree и документацию. Сохранить существующую цепочку minio healthy → minio-init completed → imgproxy и healthchecks, volumes, порты и ресурсы. Адресные db:up/db:stop backend остаются операциями с одной БД.",
+      "",
+      "## Проверка",
+      "docker compose config для текущей среды и dev-примера, состав всех пяти сервисов без профилей, dry-run запуска без поднятия контейнеров, проверка экспортируемых snapshot/compose worktree на временной среде с dev-примерами, syntax/Markdown/diff. Новый контракт описать отдельным проектным документом инфраструктуры; фиксированный template-documentation не актуализировать."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T21:15:41.322Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "progress",
+    "intentId": "OCFP66N1",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T21:15:41.322Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T21:15:41.322Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
