@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "hDiejhuF",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "hDiejhuF",
+    "key": "S-hDiejhuF",
+    "title": "Упростить автономную инструкцию установки без артефактов",
+    "description": [
+      "Пользователь просит убрать из инструкции нового проекта сохранение артефактов и зависимость от импортированного DOC-14. Удалить требования создавать файлы отчётов/скриншотов/трассировок и отдельные логи установки, оставить проверку наблюдаемых результатов и сведения о процессах. Пояснить origin/--repo прямо в документе, чтобы установка не требовала чтения библиотеки Relay."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "7B8e4tQX",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-10-18T22:25:22.135Z",
+    "updatedAt": "2026-10-18T22:25:22.135Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-10-18T22:25:22.135Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T22:25:22.135Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
