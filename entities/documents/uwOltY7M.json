@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "document",
   "id": "uwOltY7M",
-  "revision": 1,
+  "revision": 2,
   "key": "DOC-10",
   "aliases": [],
   "data": {
@@ -12,7 +12,7 @@
     "body": [
       "# API, OpenAPI и REST SDK",
       "",
-      "**Статус:** локальный черновик описания реализации от 18.10.2026.",
+      "**Срез реализации:** 18.10.2026, коммит `824b9ee22901`.",
       "",
       "## Два самостоятельных контракта",
       "",
@@ -167,7 +167,27 @@
         },
         "type": "documents",
         "description": [
-          "Контракты взаимодействия приложений и сопровождение REST SDK."
+          "Описывает соответствующую область шаблона Turbo Starter."
+        ]
+      },
+      {
+        "target": {
+          "kind": "document",
+          "id": "anndkBeV"
+        },
+        "type": "references",
+        "description": [
+          "Материал для подробного чтения по ссылке из DOC-2; раскрывает соответствующую область шаблона."
+        ]
+      },
+      {
+        "target": {
+          "kind": "document",
+          "id": "ruFYPRx2"
+        },
+        "type": "references",
+        "description": [
+          "Материал для подробного чтения по ссылке из DOC-3; раскрывает соответствующую область шаблона."
         ]
       }
     ],
@@ -175,6 +195,6 @@
   },
   "createdAt": "2026-10-18T20:06:20.631Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-10-18T20:06:20.631Z",
+  "updatedAt": "2026-10-18T20:10:35.250Z",
   "updatedBy": "openai/gpt-6-astra"
 }

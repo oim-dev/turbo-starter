@@ -9,6 +9,7 @@
     {
       "slot": "document-links",
       "edge": {
+        "id": "igMNsOT9",
         "type": "documents",
         "from": {
           "kind": "document",
@@ -19,15 +20,65 @@
           "id": "lHAg5ziz"
         },
         "description": [
-          "Контракты взаимодействия приложений и сопровождение REST SDK."
+          "Описывает соответствующую область шаблона Turbo Starter."
         ],
-        "id": "igMNsOT9",
+        "revision": 2,
+        "source": "graph",
+        "createdBy": "openai/gpt-6-astra",
+        "createdAt": "2026-10-18T20:06:20.652Z",
+        "active": true,
+        "updatedAt": "2026-10-18T20:10:35.271Z",
+        "updatedBy": "openai/gpt-6-astra",
+        "historyCount": 2
+      }
+    },
+    {
+      "slot": "document-links",
+      "edge": {
+        "type": "references",
+        "from": {
+          "kind": "document",
+          "id": "ruFYPRx2"
+        },
+        "to": {
+          "kind": "document",
+          "id": "uwOltY7M"
+        },
+        "description": [
+          "Материал для подробного чтения по ссылке из DOC-3; раскрывает соответствующую область шаблона."
+        ],
+        "id": "pnosycJP",
         "revision": 1,
         "source": "graph",
-        "createdAt": "2026-10-18T20:06:20.652Z",
+        "createdAt": "2026-10-18T20:10:35.271Z",
         "createdBy": "openai/gpt-6-astra",
         "active": true,
-        "updatedAt": "2026-10-18T20:06:20.652Z",
+        "updatedAt": "2026-10-18T20:10:35.271Z",
+        "updatedBy": "openai/gpt-6-astra"
+      }
+    },
+    {
+      "slot": "document-links",
+      "edge": {
+        "type": "references",
+        "from": {
+          "kind": "document",
+          "id": "anndkBeV"
+        },
+        "to": {
+          "kind": "document",
+          "id": "uwOltY7M"
+        },
+        "description": [
+          "Материал для подробного чтения по ссылке из DOC-2; раскрывает соответствующую область шаблона."
+        ],
+        "id": "xrDzF5DJ",
+        "revision": 1,
+        "source": "graph",
+        "createdAt": "2026-10-18T20:10:35.271Z",
+        "createdBy": "openai/gpt-6-astra",
+        "active": true,
+        "updatedAt": "2026-10-18T20:10:35.271Z",
         "updatedBy": "openai/gpt-6-astra"
       }
     }
