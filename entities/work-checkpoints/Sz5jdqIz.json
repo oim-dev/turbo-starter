@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "Sz5jdqIz",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "Sz5jdqIz",
+    "key": "CP-Sz5jdqIz",
+    "sessionId": "yUIxAt0e",
+    "runId": "D926KTx1",
+    "sequence": 6,
+    "title": "Дублирующая инструкция DOC-15 удалена",
+    "summary": "",
+    "body": [
+      "По дополнительному поручению пользователя удалён DOC-15 «Работа с проектом через Relay». Актуальный документ и полный каскад прочитаны: удалена одна запись без затрагивания других сущностей. Список development подтверждает отсутствие DOC-15. Ранее в этой сессии удалён DOC-16 и в AGENTS.md закреплены критерии библиотеки: самостоятельная польза для будущих задач, отсутствие дублей и хранение отчётов только в истории/задачах. Новых библиотечных документов не создано."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T21:25:01.381Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "result",
+    "intentId": "927eg877",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T21:25:01.381Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T21:25:01.381Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
