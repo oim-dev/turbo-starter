@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "agent-run",
   "id": "jljmGZUS",
-  "revision": 1,
+  "revision": 2,
   "key": null,
   "aliases": [],
   "data": {
@@ -23,18 +23,20 @@
     "client": "opencode",
     "sourceSessionId": null,
     "startedAt": "2026-10-18T20:49:39.589Z",
-    "endedAt": null,
+    "endedAt": "2026-10-18T20:52:17.598Z",
     "startedSequence": 2,
-    "endedSequence": null,
-    "endReason": null,
+    "endedSequence": 6,
+    "endReason": "completed",
     "predecessorRunId": null,
     "reason": [
       ""
     ],
-    "endSummary": null
+    "endSummary": [
+      "Поручение выполнено: AGENTS.md закрепляет Relay как базу проекта и обязательный протокол всех агентов; README.md содержит заметную точку входа, рабочий цикл и команды. Новый закреплённый DOC-15 направляет к каноническим инструкциям. Проверены CLI overview, Markdown обоих файлов, 19 локальных ссылок/якорей и git diff --check. Изменены только AGENTS.md и README.md; исходная пользовательская правка README о справочнике шаблона сохранена. Полный итог — CP-0Iivi26t, промежуточный материал — CP-DRevWygp. Остатка по поручению нет."
+    ]
   },
   "createdAt": "2026-10-18T20:49:39.589Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-10-18T20:49:39.589Z",
+  "updatedAt": "2026-10-18T20:52:17.598Z",
   "updatedBy": "openai/gpt-6-astra"
 }
