@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "owner": {
+    "kind": "document",
+    "id": "ruFYPRx2"
+  },
+  "storage": "inline",
+  "entries": [
+    {
+      "slot": "document-links",
+      "edge": {
+        "type": "documents",
+        "from": {
+          "kind": "document",
+          "id": "ruFYPRx2"
+        },
+        "to": {
+          "kind": "project",
+          "id": "lHAg5ziz"
+        },
+        "description": [
+          "Инвентаризация реализованных возможностей и границ текущего шаблона."
+        ],
+        "id": "GKDSRmBg",
+        "revision": 1,
+        "source": "graph",
+        "createdAt": "2026-10-18T20:05:32.995Z",
+        "createdBy": "openai/gpt-6-astra",
+        "active": true,
+        "updatedAt": "2026-10-18T20:05:32.995Z",
+        "updatedBy": "openai/gpt-6-astra"
+      }
+    }
+  ]
+}
