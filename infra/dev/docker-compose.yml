@@ -26,7 +26,7 @@ services:
   # S3-compatible object storage
   minio:
     profiles: [storage, images]
-    image: turbo-starter-minio:dev
+    image: ${MINIO_IMAGE:-turbo-starter-minio:dev}
     build:
       context: .
       dockerfile: minio.Dockerfile
@@ -53,7 +53,7 @@ services:
   # Идемпотентно создаёт приватный bucket.
   minio-init:
     profiles: [storage, images]
-    image: turbo-starter-minio-init:dev
+    image: ${MINIO_INIT_IMAGE:-turbo-starter-minio-init:dev}
     build:
       context: .
       dockerfile: minio.Dockerfile

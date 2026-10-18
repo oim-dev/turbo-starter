@@ -42,13 +42,19 @@ TTL и origins не задаются через env. Настройки auth о�
 Все настройки Keycloak задаются через админку и хранятся в БД. Secure временных
 OIDC cookies определяется callback URL, SameSite фиксирован Lax.
 
-Проект Compose называется `turbo-starter-dev`. Данные PostgreSQL, MinIO и RabbitMQ
+Имя проекта задаётся `COMPOSE_PROJECT_NAME` в `infra/dev/.env`, по умолчанию —
+`turbo-starter-dev`. `MINIO_IMAGE` и `MINIO_INIT_IMAGE` задают теги собираемых образов.
+Данные PostgreSQL, MinIO и RabbitMQ
 сохраняются в отдельных именованных volumes. Команды остановки не удаляют данные:
 
 ```sh
 pnpm infra:dev:logs
 pnpm infra:dev:down
 ```
+
+Изолированные копии полного проекта создаются командами
+[worktree](../../docs/development/worktrees.md). Они согласованно заполняют env-файлы
+инфраструктуры и приложений, выделяют порты и отдельные Docker volumes.
 
 ## Необязательное S3-хранилище
 

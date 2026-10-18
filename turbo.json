@@ -1,8 +1,10 @@
 {
   "$schema": "https://turborepo.dev/schema.json",
+  "agentGuidance": false,
+  "cacheDir": ".turbo/cache",
   "ui": "tui",
   "globalEnv": ["NODE_ENV"],
-  "globalPassThroughEnv": ["DOTENV_CONFIG_PATH"],
+  "globalPassThroughEnv": ["DOTENV_CONFIG_PATH", "WORKTREE_INSTANCE_TOKEN"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
@@ -32,6 +34,7 @@
     "dev": {
       "dependsOn": ["^build"],
       "passThroughEnv": [
+        "WEB_*",
         "NEXT_PUBLIC_*",
         "NEXT_DIST_DIR",
         "CLIENT_API_INTERNAL_URL",
@@ -49,7 +52,9 @@
         "S3_*",
         "RABBITMQ_*",
         "IMGPROXY_*",
-        "IMAGE_*"
+        "IMAGE_*",
+        "FILE_*",
+        "BOOTSTRAP_ADMIN_PASSWORD"
       ],
       "cache": false,
       "persistent": true

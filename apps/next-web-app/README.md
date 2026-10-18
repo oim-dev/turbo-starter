@@ -33,7 +33,9 @@ pnpm run web:start
 ```
 
 `typecheck` оставлен как alias для `check-types`. Next.js 16 не запускает ESLint внутри `build`.
-Все команды используют порт 3000 там, где требуется HTTP-сервер. Не запускайте dev и start на одном порту одновременно.
+Порт dev/start задаётся `WEB_PORT` (по умолчанию 3000), адрес прослушивания — `WEB_HOST`.
+Обёртка `scripts/next.mjs` читает env-файлы приложения до запуска Next CLI.
+Не запускайте dev и start на одном порту одновременно.
 
 Для локальных `build/start` используется обычный output Next.js. [Dockerfile](Dockerfile)
 включает `output: 'standalone'` через `NEXT_STANDALONE=1`, собирает SDK и приложение,
@@ -143,6 +145,7 @@ Next.js читает env из корня приложения с приорит�
 В режиме test `.env.local` пропускается; режим Next.js выбирает сам.
 
 - `NEXT_PUBLIC_CLIENT_API_URL` — адрес браузерного API; по умолчанию `http://localhost:4000`, фиксируется при build;
+- `WEB_HOST` и `WEB_PORT` — адрес и порт локального dev/start-сервера;
 - `CLIENT_API_INTERNAL_URL` — отдельный серверный адрес для будущих публичных операций без credentials;
 - `NEXT_STANDALONE` — `0` для локального запуска, `1` для standalone-сборки;
 - `NEXT_DIST_DIR` — каталог сборки, по умолчанию `.next`.

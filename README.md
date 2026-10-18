@@ -125,3 +125,19 @@ Prisma Client и REST SDK подготавливаются автоматиче�
 Подробности запуска и разработки — в README [backend](apps/nest-backend/README.md),
 [админки](apps/react-admin-panel/README.md), [веб-приложения](apps/next-web-app/README.md)
 и [инфраструктуры](infra/dev/README.md).
+
+## Параллельная работа в worktree
+
+Для отдельной задачи создайте окружение и запустите его:
+
+```bash
+pnpm worktree:create task-123
+pnpm worktree:up task-123
+```
+
+Worktree размещается в `~/worktrees/<хост>/<владелец>/<репозиторий>/task-123`.
+Порты, четыре env-файла и Docker-ресурсы изолированы. Адреса показывает
+`pnpm worktree:status task-123`. Удаление вместе с Docker volumes и рабочими
+артефактами: `pnpm worktree:remove task-123`.
+
+Требования, остановка и порядок удаления описаны в [инструкции](docs/development/worktrees.md).
