@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "gMvt9HcG",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "gMvt9HcG",
+    "key": "CP-gMvt9HcG",
+    "sessionId": "JnaO0uMb",
+    "runId": "N5vJFNmB",
+    "sequence": 3,
+    "title": "Оставить одно место описания подготовки инструментов",
+    "summary": "",
+    "body": [
+      "Единственный владелец команды и её пояснения — раздел README «Подготовка и запуск». Вход агента ссылается на него; раздел подключения Relay описывает подключение, таблица основных команд не повторяет setup. После правки проверить одно вхождение pnpm run setup, сохранение обязательного шага и пояснений, Markdown и локальные ссылки, git diff --check. Прочитаны текущий README и обзор Relay; правила подготовки известны из ранее прочитанных DOC-13 и package.json."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-18T21:03:28.956Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-18T21:03:28.956Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-18T21:03:28.956Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
