@@ -16,8 +16,11 @@ Node.js 22.20.0 или новее.
 
 ```bash
 pnpm install
-pnpm setup
+pnpm run setup
 ```
+
+Используйте `pnpm run setup`: команда `pnpm setup` настраивает сам pnpm,
+а не запускает скрипт проекта.
 
 `setup` восстанавливает скиллы из `skills-lock.json`, затем запускает сборщик
 `packages/dev-agents/`. Реестр агентов сейчас пуст: прежние управляемые профили
