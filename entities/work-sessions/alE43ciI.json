@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "alE43ciI",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "alE43ciI",
+    "key": "S-alE43ciI",
+    "title": "Ознакомиться с базовыми AGENTS.md",
+    "description": [
+      "Поручение пользователя: «/home/gromov/projects/biocad/turbo-starter/AGENTS.md ознакомьтесь с базовыми агентскими инструкциями.» Прочитать действующие корневые инструкции, принять правила ведения Relay, выбора режима работы, документации и env для последующих поручений. Критерий: полное прочтение файла и сохранённое подтверждение понимания в истории проекта."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "8bsZWq2R",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-10-19T07:24:39.423Z",
+    "updatedAt": "2026-10-19T07:24:39.423Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-10-19T07:24:39.423Z",
+  "createdBy": "gpt-6-astra",
+  "updatedAt": "2026-10-19T07:24:39.423Z",
+  "updatedBy": "gpt-6-astra"
+}
