@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "lUa9Q77K",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "lUa9Q77K",
+    "key": "CP-lUa9Q77K",
+    "sessionId": "3GUZY2rv",
+    "runId": "zRH0Avwr",
+    "sequence": 5,
+    "title": "Оба коммита опубликованы в origin/main",
+    "summary": "",
+    "body": [
+      "Поручение commit и push выполнено. Опубликованы 8427a282c5d67bbd202ff961b7cce7e9aa636366 (поддержка macOS worktree, README и системные тесты) и 78f1e76b80f76ae9d4289e0b0994df8a6f2b89cc (сопровождение оператора и условия начала разработки через Relay в AGENTS.md). git push origin main завершился успешно: 0cbd5f4..78f1e76, main -> main, репозиторий git@github.com:oim-dev/turbo-starter.git. Проверка git ls-remote origin refs/heads/main вернула 78f1e76b80f76ae9d4289e0b0994df8a6f2b89cc, совпадающий с локальным HEAD. git rev-list HEAD...origin/main: 0/0. git status --short --branch показывает только main...origin/main: рабочая копия чистая. Полные исходные проверки находятся в CP-6EqtRFeA и CP-0OdhFoWo; staged diff --check выполнен перед каждым коммитом без ошибок. Остатка и блокеров нет."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-19T07:42:27.993Z",
+    "createdBy": "gpt-6-astra",
+    "kind": "result",
+    "intentId": "5S0biY8f",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-19T07:42:27.993Z",
+  "createdBy": "gpt-6-astra",
+  "updatedAt": "2026-10-19T07:42:27.993Z",
+  "updatedBy": "gpt-6-astra"
+}
