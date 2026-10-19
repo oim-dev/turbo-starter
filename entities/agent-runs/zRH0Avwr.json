@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "agent-run",
+  "id": "zRH0Avwr",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "zRH0Avwr",
+    "key": "RUN-zRH0Avwr",
+    "sessionId": "3GUZY2rv",
+    "actor": "gpt-6-astra",
+    "operator": {
+      "name": "Sergei Gromov",
+      "email": "zz-gromov@ya.ru",
+      "source": "git"
+    },
+    "git": {
+      "branch": "main",
+      "commit": "0cbd5f4fedcebba4353015acf91ac6feecaa94d0"
+    },
+    "client": "OpenCode",
+    "sourceSessionId": null,
+    "startedAt": "2026-10-19T07:41:02.478Z",
+    "endedAt": null,
+    "startedSequence": 2,
+    "endedSequence": null,
+    "endReason": null,
+    "predecessorRunId": null,
+    "reason": [
+      ""
+    ],
+    "endSummary": null
+  },
+  "createdAt": "2026-10-19T07:41:02.478Z",
+  "createdBy": "gpt-6-astra",
+  "updatedAt": "2026-10-19T07:41:02.478Z",
+  "updatedBy": "gpt-6-astra"
+}

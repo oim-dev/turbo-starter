@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "3GUZY2rv",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "3GUZY2rv",
+    "key": "S-3GUZY2rv",
+    "title": "Закоммитить и опубликовать изменения шаблона",
+    "description": [
+      "Поручение пользователя: «комить и пуш». Проверить накопленные изменения текущей сессии: поддержка macOS в worktree CLI, системные тесты и README, а также согласованные правила сопровождения оператора через Relay в AGENTS.md. Зафиксировать проверенные изменения в Git и отправить текущую ветку в её origin. Проверить фактический результат публикации и состояние рабочей копии. Основания и уже выполненные проверки: S-5QYz5mok/CP-6EqtRFeA (worktree) и S-nzMh20cH/CP-0OdhFoWo (инструкции). Текущая ветка main, origin git@github.com:oim-dev/turbo-starter.git."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "zRH0Avwr",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-10-19T07:41:02.478Z",
+    "updatedAt": "2026-10-19T07:41:02.478Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-10-19T07:41:02.478Z",
+  "createdBy": "gpt-6-astra",
+  "updatedAt": "2026-10-19T07:41:02.478Z",
+  "updatedBy": "gpt-6-astra"
+}
