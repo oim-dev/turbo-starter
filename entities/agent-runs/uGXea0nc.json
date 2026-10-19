@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "agent-run",
   "id": "uGXea0nc",
-  "revision": 1,
+  "revision": 2,
   "key": null,
   "aliases": [],
   "data": {
@@ -23,18 +23,20 @@
     "client": "OpenCode",
     "sourceSessionId": null,
     "startedAt": "2026-10-19T07:29:58.817Z",
-    "endedAt": null,
+    "endedAt": "2026-10-19T07:32:06.343Z",
     "startedSequence": 2,
-    "endedSequence": null,
-    "endReason": null,
+    "endedSequence": 5,
+    "endReason": "paused",
     "predecessorRunId": null,
     "reason": [
       ""
     ],
-    "endSummary": null
+    "endSummary": [
+      "По уточнённому запросу пользователя подготовлены предложения доработок инструкций перед редактированием. Полный вариант, основания, проверенные ситуации и размещение сохранены в CP-3Ek5MV3y. Ожидается согласование. Следующий шаг: прочитать context и открытое намерение CP-C3FIBqPb, возобновить участие и внести согласованный маршрут сопровождения оператора и условия начала разработки в AGENTS.md."
+    ]
   },
   "createdAt": "2026-10-19T07:29:58.817Z",
   "createdBy": "gpt-6-astra",
-  "updatedAt": "2026-10-19T07:29:58.817Z",
+  "updatedAt": "2026-10-19T07:32:06.343Z",
   "updatedBy": "gpt-6-astra"
 }
