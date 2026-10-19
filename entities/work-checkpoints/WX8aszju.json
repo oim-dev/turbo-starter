@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "WX8aszju",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "WX8aszju",
+    "key": "CP-WX8aszju",
+    "sessionId": "5QYz5mok",
+    "runId": "YklGoLK5",
+    "sequence": 3,
+    "title": "Проверить платформенные зависимости worktree",
+    "summary": "",
+    "body": [
+      "Цель: исправить отказ создания worktree на macOS. Основания: сообщение пользователя; DOC-14 сейчас прямо требует Linux, /proc и flock util-linux. Исследовать scripts/worktrees и вызовы package.json, проверить состояние Git, определить минимальное переносимое решение и связанные пути жизненного цикла. Проверка: существующие тесты и целевые сценарии с платформенными ограничениями, без объявления Linux-проверок полноценным запуском на Mac. Работать самостоятельно в текущей копии; сохранять существующие изменения. После исследования сохранить причины и план исправления, после реализации — фактические проверки."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [
+      {
+        "ref": {
+          "kind": "document",
+          "id": "hKeQXD3i"
+        },
+        "key": "DOC-14",
+        "title": "Изолированные worktree-окружения"
+      }
+    ],
+    "createdAt": "2026-10-19T07:15:43.393Z",
+    "createdBy": "gpt-6-astra",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-19T07:15:43.393Z",
+  "createdBy": "gpt-6-astra",
+  "updatedAt": "2026-10-19T07:15:43.393Z",
+  "updatedBy": "gpt-6-astra"
+}
