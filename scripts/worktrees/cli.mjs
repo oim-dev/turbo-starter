@@ -26,7 +26,8 @@ import {
 } from "./system.mjs";
 import { cleanupDocker, compose, docker, snapshot } from "./docker.mjs";
 
-const help = `Worktree-окружения (Linux, Node.js 24+, Git, pnpm, Docker Compose v2, flock)
+const help = `Worktree-окружения (Linux/macOS, Node.js 24+, Git, pnpm, Docker Compose v2)
+Блокировки: flock (Linux), системный /usr/bin/perl (macOS).
 
   pnpm worktree:create task-123 [--base HEAD] [--port-base 21000]
   pnpm worktree:up task-123
@@ -162,8 +163,8 @@ async function main() {
     help,
   );
   requireCondition(
-    process.platform === "linux",
-    "Управление процессами worktree поддерживает Linux.",
+    ["linux", "darwin"].includes(process.platform),
+    "Worktree-окружения поддерживают Linux и macOS.",
   );
   requireCondition(
     /^[a-z0-9][a-z0-9-]{0,63}$/.test(name),

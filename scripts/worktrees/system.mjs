@@ -50,34 +50,61 @@ export async function readJson(path) {
   return JSON.parse(await readFile(path, "utf8"));
 }
 
-// flock освобождает блокировку и после аварии/выключения питания.
+// На macOS нет CLI flock; системный Perl вызывает ту же блокировку ядра.
+// Она освобождается и после аварии, а EOF stdin — при завершении владельца CLI.
+const darwinLock = String.raw`
+use Fcntl qw(:flock);
+open(my $lock, ">>", $ARGV[0]) or die "open: $!\n";
+$SIG{ALRM} = sub { die "lock timeout\n" };
+alarm 30;
+flock($lock, LOCK_EX) or die "flock: $!\n";
+alarm 0;
+$| = 1;
+print "locked\n";
+while (sysread(STDIN, my $buffer, 1024)) {}
+`;
+
 export async function lock(path) {
   await mkdir(dirname(path), { recursive: true });
+  const darwin = process.platform === "darwin";
   const child = spawn(
-    "flock",
-    [
-      "--exclusive",
-      "--wait",
-      "30",
-      path,
-      "sh",
-      "-c",
-      'printf "locked\\n"; cat >/dev/null',
-    ],
+    darwin ? "/usr/bin/perl" : "flock",
+    darwin
+      ? ["-e", darwinLock, "--", path]
+      : [
+          "--exclusive",
+          "--wait",
+          "30",
+          path,
+          "sh",
+          "-c",
+          'printf "locked\\n"; cat >/dev/null',
+        ],
     {
       stdio: ["pipe", "pipe", "inherit"],
     },
   );
-  await new Promise((resolve, reject) => {
-    child.once("error", reject);
-    child.once("exit", (code) =>
-      reject(new Error(`Не удалось получить блокировку ${path}: ${code}`)),
-    );
-    child.stdout.once("data", resolve);
-  });
+  const closed = new Promise((resolve) => child.once("close", resolve));
+  try {
+    await new Promise((resolve, reject) => {
+      child.once("error", reject);
+      child.once("exit", (code) =>
+        reject(new Error(`Не удалось получить блокировку ${path}: ${code}`)),
+      );
+      child.stdout.once("data", resolve);
+    });
+  } catch (error) {
+    child.stdin.destroy();
+    child.kill();
+    await closed;
+    throw error;
+  }
+  let released = false;
   return async () => {
-    const closed = new Promise((resolve) => child.once("close", resolve));
-    child.stdin.end();
+    if (!released) {
+      released = true;
+      child.stdin.end();
+    }
     await closed;
   };
 }
@@ -112,6 +139,37 @@ export async function portsAvailable(ports) {
 // Маркер наследуется только процессами запуска этого экземпляра, включая Turbo.
 // Проверяем также starttime, чтобы не отправить сигнал повторно использованному PID.
 export async function instanceProcesses(token) {
+  if (process.platform === "darwin") {
+    // -E показывает окружение, -ww исключает обрезку длинной строки с маркером.
+    const output = await run(
+      "/bin/ps",
+      ["-A", "-E", "-ww", "-o", "pid=,lstart=,command="],
+      {
+        capture: true,
+        env: {
+          ...withoutEnvironment(["WORKTREE_INSTANCE_TOKEN"]),
+          LC_ALL: "C",
+        },
+      },
+    );
+    const result = [];
+    for (const line of output.split("\n")) {
+      const match =
+        /^\s*(\d+)\s+(\w{3}\s+\w{3}\s+\d{1,2}\s+\d{2}:\d{2}:\d{2}\s+\d{4})\s+(.*)$/.exec(
+          line,
+        );
+      if (
+        match &&
+        Number(match[1]) !== process.pid &&
+        match[3].split(/\s+/).includes(`WORKTREE_INSTANCE_TOKEN=${token}`)
+      )
+        result.push({
+          pid: Number(match[1]),
+          start: match[2].replace(/\s+/g, " "),
+        });
+    }
+    return result;
+  }
   const result = [];
   for (const name of await readdir("/proc")) {
     if (!/^\d+$/.test(name) || Number(name) === process.pid) continue;
@@ -136,11 +194,19 @@ export async function stopProcesses(token) {
   for (const signal of ["SIGTERM", "SIGKILL"]) {
     for (const entry of await instanceProcesses(token)) {
       try {
-        const stat = await readFile(`/proc/${entry.pid}/stat`, "utf8");
-        if (
-          stat.slice(stat.lastIndexOf(")") + 2).split(" ")[19] === entry.start
-        )
-          process.kill(entry.pid, signal);
+        let matches;
+        if (process.platform === "darwin") {
+          matches = (await instanceProcesses(token)).some(
+            (current) =>
+              current.pid === entry.pid && current.start === entry.start,
+          );
+        } else {
+          const stat = await readFile(`/proc/${entry.pid}/stat`, "utf8");
+          matches =
+            stat.slice(stat.lastIndexOf(")") + 2).split(" ")[19] ===
+            entry.start;
+        }
+        if (matches) process.kill(entry.pid, signal);
       } catch (error) {
         if (!["ENOENT", "ESRCH"].includes(error.code)) throw error;
       }

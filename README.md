@@ -137,6 +137,9 @@ Prisma Client и REST SDK подготавливаются автоматиче�
 
 ## Параллельная работа в worktree
 
+Поддерживаются Linux (с `flock` из util-linux) и macOS (с системными `/usr/bin/perl`
+и `/bin/ps`). На macOS инфраструктура запускается через Docker Desktop с Compose v2.
+
 Для отдельной задачи создайте окружение и запустите его:
 
 ```bash
