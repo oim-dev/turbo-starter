@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "5QYz5mok",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "5QYz5mok",
+    "key": "S-5QYz5mok",
+    "title": "Исправить создание worktree на macOS",
+    "description": [
+      "Поручение пользователя: «Привет, проверьте скрипт создания ворктри, есть проблема, на мак он не работает». Найти причины несовместимости создания worktree с macOS, исправить их в рамках существующего механизма и проверить доступными средствами. Прочитать DOC-14 и связанные инструкции, сохранить пользовательские изменения. Проверить синтаксис и регрессионные сценарии создания, в том числе ограничения стандартного окружения macOS. Среда исполнителя — Linux; отделить подтверждённые проверки от непроверенного запуска на настоящем Mac."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "YklGoLK5",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-10-19T07:15:33.956Z",
+    "updatedAt": "2026-10-19T07:15:33.956Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-10-19T07:15:33.956Z",
+  "createdBy": "gpt-6-astra",
+  "updatedAt": "2026-10-19T07:15:33.956Z",
+  "updatedBy": "gpt-6-astra"
+}
