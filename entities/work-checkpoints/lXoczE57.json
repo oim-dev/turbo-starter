@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "lXoczE57",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "lXoczE57",
+    "key": "CP-lXoczE57",
+    "sessionId": "5QYz5mok",
+    "runId": "YklGoLK5",
+    "sequence": 5,
+    "title": "Добавлена macOS-ветка, системные проверки пройдены",
+    "summary": "",
+    "body": [
+      "В scripts/worktrees/cli.mjs разрешён darwin и обновлена справка. В system.mjs macOS использует штатный Perl Fcntl::flock с 30-секундным ожиданием и удержанием до EOF stdin; Linux сохраняет util-linux flock. Освобождение блокировки стало повторно безопасным. Поиск процессов macOS использует /bin/ps -A -E -ww, LC_ALL=C, полный маркер, PID и lstart; перед сигналом повторно проверяются маркер и время старта. README описывает требования. Добавлен system.test.mjs: 11 тестов проходят на Linux, включая реальный Perl flock, конкуренцию, SIGKILL владельца, изоляцию реальных Linux-процессов и имитацию BSD ps (длинный вывод, чужие маркеры, смена PID/маркера, ошибка ps). pnpm env:check прошёл: 4 шаблона, 4 копии, 4 рабочих файла. CLI --help прошёл. Следующий шаг: проверить create на временном Git-репозитории с настоящим Docker Compose config и контролируемой заменой pnpm install/setup; актуализировать DOC-14 и завершить историю. Relay Web запущен фоновым процессом на http://localhost:4700, HTTP 200."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-19T07:20:25.638Z",
+    "createdBy": "gpt-6-astra",
+    "kind": "progress",
+    "intentId": "WX8aszju",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-19T07:20:25.638Z",
+  "createdBy": "gpt-6-astra",
+  "updatedAt": "2026-10-19T07:20:25.638Z",
+  "updatedBy": "gpt-6-astra"
+}
