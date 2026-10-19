@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "6EqtRFeA",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "6EqtRFeA",
+    "key": "CP-6EqtRFeA",
+    "sessionId": "5QYz5mok",
+    "runId": "YklGoLK5",
+    "sequence": 6,
+    "title": "Исправлена Linux-зависимость worktree CLI",
+    "summary": "Добавлена поддержка macOS; 11 тестов и изолированная проверка создания прошли.",
+    "body": [
+      "## Причина и исправление",
+      "CLI явно запрещал любую платформу, кроме Linux; затем зависел от util-linux flock и /proc. В scripts/worktrees/cli.mjs разрешён darwin, обновлена справка. scripts/worktrees/system.mjs на macOS удерживает системный flock через /usr/bin/perl с таймаутом 30 секунд и освобождением по EOF; блокировки корректно освобождаются повторным вызовом. Поиск процессов выполняется через /bin/ps -A -E -ww с LC_ALL=C и маркером экземпляра; перед сигналом перепроверяются PID, lstart и маркер. README обновлён, DOC-14 актуализирован до ревизии 4 и перечитан.",
+      "",
+      "## Фактические проверки",
+      "- TMPDIR=/tmp/opencode node --test --test-timeout=20000 scripts/worktrees/system.test.mjs: 11/11. Проверены реальные Linux/Perl блокировки, конкуренция, SIGKILL владельца, изоляция Linux-процессов; BSD ps имитируется для проверки парсинга, чужих маркеров, длинных строк, повторного PID и ошибок.",
+      "- node /tmp/opencode/worktree-macos-smoke.mjs: PASS. Во временном Git-репозитории одновременно созданы две копии с process.platform=darwin и одна Linux. Настоящие git worktree, подготовка env, Docker Compose config и блокировки; выделены 30 непересекающихся портов, снимки Compose согласованы с записями. pnpm заменён контролируемой заглушкой: проверены вызовы install --frozen-lockfile и run setup в каждой копии. Повторное имя отклонено; отказ setup оставляет creating и блокирует up. Временный репозиторий и его рабочие копии удалены.",
+      "- pnpm run env:check: 4 шаблона, 4 совместимые копии, 4 рабочих файла — успешно.",
+      "- Prettier check трёх JS-файлов, CLI --help и git diff --check — успешно.",
+      "",
+      "## Артефакты и ограничения",
+      "Изменены README.md, scripts/worktrees/cli.mjs, scripts/worktrees/system.mjs; добавлен scripts/worktrees/system.test.mjs. Правки остаются в текущей рабочей копии без коммита. История: S-5QYz5mok, исследование CP-bWglbYgW, реализация CP-lXoczE57. Настоящий Mac недоступен; нативный полный запуск macOS и загрузка зависимостей/скиллов в smoke-проверке не выполнялись. Relay Web работает фоновым процессом npx @oim-dev/relay-server на http://localhost:4700 (HTTP 200); для повторного запуска используется та же команда из корня проекта."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [
+      {
+        "ref": {
+          "kind": "document",
+          "id": "hKeQXD3i"
+        },
+        "key": "DOC-14",
+        "title": "Изолированные worktree-окружения"
+      }
+    ],
+    "createdAt": "2026-10-19T07:22:41.981Z",
+    "createdBy": "gpt-6-astra",
+    "kind": "result",
+    "intentId": "WX8aszju",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-19T07:22:41.981Z",
+  "createdBy": "gpt-6-astra",
+  "updatedAt": "2026-10-19T07:22:41.981Z",
+  "updatedBy": "gpt-6-astra"
+}
