@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "L6uEkhk0",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "L6uEkhk0",
+    "key": "CP-L6uEkhk0",
+    "sessionId": "alE43ciI",
+    "runId": "8bsZWq2R",
+    "sequence": 3,
+    "title": "Принять корневые инструкции проекта",
+    "summary": "",
+    "body": [
+      "Цель — ознакомиться с актуальным AGENTS.md по прямому поручению пользователя. Корневой файл прочитан как входная инструкция; скилл Relay и HISTORY.md уже загружены в текущий контекст. Подключение проверено через overview: turbo-starter, project-0dr4. Сформулировать основные обязательства и сохранить результат ознакомления. Проверка — полнота чтения всех 185 строк и соответствие итогового понимания разделам инструкции."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-19T07:24:50.187Z",
+    "createdBy": "gpt-6-astra",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-19T07:24:50.187Z",
+  "createdBy": "gpt-6-astra",
+  "updatedAt": "2026-10-19T07:24:50.187Z",
+  "updatedBy": "gpt-6-astra"
+}
