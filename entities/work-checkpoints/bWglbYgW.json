@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "bWglbYgW",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "bWglbYgW",
+    "key": "CP-bWglbYgW",
+    "sessionId": "5QYz5mok",
+    "runId": "YklGoLK5",
+    "sequence": 4,
+    "title": "Найдены три Linux-зависимости",
+    "summary": "",
+    "body": [
+      "Исследованы scripts/worktrees/{cli,system,docker,environment}.mjs, package.json, DOC-14 и DOC-11; Git чист. create немедленно отвергает process.platform !== linux. Даже после снятия запрета блокировки требуют util-linux flock, а status/up/down/remove читают /proc. Решение: разрешить darwin, сохранить Linux flock и /proc, на macOS использовать flock через штатный /usr/bin/perl (ядро автоматически снимает блокировку после завершения) и /bin/ps -E -ww с PID, lstart и унаследованным маркером экземпляра. Перед сигналом повторно проверять личность процесса. Подтверждён синтаксис ps по man macOS: -E выводит исходное окружение; lstart зависит от locale, поэтому задавать LC_ALL=C. Проверить конкурирующие блокировки, аварийное завершение владельца, выбор процессов, защиту от повторного PID и CLI create на временном репозитории. Настоящего macOS здесь нет: доступна Linux-проверка Perl и имитация ответов BSD ps. Обновить действующий DOC-14; DOC-11 относится к неизменяемому справочнику шаблона."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-19T07:17:00.917Z",
+    "createdBy": "gpt-6-astra",
+    "kind": "progress",
+    "intentId": "WX8aszju",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-19T07:17:00.917Z",
+  "createdBy": "gpt-6-astra",
+  "updatedAt": "2026-10-19T07:17:00.917Z",
+  "updatedBy": "gpt-6-astra"
+}
