@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "agent-run",
   "id": "8bsZWq2R",
-  "revision": 1,
+  "revision": 2,
   "key": null,
   "aliases": [],
   "data": {
@@ -23,18 +23,20 @@
     "client": "OpenCode",
     "sourceSessionId": null,
     "startedAt": "2026-10-19T07:24:39.423Z",
-    "endedAt": null,
+    "endedAt": "2026-10-19T07:25:09.012Z",
     "startedSequence": 2,
-    "endedSequence": null,
-    "endReason": null,
+    "endedSequence": 5,
+    "endReason": "completed",
     "predecessorRunId": null,
     "reason": [
       ""
     ],
-    "endSummary": null
+    "endSummary": [
+      "Поручение выполнено: актуальный корневой AGENTS.md прочитан полностью, обязательства по Relay, режиму исполнения, делегированию, документации и env приняты для дальнейшей работы. Итог ознакомления сохранён в CP-UgEH22Uw. Проверены все 185 строк файла и подключение к turbo-starter через overview."
+    ]
   },
   "createdAt": "2026-10-19T07:24:39.423Z",
   "createdBy": "gpt-6-astra",
-  "updatedAt": "2026-10-19T07:24:39.423Z",
+  "updatedAt": "2026-10-19T07:25:09.012Z",
   "updatedBy": "gpt-6-astra"
 }
