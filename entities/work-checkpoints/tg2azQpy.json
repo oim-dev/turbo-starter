@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "tg2azQpy",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "tg2azQpy",
+    "key": "CP-tg2azQpy",
+    "sessionId": "ELFpMXr3",
+    "runId": "7SLbMuvd",
+    "sequence": 5,
+    "title": "Итог: код подготовлен, dev-запуск блокирует конфликт инфраструктурных портов",
+    "summary": "Типы, Prisma, зависимости и env проверены; собственная инфраструктура остановлена, её порты заняты biocad-vcp-dev.",
+    "body": [
+      "## Ответ на поручение",
+      "На 28.10.2026 инфраструктура именно turbo-starter-dev не запущена. PostgreSQL, MinIO, RabbitMQ и imgproxy остановлены с Exited (0); minio-init ранее успешно завершился, его остановленное состояние штатно. На этой машине работают healthy-контейнеры biocad-vcp-dev из /home/gromov/projects/biocad/biocad-vcp/infra/dev. Они занимают все настроенные инфраструктурные порты: 5544, 9000, 9001, 5672, 15672, 18080.",
+      "",
+      "Рабочий infra/dev/.env выбирает COMPOSE_PROJECT_NAME=turbo-starter-dev и перечисленные порты. Backend .env направляет PostgreSQL на localhost:5544/default-db, S3 на localhost:9000, AMQP на localhost:5672/images, imgproxy на localhost:18080. Таким образом, обычный infra:dev:up встретит конфликт портов, а текущий backend при запуске будет обращаться к адресам другого проекта. docker inspect подтвердил разные владельцев и volumes: biocad-vcp-dev_postgres_dev_data и turbo-starter-dev_postgres_dev_data.",
+      "",
+      "## Готовность программной части",
+      "- Node.js 24.18.1, pnpm 11.25.0, Git 2.55.0, Docker 29.6.2, Compose 5.3.1 доступны и соответствуют требованиям.",
+      "- Прямые dependencies/devDependencies во всех 9 package.json присутствуют; отсутствующих пакетов нет.",
+      "- pnpm env:check: успешно, 4 шаблона, 4 совместимые копии, 4 рабочих файла.",
+      "- docker compose -f infra/dev/docker-compose.yml config --quiet: успешно.",
+      "- pnpm exec turbo run dev --dry=text: граф dev-задач построен, SDK предусмотрены как предварительные сборки.",
+      "- DOTENV_CONFIG_PATH=/dev/null pnpm --filter @oim/nest-backend exec prisma validate: схема валидна; подключение к БД не выполнялось.",
+      "- DOTENV_CONFIG_PATH=/dev/null pnpm check-types --ui=stream --force: 7/7 задач успешны, 0 из кеша. Подтверждены сборки и типы обоих SDK, типы backend/Next/React, генерация Prisma Client, route types и SVG.",
+      "- Порты приложений 3000, 3001, 4000, 4001 свободны; HTTP-запросы дали ECONNREFUSED. Сайт, админка и API сейчас не работают.",
+      "- MinIO health/console, RabbitMQ management и imgproxy health на занятых портах возвращают HTTP 200, но принадлежат biocad-vcp-dev.",
+      "- Итоговый git status --short --branch чистый; отслеживаемые файлы не изменены.",
+      "",
+      "## Ограничение проверки",
+      "Миграции собственной остановленной БД и полный dev runtime не проверены. Миграции, backend и worker не запускались на текущих адресах другого проекта. Успешная статическая проверка подтверждает подготовку к запуску, но не заменяет проверку собственного работающего окружения.",
+      "",
+      "## Следующий шаг",
+      "Для параллельной работы выделить Turbo Starter собственные свободные порты, согласованно обновить адреса infra/dev/.env и apps/nest-backend/.env, выполнить env:check. Затем запустить pnpm infra:dev:up, проверить prisma migrate status именно на своей БД, изучить необходимые миграции и применить согласованные; после этого запустить pnpm dev и проверить сайт :3000, админку :3001 и API :4000/:4001. В этом поручении запрошена диагностика, а изменение окружения остаётся следующим действием.",
+      "",
+      "## История и доступ",
+      "Предыдущая точка исследования: CP-AAouaMQK. Relay Web запущен по существующему настроенному подключению: http://127.0.0.1:4700 (HTTP 200), Swagger /api/docs. Процесс npx @oim-dev/relay-server работает в фоне OpenCode, shell ID sh_182a987d0001aOALLKOhgqOD8B; для отдельного терминала используется та же команда из корня проекта. Поручение выполнено как диагностика."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-10-28T13:20:55.697Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "result",
+    "intentId": "ogEUQifv",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-10-28T13:20:55.697Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-10-28T13:20:55.697Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
