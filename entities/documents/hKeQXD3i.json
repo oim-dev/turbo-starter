@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "document",
   "id": "hKeQXD3i",
-  "revision": 4,
+  "revision": 5,
   "key": "DOC-14",
   "aliases": [],
   "data": {
@@ -184,7 +184,7 @@
     ],
     "documentKind": "instruction",
     "sectionId": "infrastructure",
-    "documentStatus": "active",
+    "documentStatus": "draft",
     "pinned": false,
     "relations": [
       {
@@ -212,6 +212,6 @@
   },
   "createdAt": "2026-10-18T20:25:29.338Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-10-19T07:21:46.625Z",
-  "updatedBy": "gpt-6-astra"
+  "updatedAt": "2026-10-28T14:07:38.907Z",
+  "updatedBy": "human"
 }
