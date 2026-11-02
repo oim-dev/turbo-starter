@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "sotaPpBS",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "sotaPpBS",
+    "key": "S-sotaPpBS",
+    "title": "Обновление js-reference, агентских инструкций и зависимостей",
+    "description": [
+      "Поручение пользователя: «https://github.com/gromlab-ru/js-reference — давайте актуализируем скилы. А так-же агентские инструкции в проекте. Для некста появился свой скилл, установите так-же недостающие зависимости». Цель: сверить установленные навыки и механизм setup с актуальным js-reference, обновить закреплённые версии и инструкции приложений, подключить отдельный Next.js skill и необходимые зависимости. Границы: обслуживание существующего шаблона и инструментов разработки; продуктовая разработка не поручена. Сначала изучить применимые инструкции, документацию Relay и изменения upstream, сохранить пользовательские изменения. Проверить воспроизводимость установки, согласованность lockfile и подходящие lint/typecheck/build-проверки изменённых пакетов."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "CmvzVNYJ",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-11-02T09:31:31.164Z",
+    "updatedAt": "2026-11-02T09:31:31.164Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-11-02T09:31:31.164Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-11-02T09:31:31.164Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
