@@ -1,14 +1,15 @@
+import { computeFileSha256InChunks } from './chunked-file-digest'
 import { FILE_DIGEST_ERROR_CODE, FileDigestError } from './file-digest.error'
 import { readFileBytes } from './helpers/read-file-bytes'
 
 /**
  * Возвращает SHA-256 исходных байтов в lowercase hex.
- * WebCrypto не прерывает digest: отмена немедленно завершает ожидание и игнорирует его поздний результат.
+ * На HTTP использует существующий потоковый WASM; WebCrypto отменяется на уровне ожидания результата.
  */
 export const computeFileSha256 = async (file: Blob, signal: AbortSignal): Promise<string> => {
   signal.throwIfAborted()
   if (!globalThis.isSecureContext || globalThis.crypto?.subtle === undefined) {
-    throw new FileDigestError(FILE_DIGEST_ERROR_CODE.UNAVAILABLE)
+    return computeFileSha256InChunks(file, signal)
   }
   const bytes = await readFileBytes(file, signal)
   signal.throwIfAborted()

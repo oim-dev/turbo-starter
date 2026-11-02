@@ -1,0 +1,73 @@
+{
+	admin off
+	auto_https off
+	persist_config off
+	servers {
+		# Заголовки X-Forwarded-* приходят от Traefik в Docker-сети.
+		trusted_proxies static private_ranges
+		trusted_proxies_strict
+	}
+}
+
+:8080 {
+	route {
+		handle /healthz {
+			respond "ok" 200
+		}
+
+		# Bucket входит в S3-подпись: сохраняем исходные URI, query и Host.
+		@storage path /{$S3_BUCKET} /{$S3_BUCKET}/*
+		handle @storage {
+			reverse_proxy minio:9000
+		}
+
+		handle /admin {
+			redir * /admin/ 308
+		}
+
+		@adminApi path /admin/api /admin/api/*
+		handle @adminApi {
+			uri strip_prefix /admin/api
+			reverse_proxy admin-api:4001
+		}
+
+		@clientApi path /api /api/*
+		handle @clientApi {
+			uri strip_prefix /api
+			reverse_proxy client-api:4000
+		}
+
+		@media path /files/* /media/images/*
+		handle @media {
+			reverse_proxy client-api:4000
+		}
+
+		handle_path /admin/* {
+			root * /srv/admin
+			encode zstd gzip
+			header {
+				X-Content-Type-Options nosniff
+				Referrer-Policy strict-origin-when-cross-origin
+				X-Frame-Options SAMEORIGIN
+				Permissions-Policy "camera=(), microphone=(), display-capture=()"
+			}
+			# Несуществующий JS/CSS должен давать 404, а не HTML SPA.
+			handle /assets/* {
+				header Cache-Control "public, max-age=31536000, immutable"
+				file_server
+			}
+			handle {
+				header Cache-Control no-cache
+				try_files {path} /index.html
+				file_server
+			}
+		}
+
+		handle {
+			reverse_proxy web:3000 {
+				# Передаём streaming SSR/RSC по мере получения от Next.js.
+				flush_interval -1
+			}
+		}
+	}
+}

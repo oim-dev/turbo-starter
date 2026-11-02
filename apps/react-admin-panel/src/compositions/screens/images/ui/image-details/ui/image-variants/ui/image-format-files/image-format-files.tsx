@@ -1,7 +1,8 @@
-import { ActionIcon, CopyButton, Group, Table, Text, Tooltip } from '@mantine/core'
+import { ActionIcon, Group, Table, Text, Tooltip } from '@mantine/core'
 import { IconCheck, IconCopy, IconExternalLink } from '@tabler/icons-react'
 import type { JSX } from 'react'
 import { formatImageBytes } from 'domains/images'
+import { CopyButton } from 'infra/browser-clipboard'
 import type { ImageFormatFilesProps } from './types/image-format-files-props.type'
 import styles from './styles/image-format-files.module.css'
 

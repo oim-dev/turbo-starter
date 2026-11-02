@@ -2,7 +2,6 @@ import {
   ActionIcon,
   Anchor,
   Badge,
-  CopyButton,
   Group,
   Paper,
   SegmentedControl,
@@ -18,6 +17,7 @@ import { useState } from 'react'
 import type { JSX } from 'react'
 import { Link } from 'react-router-dom'
 import { describePermission, useAccessManagement } from 'domains/management/access'
+import { CopyButton } from 'infra/browser-clipboard'
 import { isDefined, isEmptyArray } from 'shared/value-predicates'
 import { PageHeading } from 'ui/page-heading'
 import { QueryState } from 'ui/query-state'

@@ -3,6 +3,7 @@ import {
   readBrowserStorage,
   writeBrowserStorage
 } from 'infra/browser-storage'
+import { createRandomUuid } from 'infra/browser-crypto'
 import { hasOwn, isNonEmptyString, isNumber, isRecord } from 'shared/value-predicates'
 import { BACKEND_ADMIN_API_BASE_URL } from '../config/backend-admin-api.config'
 import { getJwtExpiresAt } from '../helpers/get-jwt-expires-at'
@@ -29,7 +30,7 @@ const getCredentialKey = (): string => {
  * Tombstone не удаляется при чтении: его поколение отменяет незавершённые попытки других вкладок.
  */
 export const clearBackendAdminApiAccessToken = (): BackendAdminApiCredentialSnapshot => {
-  const revision = crypto.randomUUID()
+  const revision = createRandomUuid()
   writeBrowserStorage(getCredentialKey(), JSON.stringify({
     version: CREDENTIAL_VERSION,
     id: revision,
@@ -113,7 +114,7 @@ export const setBackendAdminApiAccessToken = (
     throw new TypeError('Invalid or expired API credential')
   }
 
-  const credential = { id: crypto.randomUUID(), accessToken, expiresAt }
+  const credential = { id: createRandomUuid(), accessToken, expiresAt }
   writeBrowserStorage(getCredentialKey(), JSON.stringify({ version: CREDENTIAL_VERSION, ...credential }))
   return credential
 }

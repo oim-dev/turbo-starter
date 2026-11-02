@@ -135,6 +135,14 @@ Prisma Client и REST SDK подготавливаются автоматиче�
 [админки](apps/react-admin-panel/README.md), [веб-приложения](apps/next-web-app/README.md)
 и [инфраструктуры](infra/dev/README.md).
 
+## Стенд в Dokploy
+
+Полная production-сборка запускается через корневой [`docker-compose.yml`](docker-compose.yml),
+конфигурация и инструкция находятся в [`infra/dokploy`](infra/dokploy/README.md).
+Caddy раздаёт админку под `/admin/`
+и объединяет сайт, оба API и S3 на одном домене по HTTP.
+Инструкция включает настройку домена, окружения и локальную проверку этих же образов.
+
 ## Параллельная работа в worktree
 
 Поддерживаются Linux (с `flock` из util-linux) и macOS (с системными `/usr/bin/perl`

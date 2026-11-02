@@ -6,6 +6,7 @@ import cl from 'clsx'
 import { useEffect, useRef, useState } from 'react'
 import type { JSX } from 'react'
 import { getFileErrorMessage, isFileError } from 'domains/files'
+import { createRandomUuid } from 'infra/browser-crypto'
 import { useNativeFileDrop } from 'infra/native-file-drop'
 import type { NativeFileDrop } from 'infra/native-file-drop'
 import { reportApplicationDefect, toApplicationDefect } from 'shared/errors'
@@ -27,7 +28,7 @@ export const FileUpload = (props: FileUploadProps): JSX.Element => {
   const isVersion = target !== undefined
   const [entries, setEntries] = useState<UploadEntryState[]>(() => {
     const files = isVersion ? initialBatch.files.slice(0, 1) : initialBatch.files
-    return files.map((file) => ({ id: crypto.randomUUID(), file, status: 'waiting', percent: 0, error: null }))
+    return files.map((file) => ({ id: createRandomUuid(), file, status: 'waiting', percent: 0, error: null }))
   })
   const [selectionError, setSelectionError] = useState<string | null>(() => {
     if (initialBatch.directoryCount > 0) return 'Папки не добавлены. Перетащите отдельные файлы.'
@@ -76,7 +77,7 @@ export const FileUpload = (props: FileUploadProps): JSX.Element => {
     const selected = isVersion ? batch.files.slice(0, 1) : batch.files
     const message = batch.directoryCount > 0 ? 'Папки не добавлены.' : isVersion && batch.files.length > 1 ? 'Добавлен первый файл: одна версия содержит один документ.' : null
     setSelectionError(message)
-    setEntries((current) => [...current, ...selected.map((file): UploadEntryState => ({ id: crypto.randomUUID(), file, status: 'waiting', percent: 0, error: null }))])
+    setEntries((current) => [...current, ...selected.map((file): UploadEntryState => ({ id: createRandomUuid(), file, status: 'waiting', percent: 0, error: null }))])
     resetInput.current?.()
   }
   const isDragging = useNativeFileDrop({ isEnabled: true, canDrop: canAdd, onDrop: handleAdd })

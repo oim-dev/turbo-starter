@@ -18,6 +18,7 @@ import { PermissionsScreen } from 'compositions/screens/permissions'
 import { KeycloakSettingsScreen } from 'compositions/screens/keycloak-settings'
 import { PermissionBoundary } from 'compositions/route-boundaries/permission'
 import { ManagementRedirectBoundary } from 'compositions/route-boundaries/management-redirect'
+import { APP_BASE_PATH } from 'infra/app-environment'
 import { RouteErrorBoundary } from './route-error-boundary/route-error-boundary'
 import { RoutePending } from './route-pending/route-pending'
 
@@ -118,4 +119,4 @@ export const appRouter = createBrowserRouter([
       }
     ]
   }
-])
+], { basename: APP_BASE_PATH })

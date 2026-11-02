@@ -1,4 +1,5 @@
 import { SESSION_STORAGE_KEY } from '../config/api-session.config'
+import { createSessionId } from '../helpers/create-session-id'
 import { readPersistedApiSession } from '../helpers/read-persisted-api-session'
 import type { ApiCredential, ApiSessionSnapshot, PersistedApiSession } from '../types/api-session.type'
 
@@ -170,7 +171,7 @@ export const assertApiBootstrap = (): void => {
  */
 export const replaceApiSession = (nextCredential: ApiCredential | null): ApiCredential | null => {
   if (typeof window === 'undefined') throw new TypeError('Browser API session cannot run during SSR')
-  const nextScope = `${nextCredential ? 'active' : 'guest'}:${crypto.randomUUID()}`
+  const nextScope = `${nextCredential ? 'active' : 'guest'}:${createSessionId()}`
   const nextSession: PersistedApiSession = {
     version: 1,
     scope: nextScope,

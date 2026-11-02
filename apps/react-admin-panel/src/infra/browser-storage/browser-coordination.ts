@@ -1,3 +1,5 @@
+import { runWithIndexedDbLock } from './helpers/run-with-indexed-db-lock'
+
 /**
  * Origin-scoped serialization and value-free notifications.
  */
@@ -20,7 +22,8 @@ type BrowserCoordination = {
  * Coordinates same-origin storage users without transferring stored values.
  */
 export const createBrowserCoordination = (name: string, onChange: () => void): BrowserCoordination => {
-  if (typeof navigator.locks?.request !== 'function' || typeof BroadcastChannel !== 'function') {
+  if (typeof BroadcastChannel !== 'function' ||
+    (typeof navigator.locks?.request !== 'function' && typeof indexedDB === 'undefined')) {
     throw new Error('Browser coordination is unavailable')
   }
 
@@ -41,7 +44,10 @@ export const createBrowserCoordination = (name: string, onChange: () => void): B
   window.addEventListener('pageshow', onChange)
 
   return {
-    runExclusive: async <T>(onAcquired: () => Promise<T>): Promise<T> => await locks.request(name, onAcquired),
+    runExclusive: async <T>(onAcquired: () => Promise<T>): Promise<T> => {
+      if (typeof locks?.request === 'function') return locks.request(name, onAcquired)
+      return runWithIndexedDbLock(name, onAcquired)
+    },
     notify: (): void => channel.postMessage(null),
     dispose: (): void => {
       channel.close()

@@ -1,8 +1,9 @@
-import { ActionIcon, Badge, CopyButton, Group, Text, ThemeIcon, Tooltip, UnstyledButton } from '@mantine/core'
+import { ActionIcon, Badge, Group, Text, ThemeIcon, Tooltip, UnstyledButton } from '@mantine/core'
 import { IconCheck, IconCopy, IconDownload, IconExternalLink, IconFileDescription, IconFileTypePdf, IconInfoCircle } from '@tabler/icons-react'
 import cl from 'clsx'
 import type { JSX } from 'react'
 import { formatFileSize, getFileStatusLabel, getReadableFileUrl } from 'domains/files'
+import { CopyButton } from 'infra/browser-clipboard'
 import type { FileRowProps } from './types/file-row-props.type'
 import styles from './styles/file-row.module.css'
 

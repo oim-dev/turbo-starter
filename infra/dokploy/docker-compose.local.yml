@@ -1,0 +1,10 @@
+# Дополнение для локальной проверки production-сборок на одном origin.
+# PUBLIC_URL=http://dokploy.localhost:8080
+services:
+  gateway:
+    ports:
+      - "127.0.0.1:8080:8080"
+    networks:
+      app:
+        aliases:
+          - dokploy.localhost

@@ -17,7 +17,6 @@ import {
   Title
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
-import { useClipboard } from '@mantine/hooks'
 import {
   IconArrowRight,
   IconCheck,
@@ -31,6 +30,8 @@ import { useState } from 'react'
 import type { JSX } from 'react'
 import { Link } from 'react-router-dom'
 import { KeycloakSettingsError, useKeycloakSettings } from 'domains/management/keycloak-settings'
+import { APP_BASE_PATH } from 'infra/app-environment'
+import { useBrowserClipboard } from 'infra/browser-clipboard'
 import { reportApplicationDefect, toApplicationDefect } from 'shared/errors'
 import { isDefined } from 'shared/value-predicates'
 import { FormLeaveGuard } from 'ui/form-leave-guard'
@@ -46,7 +47,7 @@ import styles from './styles/keycloak-form.module.css'
  */
 export const KeycloakForm = ({ settings }: KeycloakFormProps): JSX.Element => {
   const configuration = useKeycloakSettings()
-  const clipboard = useClipboard({ timeout: 2000 })
+  const clipboard = useBrowserClipboard({ timeout: 2000 })
   const [baseline, setBaseline] = useState(settings)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
@@ -64,9 +65,9 @@ export const KeycloakForm = ({ settings }: KeycloakFormProps): JSX.Element => {
       clientId: settings.clientId,
       clientSecret: '',
       clearSecret: false,
-      callbackUrl: settings.callbackUrl || new URL('/api/auth/callback', window.location.origin).href,
+      callbackUrl: settings.callbackUrl || new URL(`${APP_BASE_PATH}api/auth/callback`, window.location.origin).href,
       frontendCallbackUrl:
-        settings.frontendCallbackUrl || new URL('/auth/keycloak/callback', window.location.origin).href
+        settings.frontendCallbackUrl || new URL(`${APP_BASE_PATH}auth/keycloak/callback`, window.location.origin).href
     },
     validate: {
       issuer: (value, values) => (values.enabled && value.trim() === '' ? 'Введите issuer realm' : null),

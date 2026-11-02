@@ -1,4 +1,4 @@
-import { Alert, Badge, Button, Code, CopyButton, Divider, Drawer, Group, Skeleton, Stack, Text } from '@mantine/core'
+import { Alert, Badge, Button, Code, Divider, Drawer, Group, Skeleton, Stack, Text } from '@mantine/core'
 import { IconCheck, IconCopy, IconDownload, IconRefresh } from '@tabler/icons-react'
 import { useReducedMotion } from '@mantine/hooks'
 import { useState } from 'react'
@@ -6,6 +6,7 @@ import type { JSX } from 'react'
 import { ImagePreview, formatImageBytes, getImageDimensions, getImageErrorMessage,
   getImagePreviewVariants, getImageStatusLabel, isImageError,
   canRetryImageProcessing, canDownloadImageOriginal, getImageFailureDescription } from 'domains/images'
+import { CopyButton } from 'infra/browser-clipboard'
 import { reportApplicationDefect, toApplicationDefect } from 'shared/errors'
 import { isDefined } from 'shared/value-predicates'
 import { ImageClassification } from './ui/image-classification/image-classification'

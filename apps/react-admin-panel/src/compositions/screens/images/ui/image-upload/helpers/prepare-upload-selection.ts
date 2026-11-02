@@ -1,4 +1,5 @@
 import { IMAGE_MAX_UPLOAD_BYTES } from 'domains/images'
+import { createRandomUuid } from 'infra/browser-crypto'
 import type { NativeFileDrop } from 'infra/native-file-drop'
 import { isEmptyArray } from 'shared/value-predicates'
 import type { UploadEntry } from '../types/upload-entry.type'
@@ -18,7 +19,7 @@ export const prepareUploadSelection = (batch: NativeFileDrop) => {
   if (rejectedCount > 0) messages.push(`Не добавлено файлов: ${rejectedCount}. Поддерживаются непустые JPEG, PNG и WebP до 20 МиБ каждый.`)
   if (isEmptyArray(batch.files) && batch.directoryCount === 0) messages.push('В переносе нет доступных файлов. Выберите изображения с устройства.')
   const entries: UploadEntry[] = acceptedFiles.map((file) => ({
-    id: crypto.randomUUID(),
+    id: createRandomUuid(),
     file,
     status: 'waiting',
     progress: 0,

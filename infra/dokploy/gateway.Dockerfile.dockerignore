@@ -1,0 +1,15 @@
+.git
+.artifacts
+.agents
+.claude
+.codex
+.opencode
+**/node_modules
+**/dist
+**/build
+**/.next
+**/.turbo
+**/.svg-sprite
+**/*.tsbuildinfo
+**/.env
+**/.env.*
