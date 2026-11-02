@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "MXfhOTp4",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "MXfhOTp4",
+    "key": "CP-MXfhOTp4",
+    "sessionId": "sC4zPH6s",
+    "runId": "X3UZMY28",
+    "sequence": 5,
+    "title": "Проверены корпоративные Dokploy и Buildx; ожидаются примеры проектов",
+    "summary": "",
+    "body": [
+      "## Уточнения оператора",
+      "Оператор подтвердил: используется корпоративный self-hosted GitLab. Затем предложил прислать пару корпоративных проектов, чтобы проверить фактическую сборку и push образов. Следующий шаг — получить ссылки на проекты/CI и, при наличии, успешные pipelines.",
+      "",
+      "## Прочитанные корпоративные источники",
+      "1. Репозиторий common/ai_templates/public/skills/deploy, master на commit debdd321a666c5439a9928b5630f4524197ed772: полностью прочитаны root SKILL.md, README.md, .gitlab-ci.yml и dokploy-repo-prep/{SKILL.md,compose-reference.md,onboarding-guide.md}.",
+      "2. iac/ci-components/main, tag 2.1.2, commit 70774f7a9b1bfb1562fb999f9c506a20fbf09a22: README, относящиеся к image-build части templates/ci.yml, примеры buildx и matrix-build.",
+      "3. iac/ci-components/image/buildx, tag 1.0.0, commit 98854cbb5e06dee17ad890002ec71b0508e52371: README и полный templates/template.yml.",
+      "4. iac/ci-components/image/matrix-build, tag 2.0.2, commit 3cd9480f8c7166460c89288cdabbe81b6cbbfb12: README.",
+      "",
+      "## Что выяснено о сборке и registry",
+      "Сам dokploy-repo-prep описывает сборку на Dokploy через compose build, не задаёт отдельный CI или registry. Корневой deploy-router отсылает к main/ci@2.1.2; его Kubernetes/Helm-правила не следует автоматически переносить на Docker Compose.",
+      "",
+      "Корпоративный Buildx-компонент .image.Build.Buildx использует runner tag rancher-kube-dev и удалённый BuildKit по tcp://buildkit-buildkit-service.buildkit.svc.cluster.local:1234. Сборка выполняется удалённым BuildKit, job управляет ею. docker login использует CI_REGISTRY/CI_REGISTRY_USER/CI_REGISTRY_PASSWORD, публикация — CI_REGISTRY_IMAGE с IMAGE_SUFFIX. BUILD_FILE выбирает Dockerfile, BUILD_PATH — context; BUILD_ARGS и BUILD_DST позволяют настроить target/args/теги. Дефолтная архитектура linux/amd64. По умолчанию публикуются SHA, latest (или IMAGE_TAG) и branch/tag. Cache ref общий CI_REGISTRY_IMAGE:buildcache — при нескольких образах это нужно учесть при выборе компонента.",
+      "",
+      "Matrix-Build также использует удалённый BuildKit, разделяет build и push (Skopeo), поддерживает несколько сервисов, отдельный cache по IMAGE_SUFFIX/BUILD_PLATFORM, target через BUILD_EXTRA_ARGS и расширенные стадии. До выбора нужно сравнить с работающими корпоративными проектами; наличие документации не подтверждает доступ конкретного проекта к runner/BuildKit/registry.",
+      "",
+      "## Применимость Dokploy-скилла",
+      "Полезны: отдельный Compose для sandbox, named volumes, inline environment с переменными UI, отсутствие container_name, домены через Dokploy, изолированная сеть и проверки сервисов. Скилл прочитан как предоставленный источник; в проект не установлен.",
+      "Есть требующие адаптации места: шаблон env конфликтует с каноническим форматом env проекта; ports с одной цифрой действительно публикует случайный host-port (это не отсутствие публикации), поэтому не нужно автоматически публиковать внутренние БД/очередь; blanket-требования к healthchecks/restart не подходят одноразовым миграциям и minio-init без разбора lifecycle. Требование DEPLOY.md нужно сверить с проектным хранением документации в Relay. Обоснование skill о поведении BusyBox DNS и автоматическом переписывании всех внутренних URL не проверялось и не должно приниматься за установленный факт. Настройки Node/Next runtime сохраняют framework-контракт и не выбираются только по названию dev-стенда.",
+      "",
+      "## Доступ и состояние",
+      "GitLab MCP читает указанные корпоративные skills и CI-компоненты. get_project для biocad/sandbox/gromovs-turbo-starter вернул 404; это не доказывает отсутствие проекта или отключённый registry — доступ и правильный целевой путь надо уточнить по предоставленным ссылкам. Значения секретов не читались.",
+      "",
+      "Файлы проекта не менялись в этом поручении. Сохраняются семь правок предыдущей завершённой работы со скиллами. Сборки контейнеров, push, deploy и записи в GitLab не выполнялись.",
+      "",
+      "## Продолжение",
+      "Получить 1–2 ссылки на реальные корпоративные проекты и при возможности успешный pipeline. Прочитать их .gitlab-ci.yml и вложенные includes, Dockerfile, конфигурацию tag/push и требования к runner. На основе реальных примеров согласовать рекомендуемый вариант CI → корпоративный registry → Dokploy, состав образов (web/admin/backend/migrations/MinIO), ветку, теги и доступ Dokploy. Затем зафиксировать постановку инфраструктурной работы и подготовить файлы.",
+      ""
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-11-02T10:40:31.503Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "progress",
+    "intentId": "yGCVrglD",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-02T10:40:31.503Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-11-02T10:40:31.503Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
