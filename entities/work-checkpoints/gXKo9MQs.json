@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "gXKo9MQs",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "gXKo9MQs",
+    "key": "CP-gXKo9MQs",
+    "sessionId": "sotaPpBS",
+    "runId": "CmvzVNYJ",
+    "sequence": 5,
+    "title": "Навыки восстановлены; согласован переход только на русскую генерацию",
+    "summary": "",
+    "body": [
+      "Установлены актуальные js-reference и внешние навыки с фиксацией SHA; pnpm run setup успешно восстановил 12 навыков и собрал пустой реестр агентов. pnpm install --frozen-lockfile прошёл, npm-зависимости уже установлены и lockfile актуален. Обновлены root AGENTS/README, инструкции Next.js и SPA и ссылки в README шаблонов. Проверка git diff --check успешна. Новое прямое указание пользователя: «template-generation — удаляйте этот скилл, есть -ru версия». Удалить английский skill штатным CLI со всеми проектными ссылками; обоим frontend использовать template-generation-ru. Ссылку react-reference на английское имя разрешать через явно установленную проектом русскую версию. Итоговый состав — 11 навыков. Осталось обновить инструкцию DOC-13, проверить ссылки и замыкание зависимостей с этим соглашением, agents:check и frontend-проверки."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-11-02T09:38:45.977Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "progress",
+    "intentId": "wRswxbwL",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-02T09:38:45.977Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-11-02T09:38:45.977Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
