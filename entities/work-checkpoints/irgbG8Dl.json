@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "irgbG8Dl",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "irgbG8Dl",
+    "key": "CP-irgbG8Dl",
+    "sessionId": "7RzTtSbT",
+    "runId": "B4S99j3I",
+    "sequence": 4,
+    "title": "Назначение harness установлено по репозиторию",
+    "summary": "Headless-движок исполнения задач ИИ-агентами: worktree, проверки, ревью, интеграция; devcontour-harness alpha.27.",
+    "body": [
+      "## Результат исследования",
+      "Прочитаны README.md и package.json проекта GitLab 4021, получены корневое дерево и src, адресно изучены доступные выдержки docs/architecture.md, docs/turbo-starter.md и docs/connectors.md. Зафиксированный commit: c359619aef2bb89be013ca3c8030a42934664543, ветка master.",
+      "",
+      "Harness — headless CLI/библиотека TypeScript для исполнения инженерных поручений ИИ-агентами: согласованный граф, изолированные Git worktree, обязательные gates, независимое ревью, повторная проверка интеграции, продвижение принятой ветки compare-and-swap и JSON с SHA и evidence. CLI использует codex и claude; пример назначает claude исполнителем, codex ревьюером. Возможны бюджеты и ограниченные повторы. Есть адаптеры Relay v1 HTTP и Relay-2 CLI. npm-пакет devcontour-harness версии 0.1.0-alpha.27, Node >=24.3.0; package.json указывает исходный репозиторий github.com/step1ov/devcontour-harness. docs/turbo-starter.md содержит рецепт на commit Turbo Starter 78f1e76b80f76ae9d4289e0b0994df8a6f2b89cc, совпадающем с текущим проектом: backend-контракт → OpenAPI/SDK → frontend-потребитель, отдельная инфраструктура проверок.",
+      "",
+      "## Проверки и границы",
+      "Выводы сверены с README, package.json и документами. Исполнение движка и живых моделей не запускалось; исходники и настройки репозиториев не менялись. Сначала get_project с URL-encoded path вернул 404; повтор с обычным полным путём корректно вернул проект 4021. Чтение файлов прошло успешно. Большие документы вернулись с усечённым экранным выводом; они не считаются полностью прочитанными.",
+      "",
+      "## Обратная связь и завершение",
+      "Пользователь повторно потребовал отказаться от checkpoints. Новые исследования прекращены; закрывается уже открытая история в силу обязательных инструкций проекта. Пользователю нужно дать краткое содержательное объяснение harness. Источники: https://gitlab.biocad.ru/biocad/dcm/im/libraries/im-ai/harness/-/blob/master/README.md , package.json, docs/turbo-starter.md. Остатка исследования для исходного вопроса нет."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-11-02T09:12:24.393Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "result",
+    "intentId": "yRG6GQs6",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-02T09:12:24.393Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-11-02T09:12:24.393Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
