@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "ynUOVMSZ",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "ynUOVMSZ",
+    "key": "CP-ynUOVMSZ",
+    "sessionId": "sC4zPH6s",
+    "runId": "X3UZMY28",
+    "sequence": 6,
+    "title": "Anabion подтверждает GitLab Registry; предложена современная Matrix-Build схема",
+    "summary": "",
+    "body": [
+      "## Источник оператора и исследование",
+      "Оператор предоставил `/home/gromov/projects/biocad/anabion/` как реальный корпоративный пример. Прочитаны .gitlab-ci.yml, Dockerfile, docker-compose.yml, только image/repository-настройки Helm; проверены Git remote и чистота рабочей копии. Env-файлы и значения секретов не читались. Файлы Anabion не изменялись.",
+      "",
+      "Цепочка проверена до реальных шаблонов: main/ci@1.5.12 (commit cb2b9be4e4a28d91ca35ffb3e16117345a87ddd8) → matrix-build@1.0.2 (a5ef4c4500f36ac328acf65059c1ccea71c9f5e5) → Kaniko build image.tar → Crane push. В шаблонах build/push есть явная отметка deprecated. Default runner этого старого дочернего pipeline — shared-common. Это отличается от актуальной Matrix-Build 2.0.2 с удалённым BuildKit и Skopeo.",
+      "",
+      "В Anabion build_dev использует стандартные CI_REGISTRY* без переопределения, теги SHA/latest/branch формируются компонентом. Dev deploy подставляет CI_COMMIT_SHORT_SHA и CI_REGISTRY_IMAGE в Helm. В локальном compose есть registry.biocad.ru, но путь отличается от Git origin; его нельзя копировать как точный registry namespace другого проекта. Отдельный контур использует ACR, к запрошенному dev-стенду автоматически не относится.",
+      "",
+      "## Вывод и рекомендация",
+      "Собирать в корпоративном GitLab CI по современной Matrix-Build, публиковать под CI_REGISTRY_IMAGE, запускать согласованный набор готовых образов в Dokploy Compose. Для Turbo Starter предложены web/admin/backend/migrations/minio; общий backend runtime запускает client API, admin API и image-worker разными командами. BuildKit нужен в том числе существующему MinIO Dockerfile с cache mounts.",
+      "",
+      "Оператор ещё не подтвердил конкретную схему/ветку/триггер. Рекомендуемая исходная версия компонентов — main/ci@2.1.2 с Matrix-Build 2.0.2 из корпоративного deploy-router, после проверки merged CI и доступов целевого проекта. Новые CI/deployment-файлы не созданы.",
+      "",
+      "## Переиспользуемое знание",
+      "Перед созданием выполнен search Dokploy — совпадений среди предметных записей не было. Создан DOC-17 «Корпоративная сборка образов и dev-стенд Dokploy», research/active, раздел infrastructure. Он предназначен для будущей подготовки CI/Compose, содержит проверенные источники, различия старой и текущей цепочек, контракт registry, рекомендацию и открытые вопросы. Это не принятое решение о запуске.",
+      "",
+      "## Проверки и ограничения",
+      "Исследование подтверждено файлами и исходниками корпоративных шаблонов. Реальные pipelines и доступность runner/BuildKit/registry не проверялись; MCP get_project для Anabion также вернул 404. Docker builds, push и deploy не выполнялись. Ранее проверенные frontend-тесты относятся к предыдущему поручению, а не к этому исследованию.",
+      "",
+      "## Следующий шаг",
+      "Согласовать предложенную схему, ветку dev-стенда и ручной/автоматический деплой после CI. При предоставлении второго примера дополнить сравнение. Затем поставить инфраструктурную работу и подготовить .gitlab-ci.yml, отдельный infra/dokploy Compose и env-шаблон под выбранные условия, сохранив локальный dev-режим.",
+      ""
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [
+      {
+        "ref": {
+          "kind": "document",
+          "id": "2MEVDsOi"
+        },
+        "key": "DOC-17",
+        "title": "Корпоративная сборка образов и dev-стенд Dokploy"
+      }
+    ],
+    "createdAt": "2026-11-02T10:45:29.693Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "progress",
+    "intentId": "yGCVrglD",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-02T10:45:29.693Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-11-02T10:45:29.693Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
