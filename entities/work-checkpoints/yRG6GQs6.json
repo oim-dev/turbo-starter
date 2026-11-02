@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "yRG6GQs6",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "yRG6GQs6",
+    "key": "CP-yRG6GQs6",
+    "sessionId": "7RzTtSbT",
+    "runId": "B4S99j3I",
+    "sequence": 3,
+    "title": "Исследовать репозиторий harness",
+    "summary": "Прочитать описание, структуру и ключевые файлы, объяснить назначение проекта.",
+    "body": [
+      "## Цель",
+      "Ответить, что представляет собой https://gitlab.biocad.ru/biocad/dcm/im/libraries/im-ai/harness .",
+      "",
+      "## Границы и метод",
+      "Получить метаданные проекта, README и дерево репозитория через GitLab. Адресно прочитать документы и входные точки, отличить реализованные возможности от заявлений и планов. Изменений кода, настроек GitLab и приложения не требуется.",
+      "",
+      "## Проверка",
+      "Подкрепить итог ссылками на фактически прочитанные файлы и указать ограничения доступа или расхождения, если обнаружатся. Общий контекст текущего проекта сверён через overview; материалы DOC-11 о локальном шаблоне прочитаны ранее, но сведения о внешнем harness нужно получать из его собственных источников."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-11-02T09:11:03.130Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-02T09:11:03.130Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-11-02T09:11:03.130Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
