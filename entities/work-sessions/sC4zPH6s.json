@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "work-session",
   "id": "sC4zPH6s",
-  "revision": 9,
+  "revision": 10,
   "key": null,
   "aliases": [],
   "data": {
@@ -17,19 +17,19 @@
     "originCheckpointId": null,
     "createdByRunId": null,
     "parentSequence": null,
-    "status": "open",
-    "currentRunId": "uFYJI2SW",
-    "sequence": 10,
+    "status": "paused",
+    "currentRunId": null,
+    "sequence": 11,
     "result": [
       ""
     ],
     "createdAt": "2026-11-02T10:34:09.134Z",
-    "updatedAt": "2026-11-02T11:31:45.054Z",
+    "updatedAt": "2026-11-02T11:31:54.522Z",
     "closedAt": null,
-    "revision": 9
+    "revision": 10
   },
   "createdAt": "2026-11-02T10:34:09.134Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-11-02T11:31:45.054Z",
+  "updatedAt": "2026-11-02T11:31:54.522Z",
   "updatedBy": "openai/gpt-6-astra"
 }
