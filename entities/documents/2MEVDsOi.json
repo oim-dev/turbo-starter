@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "document",
   "id": "2MEVDsOi",
-  "revision": 1,
+  "revision": 2,
   "key": "DOC-17",
   "aliases": [],
   "data": {
@@ -11,6 +11,10 @@
     "summary": "Проверенные корпоративные источники CI/registry и пример Anabion; предлагаемая схема образов для Dokploy, отличия версий сборщика и открытые условия подготовки стенда.",
     "body": [
       "# Корпоративная сборка образов и dev-стенд Dokploy",
+      "",
+      "## Согласованная реализация",
+      "",
+      "Окончательное решение оператора: `infra/dockploy/docker-compose.yml` выполняет сборку и запуск непосредственно в корпоративном Dokploy. Используются существующие Dockerfile приложений и закреплённый MinIO+mc. Репозиторий уже подключён, выбраны ветка по умолчанию и автоматический Git webhook. CI, push в registry и Dokploy API-ключ в текущую поставку не входят. Настройки доменов и Environment выполняются в UI; инструкция для платформенного инженера будет доступна в infra/dockploy/README.md. Сборка в GitLab ниже остаётся исследованной альтернативой, а не требованием текущего стенда.",
       "",
       "## Назначение и статус",
       "",
@@ -48,7 +52,7 @@
       "",
       "Для Turbo Starter важна поддержка BuildKit: `infra/dev/minio.Dockerfile` уже использует cache mounts. Старую цепочку Kaniko из Anabion не следует механически переносить на эти Dockerfile.",
       "",
-      "## Предлагаемая схема стенда",
+      "## Ранее рассмотренный вариант CI/registry",
       "",
       "GitLab commit → корпоративный CI/BuildKit → GitLab Container Registry → запуск выбранных образов в Dokploy Compose.",
       "",
@@ -93,6 +97,6 @@
   },
   "createdAt": "2026-11-02T10:44:13.491Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-11-02T10:44:13.491Z",
+  "updatedAt": "2026-11-02T11:42:18.476Z",
   "updatedBy": "openai/gpt-6-astra"
 }

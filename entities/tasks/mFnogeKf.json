@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "task",
   "id": "mFnogeKf",
-  "revision": 2,
+  "revision": 3,
   "key": "PRODUCT-1",
   "aliases": [],
   "data": {
@@ -38,10 +38,10 @@
         "completedBy": null
       },
       {
-        "title": "CI собирает и публикует согласованный набор образов",
+        "title": "Приложения собираются через Compose внутри Dokploy",
         "summary": "",
         "description": [
-          "CI работает для CI_DEFAULT_BRANCH, использует корпоративный Matrix-Build, общий явный тег образов и запускает deploy только после всех build/push. Пути Dockerfile, контексты и targets проверены сборкой."
+          "Compose использует Dockerfile приложений с context корня монорепозитория, общий backend runtime и отдельный target migrations. Публичный URL Client API передаётся в Next.js при сборке. Все сборки проверены; CI и push в registry не требуются."
         ],
         "id": "LS11TYoX",
         "completed": false,
@@ -74,6 +74,6 @@
   },
   "createdAt": "2026-11-02T11:19:31.109Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-11-02T11:40:11.215Z",
+  "updatedAt": "2026-11-02T11:42:16.792Z",
   "updatedBy": "openai/gpt-6-astra"
 }
