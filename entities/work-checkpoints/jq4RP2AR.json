@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "jq4RP2AR",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "jq4RP2AR",
+    "key": "CP-jq4RP2AR",
+    "sessionId": "sC4zPH6s",
+    "runId": "X3UZMY28",
+    "sequence": 4,
+    "title": "Исходная схема изучена; оператор предоставил корпоративный скилл Dokploy",
+    "summary": "",
+    "body": [
+      "## Факты проекта и платформы",
+      "В репозитории два remote: origin git@github.com:oim-dev/turbo-starter.git и biocad git@gitlab.biocad.ru:biocad/sandbox/gromovs-turbo-starter.git. Имеются Dockerfile Next.js, SPA и backend; backend даёт общий runtime для client API/admin API/image-worker и отдельный target migrations. MinIO+mc собираются своим infra/dev/minio.Dockerfile из закреплённых исходников. Локальный compose запускает только инфраструктуру, приложения работают отдельными dev-процессами. .gitlab-ci.yml и .github/workflows не найдены. Семь незакоммиченных файлов прежней работы сохранены.",
+      "",
+      "Официальная документация Dokploy рекомендует сборку и push в CI с последующим получением готовых образов на сервере. Registry может быть любой Docker Registry. Docker Compose поддерживается; переменные UI сохраняются в .env и должны явно передаваться контейнерам. Для private registry в Swarm Stack с replicas требуется --with-registry-auth. GitLab CI использует CI_REGISTRY_IMAGE; доступность registry на корпоративном GitLab пока не проверена.",
+      "",
+      "Источники: https://docs.dokploy.com/docs/core/applications/going-production, https://docs.dokploy.com/docs/core/docker-compose, https://docs.dokploy.com/docs/core/registry, https://docs.gitlab.com/user/packages/container_registry/build_and_push_images/.",
+      "",
+      "## Новое уточнение оператора",
+      "«https://gitlab.biocad.ru/common/ai_templates/public/skills/deploy/-/tree/master/dokploy-repo-prep у нас тут есть какие-то скилы, ознакомьтесь, по докплою, может тут что-то интересное будет по CI».",
+      "",
+      "Следующий шаг: прочитать корпоративный dokploy-repo-prep и относящиеся CI-материалы через GitLab, проверить их применимость к текущему монорепозиторию. Предварительная рекомендация CI → registry → Dokploy ещё не является согласованным решением. Установку навыка и изменения infrastructure-файлов на этом шаге не начинать до понимания принятых правил.",
+      ""
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-11-02T10:36:39.249Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "progress",
+    "intentId": "yGCVrglD",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-02T10:36:39.249Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-11-02T10:36:39.249Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
