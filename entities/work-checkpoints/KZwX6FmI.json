@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "KZwX6FmI",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "KZwX6FmI",
+    "key": "CP-KZwX6FmI",
+    "sessionId": "Ck3DVEts",
+    "runId": "mElpvbIe",
+    "sequence": 3,
+    "title": "Опубликовать main как biocad/dev",
+    "summary": "",
+    "body": [
+      "Основание — прямое поручение пользователя отправить текущую main в dev нового remote biocad. Проверю локальную ветку, её SHA и push URL, затем выполню git push biocad refs/heads/main:refs/heads/dev. Критерий: SHA refs/heads/dev на сервере совпадает с опубликованной локальной main. Область — публикация существующих коммитов в указанную ветку обычным push. При отказе сервера зафиксирую фактическую причину."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-11-02T08:28:47.459Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-02T08:28:47.459Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-11-02T08:28:47.459Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
