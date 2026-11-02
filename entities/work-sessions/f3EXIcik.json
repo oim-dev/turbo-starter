@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "f3EXIcik",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "f3EXIcik",
+    "key": "S-f3EXIcik",
+    "title": "Сменить biocad remote и опубликовать master",
+    "description": [
+      "Поручение пользователя: «Привет git@gitlab.biocad.ru:biocad/sandbox/gromovs-turbo-starter.git поменяйте ремот биокад на этот. Ветку маин - переименовываем в мастер и пушим в этот репозиторий». Нужно проверить состояние Git, изменить URL существующего remote biocad, переименовать локальную main в master и отправить master в указанный GitLab с настройкой upstream. Сохранить пользовательские изменения и существующую историю; не выполнять force push. Приёмка: адреса fetch/push biocad совпадают с поручением, локальная ветка называется master, её commit совпадает с refs/heads/master на сервере и upstream настроен на biocad/master. Это административная операция Git, продуктовая разработка не требуется."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "GEosUPVH",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-11-02T08:50:23.717Z",
+    "updatedAt": "2026-11-02T08:50:23.717Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-11-02T08:50:23.717Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-11-02T08:50:23.717Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
