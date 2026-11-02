@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "Ft65cchD",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "Ft65cchD",
+    "key": "CP-Ft65cchD",
+    "sessionId": "f3EXIcik",
+    "runId": "GEosUPVH",
+    "sequence": 5,
+    "title": "Согласована принудительная замена master",
+    "summary": "Remote заменён, main переименована; пользователь явно поручил force push удалённой master.",
+    "body": [
+      "## Выполнено и проверено",
+      "biocad fetch/push теперь git@gitlab.biocad.ru:biocad/sandbox/gromovs-turbo-starter.git. Локальная main переименована в master, SHA сохранён: 78f1e76b80f76ae9d4289e0b0994df8a6f2b89cc. git status показывает чистую рабочую копию и прежний upstream origin/main до публикации.",
+      "",
+      "## Уточнение поручения",
+      "На обнаруженную несвязанную историю пользователь ответил: «форс пушем перезапишите мастер». Это явное разрешение заменить удалённую refs/heads/master локальной веткой. Объединение шаблонов не требуется.",
+      "",
+      "## Следующее действие",
+      "Выполнить push с явным --force-with-lease=refs/heads/master:64ae79d8baa9f752ee14864dea8e50a296e96135 и --set-upstream в biocad. Затем проверить удалённый SHA, upstream biocad/master, remote URL и чистоту рабочей копии."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-11-02T08:53:02.988Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "progress",
+    "intentId": "PfHVVoAJ",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-02T08:53:02.988Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-11-02T08:53:02.988Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
