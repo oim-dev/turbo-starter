@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "cWj8ujoV",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "cWj8ujoV",
+    "key": "CP-cWj8ujoV",
+    "sessionId": "sC4zPH6s",
+    "runId": "vlcHrjqt",
+    "sequence": 13,
+    "title": "Выбрана прямая сборка в Dokploy",
+    "summary": "",
+    "body": [
+      "После сравнения вариантов оператор поручил: «в infra/ подготовим папку dockploy и соберем там запуск docker-compose.yml для запуска сборки и запуска в докплой». Исследование CI/registry завершено; его факты сохранены в DOC-17. Итоговое решение текущего объёма — Docker Compose со сборкой приложений на Dokploy, путь infra/dockploy/docker-compose.yml, уже подключённый GitLab-репозиторий, ветка по умолчанию и стандартный Git webhook автодеплоя. API-ключ/CI-публикация образов для этого объёма не нужны. PRODUCT-1 актуализируется под реализацию и проверки этого варианта."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [
+      {
+        "ref": {
+          "kind": "task",
+          "id": "mFnogeKf"
+        },
+        "key": "PRODUCT-1",
+        "title": "Подготовить GitLab CI и dev-стенд Dokploy"
+      },
+      {
+        "ref": {
+          "kind": "document",
+          "id": "2MEVDsOi"
+        },
+        "key": "DOC-17",
+        "title": "Корпоративная сборка образов и dev-стенд Dokploy"
+      }
+    ],
+    "createdAt": "2026-11-02T11:40:10.786Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "result",
+    "intentId": "yGCVrglD",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-02T11:40:10.786Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-11-02T11:40:10.786Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
