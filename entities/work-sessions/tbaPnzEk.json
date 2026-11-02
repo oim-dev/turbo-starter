@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "tbaPnzEk",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "tbaPnzEk",
+    "key": "S-tbaPnzEk",
+    "title": "Добавить Git remote biocad",
+    "description": [
+      "Поручение пользователя: «Добавьте внешний ориджин biocad git@gitlab.biocad.ru:biocad/dcm/im/libraries/im-ai/turbo-starter.git». Цель: настроить в текущем репозитории дополнительный remote с именем biocad и указанным SSH-адресом. Сначала проверить текущие remote, затем добавить недостающий и сверить fetch/push URL. Изменение ограничено локальной конфигурацией Git; публикация коммитов не поручена."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "naKQGrL6",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-11-02T08:25:08.585Z",
+    "updatedAt": "2026-11-02T08:25:08.585Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-11-02T08:25:08.585Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-11-02T08:25:08.585Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
