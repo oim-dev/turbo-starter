@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "AlBMIwhN",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "AlBMIwhN",
+    "key": "CP-AlBMIwhN",
+    "sessionId": "xjw0eEDJ",
+    "runId": "FJh8wEi2",
+    "sequence": 5,
+    "title": "Конфликт разрешён локально",
+    "summary": "",
+    "body": [
+      "Создана локальная dev с tracking biocad/dev; выполнено объединение biocad/master с --allow-unrelated-histories. Единственный add/add конфликт README.md разрешён сохранением содержательного README Turbo Starter. Создан merge-коммит 56fdf14. Проверки перед коммитом: git diff --cached --check и git diff --cached --exit-code biocad/dev успешны, git ls-files --unmerged пуст. Итоговые файлы полностью совпадают с исходной dev; изменена только история слияния. Осталось отправить коммит в biocad/dev и проверить MR !1 на сервере."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-11-02T08:38:09.629Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "progress",
+    "intentId": "X1FnQNvv",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-02T08:38:09.629Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-11-02T08:38:09.629Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
