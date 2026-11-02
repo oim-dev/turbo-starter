@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "PWldPxQi",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "PWldPxQi",
+    "key": "CP-PWldPxQi",
+    "sessionId": "sC4zPH6s",
+    "runId": "uFYJI2SW",
+    "sequence": 9,
+    "title": "Схема согласована; Compose будет в infra/dokploy",
+    "summary": "",
+    "body": [
+      "Пользователь: «окей, давайте попробуем. Вопрос — док плой только корневой файл докер композ поднимает?». Согласована ранее предложенная схема CI → корпоративный GitLab Registry → Dokploy. Официальный пример https://docs.dokploy.com/docs/core/docker-compose/example подтверждает поле Compose Path: файл выбирается путём в репозитории; корневое размещение не обязательно. Предлагаемый путь нового standalone-файла — infra/dokploy/docker-compose.yml; в Dokploy задаётся ./infra/dokploy/docker-compose.yml. Он будет использовать готовые image, без сборки на сервере. Перед реализацией CI остаётся выбрать ветку сборки и ручной/автоматический запуск обновления. Цель поручения теперь подготовка инфраструктурных файлов и необходимых проверок; фактический push/deploy потребует доступов и параметров среды. Ранее сохранённые seven-file изменения навыков принадлежат прошлому поручению и сохраняются."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-11-02T10:58:02.528Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "progress",
+    "intentId": "yGCVrglD",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-02T10:58:02.528Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-11-02T10:58:02.528Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
