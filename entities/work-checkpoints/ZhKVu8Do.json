@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "ZhKVu8Do",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "ZhKVu8Do",
+    "key": "CP-ZhKVu8Do",
+    "sessionId": "sotaPpBS",
+    "runId": "CmvzVNYJ",
+    "sequence": 6,
+    "title": "Скиллы и инструкции актуализированы, проверки пройдены",
+    "summary": "",
+    "body": [
+      "## Результат",
+      "Обновлён React Reference, добавлены самостоятельный Next.js Reference и четыре styleguide-скилла из js-reference на SHA 2f668cc602c7780235ea78953547da8743aa9321. Проверены и закреплены актуальные SHA зависимостей Unit Architecture, REST codegen, SVG sprites и template-file-generator. По последнему указанию оператора английский template-generation удалён через skills CLI; используется только template-generation-ru. Итоговый lockfile содержит 11 навыков, все с полными SHA.",
+      "",
+      "## Изменённые файлы",
+      "- skills-lock.json — воспроизводимый состав, источники, SHA и хеши.",
+      "- AGENTS.md — выбор reference по приложению, отдельные styleguide, общий русский генератор, порядок обновления зависимостей навыков и правила артефактов по ранее существовавшим ссылкам frontend.",
+      "- apps/next-web-app/AGENTS.md — самостоятельный nextjs-reference вместо адаптации SPA; строгие styleguide; ссылки на профиль App Router; явно сохранены действующие соглашения Bearer/публичного SSR/трёх фасетов/agent-browser.",
+      "- apps/react-admin-panel/AGENTS.md — обновлённые зависимости React Reference и использование русской версии генератора.",
+      "- README.md и README обоих .templates — актуальный набор навыков, перезапуск клиента и рабочие ссылки на .agents.",
+      "- DOC-13 в Relay, ревизия 2 — совместное обновление reference и зависимостей, единая русская генерация, удаление устаревшего навыка и проверка восстановления. Документ перечитан, два прежних прикрепления сохранены.",
+      "",
+      "## Фактические проверки",
+      "1. pnpm install --frozen-lockfile — успешно, все 9 workspace-пакетов уже установлены; pnpm lockfile актуален.",
+      "2. pnpm run setup — успешно восстановлены закреплённые навыки и выполнена сборка реестра: 0 кастомных агентов. Проверка сделана до уточнения об удалении английского генератора; после уточнения выполнено штатное удаление и проверен итоговый состав.",
+      "3. pnpm run agents:check — успешно, выходы и ссылки актуальны.",
+      "4. Сверка Python: содержимое всех 10 обновляемых/добавленных навыков полностью совпадает с соответствующими upstream-клонами; у всех 11 навыков полный SHA и доступный SKILL.md. Relay сохранён на прежнем закреплённом SHA.",
+      "5. Замыкание зависимостей: все 8 зависимостей каждого reference доступны; template-generation разрешается в template-generation-ru по прямому указанию пользователя.",
+      "6. Проверены 66 локальных Markdown-ссылок и их якоря в шести изменённых документах — ошибок нет.",
+      "7. npx skills@latest list — 11 навыков; английский генератор отсутствует в lockfile, .agents и ссылках .claude.",
+      "8. pnpm exec turbo run lint check-types --filter=@oim/next-web-app --filter=@oim/react-admin-panel --ui=stream — 8 успешных задач, 4 SDK-задачи из кеша; оба frontend lint/typecheck выполнены заново.",
+      "9. pnpm exec turbo run build --filter=@oim/next-web-app --filter=@oim/react-admin-panel --ui=stream — 4 успешные задачи, SDK из кеша; обе frontend-сборки выполнены заново. Next.js 16.3.4 собрал / и /_not-found; Vite завершился с неблокирующим предупреждением о JS-чанке 893.33 kB.",
+      "10. git diff --check — успешно. Финальный git status: ровно семь перечисленных файлов, runtime-код и npm lockfile не изменились.",
+      "",
+      "## Границы проверки и передача",
+      "Поручение выполнено как обслуживание навыков и инструкций; интерфейс, SSR-реализация и HTTP-контракты не менялись, браузерные сценарии не запускались. Коммиты и push не выполнялись. Следующий шаг оператора — перезапустить агентский клиент и начать новую сессию для полного применения обновлённых инструкций. История доступна в S-sotaPpBS; существующий Relay Web работает на http://localhost:4700.",
+      ""
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [
+      {
+        "ref": {
+          "kind": "document",
+          "id": "1TOiEyJU"
+        },
+        "key": "DOC-13",
+        "title": "Работа с проектными скиллами"
+      }
+    ],
+    "createdAt": "2026-11-02T09:42:36.469Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "result",
+    "intentId": "wRswxbwL",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-02T09:42:36.469Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-11-02T09:42:36.469Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
