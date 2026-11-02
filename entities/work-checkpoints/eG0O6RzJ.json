@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "eG0O6RzJ",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "eG0O6RzJ",
+    "key": "CP-eG0O6RzJ",
+    "sessionId": "sotaPpBS",
+    "runId": "CmvzVNYJ",
+    "sequence": 4,
+    "title": "Определён состав навыков и границы обновления инструкций",
+    "summary": "",
+    "body": [
+      "## Исследование",
+      "Рабочая копия master чистая, HEAD 78f1e76b80f76ae9d4289e0b0994df8a6f2b89cc. Прочитаны корневые и вложенные AGENTS.md, DOC-13 и DOC-11, setup, skills-lock.json, manifests обоих frontend, README и инструкции шаблонов. Relay Web отвечает на http://localhost:4700; используется уже работающий сервер.",
+      "",
+      "Актуальный js-reference: 2f668cc602c7780235ea78953547da8743aa9321. React Reference вынес внутренние styleguide в четыре самостоятельных skills: ts-styleguide, tsx-styleguide, postcss-styleguide, html-styleguide. Появился nextjs-reference, которому react-reference не требуется. Оба reference требуют unit-architecture, REST codegen и SVG; SPA использует template-generation, Next.js — отдельную русскую версию template-generation-ru. Оба имени действительно существуют в upstream.",
+      "",
+      "Источники зависимостей: unit-architecture 722e6066b27cdbea004729b8e295494e59294e7c; template-file-generator c6b2e582269b8d6c672736a459e6c5465341b769; rest-api-codegen 18b73b1c1a7284ea1f1d98ae1703923620f43376; svg-sprites 1d61ffef4b92026c9825a7e409db51013bd1e820. Исходники прочитаны из временных клонов /tmp/opencode/*-sotaPpBS.",
+      "",
+      "## Решение и владельцы",
+      "Единственный исполнитель обновляет skills-lock.json штатным skills CLI, закрепляя все обновляемые источники на полных SHA. Итоговый набор — 12 skills с сохранённым закреплённым Relay. Новые зависимости в данном upstream — прежде всего skills, а не обязательный перенос библиотек демо в приложения. Проверить установленный workspace через frozen pnpm install.",
+      "",
+      "Корневой AGENTS.md задаст выбор framework и общих skills; локальные инструкции SPA и Next.js сохранят строгий режим. Next.js будет ссылаться на собственный reference и его архитектурный раздел, без адаптации React SPA. Существующие проектные решения (браузерная Bearer-сессия, SSR только публичных данных, три действующих фасета, agent-browser и локальные шаблоны) сохраняются явно как решения существующего приложения, разрешённые новым skill. Они не мигрируют автоматически к cookie-сессии или browser.ts нового профиля. README шаблонов необходимо обновить, включая неверные относительные пути из .templates к корневой .agents.",
+      "",
+      "## Проверки и продолжение",
+      "Выполнить установку навыков, проверить замыкание зависимостей, SHA и восстановление через pnpm run setup; agents:check, локальные ссылки и git diff --check. Запустить существующие frontend lint/typecheck/build по применимости. Изменений runtime/UI не планируется, новые TSX и генерация компонентов не нужны. DOC-13 (раздел development) дополнить инструкцией совместного обновления reference и зависимостей; документы template-documentation не редактировать.",
+      ""
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-11-02T09:34:26.613Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "progress",
+    "intentId": "wRswxbwL",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-02T09:34:26.613Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-11-02T09:34:26.613Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
