@@ -9,6 +9,7 @@
     {
       "slot": "task-links",
       "edge": {
+        "id": "vMwT4E40",
         "type": "part-of",
         "from": {
           "kind": "task",
@@ -21,13 +22,13 @@
         "description": [
           ""
         ],
-        "id": "vMwT4E40",
-        "revision": 1,
+        "revision": 2,
         "source": "graph",
-        "createdAt": "2026-11-02T11:19:31.175Z",
         "createdBy": "openai/gpt-6-astra",
-        "active": true,
-        "updatedAt": "2026-11-02T11:19:31.175Z",
+        "createdAt": "2026-11-02T11:19:31.175Z",
+        "historyCount": 2,
+        "active": false,
+        "updatedAt": "2026-11-02T11:47:30.366Z",
         "updatedBy": "openai/gpt-6-astra"
       }
     }

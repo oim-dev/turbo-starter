@@ -3,77 +3,11 @@
   "dataVersion": 1,
   "kind": "task",
   "id": "mFnogeKf",
-  "revision": 4,
+  "revision": 5,
   "key": "PRODUCT-1",
   "aliases": [],
-  "data": {
-    "boardId": "twGILXFc",
-    "title": "Подготовить сборку и запуск dev-стенда в Dokploy Compose",
-    "description": [
-      "## Цель и основания",
-      "По окончательному поручению оператора подготовить infra/dockploy/docker-compose.yml для сборки и запуска dev-стенда непосредственно в Dokploy. Репозиторий уже подключён к корпоративному Dokploy; выбраны ветка по умолчанию и автоматический запуск по Git webhook. Источники и сравнение схем — DOC-17.",
-      "",
-      "## Объём",
-      "Самостоятельный Compose собирает существующие приложения web/admin/backend и target migrations, запускает два API и image-worker одним backend runtime, PostgreSQL, S3 с init, RabbitMQ и imgproxy. Сохранить существующий MinIO+mc Dockerfile с закреплёнными исходниками, использовать его кеш; готовый внешний S3-образ не выбран. Настроить зависимости готовности, одноразовые миграции и init, named volumes, явные env и домены через Dokploy UI. Код приложений менять только при необходимой совместимости Docker-сборки. Создать канонический env-шаблон и адресную инструкцию для оператора/платформенного инженера. CI, публикация в registry и API-автодеплой исключены из текущего объёма по итоговому решению.",
-      "",
-      "## Владение и проверки",
-      "Один исполнитель владеет infra/dockploy и минимальными Dockerfile-правками. Сохранить семь правок прошлого поручения и локальный dev-режим. Проверить env:check, compose config, сборки, локальный запуск на отдельной БД/volumes, HTTP-доступ и перезапуск с сохранением данных. Реальный запуск корпоративного Dokploy требует настройки Environment/Domains и не объявляется выполненным без доступа. Webhook из скриншота не сохранять в файлах и не вызывать при локальной проверке."
-    ],
-    "productLinks": [],
-    "column": "in-progress",
-    "rank": 1024,
-    "dependencies": [],
-    "related": [],
-    "parentId": null,
-    "acceptanceCriteria": [
-      {
-        "title": "Отдельный Compose описывает связный dev-стенд",
-        "summary": "",
-        "description": [
-          "Compose config проходит с примером env; готовые image, named volumes, API/worker после успешных миграций, инициализация bucket, маршрутизация админки /api. Локальный запуск проверяется на изолированных ресурсах либо ограничение зафиксировано."
-        ],
-        "id": "r5KjZd5O",
-        "completed": false,
-        "completedAt": null,
-        "completedBy": null
-      },
-      {
-        "title": "Приложения собираются через Compose внутри Dokploy",
-        "summary": "",
-        "description": [
-          "Compose использует Dockerfile приложений с context корня монорепозитория, общий backend runtime и отдельный target migrations. Публичный URL Client API передаётся в Next.js при сборке. Все сборки проверены; CI и push в registry не требуются."
-        ],
-        "id": "LS11TYoX",
-        "completed": false,
-        "completedAt": null,
-        "completedBy": null
-      },
-      {
-        "title": "Запуск и повторный деплой сохраняют данные и соблюдают зависимости",
-        "summary": "",
-        "description": [
-          "Миграции выполняются до старта API/воркера, init создаёт приватный bucket и lifecycle-правило идемпотентно. При повторном Compose up данные сохраняются в named volumes, init завершается успешно. Автоматический запуск осуществляется настроенным Git webhook Dokploy; API-ключ не требуется."
-        ],
-        "id": "WeQwh51Q",
-        "completed": false,
-        "completedAt": null,
-        "completedBy": null
-      },
-      {
-        "title": "Настройка и ограничения проверки доступны оператору",
-        "summary": "",
-        "description": [
-          "Описаны Compose Path, GitLab variables, read-only registry credential, домены и первый запуск. Env соответствует корневому формату. Фактические внешние проверки и необходимые доступы явно указаны."
-        ],
-        "id": "hvWoexqm",
-        "completed": false,
-        "completedAt": null,
-        "completedBy": null
-      }
-    ]
-  },
-  "createdAt": "2026-11-02T11:19:31.109Z",
-  "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-11-02T11:42:28.162Z",
-  "updatedBy": "openai/gpt-6-astra"
+  "deleted": {
+    "at": "2026-11-02T11:47:30.379Z",
+    "actor": "openai/gpt-6-astra"
+  }
 }
