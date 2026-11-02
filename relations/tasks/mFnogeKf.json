@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "owner": {
+    "kind": "task",
+    "id": "mFnogeKf"
+  },
+  "storage": "inline",
+  "entries": [
+    {
+      "slot": "task-links",
+      "edge": {
+        "type": "part-of",
+        "from": {
+          "kind": "task",
+          "id": "mFnogeKf"
+        },
+        "to": {
+          "kind": "board",
+          "id": "twGILXFc"
+        },
+        "description": [
+          ""
+        ],
+        "id": "vMwT4E40",
+        "revision": 1,
+        "source": "graph",
+        "createdAt": "2026-11-02T11:19:31.175Z",
+        "createdBy": "openai/gpt-6-astra",
+        "active": true,
+        "updatedAt": "2026-11-02T11:19:31.175Z",
+        "updatedBy": "openai/gpt-6-astra"
+      }
+    }
+  ]
+}

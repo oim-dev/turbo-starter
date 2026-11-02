@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "task",
+  "id": "mFnogeKf",
+  "revision": 1,
+  "key": "PRODUCT-1",
+  "aliases": [],
+  "data": {
+    "boardId": "twGILXFc",
+    "title": "Подготовить GitLab CI и dev-стенд Dokploy",
+    "description": [
+      "## Цель и основания",
+      "Подготовить дополнительные инфраструктурные файлы по поручению оператора и DOC-17. Согласовано: корпоративный GitLab CI/Registry, ветка CI_DEFAULT_BRANCH, автоматический запуск Dokploy после успешной публикации всех образов. Compose находится в infra/dokploy/docker-compose.yml; отдельный runtime для web/admin, общий backend для двух API и worker, отдельные migrations и MinIO/init.",
+      "",
+      "## Работа и владение",
+      "Один исполнитель владеет корневым CI, infra/dokploy, автоматизацией API Dokploy, минимальными Dockerfile-настройками и проверками. Использовать актуальный корпоративный Matrix-Build/BuildKit, согласованный тег набора образов, явный env, именованные volumes, миграции до API и proxy /api для админки. Сохранить локальную инфраструктуру и семь правок прошлой работы. Описать настройки GitLab/Dokploy и токены без значений секретов. Автоматический деплой использует DOKPLOY_URL, DOKPLOY_API_KEY и DOKPLOY_COMPOSE_ID.",
+      "",
+      "## Проверки и границы",
+      "Проверить env и Compose config, Docker builds, локальный запуск на отдельной БД/volumes, поведение deploy-скрипта на mock API. Для реального CI/Dokploy нужны внешние доступы: подготовка файлов не является фактическим развёртыванием. Новые продуктовые функции не добавляются; самостоятельная инфраструктурная задача на единственной доступной общей доске без фиктивных продуктовых целей."
+    ],
+    "productLinks": [],
+    "column": "in-progress",
+    "rank": 1024,
+    "dependencies": [],
+    "related": [],
+    "parentId": null,
+    "acceptanceCriteria": [
+      {
+        "title": "Отдельный Compose описывает связный dev-стенд",
+        "summary": "",
+        "description": [
+          "Compose config проходит с примером env; готовые image, named volumes, API/worker после успешных миграций, инициализация bucket, маршрутизация админки /api. Локальный запуск проверяется на изолированных ресурсах либо ограничение зафиксировано."
+        ],
+        "id": "r5KjZd5O",
+        "completed": false,
+        "completedAt": null,
+        "completedBy": null
+      },
+      {
+        "title": "CI собирает и публикует согласованный набор образов",
+        "summary": "",
+        "description": [
+          "CI работает для CI_DEFAULT_BRANCH, использует корпоративный Matrix-Build, общий явный тег образов и запускает deploy только после всех build/push. Пути Dockerfile, контексты и targets проверены сборкой."
+        ],
+        "id": "LS11TYoX",
+        "completed": false,
+        "completedAt": null,
+        "completedBy": null
+      },
+      {
+        "title": "Автодеплой обновляет версию через API Dokploy",
+        "summary": "",
+        "description": [
+          "Скрипт сохраняет остальные env, передаёт корректный composeId и тег, не печатает ключи, прекращает работу при API-ошибке и не повторяет неоднозначные записи. Успех и ошибки проверяются mock API."
+        ],
+        "id": "WeQwh51Q",
+        "completed": false,
+        "completedAt": null,
+        "completedBy": null
+      },
+      {
+        "title": "Настройка и ограничения проверки доступны оператору",
+        "summary": "",
+        "description": [
+          "Описаны Compose Path, GitLab variables, read-only registry credential, домены и первый запуск. Env соответствует корневому формату. Фактические внешние проверки и необходимые доступы явно указаны."
+        ],
+        "id": "hvWoexqm",
+        "completed": false,
+        "completedAt": null,
+        "completedBy": null
+      }
+    ]
+  },
+  "createdAt": "2026-11-02T11:19:31.109Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-11-02T11:19:31.109Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
