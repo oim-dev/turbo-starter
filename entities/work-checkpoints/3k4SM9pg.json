@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "3k4SM9pg",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "3k4SM9pg",
+    "key": "CP-3k4SM9pg",
+    "sessionId": "f3EXIcik",
+    "runId": "GEosUPVH",
+    "sequence": 4,
+    "title": "Обнаружена несвязанная история целевой master",
+    "summary": "Рабочая копия чистая; целевая master содержит другой шаблон и требует решения пользователя перед публикацией.",
+    "body": [
+      "## Проверено",
+      "Локальная main чистая, HEAD 78f1e76b80f76ae9d4289e0b0994df8a6f2b89cc, upstream origin/main. Локальной master нет. Текущий biocad указывает на git@gitlab.biocad.ru:biocad/dcm/im/libraries/im-ai/turbo-starter.git; отдельного pushurl нет.",
+      "",
+      "В целевом git@gitlab.biocad.ru:biocad/sandbox/gromovs-turbo-starter.git HEAD указывает на master, SHA 64ae79d8baa9f752ee14864dea8e50a296e96135. Fetch выполнен по URL без изменения настроек. git merge-base main FETCH_HEAD завершился кодом 1: истории не связаны. Удалённая история содержит коммиты aacd700 (initial commit) и 64ae79d (Initialize from template: gromovs-turbo-starter), файлы другого корпоративного шаблона, включая AGENTS.md, README.md, scripts, .agents и .gitlab-ci.yml.",
+      "",
+      "## Продолжение",
+      "Выполнить согласованные локальные изменения remote biocad и main → master. Перед публикацией запросить выбор пользователя: замена удалённой master с сохранением её резервной ветки либо объединение историй. Обычный push даст non-fast-forward; принудительная перезапись без согласования не разрешена."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-11-02T08:51:37.994Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "progress",
+    "intentId": "PfHVVoAJ",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-02T08:51:37.994Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-11-02T08:51:37.994Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
