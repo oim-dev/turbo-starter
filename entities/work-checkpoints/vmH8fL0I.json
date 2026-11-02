@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "vmH8fL0I",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "vmH8fL0I",
+    "key": "CP-vmH8fL0I",
+    "sessionId": "sC4zPH6s",
+    "runId": "vlcHrjqt",
+    "sequence": 15,
+    "title": "Работа отменена, изменения откачены по требованию оператора",
+    "summary": "",
+    "body": [
+      "Оператор отменил поручение и потребовал откатить всю работу. Откачены изменения README, инструкций обоих frontend, README шаблонов и skills-lock.json. В пользовательски переименованном 1AGENTS.md восстановлено исходное содержание AGENTS.md; переименование сохранено. Исходные шесть навыков восстановлены, их хеши совпадают с первоначальным lockfile; добавленные ссылки и временные клоны удалены. PRODUCT-1 и DOC-17 удалены; исходное содержание DOC-13 восстановлено. Новые infrastructure-файлы не создавались, Docker-ресурсы и удалённый Dokploy не изменялись. Финальный Git status показывает только пользовательское переименование AGENTS.md → 1AGENTS.md. Ранее записанная неизменяемая история сессий остаётся в Relay."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-11-02T11:50:45.663Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "cancel",
+    "intentId": "WFmuzViE",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-02T11:50:45.663Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-11-02T11:50:45.663Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
