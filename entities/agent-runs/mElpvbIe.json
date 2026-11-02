@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "agent-run",
   "id": "mElpvbIe",
-  "revision": 1,
+  "revision": 2,
   "key": null,
   "aliases": [],
   "data": {
@@ -23,18 +23,20 @@
     "client": "OpenCode",
     "sourceSessionId": null,
     "startedAt": "2026-11-02T08:28:35.988Z",
-    "endedAt": null,
+    "endedAt": "2026-11-02T08:29:19.571Z",
     "startedSequence": 2,
-    "endedSequence": null,
-    "endReason": null,
+    "endedSequence": 5,
+    "endReason": "completed",
     "predecessorRunId": null,
     "reason": [
       ""
     ],
-    "endSummary": null
+    "endSummary": [
+      "Локальная main опубликована новой веткой dev в remote biocad. SHA 78f1e76b80f76ae9d4289e0b0994df8a6f2b89cc на сервере подтверждён через git ls-remote и совпадает с main. Намерение CP-KZwX6FmI закрыто результатом CP-v2VLbUE9. Поручение выполнено."
+    ]
   },
   "createdAt": "2026-11-02T08:28:35.988Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-11-02T08:28:35.988Z",
+  "updatedAt": "2026-11-02T08:29:19.571Z",
   "updatedBy": "openai/gpt-6-astra"
 }
