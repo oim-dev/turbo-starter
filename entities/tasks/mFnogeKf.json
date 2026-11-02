@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "task",
   "id": "mFnogeKf",
-  "revision": 3,
+  "revision": 4,
   "key": "PRODUCT-1",
   "aliases": [],
   "data": {
@@ -49,10 +49,10 @@
         "completedBy": null
       },
       {
-        "title": "Автодеплой обновляет версию через API Dokploy",
+        "title": "Запуск и повторный деплой сохраняют данные и соблюдают зависимости",
         "summary": "",
         "description": [
-          "Скрипт сохраняет остальные env, передаёт корректный composeId и тег, не печатает ключи, прекращает работу при API-ошибке и не повторяет неоднозначные записи. Успех и ошибки проверяются mock API."
+          "Миграции выполняются до старта API/воркера, init создаёт приватный bucket и lifecycle-правило идемпотентно. При повторном Compose up данные сохраняются в named volumes, init завершается успешно. Автоматический запуск осуществляется настроенным Git webhook Dokploy; API-ключ не требуется."
         ],
         "id": "WeQwh51Q",
         "completed": false,
@@ -74,6 +74,6 @@
   },
   "createdAt": "2026-11-02T11:19:31.109Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-11-02T11:42:16.792Z",
+  "updatedAt": "2026-11-02T11:42:28.162Z",
   "updatedBy": "openai/gpt-6-astra"
 }
