@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "PfHVVoAJ",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "PfHVVoAJ",
+    "key": "CP-PfHVVoAJ",
+    "sessionId": "f3EXIcik",
+    "runId": "GEosUPVH",
+    "sequence": 3,
+    "title": "Проверить Git и перенести main в biocad/master",
+    "summary": "Смена URL biocad, переименование ветки и обычный push с проверкой SHA и upstream.",
+    "body": [
+      "## Цель и основание",
+      "По прямому поручению пользователя настроить biocad на git@gitlab.biocad.ru:biocad/sandbox/gromovs-turbo-starter.git, переименовать main в master и опубликовать её.",
+      "",
+      "## Границы и порядок",
+      "Проверить remotes, ветки, рабочую копию и refs целевого репозитория. Изменить настройки только нужного remote, переименовать main, выполнить обычный push master с upstream. Существующие файлы и историю сохранить; при конфликтующих удалённых коммитах выяснить причину без принудительной перезаписи.",
+      "",
+      "## Проверка",
+      "Сверить fetch/push URL biocad, имя локальной ветки, upstream, SHA локальной master и удалённой refs/heads/master. Документ DOC-11 прочитан; подготовка продукта здесь не нужна. Relay Web отвечает HTTP 200 на http://localhost:4700, используется уже работающий сервер."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-11-02T08:50:34.292Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-02T08:50:34.292Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-11-02T08:50:34.292Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
