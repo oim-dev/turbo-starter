@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "yGCVrglD",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "yGCVrglD",
+    "key": "CP-yGCVrglD",
+    "sessionId": "sC4zPH6s",
+    "runId": "X3UZMY28",
+    "sequence": 3,
+    "title": "Выбрать сборку и registry для Dokploy dev-стенда",
+    "summary": "",
+    "body": [
+      "Основание — запрос о подготовке инфраструктуры dev-стенда и конкретный вопрос о месте сборки контейнеров и registry. Исследовать Git origin, Dockerfile трёх приложений и инфраструктурные образы; сопоставить с актуальной официальной документацией Dokploy о CI, приватных registry, Docker Compose и build servers. Результат этого этапа — конкретная рекомендуемая схема, границы образов и теги, значимые ограничения и небольшой набор вопросов для согласования. Проверка: факты о проекте подтверждены файлами, о платформе — официальными источниками. Изменение deployment-файлов после выбора владельца registry/CI и способа запуска. Продуктовая разработка не выполняется; существующая база Relay без паспорта относится к шаблону."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-11-02T10:34:22.054Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-02T10:34:22.054Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-11-02T10:34:22.054Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
