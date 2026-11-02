@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "wRswxbwL",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "wRswxbwL",
+    "key": "CP-wRswxbwL",
+    "sessionId": "sotaPpBS",
+    "runId": "CmvzVNYJ",
+    "sequence": 3,
+    "title": "Сверить upstream и обновить навыки, инструкции и зависимости",
+    "summary": "",
+    "body": [
+      "Основание: прямое поручение пользователя об актуализации из https://github.com/gromlab-ru/js-reference, отдельном навыке Next.js и недостающих зависимостях. Сверить DOC-13 и DOC-11, локальные AGENTS.md, setup/skills lock и манифесты с upstream. Обновить воспроизводимую конфигурацию навыков и инструкции по применимости, установить только подтверждённые требуемые зависимости. Проверить git diff, установку навыков, pnpm lockfile, lint/typecheck и релевантные сборки. База Relay относится к turbo-starter; паспорт продукта отсутствует, работа ограничена явно порученным обслуживанием шаблона. Существующая открытая инфраструктурная сессия не передана и не продолжается. Вести собственные промежуточные checkpoints и завершить историю фактическими проверками."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-11-02T09:31:43.678Z",
+    "createdBy": "openai/gpt-6-astra",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-02T09:31:43.678Z",
+  "createdBy": "openai/gpt-6-astra",
+  "updatedAt": "2026-11-02T09:31:43.678Z",
+  "updatedBy": "openai/gpt-6-astra"
+}
