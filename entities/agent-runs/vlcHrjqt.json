@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "agent-run",
   "id": "vlcHrjqt",
-  "revision": 1,
+  "revision": 2,
   "key": null,
   "aliases": [],
   "data": {
@@ -23,18 +23,20 @@
     "client": "OpenCode",
     "sourceSessionId": null,
     "startedAt": "2026-11-02T11:39:02.071Z",
-    "endedAt": null,
+    "endedAt": "2026-11-02T11:50:54.027Z",
     "startedSequence": 12,
-    "endedSequence": null,
-    "endReason": null,
+    "endedSequence": 16,
+    "endReason": "cancelled",
     "predecessorRunId": "uFYJI2SW",
     "reason": [
       "Оператор окончательно выбрал сборку и запуск непосредственно в Dokploy и поручил подготовить infra/dockploy/docker-compose.yml. Воспроизводимые Dockerfile остаются в приложениях, Compose объединяет сборку, runtime и инфраструктуру. Продолжаю реализацию согласованного варианта с проверками; CI/registry/API-автоматизация больше не входит в текущую задачу."
     ],
-    "endSummary": null
+    "endSummary": [
+      "Отменено оператором. Изменения файлов и навыков откачены, шесть исходных хешей проверены. Удалены созданные задача PRODUCT-1 и документ DOC-17, восстановлен DOC-13. Сохранено пользовательское переименование AGENTS.md в 1AGENTS.md. Итог отмены — CP-vmH8fL0I. Работа прекращена."
+    ]
   },
   "createdAt": "2026-11-02T11:39:02.071Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-11-02T11:39:02.071Z",
+  "updatedAt": "2026-11-02T11:50:54.027Z",
   "updatedBy": "openai/gpt-6-astra"
 }
