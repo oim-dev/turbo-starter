@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "agent-run",
+  "id": "fI0S2hf8",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "fI0S2hf8",
+    "key": "RUN-fI0S2hf8",
+    "sessionId": "0jlc3fsy",
+    "actor": "openai/gpt-6.1-sol",
+    "operator": {
+      "name": "Sergei Gromov",
+      "email": "zz-gromov@ya.ru",
+      "source": "git"
+    },
+    "git": {
+      "branch": "master",
+      "commit": "c65caf7e96e2efce2b463bef7b1fcd86296ff197"
+    },
+    "client": "OpenCode",
+    "sourceSessionId": null,
+    "startedAt": "2026-11-05T13:15:59.073Z",
+    "endedAt": null,
+    "startedSequence": 2,
+    "endedSequence": null,
+    "endReason": null,
+    "predecessorRunId": null,
+    "reason": [
+      ""
+    ],
+    "endSummary": null
+  },
+  "createdAt": "2026-11-05T13:15:59.073Z",
+  "createdBy": "openai/gpt-6.1-sol",
+  "updatedAt": "2026-11-05T13:15:59.073Z",
+  "updatedBy": "openai/gpt-6.1-sol"
+}
