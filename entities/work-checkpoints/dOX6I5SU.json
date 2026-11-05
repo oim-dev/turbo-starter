@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "dOX6I5SU",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "dOX6I5SU",
+    "key": "CP-dOX6I5SU",
+    "sessionId": "iv0avs7G",
+    "runId": "Unq40jvM",
+    "sequence": 6,
+    "title": "Инфраструктура здорова, 32 миграции применены, приложения запущены",
+    "summary": "",
+    "body": [
+      "## Выполнено",
+      "pnpm infra:dev:up успешен. Собственные контейнеры turbo-starter-smoke-1105-dev: PostgreSQL, MinIO, RabbitMQ и imgproxy healthy; minio-init Exited (0). Отдельные сеть и три volumes созданы; чужое окружение не менялось.",
+      "pnpm backend:prisma:deploy успешно применил все 32 миграции к новой БД localhost:5545.",
+      "pnpm dev запущен долгоживущим фоновым shell sh_1abe8155c001NO16A7XakyRPRm; вывод /home/gromov/.local/share/opencode/shell/2690aae6f6a697cd5cde724c32d18bfcf873ce37/sh_1abe8155c001NO16A7XakyRPRm.out.",
+      "## Relay Web",
+      "Браузерная проверка agent-browser подтвердила заголовок turbo-starter-smoke-1105, статус Подключено к серверу, импортированный стартовый проект. JS errors пусто. Браузер проверки Relay закрыт; сервер оставлен работающим.",
+      "## Остаток",
+      "Проверить HTTP всех приложений и OpenAPI, логи готовности обоих API/worker, стартовую страницу сайта и форму входа админки. Зафиксировать PID и безопасные команды остановки."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-11-05T13:31:42.088Z",
+    "createdBy": "openai/gpt-6.1-sol",
+    "kind": "progress",
+    "intentId": "nmqRWTfI",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-05T13:31:42.088Z",
+  "createdBy": "openai/gpt-6.1-sol",
+  "updatedAt": "2026-11-05T13:31:42.088Z",
+  "updatedBy": "openai/gpt-6.1-sol"
+}
