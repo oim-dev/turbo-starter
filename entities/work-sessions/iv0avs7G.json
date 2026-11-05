@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "iv0avs7G",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "iv0avs7G",
+    "key": "S-iv0avs7G",
+    "title": "Проверка установки шаблона во временной папке",
+    "description": [
+      "Поручение оператора: «установите проект по этой инструкции и проверьте его работоспособность /home/gromov/projects/biocad/turbo-starter/docs/development/new-project-setup.md. В временную папку куда-то». Создать отдельный новый экземпляр во временном каталоге, выполнить каноническую инструкцию установки, проверить сборку, инфраструктуру, API и стартовые интерфейсы, передать пути, адреса, проверки и способы остановки. Не изменять исходную рабочую копию, не вести продуктовую разработку и не исправлять исходный шаблон без отдельного поручения. История этой проверки ведётся в существующей базе исходного проекта; новую установленную базу не заполнять требованиями."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "Unq40jvM",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-11-05T13:28:13.957Z",
+    "updatedAt": "2026-11-05T13:28:13.957Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-11-05T13:28:13.957Z",
+  "createdBy": "openai/gpt-6.1-sol",
+  "updatedAt": "2026-11-05T13:28:13.957Z",
+  "updatedBy": "openai/gpt-6.1-sol"
+}
