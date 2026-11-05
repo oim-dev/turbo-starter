@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "work-session",
   "id": "Zy1MDp1A",
-  "revision": 3,
+  "revision": 4,
   "key": null,
   "aliases": [],
   "data": {
@@ -17,19 +17,19 @@
     "originCheckpointId": null,
     "createdByRunId": null,
     "parentSequence": null,
-    "status": "open",
-    "currentRunId": "BvY3zIZg",
-    "sequence": 4,
+    "status": "completed",
+    "currentRunId": null,
+    "sequence": 6,
     "result": [
-      ""
+      "Web Relay на 127.0.0.1:4700 остановлен адресным SIGTERM подтверждённому relay-server PID 594433. Фоновая команда завершилась; контрольное соединение отклонено с ECONNREFUSED. База и документы сохранены, остальные сервисы не затронуты. Итог и команда возможного повторного запуска — CP-Wc8mNXsA."
     ],
     "createdAt": "2026-11-05T13:21:31.700Z",
-    "updatedAt": "2026-11-05T13:22:02.182Z",
-    "closedAt": null,
-    "revision": 3
+    "updatedAt": "2026-11-05T13:22:09.575Z",
+    "closedAt": "2026-11-05T13:22:09.575Z",
+    "revision": 4
   },
   "createdAt": "2026-11-05T13:21:31.700Z",
   "createdBy": "openai/gpt-6.1-sol",
-  "updatedAt": "2026-11-05T13:22:02.182Z",
+  "updatedAt": "2026-11-05T13:22:09.575Z",
   "updatedBy": "openai/gpt-6.1-sol"
 }
