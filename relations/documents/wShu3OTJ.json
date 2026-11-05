@@ -9,6 +9,32 @@
     {
       "slot": "document-links",
       "edge": {
+        "type": "references",
+        "from": {
+          "kind": "document",
+          "id": "PdZBBuP8"
+        },
+        "to": {
+          "kind": "document",
+          "id": "wShu3OTJ"
+        },
+        "description": [
+          "Корпоративный контейнерный dev-стенд как отдельный режим от локальных host-приложений; настройка домена gateway:8080."
+        ],
+        "id": "fJnNA1i0",
+        "revision": 1,
+        "source": "graph",
+        "createdAt": "2026-11-05T12:19:12.129Z",
+        "createdBy": "openai/gpt-6.1-sol",
+        "active": true,
+        "updatedAt": "2026-11-05T12:19:12.129Z",
+        "updatedBy": "openai/gpt-6.1-sol"
+      }
+    },
+    {
+      "slot": "document-links",
+      "edge": {
+        "id": "JYnsecqo",
         "type": "documents",
         "from": {
           "kind": "document",
@@ -21,11 +47,10 @@
         "description": [
           "Уже настроенный корпоративный dev-стенд: пользователь подключает домен к gateway:8080; технические границы и проверки."
         ],
-        "id": "JYnsecqo",
         "revision": 1,
         "source": "graph",
-        "createdAt": "2026-11-05T12:14:04.780Z",
         "createdBy": "openai/gpt-6.1-sol",
+        "createdAt": "2026-11-05T12:14:04.780Z",
         "active": true,
         "updatedAt": "2026-11-05T12:14:04.780Z",
         "updatedBy": "openai/gpt-6.1-sol"

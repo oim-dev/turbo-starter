@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "document",
   "id": "wShu3OTJ",
-  "revision": 1,
+  "revision": 2,
   "key": "DOC-18",
   "aliases": [],
   "data": {
@@ -155,12 +155,22 @@
         "description": [
           "Уже настроенный корпоративный dev-стенд: пользователь подключает домен к gateway:8080; технические границы и проверки."
         ]
+      },
+      {
+        "target": {
+          "kind": "document",
+          "id": "PdZBBuP8"
+        },
+        "type": "references",
+        "description": [
+          "Корпоративный контейнерный dev-стенд как отдельный режим от локальных host-приложений; настройка домена gateway:8080."
+        ]
       }
     ],
     "links": []
   },
   "createdAt": "2026-11-05T12:14:04.716Z",
   "createdBy": "openai/gpt-6.1-sol",
-  "updatedAt": "2026-11-05T12:14:04.716Z",
+  "updatedAt": "2026-11-05T12:19:12.068Z",
   "updatedBy": "openai/gpt-6.1-sol"
 }
