@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "Xn1CbGMF",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "Xn1CbGMF",
+    "key": "CP-Xn1CbGMF",
+    "sessionId": "dbyNYyoO",
+    "runId": "BKfdb8Wq",
+    "sequence": 3,
+    "title": "Найти документы деплоя и добавить навигацию в README",
+    "summary": "",
+    "body": [
+      "Цель: сделать корневой README точкой входа в развёртывание уже настроенного dev-стенда Dokploy. Основание: прямое поручение пользователя и существующая инструкция infra/dokploy/README.md. Прочитать полные DOC-18 и связанные документы о запуске и архитектуре, выбрать обязательные и условные материалы. В README указать существующие ключи и названия, практическую инструкцию, пример env и согласованный порядок домен → Environment с PUBLIC_URL → Deploy. Проверить соответствие ссылок файлам и документов описанному назначению, затем git diff --check."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [
+      {
+        "ref": {
+          "kind": "document",
+          "id": "wShu3OTJ"
+        },
+        "key": "DOC-18",
+        "title": "Корпоративный dev-стенд в Dokploy"
+      },
+      {
+        "ref": {
+          "kind": "document",
+          "id": "PdZBBuP8"
+        },
+        "key": "DOC-11",
+        "title": "Разработка и локальная инфраструктура"
+      },
+      {
+        "ref": {
+          "kind": "document",
+          "id": "S9AdmhoT"
+        },
+        "key": "DOC-4",
+        "title": "Архитектура, приложения и пакеты"
+      }
+    ],
+    "createdAt": "2026-11-05T12:28:03.330Z",
+    "createdBy": "gpt-6-astra",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-05T12:28:03.330Z",
+  "createdBy": "gpt-6-astra",
+  "updatedAt": "2026-11-05T12:28:03.330Z",
+  "updatedBy": "gpt-6-astra"
+}
