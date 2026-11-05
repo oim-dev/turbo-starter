@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "abnwBNJc",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "abnwBNJc",
+    "key": "S-abnwBNJc",
+    "title": "Внедрение общих правил UI и UX в web и admin",
+    "description": [
+      "Пользователь одобрил предложение восстановления UI/UX-инструкций: «хм.. внедрите эти правила посмотрим как будет выглядить». Основание — исследование S-vImFucbT и полный текст CP-axg2GSfp. Добавить согласованный общий раздел «Проектирование и приёмка UI/UX» в apps/web/AGENTS.md и apps/admin/AGENTS.md, включить UI/UX-решение до реализации и проверку результата в обязательный порядок работы. Для Next.js восстановить дополнение про серверное ожидание, streaming, гидратацию и клиентские обновления. Проверить одинаковость общих правил, согласованность с существующими browser-инструкциями и корректность diff."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "j3ZypIng",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-11-05T12:41:48.335Z",
+    "updatedAt": "2026-11-05T12:41:48.335Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-11-05T12:41:48.335Z",
+  "createdBy": "gpt-6-astra",
+  "updatedAt": "2026-11-05T12:41:48.335Z",
+  "updatedBy": "gpt-6-astra"
+}
