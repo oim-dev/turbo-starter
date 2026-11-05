@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "7oznmqr2",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "7oznmqr2",
+    "key": "S-7oznmqr2",
+    "title": "Запуск Web Relay для редактирования документации",
+    "description": [
+      "Пользователь попросил поднять веб-сервер Relay перед совместным редактированием документации. Объём текущего поручения: запустить сервер существующей базы turbo-starter, проверить доступность Web и передать фактическую ссылку. Документацию и код пока не изменять; базу не инициализировать."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "WCagQ14S",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-11-05T12:01:39.719Z",
+    "updatedAt": "2026-11-05T12:01:39.719Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-11-05T12:01:39.719Z",
+  "createdBy": "openai/gpt-6.1-sol",
+  "updatedAt": "2026-11-05T12:01:39.719Z",
+  "updatedBy": "openai/gpt-6.1-sol"
+}
