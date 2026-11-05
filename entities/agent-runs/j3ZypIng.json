@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "agent-run",
   "id": "j3ZypIng",
-  "revision": 1,
+  "revision": 2,
   "key": null,
   "aliases": [],
   "data": {
@@ -23,18 +23,20 @@
     "client": "opencode",
     "sourceSessionId": null,
     "startedAt": "2026-11-05T12:41:48.335Z",
-    "endedAt": null,
+    "endedAt": "2026-11-05T12:44:19.617Z",
     "startedSequence": 2,
-    "endedSequence": null,
-    "endReason": null,
+    "endedSequence": 6,
+    "endReason": "completed",
     "predecessorRunId": null,
     "reason": [
       ""
     ],
-    "endSummary": null
+    "endSummary": [
+      "Согласованные UI/UX-правила внедрены в apps/web/AGENTS.md и apps/admin/AGENTS.md. Добавлены обязательное проектирование, шесть общих пунктов качества, визуальная приёмка с доработкой и дополнение Next.js. Общие разделы идентичны, ссылки проверены, git diff --check пройден. Изменения: CP-aNaQuwBW; полный результат и проверки: CP-UmfBsAk3."
+    ]
   },
   "createdAt": "2026-11-05T12:41:48.335Z",
   "createdBy": "gpt-6-astra",
-  "updatedAt": "2026-11-05T12:41:48.335Z",
+  "updatedAt": "2026-11-05T12:44:19.617Z",
   "updatedBy": "gpt-6-astra"
 }
