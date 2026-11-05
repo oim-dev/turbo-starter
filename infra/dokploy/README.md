@@ -1,24 +1,25 @@
 # Стенд в Dokploy
 
-Полная production-сборка монорепозитория через корневой
+Тестовый стенд с полной production-сборкой монорепозитория через корневой
 [`docker-compose.yml`](../../docker-compose.yml). Все публичные
 сервисы доступны на одном домене по **HTTP** через Traefik Dokploy.
 Внутри проекта Caddy слушает HTTP на порту **8080**, `auto_https` выключен.
+Значения окружения в примере такие же простые, как в dev-режиме.
 
 ```text
 Браузер → HTTP → Traefik Dokploy → gateway:8080 (Caddy)
-                                    ├── /admin/        → файлы React SPA
-                                    ├── /              → web:3000 (Next.js standalone)
-                                    ├── /api/          → client-api:4000
-                                    ├── /admin/api/    → admin-api:4001
-                                    ├── /files/        → client-api:4000
-                                    ├── /media/images/ → client-api:4000
-                                    └── /storage/      → minio:9000
+                                    ├── /admin/          → файлы React SPA
+                                    ├── /                → web:3000 (Next.js standalone)
+                                    ├── /api/            → client-api:4000
+                                    ├── /admin/api/      → admin-api:4001
+                                    ├── /files/          → client-api:4000
+                                    ├── /media/images/   → client-api:4000
+                                    └── /default-bucket/ → minio:9000
 
 API и image-worker → PostgreSQL, MinIO, RabbitMQ, imgproxy
 ```
 
-`/storage/` соответствует имени bucket из `S3_BUCKET`. Caddy удаляет префиксы
+`/default-bucket/` соответствует имени bucket из `S3_BUCKET`. Caddy удаляет префиксы
 `/api` и `/admin/api` перед передачей запросов соответствующему API. Для S3
 исходные путь, query и Host сохраняются: они участвуют в подписи запросов.
 Bucket приватный; браузер загружает файлы по подписанным ссылкам.
@@ -44,22 +45,33 @@ Compose project name, поэтому разные стенды получают 
 
 ## Настройка Dokploy
 
+Порядок первого запуска: **получить и настроить домен → скопировать переменные и указать `PUBLIC_URL` → выполнить Deploy со сборкой**.
+
 1. Создать **Docker Compose**-сервис в проекте, выбрать Git-репозиторий и ветку.
    Нужен режим **Compose**, поскольку здесь используются `build` и одноразовые
    зависимости `service_completed_successfully`.
 2. Указать **Compose Path**: `docker-compose.yml`.
    Checkout должен содержать весь репозиторий: основной build context — корень.
    Dockerfile, Caddyfile и остальные файлы инфраструктуры находятся в `infra/dokploy`.
-3. В **Environment** вставить содержимое [`.env.example`](.env.example), заполнить
-   реальный `PUBLIC_URL` и заменить примеры паролей и ключей. Dokploy создаёт `.env`
-   в корне checkout рядом с Compose-файлом; необходимые переменные явно передаются сервисам.
-4. В **Domains** добавить выданный домен:
+3. В **Domains → Add Domain** добавить выданный или сгенерированный домен.
+   Если список сервисов пуст, нажать кнопку обновления **Fetch** рядом с выбором
+   сервиса: Dokploy загрузит репозиторий и прочитает сервисы из Compose-файла.
+   Предварительная сборка и заполнение **Environment** для появления списка
+   не требуются. Указать настройки и сохранить домен:
    - Service: `gateway`;
    - Container port: `8080`;
    - Path: `/`;
    - Internal Path: `/`;
    - Strip Path: выключен;
    - HTTPS: выключен, без перенаправления на HTTPS.
+4. Открыть [`infra/dokploy/.env.example`](.env.example), **скопировать всё содержимое**
+   и вставить его в редактор раздела **Environment** этого Compose-сервиса.
+   Заменить `PUBLIC_URL=http://stand.example.org` на `PUBLIC_URL=http://<выданный-домен>`:
+   использовать домен из предыдущего шага, без пути и завершающего `/`, затем сохранить.
+   Это единственное значение примера, которое требуется изменить для нового тестового
+   стенда. Пароли, ключи и имена ресурсов уже заполнены, как в dev-режиме.
+   Dokploy создаёт `.env` в корне checkout рядом с Compose-файлом; необходимые
+   переменные явно передаются сервисам.
 5. Проверить **Preview Compose**: `gateway` должен оставаться в сети `app`
    вместе с остальными сервисами и быть доступен Traefik через добавленную Dokploy
    сеть. Dokploy сам добавляет labels домена; вручную дублировать их не требуется.
@@ -67,33 +79,37 @@ Compose project name, поэтому разные стенды получают 
    `migrations` и `minio-init`, затем запуститься приложения. `Exited (0)` для этих
    двух одноразовых сервисов — ожидаемый результат.
 
+Если домен добавлен или изменён после запуска, согласовать с ним `PUBLIC_URL`
+и повторно выполнить **Deploy**: в режиме Docker Compose настройки маршрутизации
+применяются при деплое.
+
 Основной Compose не публикует host-порты. Внешняя точка входа — домен `gateway`.
 Адреса БД, MinIO Console, RabbitMQ Management и imgproxy остаются внутри Docker-сети.
 
 Официальная документация: [Compose](https://docs.dokploy.com/docs/core/docker-compose)
-и [домены Compose](https://docs.dokploy.com/docs/core/docker-compose/domains).
+и [домены Compose](https://docs.dokploy.com/docs/core/docker-compose/domains),
+включая [повторный деплой после изменения домена](https://docs.dokploy.com/docs/core/domains#docker-compose).
 
 ## Окружение
 
+Общие параметры инфраструктуры совпадают с [`infra/dev/.env.example`](../dev/.env.example),
+авторизация и лимиты изображений — с [`apps/backend/.env.example`](../../apps/backend/.env.example).
+После первого запуска вход в админку: **`admin` / `admin`**.
+
 - `PUBLIC_URL` — точный origin, например `http://stand.example.org`, без пути и
   завершающего `/`. Он используется для подписанных S3-ссылок и публичных файлов.
-  Этот адрес должен разрешаться и открываться также **из контейнеров backend**:
-  существующий S3-клиент использует его и для серверных операций с объектами.
+  Должен совпадать с HTTP-адресом из **Domains**, разрешаться и открываться также
+  из контейнеров backend: серверные S3-операции используют этот публичный endpoint.
+  Внутренний адрес `http://minio:9000` используется для подписанных ссылок источника imgproxy.
 - `S3_BUCKET` — имя bucket и выделенный корневой URL-префикс. Рекомендуется
-  оставить `storage`; не использовать `admin`, `api`, `files`, `media`, `_next`
+  оставить `default-bucket`; не использовать `admin`, `api`, `files`, `media`, `_next`
   или другие пути сайта. Изменение bucket не переносит существующие объекты.
-- `CLIENT_JWT_SECRET` и `ADMIN_JWT_SECRET` — разные случайные строки.
-- `BOOTSTRAP_ADMIN_PASSWORD` — пароль пользователя `admin`, создаваемого на пустой
+- `CLIENT_JWT_SECRET` и `ADMIN_JWT_SECRET` — `client-secret` и `admin-secret`, как в dev.
+- `BOOTSTRAP_ADMIN_PASSWORD` — `admin`, пароль пользователя `admin`, создаваемого на пустой
   БД. Изменение переменной при повторном деплое не меняет пароль существующего пользователя.
-- `RABBITMQ_USER` и `RABBITMQ_PASSWORD` входят в AMQP URL. Используйте URL-safe
-  значения; для случайного пароля подходит hex.
-- `IMGPROXY_KEY` и `IMGPROXY_SALT` — разные случайные значения по 64 hex-символа.
-
-Получить отдельное случайное значение для каждого секрета:
-
-```bash
-openssl rand -hex 32
-```
+- `RABBITMQ_USER` и `RABBITMQ_PASSWORD` — `image` и `image-password`, как в dev;
+  при изменении использовать URL-safe значения, поскольку они входят в AMQP URL.
+- `IMGPROXY_KEY` и `IMGPROXY_SALT` — готовые dev-значения по 64 hex-символа из примера.
 
 В браузерную сборку сайта передаётся только `/api`. Сервер Next.js обращается
 к `http://client-api:4000`; секреты backend в frontend-образы не передаются.
@@ -121,7 +137,6 @@ Redirect URI также зарегистрировать у клиента Keycl
 
 ```bash
 cp infra/dokploy/.env.example infra/dokploy/.env
-# Заполнить пароли и ключи в infra/dokploy/.env.
 
 PUBLIC_URL=http://dokploy.localhost:8080 docker compose \
   --env-file infra/dokploy/.env \
