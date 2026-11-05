@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "C3NVEfkl",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "C3NVEfkl",
+    "key": "CP-C3NVEfkl",
+    "sessionId": "Zy1MDp1A",
+    "runId": "BvY3zIZg",
+    "sequence": 3,
+    "title": "Завершить только relay-server на 4700",
+    "summary": "",
+    "body": [
+      "Цель: остановить Web Relay по явной просьбе пользователя. На 127.0.0.1:4700 обнаружен слушающий PID 594433. До сигнала проверить команду процесса, чтобы исключить остановку другого сервиса; затем послать SIGTERM только подтверждённому relay-server, проверить отсутствие слушателя и отказ подключения. Все записи истории идут напрямую через тот же local-конфиг, поэтому остановка Web не препятствует сохранению результата. Базу и документацию не менять сверх обязательной истории; другие процессы и репозитории не трогать."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-11-05T13:21:42.109Z",
+    "createdBy": "openai/gpt-6.1-sol",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-05T13:21:42.109Z",
+  "createdBy": "openai/gpt-6.1-sol",
+  "updatedAt": "2026-11-05T13:21:42.109Z",
+  "updatedBy": "openai/gpt-6.1-sol"
+}
