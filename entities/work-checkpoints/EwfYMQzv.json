@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "EwfYMQzv",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "EwfYMQzv",
+    "key": "CP-EwfYMQzv",
+    "sessionId": "9w2O6c80",
+    "runId": "1UghAHeX",
+    "sequence": 5,
+    "title": "Прочитаны интерфейс, доступ, сессии и API-контракты",
+    "summary": "",
+    "body": [
+      "Дополнительно полностью прочитаны DOC-5/6/7 (rev 4 каждый) и DOC-10 (rev 3). Админка разделена на рабочее пространство и /management; управление сотрудниками не относится к клиентским аккаунтам. OWNER имеет системные права, ADMIN — все несистемные, USER — собственный профиль; дополнительные роли выбирают несистемные permissions. Сервер требует все permissions операции, UI-граница общего раздела может проверять любое. Семидневные JWT + серверная сессия без refresh, независимые Client/Admin credentials; в браузере сохраняется JWT, а профиль подтверждается API, кеш изолируется при смене сессии. Keycloak: OIDC code+PKCE, новый пользователь неактивен до допуска, completion одноразовый; внешний logout не реализован. Два framework-независимых SDK не владеют env/сессией/кешем. Контракт обновляется backend DTO → OpenAPI → generated SDK → потребитель; build SDK не заменяет генерацию. Сайт подключает auth/users только в browser transport, публичное server-дерево пусто. Охват 9 документов из 13 существующих; далее DOC-8/9 по материалам и DOC-12/13 по установке и скиллам. Это ознакомление с текстами, не функциональная проверка приложений."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-11-05T12:04:57.229Z",
+    "createdBy": "openai/gpt-6.1-sol",
+    "kind": "progress",
+    "intentId": "Fy93IMWk",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-05T12:04:57.229Z",
+  "createdBy": "openai/gpt-6.1-sol",
+  "updatedAt": "2026-11-05T12:04:57.229Z",
+  "updatedBy": "openai/gpt-6.1-sol"
+}
