@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "BsNlm2Gi",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "BsNlm2Gi",
+    "key": "CP-BsNlm2Gi",
+    "sessionId": "9w2O6c80",
+    "runId": "1UghAHeX",
+    "sequence": 4,
+    "title": "Прочитана общая карта шаблона и инфраструктуры",
+    "summary": "",
+    "body": [
+      "Полностью прочитаны DOC-2 (rev 5), DOC-3 (rev 4), DOC-4 (rev 3), DOC-11 (rev 5), DOC-14 (rev 6). Раздел template-documentation содержит DOC-2–DOC-11; infrastructure — DOC-14; смежный development — DOC-12/13. Основная модель: Next.js-сайт, React-админка и NestJS-backend с тремя процессами Client API/Admin API/image worker; две независимые зоны аккаунтов и два SDK. PostgreSQL хранит состояние, MinIO — файлы, RabbitMQ и imgproxy участвуют только в подготовке изображений; Keycloak внешний. Сайт содержит каркас и транспорт, но не готовые клиентские бизнес-экраны. DOC-2–11 явно фиксируют срез 18.10.2026, commit 824b9ee22901; это справочник основы, не актуальная документация производного продукта. DOC-14 обновлён позднее и описывает Linux/macOS, изолированные 10 портов, собственные env/Docker и удаление volumes только при remove. Различие Linux-only в старом DOC-11 и Linux/macOS в DOC-14, а также старые имена каталогов apps/nest-backend, apps/react-admin-panel, apps/next-web-app учитывать как разновременные сведения, а не молча исправлять. Реализация и команды в коде в рамках поручения не проверялись. Далее прочитать предметные документы доступа, материалов, API и смежные инструкции DOC-12/13; после этого сохранить общий итог."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-11-05T12:04:30.088Z",
+    "createdBy": "openai/gpt-6.1-sol",
+    "kind": "progress",
+    "intentId": "Fy93IMWk",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-05T12:04:30.088Z",
+  "createdBy": "openai/gpt-6.1-sol",
+  "updatedAt": "2026-11-05T12:04:30.088Z",
+  "updatedBy": "openai/gpt-6.1-sol"
+}
