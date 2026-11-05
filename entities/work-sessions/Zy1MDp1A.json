@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "Zy1MDp1A",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "Zy1MDp1A",
+    "key": "S-Zy1MDp1A",
+    "title": "Остановка Web Relay",
+    "description": [
+      "Пользователь поручил остановить Web Relay. Завершить только существующий процесс relay-server текущего проекта на порту 4700, не изменять базу, документы, другие сервисы и настройки. Проверить освобождение порта и сохранить итог через прямое local-подключение."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "BvY3zIZg",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-11-05T13:21:31.700Z",
+    "updatedAt": "2026-11-05T13:21:31.700Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-11-05T13:21:31.700Z",
+  "createdBy": "openai/gpt-6.1-sol",
+  "updatedAt": "2026-11-05T13:21:31.700Z",
+  "updatedBy": "openai/gpt-6.1-sol"
+}
