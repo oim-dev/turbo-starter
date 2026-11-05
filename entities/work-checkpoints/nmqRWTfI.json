@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "nmqRWTfI",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "nmqRWTfI",
+    "key": "CP-nmqRWTfI",
+    "sessionId": "iv0avs7G",
+    "runId": "Unq40jvM",
+    "sequence": 3,
+    "title": "Установить независимый временный экземпляр и проверить запуск",
+    "summary": "",
+    "body": [
+      "## Цель",
+      "Воспроизвести установку по docs/development/new-project-setup.md в новой временной папке, не меняя текущую рабочую копию.",
+      "## Основания и границы",
+      "Поручение пользователя и DOC-12. Следовать инструкции: код через tiged из main, отдельный Git-проект, зависимости с frozen-lockfile, самостоятельный импорт Relay, отдельные env и Docker-ресурсы. Не исправлять шаблон и не начинать разработку. В новой базе Relay оставить импортированные данные без изменений; историю проверки сохранять только здесь.",
+      "## Проверка",
+      "Проверить версии и свободные порты, pnpm build, agents:check, env:check, Compose config, запуск инфраструктуры и миграции, готовность всех пяти процессов приложений, HTTP сайта/админки/API/Relay и стартовые экраны. Сохранить фактические пути, адреса, процессы и способы остановки."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [
+      {
+        "ref": {
+          "kind": "document",
+          "id": "keC6UW0i"
+        },
+        "key": "DOC-12",
+        "title": "Установка и запуск нового проекта"
+      }
+    ],
+    "createdAt": "2026-11-05T13:28:29.428Z",
+    "createdBy": "openai/gpt-6.1-sol",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-05T13:28:29.428Z",
+  "createdBy": "openai/gpt-6.1-sol",
+  "updatedAt": "2026-11-05T13:28:29.428Z",
+  "updatedBy": "openai/gpt-6.1-sol"
+}
