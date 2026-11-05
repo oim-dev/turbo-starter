@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "D9nmGWis",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "D9nmGWis",
+    "key": "CP-D9nmGWis",
+    "sessionId": "iv0avs7G",
+    "runId": "Unq40jvM",
+    "sequence": 7,
+    "title": "Установка и проверка нового временного проекта успешно завершены",
+    "summary": "Сборка, миграции, healthchecks, HTTP и браузерная проверка прошли; сервисы оставлены работающими.",
+    "body": [
+      "## Результат",
+      "По docs/development/new-project-setup.md установлен независимый проект turbo-starter-smoke-1105 в /tmp/opencode/turbo-starter-install-oxoflX. Код получен через tiged из main без истории; выполнен git init -b main, изменено только имя корневого package.json и созданы четыре игнорируемых env с отдельными ресурсами/портами. Разработка и исправления шаблона не выполнялись. Исходная рабочая копия осталась чистой (git status --short пусто).",
+      "## Фактические проверки",
+      "- Node 24.18.1, pnpm 11.25.0, Git 2.55.0, Docker 29.6.2, Compose 5.3.1.",
+      "- pnpm install --frozen-lockfile успешен; supply-chain проверка lockfile пройдена.",
+      "- env:check: 5 шаблонов, 4 совместимые копии, 4 рабочих файла; Compose config --quiet успешен.",
+      "- DOTENV_CONFIG_PATH=/dev/null pnpm build: 6/6 задач успешны. agents:check: 7 агентов, 21 файл; ссылки актуальны.",
+      "- Отдельный Compose turbo-starter-smoke-1105-dev: PostgreSQL, MinIO, RabbitMQ, imgproxy healthy; minio-init Exited (0). Bucket private, lifecycle создан. 32 миграции успешно применены на localhost:5545.",
+      "- pnpm dev: сайт и админка готовы, Client API 4000 и Admin API 4001 слушают, Image worker connected, initial owner создан. Ошибок в dev-логе не найдено.",
+      "- HTTP 200: localhost:4700, localhost:3000, localhost:3001, localhost:4000/docs, localhost:4000/openapi.json, localhost:4001/docs, localhost:4001/openapi.json. Обе спецификации OpenAPI 3.0.0 валидны как JSON (16 и 34 пути).",
+      "- Chrome/agent-browser: Relay показывает turbo-starter-smoke-1105 и Подключено к серверу; сайт показывает Стартовое приложение; админка показывает форму входа. Вход штатным dev-владельцем успешен, отображается Рабочее пространство. Выход выполнен, снова форма входа. JS errors пусто у всех трёх интерфейсов; консоли frontend содержат только штатные dev-сообщения. Проверочные браузеры закрыты.",
+      "- Чужие четыре контейнера biocad-vcp-dev остались healthy и не перезапускались.",
+      "## Адреса и ресурсы",
+      "Сайт http://localhost:3000; админка http://localhost:3001; Client API http://localhost:4000/docs; Admin API http://localhost:4001/docs; Relay Web http://localhost:4700.",
+      "Relay CLI и Server 0.13.0, ID нового проекта KXsPBsBl. Конфиг /home/gromov/.relay/turbo-starter-install-oxoflX-4377787c495bbe8a36f90bfbe028bfcf/config.json. Импорт relay-data с SHA 50db37319e7bde57b40c0491b2c831e0e368e7fb, целостность проверена; новая база не редактировалась.",
+      "Инфраструктурные порты: PostgreSQL 5545, S3 19000/19001, RabbitMQ 15673/15674, imgproxy 18081.",
+      "## Работающие процессы и остановка",
+      "Приложения: pnpm dev PID/PGID 824295, дочерние группы backend 824370, web 824371, admin 824372; shell sh_1abe8155c001NO16A7XakyRPRm. Relay: launcher PID/PGID 818308, server PID 818556; shell sh_1abe707a70027LicqycbQKaoQY. Все группы проверены и принадлежат этой временной установке.",
+      "Для остановки приложений и Relay: kill -TERM -- -824295 -824370 -824371 -824372 -818308.",
+      "Для остановки инфраструктуры с сохранением volumes: pnpm --dir /tmp/opencode/turbo-starter-install-oxoflX infra:dev:down.",
+      "Dev-лог: /home/gromov/.local/share/opencode/shell/2690aae6f6a697cd5cde724c32d18bfcf873ce37/sh_1abe8155c001NO16A7XakyRPRm.out. Relay-лог: аналогичный каталог, sh_1abe707a70027LicqycbQKaoQY.out.",
+      "## Ограничения и передача",
+      "Блокирующих ошибок нет. Vite предупреждает о JS-чанке больше 500 kB; это не мешает сборке и запуску. Установочный smoke-test не является полным тестированием всех функций загрузки/обработки/прав. Сервисы оставлены работающими согласно инструкции. Для дальнейшей работы завершить эту сессию и перезапустить агентский клиент из /tmp/opencode/turbo-starter-install-oxoflX. Учитывать временный характер каталога; данные Relay находятся отдельно в ~/.relay."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [
+      {
+        "ref": {
+          "kind": "document",
+          "id": "keC6UW0i"
+        },
+        "key": "DOC-12",
+        "title": "Установка и запуск нового проекта"
+      }
+    ],
+    "createdAt": "2026-11-05T13:33:46.106Z",
+    "createdBy": "openai/gpt-6.1-sol",
+    "kind": "result",
+    "intentId": "nmqRWTfI",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-05T13:33:46.106Z",
+  "createdBy": "openai/gpt-6.1-sol",
+  "updatedAt": "2026-11-05T13:33:46.106Z",
+  "updatedBy": "openai/gpt-6.1-sol"
+}
