@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "0VQOOE8T",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "0VQOOE8T",
+    "key": "CP-0VQOOE8T",
+    "sessionId": "abnwBNJc",
+    "runId": "j3ZypIng",
+    "sequence": 3,
+    "title": "Применить согласованное UI/UX-правило в двух приложениях",
+    "summary": "",
+    "body": [
+      "Внедрить текст согласованного предложения в существующие AGENTS веба и админки: проектирование до кода, самостоятельное визуальное решение, иерархия, полный сценарий, адаптивность и доступность, проверка глазами с доработкой. Включить эти требования в обязательный порядок и приёмку. Использовать одинаковое общее ядро и дополнительный пункт Next.js о loading/Suspense, streaming и устойчивости гидратации. Проверки: сравнение общих разделов, чтение diff и git diff --check. Применимые AGENTS и React/Next.js/Unit Architecture reference прочитаны в предыдущем исследовании и доступны в контексте; текущие файлы перечитаны перед изменением."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-11-05T12:41:59.237Z",
+    "createdBy": "gpt-6-astra",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-05T12:41:59.237Z",
+  "createdBy": "gpt-6-astra",
+  "updatedAt": "2026-11-05T12:41:59.237Z",
+  "updatedBy": "gpt-6-astra"
+}
