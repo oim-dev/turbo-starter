@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "agent-run",
   "id": "BKfdb8Wq",
-  "revision": 1,
+  "revision": 2,
   "key": null,
   "aliases": [],
   "data": {
@@ -23,18 +23,20 @@
     "client": "opencode",
     "sourceSessionId": null,
     "startedAt": "2026-11-05T12:27:53.939Z",
-    "endedAt": null,
+    "endedAt": "2026-11-05T12:31:51.474Z",
     "startedSequence": 2,
-    "endedSequence": null,
-    "endReason": null,
+    "endedSequence": 6,
+    "endReason": "completed",
     "predecessorRunId": null,
     "reason": [
       ""
     ],
-    "endSummary": null
+    "endSummary": [
+      "README дополнен описанием готового dev-деплоя Dokploy, документами DOC-18/DOC-4/DOC-11, ссылками на инструкцию и пример env, порядком домен → PUBLIC_URL и Environment → Deploy. DOC-18 синхронизирован с согласованными шагами и dev-значениями (ревизия 4). Проверены ссылки, diff и сохранённое содержание DOC-18. Полный результат и проверки: CP-pP60ObWB; выводы исследования: CP-8yFdILfY. Поручение выполнено."
+    ]
   },
   "createdAt": "2026-11-05T12:27:53.939Z",
   "createdBy": "gpt-6-astra",
-  "updatedAt": "2026-11-05T12:27:53.939Z",
+  "updatedAt": "2026-11-05T12:31:51.474Z",
   "updatedBy": "gpt-6-astra"
 }
