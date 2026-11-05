@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "eNy7QR6y",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "eNy7QR6y",
+    "key": "CP-eNy7QR6y",
+    "sessionId": "iv0avs7G",
+    "runId": "Unq40jvM",
+    "sequence": 4,
+    "title": "Временный проект установлен, независимая база Relay импортирована",
+    "summary": "",
+    "body": [
+      "## Сделано",
+      "Шаблон main получен через tiged в /tmp/opencode/turbo-starter-install-oxoflX; git init -b main, имя package.json turbo-starter-smoke-1105. pnpm install --frozen-lockfile успешен (953 пакета). Исходная рабочая копия изначально чистая, не изменялась.",
+      "Импорт Relay CLI 0.13.0 из relay-data завершён с проверкой целостности. Новый ID KXsPBsBl, имя/slug turbo-starter-smoke-1105, SHA источника базы 50db37319e7bde57b40c0491b2c831e0e368e7fb. Конфиг /home/gromov/.relay/turbo-starter-install-oxoflX-4377787c495bbe8a36f90bfbe028bfcf/config.json. Данные новой базы не менялись. Server 0.13.0 запущен фоновым shell sh_1abe707a70027LicqycbQKaoQY на 4700.",
+      "## Изоляция и проверки",
+      "Node 24.18.1, pnpm 11.25.0, Git 2.55.0, Docker 29.6.2, Compose 5.3.1. Чужие сервисы biocad-vcp-dev оставлены работающими. Созданы четыре env из шаблонов; отдельный Compose turbo-starter-smoke-1105-dev и собственные теги MinIO. Порты PG 5545, S3 19000/19001, RabbitMQ 15673/15674, imgproxy 18081; интерфейсы 3000/3001, API 4000/4001, Relay 4700. Свободность проверена bind, унаследованных настроек env нет. env:check и Compose config успешны. agents:check: 7 агентов, 21 файл, всё актуально; ссылки скиллов без повреждений.",
+      "## Остаток",
+      "pnpm build выполняется в sh_1abe707a20015gqiYkv8Ar79fy. После успешной сборки запустить инфраструктуру, применить миграции, запустить pnpm dev и проверить HTTP/экраны/логи."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-11-05T13:30:24.670Z",
+    "createdBy": "openai/gpt-6.1-sol",
+    "kind": "progress",
+    "intentId": "nmqRWTfI",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-05T13:30:24.670Z",
+  "createdBy": "openai/gpt-6.1-sol",
+  "updatedAt": "2026-11-05T13:30:24.670Z",
+  "updatedBy": "openai/gpt-6.1-sol"
+}
