@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "9w2O6c80",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "9w2O6c80",
+    "key": "S-9w2O6c80",
+    "title": "Ознакомление с документацией шаблона и инфраструктуры",
+    "description": [
+      "Поручение пользователя: ознакомиться с документами шаблона и инфраструктуры в Relay перед дальнейшим редактированием. Прочитать относящиеся к этим разделам документы, восстановить карту шаблона, состав приложений, процессы запуска и ограничения инфраструктуры; сохранить выводы и кратко подтвердить готовность. Объём ограничен чтением и историей работы: не менять документацию, код, конфигурацию или чужие сессии и не запускать инфраструктуру приложения."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "1UghAHeX",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-11-05T12:03:41.426Z",
+    "updatedAt": "2026-11-05T12:03:41.426Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-11-05T12:03:41.426Z",
+  "createdBy": "openai/gpt-6.1-sol",
+  "updatedAt": "2026-11-05T12:03:41.426Z",
+  "updatedBy": "openai/gpt-6.1-sol"
+}
