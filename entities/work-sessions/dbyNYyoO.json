@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "dbyNYyoO",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "dbyNYyoO",
+    "key": "S-dbyNYyoO",
+    "title": "Навигация README к деплою тестового стенда Dokploy",
+    "description": [
+      "Поручение пользователя: «супер, теперь в ридми давайте дадим отсылку что в проекте уже настроен деплой дев окружения в докплой и номера документов какие прочитать агенту или пользователю что-бы корректно провести деплой приложения на тестовый стенд». Обновить раздел корневого README о Dokploy: явно обозначить готовую конфигурацию тестового dev-стенда, дать проверенные номера и названия документов Relay и ссылку на практическую инструкцию. Сохранить согласованный порядок: домен → переменные с PUBLIC_URL → Deploy. Проверить содержание выбранных документов, локальные ссылки и diff. В рабочем каталоге уже есть согласованные изменения infra/dokploy/.env.example и infra/dokploy/README.md."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "BKfdb8Wq",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-11-05T12:27:53.939Z",
+    "updatedAt": "2026-11-05T12:27:53.939Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-11-05T12:27:53.939Z",
+  "createdBy": "gpt-6-astra",
+  "updatedAt": "2026-11-05T12:27:53.939Z",
+  "updatedBy": "gpt-6-astra"
+}
