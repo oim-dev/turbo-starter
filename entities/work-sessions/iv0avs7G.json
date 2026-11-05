@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "work-session",
   "id": "iv0avs7G",
-  "revision": 6,
+  "revision": 7,
   "key": null,
   "aliases": [],
   "data": {
@@ -17,19 +17,19 @@
     "originCheckpointId": null,
     "createdByRunId": null,
     "parentSequence": null,
-    "status": "open",
-    "currentRunId": "Unq40jvM",
-    "sequence": 7,
+    "status": "completed",
+    "currentRunId": null,
+    "sequence": 9,
     "result": [
-      ""
+      "Установка по канонической инструкции успешно воспроизведена в /tmp/opencode/turbo-starter-install-oxoflX. Сборка, env/agents, 32 миграции, четыре healthchecks, семь HTTP-адресов и браузерные проверки сайта/Relay/входа-выхода админки пройдены. Сервисы оставлены работающими; адреса, конфигурация Relay, PID/PGID, команды остановки и ограничения сохранены в CP-D9nmGWis. Исходная рабочая копия и чужая инфраструктура не изменены. Дальнейшая проектная работа только в новой сессии из каталога установленного проекта."
     ],
     "createdAt": "2026-11-05T13:28:13.957Z",
-    "updatedAt": "2026-11-05T13:33:46.106Z",
-    "closedAt": null,
-    "revision": 6
+    "updatedAt": "2026-11-05T13:33:54.420Z",
+    "closedAt": "2026-11-05T13:33:54.420Z",
+    "revision": 7
   },
   "createdAt": "2026-11-05T13:28:13.957Z",
   "createdBy": "openai/gpt-6.1-sol",
-  "updatedAt": "2026-11-05T13:33:46.106Z",
+  "updatedAt": "2026-11-05T13:33:54.420Z",
   "updatedBy": "openai/gpt-6.1-sol"
 }
