@@ -37,7 +37,7 @@
     }
   },
   "scripts": {
-    "generate": "pnpm dlx @gromlab/rest-api-codegen@5.2.4 --input ../../apps/nest-backend/openapi/client.openapi.json --output ./src/generated && pnpm run clean",
+    "generate": "pnpm dlx @gromlab/rest-api-codegen@5.2.4 --input ../../apps/backend/openapi/client.openapi.json --output ./src/generated && pnpm run clean",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\"",
     "build": "pnpm run clean && tsc -p tsconfig.json",
     "check-types": "tsc -p tsconfig.json --noEmit",

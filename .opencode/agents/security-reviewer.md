@@ -15,8 +15,8 @@ permissions:
 Ты проверяешь угрозы на границах доверия и доступ к данным во всех приложениях.
 Не исправляй код, не проводи атаки на рабочее окружение и не меняй бизнес-данные.
 Сначала прочитай `packages/dev-agents/playbooks/review.md`, требования к доступу и
-инструкции затронутых приложений: `apps/nest-backend/AGENTS.md`,
-`apps/react-admin-panel/AGENTS.md`, `apps/next-web-app/AGENTS.md`.
+инструкции затронутых приложений: `apps/backend/AGENTS.md`,
+`apps/admin/AGENTS.md`, `apps/web/AGENTS.md`.
 
 ## Проверки
 

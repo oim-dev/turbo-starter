@@ -1,6 +1,6 @@
-# React Admin Panel
+# Admin
 
-`@oim/react-admin-panel` — админка на React, TypeScript, Vite и Mantine.
+`@oim/admin` — админка на React, TypeScript, Vite и Mantine.
 Вход, личный профиль и управление пользователями, ролями и Keycloak по правам доступа.
 Панель управления открывается из меню пользователя.
 Общая медиатека доступна по `/images` при праве `images.read`: загрузка оригиналов,
@@ -26,13 +26,13 @@
 ## Локальный запуск
 
 Нужны Node.js 24+, pnpm из корневого `packageManager` и PostgreSQL с применёнными
-миграциями — см. [настройку backend](../nest-backend/README.md).
+миграциями — см. [настройку backend](../backend/README.md).
 
 Из корня репозитория:
 
 ```sh
 pnpm install
-pnpm --filter @oim/nest-backend run dev:admin
+pnpm --filter @oim/backend run dev:admin
 ```
 
 В другом терминале, также из корня:
@@ -67,7 +67,7 @@ pnpm run admin:preview
 
 `agent-browser` установлен в приложении. Конфигурация — [agent-browser.json](agent-browser.json),
 правила проверки — [AGENTS.md](AGENTS.md#проверка-через-agent-browser).
-Команды выполняются из `apps/react-admin-panel`:
+Команды выполняются из `apps/admin`:
 
 ```sh
 pnpm run browser:install
@@ -79,11 +79,11 @@ pnpm run browser --session "$SESSION" close
 
 `browser:install` однократно скачивает Chrome в кеш машины; на Linux при нехватке
 системных библиотек добавьте `--with-deps`. Для каждой задачи используйте уникальную сессию.
-Скриншоты сохраняйте в корневом `.artifacts/react-admin-panel/<имя-сессии>/` — каталог исключён из Git.
+Скриншоты сохраняйте в корневом `.artifacts/admin/<имя-сессии>/` — каталог исключён из Git.
 
 ## Разработка
 
-- [AGENTS.md](AGENTS.md) — архитектура и правила работы.
+- [AGENTS.md](AGENTS.md) — обязательные скиллы и правила работы агента.
 - [Шаблоны](.templates/README.md) — создание новых TSX через генератор.
 - [Авторизация](src/domains/management/auth/README.md) — сессии, выход и координация вкладок.
 - [REST SDK](../../packages/admin-rest-api-sdk/README.md) — API-клиент и генерация.

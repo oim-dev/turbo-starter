@@ -8,9 +8,9 @@ Fullstack-шаблон на **TypeScript, pnpm и Turborepo** для проек�
 
 | Приложение                                                   | Назначение                                                                                                           |
 | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------- |
-| [`apps/next-web-app`](apps/next-web-app/README.md)           | Next.js 16, React 19 и Mantine. Стартовая страница с серверным рендерингом и подготовленная интеграция с Client API. |
-| [`apps/react-admin-panel`](apps/react-admin-panel/README.md) | React SPA на Vite и Mantine: пользователи, роли, настройки входа, изображения и файлы.                               |
-| [`apps/nest-backend`](apps/nest-backend/README.md)           | NestJS 11, Prisma и PostgreSQL: отдельные Client API и Admin API, воркер обработки изображений.                      |
+| [`apps/web`](apps/web/README.md) | Next.js 16, React 19 и Mantine. Стартовая страница с серверным рендерингом и подготовленная интеграция с Client API. |
+| [`apps/admin`](apps/admin/README.md) | React SPA на Vite и Mantine: пользователи, роли, настройки входа, изображения и файлы. |
+| [`apps/backend`](apps/backend/README.md) | NestJS 11, Prisma и PostgreSQL: отдельные Client API и Admin API, воркер обработки изображений. |
 
 Готовые возможности:
 
@@ -36,8 +36,8 @@ Fullstack-шаблон на **TypeScript, pnpm и Turborepo** для проек�
 Знания и ход разработки доступны команде в Web-интерфейсе Relay;
 адрес определяется настроенным подключением проекта.
 Правила работы AI-агентов — в локальных инструкциях
-[админки](apps/react-admin-panel/AGENTS.md), [сайта](apps/next-web-app/AGENTS.md)
-и [backend](apps/nest-backend/AGENTS.md).
+[админки](apps/admin/AGENTS.md), [сайта](apps/web/AGENTS.md)
+и [backend](apps/backend/AGENTS.md).
 
 Для независимого ревью подготовлены семь [профильных агентов](packages/dev-agents/README.md):
 React, Next.js, NestJS, архитектура, интеграция, платформа и безопасность.
@@ -117,9 +117,9 @@ Prisma Client и REST SDK подготавливаются автоматиче�
 
 | Пример                                                                       | Рабочий файл |
 | ---------------------------------------------------------------------------- | ------------ |
-| [`apps/nest-backend/.env.example`](apps/nest-backend/.env.example)           | `.env`       |
-| [`apps/react-admin-panel/.env.example`](apps/react-admin-panel/.env.example) | `.env.local` |
-| [`apps/next-web-app/.env.example`](apps/next-web-app/.env.example)           | `.env.local` |
+| [`apps/backend/.env.example`](apps/backend/.env.example) | `.env` |
+| [`apps/admin/.env.example`](apps/admin/.env.example) | `.env.local` |
+| [`apps/web/.env.example`](apps/web/.env.example) | `.env.local` |
 | [`infra/dev/.env.example`](infra/dev/.env.example)                           | `.env`       |
 
 Рабочие env-файлы исключены из Git. Их структуру проверяет `pnpm env:check`:
@@ -138,8 +138,8 @@ Prisma Client и REST SDK подготавливаются автоматиче�
 | `pnpm rest-api-sdk:generate` | Обновить OpenAPI и оба SDK после изменения API |
 | `pnpm infra:dev:logs`        | Смотреть логи инфраструктуры                   |
 
-Подробности запуска и разработки — в README [backend](apps/nest-backend/README.md),
-[админки](apps/react-admin-panel/README.md), [веб-приложения](apps/next-web-app/README.md)
+Подробности запуска и разработки — в README [backend](apps/backend/README.md),
+[админки](apps/admin/README.md), [веб-приложения](apps/web/README.md)
 и [инфраструктуры](infra/dev/README.md).
 
 ## Стенд в Dokploy

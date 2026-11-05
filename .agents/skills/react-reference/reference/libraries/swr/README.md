@@ -38,7 +38,8 @@ SWR не создаёт HTTP transport, API client и REST operations. Их пр
 - Не создавай в hook `fetch`, `HttpClient`, API client, URL, auth headers или transport error policy.
 - Не сохраняй DTO и source errors в domain cache.
 - Не копируй SWR data в React state, Context или Zustand без отдельной локальной семантики; применяй правила [`State management`](../../application/state-management/README.md).
-- Для private data включай стабильную auth identity в key, но не используй JWT или cookie.
+- Приватные запросы ждут подтверждения JWT-сессии и используют отдельный Provider на её поколение по [правилам области](get-data.md#auth-scope).
+- Приватный ключ содержит параметры и идентификатор пользователя, но не JWT и не его производные значения.
 - Не добавляй SWR параллельно существующей data-fetching library без migration boundary.
 - Не используй SSR, React Server Components и server preload: этот референс предназначен только для React + Vite SPA.
 
@@ -46,11 +47,14 @@ SWR не создаёт HTTP transport, API client и REST operations. Их пр
 
 Запускаемый `demo-app` является источником актуальных GET-примеров:
 
-- [`current-session`](../../../demo-app/src/domains/authentication/hooks/use-get-current-session/) показывает публичные
-  данные, стандартный `SWRResponse`, поле `error` и общий ключ сессии;
+- [`current-session`](../../../demo-app/src/domains/authentication/hooks/use-get-current-session/) показывает публичный
+  хук проверки сессии, стандартный `SWRResponse`, поле `error` и общий ключ;
 - [`current-user`](../../../demo-app/src/domains/user/hooks/use-get-current-user/) показывает приватный ключ со стабильным
   `userId`, условный запуск и тот же стандартный `SWRResponse`;
 - [полный сценарий](../../../demo-app/README.md) связывает OpenAPI, API-клиент, предметные адаптеры, SWR и автономный MSW.
+
+Изоляция поколений сессии и всех поздних ответов пока не подтверждается демо; ограничение описано в
+[GAP-013](../../../DOCUMENTATION-GAPS.md#gap-013-поколения-сессии-и-поздние-ответы-в-демо).
 
 В `demo-app` пока нет реализации подписок. Нормативный встроенный пример и правила очистки находятся в
 [`subscriptions.md`](subscriptions.md); не считай его подтверждённым запускаемым сценарием демо.

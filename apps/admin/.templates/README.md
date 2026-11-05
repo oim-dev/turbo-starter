@@ -1,4 +1,4 @@
-# React Admin Panel Templates
+# Шаблоны Admin
 
 Шаблоны фиксируют повторяемую структуру React SPA после определения владельца и архитектурной роли.
 
@@ -12,7 +12,7 @@
 и [tsx-styleguide](../../../.agents/skills/tsx-styleguide/SKILL.md) вместе с
 [ts-styleguide](../../../.agents/skills/ts-styleguide/SKILL.md).
 Команда `create` закрепляет `@gromlab/template-file-generator@0.3.1`.
-Запускайте генератор из `apps/react-admin-panel`:
+Запускайте генератор из `apps/admin`:
 
 ```bash
 pnpm run create ui-unit example src/compositions/screens

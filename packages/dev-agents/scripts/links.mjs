@@ -51,9 +51,9 @@ export async function checkLinks(root, profiles) {
 
   const instructions = new Set([
     `${PACKAGE}/AGENTS.md`,
-    "apps/react-admin-panel/AGENTS.md",
-    "apps/next-web-app/AGENTS.md",
-    "apps/nest-backend/AGENTS.md",
+    "apps/admin/AGENTS.md",
+    "apps/web/AGENTS.md",
+    "apps/backend/AGENTS.md",
     ...documents.keys(),
   ]);
   // Корневые инструкции необязательны; явные ссылки на них по-прежнему проверяются.
@@ -76,10 +76,10 @@ export async function checkLinks(root, profiles) {
     "README.md",
     "docs/development/new-project-setup.md",
     `${PACKAGE}/README.md`,
-    "apps/react-admin-panel/README.md",
-    "apps/react-admin-panel/.templates/README.md",
-    "apps/next-web-app/README.md",
-    "apps/next-web-app/.templates/README.md",
+    "apps/admin/README.md",
+    "apps/admin/.templates/README.md",
+    "apps/web/README.md",
+    "apps/web/.templates/README.md",
   ];
   const collect = async (path) => {
     const entries = await readdir(join(root, path), { withFileTypes: true }).catch((error) => {

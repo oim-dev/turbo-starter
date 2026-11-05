@@ -7,13 +7,13 @@ FROM base AS build
 RUN corepack enable && corepack prepare pnpm@11.25.0 --activate
 WORKDIR /workspace
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-COPY apps/nest-backend/package.json apps/nest-backend/package.json
-RUN pnpm install --filter @oim/nest-backend... --frozen-lockfile
-COPY apps/nest-backend apps/nest-backend
-RUN pnpm --filter @oim/nest-backend check-types && pnpm --filter @oim/nest-backend lint && pnpm --filter @oim/nest-backend build
+COPY apps/backend/package.json apps/backend/package.json
+RUN pnpm install --filter @oim/backend... --frozen-lockfile
+COPY apps/backend apps/backend
+RUN pnpm --filter @oim/backend check-types && pnpm --filter @oim/backend lint && pnpm --filter @oim/backend build
 
 FROM build AS production-dependencies
-RUN pnpm --filter @oim/nest-backend deploy --prod --legacy /out/backend
+RUN pnpm --filter @oim/backend deploy --prod --legacy /out/backend
 
 # Prisma tooling и исходники конфигурации нужны только одноразовым миграциям.
 FROM base AS migrations
@@ -21,8 +21,8 @@ ENV NODE_ENV=production \
     CHECKPOINT_DISABLE=1
 WORKDIR /app
 COPY --from=build --chown=node:node /workspace/node_modules ./node_modules
-COPY --from=build --chown=node:node /workspace/apps/nest-backend ./apps/nest-backend
-WORKDIR /app/apps/nest-backend
+COPY --from=build --chown=node:node /workspace/apps/backend ./apps/backend
+WORKDIR /app/apps/backend
 USER node
 CMD ["./node_modules/.bin/prisma", "migrate", "deploy"]
 

@@ -18,7 +18,12 @@
       "kind": "reviewer",
       "description": "Ревью React SPA и соблюдения React Reference",
       "prompt": "reviewers/react-reviewer.md",
-      "skills": ["react-reference", "unit-architecture", "ts-styleguide", "tsx-styleguide"]
+      "skills": [
+        "react-reference",
+        "unit-architecture",
+        "ts-styleguide",
+        "tsx-styleguide"
+      ]
     }
   ]
 }
@@ -35,21 +40,21 @@
 в Claude Code. Отсутствующий скилл останавливает сборку. Сейчас оркестратора в реестре нет.
 
 Правила сопровождения сборщика — в [AGENTS.md пакета](AGENTS.md).
-Инструкции приложений выбираются по области
-работы: [React Admin Panel](../../apps/react-admin-panel/AGENTS.md),
-[Next Web App](../../apps/next-web-app/AGENTS.md), [Nest Backend](../../apps/nest-backend/AGENTS.md).
+React-, Next.js- и архитектурный ревьюверы не привязаны к пути приложения.
+Область и проверяемое состояние задаются поручением; применимые AGENTS.md, требования,
+README, настройки и команды ревьювер находит в проверяемой области.
 
 ## Ревьюверы и порядок работы
 
-| Агент | Область |
-| --- | --- |
-| [react-reviewer](src/reviewers/react-reviewer.md) | React SPA, сценарии UI и обязательное соблюдение React Reference и стайлгайдов |
-| [nextjs-reviewer](src/reviewers/nextjs-reviewer.md) | App Router, SSR/RSC, гидратация, данные и обязательное соблюдение Next.js Reference |
-| [nest-reviewer](src/reviewers/nest-reviewer.md) | HTTP, предметные операции, Prisma/миграции, очереди и ошибки NestJS |
-| [architecture-reviewer](src/reviewers/architecture-reviewer.md) | Владельцы, профили, фасеты, колокация и граф зависимостей |
-| [integration-reviewer](src/reviewers/integration-reviewer.md) | Совместимость OpenAPI → SDK → адаптеры → интерфейс и сквозной сценарий |
-| [platform-reviewer](src/reviewers/platform-reviewer.md) | Монорепозиторий, команды, env, Docker, worktree и готовность Git-шаблона |
-| [security-reviewer](src/reviewers/security-reviewer.md) | Границы доверия, права, сессии, секреты и доступ к данным |
+| Агент                                                           | Область                                                                             |
+| --------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| [react-reviewer](src/reviewers/react-reviewer.md)               | React SPA, сценарии UI и обязательное соблюдение React Reference и стайлгайдов      |
+| [nextjs-reviewer](src/reviewers/nextjs-reviewer.md)             | App Router, SSR/RSC, гидратация, данные и обязательное соблюдение Next.js Reference |
+| [nest-reviewer](src/reviewers/nest-reviewer.md)                 | HTTP, предметные операции, Prisma/миграции, очереди и ошибки NestJS                 |
+| [architecture-reviewer](src/reviewers/architecture-reviewer.md) | Владельцы, профили, фасеты, колокация и граф зависимостей                           |
+| [integration-reviewer](src/reviewers/integration-reviewer.md)   | Совместимость OpenAPI → SDK → адаптеры → интерфейс и сквозной сценарий              |
+| [platform-reviewer](src/reviewers/platform-reviewer.md)         | Монорепозиторий, команды, env, Docker, worktree и готовность Git-шаблона            |
+| [security-reviewer](src/reviewers/security-reviewer.md)         | Границы доверия, права, сессии, секреты и доступ к данным                           |
 
 Основной агент задаёт цель, проверяемое состояние и базу сравнения, выбирает роли,
 передаёт материалы и объединяет выводы. При полном аудите нужны все семь направлений;
@@ -58,11 +63,17 @@
 Ревьюверы не запускают других исполнителей и не исправляют найденное.
 
 Обязательны [общий протокол](playbooks/review.md), а для React/Next.js также
-[протокол соответствия референсам](playbooks/reference-compliance.md). В этих двух
-приложениях действует строгий режим: работающий UI и зелёные проверки не оправдывают
+[протокол соответствия референсам](playbooks/reference-compliance.md). Ревьювер самостоятельно
+выбирает затронутые области reference, читает их документы и загружает нужные стайлгайды.
+Новый и изменяемый код проверяется строго: работающий UI и зелёные проверки не оправдывают
 обход подходов скиллов. Вывод содержит точные замечания и таблицу
 «область → норма → код/доказательство → статус», включая неподтверждённые обязательства.
 Запуск генератора нельзя доказать только структурой файла или опровергнуть отсутствием команды в diff.
+
+React-, Next.js- и архитектурный ревьюверы выполняют любые браузерные действия только
+через `agent-browser` в собственной изолированной сессии по общему протоколу.
+Архитектурный ревьювер выбирает принятую архитектуру и проверяет её профиль и граф,
+не навязывая Unit Architecture другим областям и не дублируя полное frontend-ревью.
 
 Для вызова попросите основной агент использовать нужного ревьювера, указав область
 и базу сравнения. Передайте фактические команды/результаты генерации, проверки и

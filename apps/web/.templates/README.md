@@ -1,7 +1,7 @@
-# Генерация компонентов Next Web App
+# Генерация компонентов Web
 
 Шаблоны применяются по [Next.js Reference](../../../.agents/skills/nextjs-reference/SKILL.md)
-и локальному [профилю приложения](../AGENTS.md#архитектурный-профиль).
+и его [архитектурному профилю](../../../.agents/skills/nextjs-reference/reference/application/architecture/README.md).
 Перед генерацией определите владельца и необходимость отдельного публичного контракта.
 
 | Шаблон | Результат |
@@ -9,7 +9,7 @@
 | `ui-component` | Внутренний компонент со своей папкой, типом props и CSS Module, без фасета |
 | `ui-unit` | Компонент-юнит с той же структурой и публичным `index.ts` |
 
-Запускать из `apps/next-web-app` только для нового имени и отсутствующей целевой папки:
+Запускать из `apps/web` только для нового имени и отсутствующей целевой папки:
 
 ```bash
 pnpm run create ui-unit welcome src/compositions/screens

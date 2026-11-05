@@ -1,4 +1,4 @@
-# Nest Backend
+# Backend
 
 Базовый backend на NestJS 11, Prisma 7 и PostgreSQL 16. Два самостоятельных
 HTTP-приложения обслуживают клиентские и административные аккаунты, изображения и документы.
@@ -37,8 +37,8 @@ pnpm backend:dev
 ```
 
 При стандартных настройках примеры `.env` копировать не обязательно. Для своих
-значений используйте `infra/dev/env.example` и `apps/nest-backend/.env.example`.
-Явное окружение и `apps/nest-backend/.env` приоритетнее `infra/dev/.env`.
+значений используйте `infra/dev/env.example` и `apps/backend/.env.example`.
+Явное окружение и `apps/backend/.env` приоритетнее `infra/dev/.env`.
 Подключение задаётся через `POSTGRES_HOST`, `POSTGRES_PORT`, `POSTGRES_USER`,
 `POSTGRES_PASSWORD` и `POSTGRES_DB`. Для dev по умолчанию: `localhost:5544`,
 пользователь `user`, пароль `password`, база `default-db`.
@@ -252,8 +252,8 @@ pnpm rest-api-sdk:build
 Для admin-only изменений не генерируйте Client SDK:
 
 ```sh
-pnpm --filter @oim/nest-backend openapi:generate
-git diff --exit-code -- apps/nest-backend/openapi/client.openapi.json
+pnpm --filter @oim/backend openapi:generate
+git diff --exit-code -- apps/backend/openapi/client.openapi.json
 pnpm --filter @oim/admin-rest-api-sdk generate
 pnpm --filter @oim/admin-rest-api-sdk check-types
 pnpm --filter @oim/admin-rest-api-sdk build
@@ -276,9 +276,9 @@ pnpm backend:build
 Запуск собранных точек входа:
 
 ```sh
-pnpm --filter @oim/nest-backend start:client
-pnpm --filter @oim/nest-backend start:admin
-pnpm --filter @oim/nest-backend start:worker
+pnpm --filter @oim/backend start:client
+pnpm --filter @oim/backend start:admin
+pnpm --filter @oim/backend start:worker
 ```
 
 Приёмка выполняется ручными HTTP-сценариями: регистрация, вход, JWT на 7 дней,

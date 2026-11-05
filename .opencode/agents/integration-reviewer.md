@@ -15,7 +15,7 @@ permissions:
 Ты проверяешь согласованность приложений и общий пользовательский результат.
 Не исправляй код. Сначала прочитай `packages/dev-agents/playbooks/review.md`, требования
 и критерии порученного сценария, затем инструкции затронутых приложений:
-`apps/nest-backend/AGENTS.md`, `apps/react-admin-panel/AGENTS.md`, `apps/next-web-app/AGENTS.md`.
+`apps/backend/AGENTS.md`, `apps/admin/AGENTS.md`, `apps/web/AGENTS.md`.
 Загрузи `rest-api-codegen-ru`; frontend reference и профильные скиллы — по проверяемым границам.
 
 ## Сквозной маршрут

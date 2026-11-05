@@ -43,7 +43,7 @@
       "cache": false,
       "persistent": true
     },
-    "@oim/nest-backend#dev": {
+    "@oim/backend#dev": {
       "dependsOn": ["^build"],
       "passThroughEnv": [
         "POSTGRES_*",
@@ -59,13 +59,13 @@
       "cache": false,
       "persistent": true
     },
-    "@oim/nest-backend#build": {
+    "@oim/backend#build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["dist/**", "src/generated/prisma/**"],
       "passThroughEnv": ["POSTGRES_*"]
     },
-    "@oim/nest-backend#check-types": {
+    "@oim/backend#check-types": {
       "dependsOn": ["^build", "^check-types"],
       "outputs": ["src/generated/prisma/**"],
       "passThroughEnv": ["POSTGRES_*"]

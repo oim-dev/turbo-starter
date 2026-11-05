@@ -6,14 +6,24 @@
       "kind": "reviewer",
       "description": "Ревью React SPA: корректность компонентов и сценариев, обязательное соответствие react-reference, Unit Architecture и стайлгайдам.",
       "prompt": "reviewers/react-reviewer.md",
-      "skills": ["react-reference", "unit-architecture", "ts-styleguide", "tsx-styleguide"]
+      "skills": [
+        "react-reference",
+        "unit-architecture",
+        "ts-styleguide",
+        "tsx-styleguide"
+      ]
     },
     {
       "name": "nextjs-reviewer",
       "kind": "reviewer",
-      "description": "Ревью Next.js App Router: SSR, RSC, гидратация, данные и обязательное соответствие nextjs-reference, локальному профилю и стайлгайдам.",
+      "description": "Ревью Next.js App Router: SSR, RSC, гидратация, данные и обязательное соответствие nextjs-reference, Unit Architecture и стайлгайдам.",
       "prompt": "reviewers/nextjs-reviewer.md",
-      "skills": ["nextjs-reference", "unit-architecture", "ts-styleguide", "tsx-styleguide"]
+      "skills": [
+        "nextjs-reference",
+        "unit-architecture",
+        "ts-styleguide",
+        "tsx-styleguide"
+      ]
     },
     {
       "name": "nest-reviewer",

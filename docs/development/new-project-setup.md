@@ -97,9 +97,9 @@ npx @oim-dev/relay-server@latest --config "<путь из config get>" --port 47
 
 ```bash
 cp infra/dev/.env.example infra/dev/.env
-cp apps/nest-backend/.env.example apps/nest-backend/.env
-cp apps/react-admin-panel/.env.example apps/react-admin-panel/.env.local
-cp apps/next-web-app/.env.example apps/next-web-app/.env.local
+cp apps/backend/.env.example apps/backend/.env
+cp apps/admin/.env.example apps/admin/.env.local
+cp apps/web/.env.example apps/web/.env.local
 ```
 
 При продолжении установки сохраняй существующие значения. Структура рабочих файлов
@@ -119,7 +119,7 @@ MINIO_INIT_IMAGE=my-project-minio-init:dev
 
 | Настройка | Где согласовать |
 | --- | --- |
-| PostgreSQL | `POSTGRES_PORT`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB` в `infra/dev/.env` и `apps/nest-backend/.env`; для backend на host — `POSTGRES_HOST=localhost` |
+| PostgreSQL | `POSTGRES_PORT`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB` в `infra/dev/.env` и `apps/backend/.env`; для backend на host — `POSTGRES_HOST=localhost` |
 | S3 | `S3_PORT` задаёт порт в `S3_ENDPOINT` backend; `S3_REGION`, `S3_BUCKET`, `S3_ACCESS_KEY`, `S3_SECRET_KEY` совпадают в обоих файлах |
 | RabbitMQ | `RABBITMQ_URL` backend собирается из `RABBITMQ_USER`, `RABBITMQ_PASSWORD`, `RABBITMQ_PORT`, `RABBITMQ_VHOST` инфраструктуры |
 | imgproxy | Порт `IMGPROXY_URL` backend соответствует `IMGPROXY_PORT`; `IMGPROXY_KEY` и `IMGPROXY_SALT` совпадают в обоих файлах |

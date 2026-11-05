@@ -1,5 +1,5 @@
 {
-  "name": "@oim/next-web-app",
+  "name": "@oim/web",
   "description": "Стартовое веб-приложение на Next.js, Mantine и Unit Architecture.",
   "version": "0.1.0",
   "private": true,

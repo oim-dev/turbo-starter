@@ -108,6 +108,8 @@ export { AccountScreen as Component } from './account.screen'
 
 Реализация сессии остаётся в домене, а реализация провайдера у его владельца. Граница не читает токены и не вызывает
 HTTP-клиент. Состояния ожидания и ошибки самой проверки показывай явно, не выдавая неизвестный статус за гостя.
+Восстановление и подтверждение JWT описаны в [авторизации](../authentication/README.md). Guard управляет отображением,
+но не заменяет проверку JWT и прав backend и не является единственным условием запуска приватного запроса.
 
 Рабочий пример:
 [`RequireAuthenticationBoundary`](../../../demo-app/src/compositions/route-boundaries/require-authentication/require-authentication.boundary.tsx)

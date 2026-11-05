@@ -23,7 +23,7 @@ x-backend: &backend
   <<: *service
   build:
     context: .
-    dockerfile: apps/nest-backend/Dockerfile
+    dockerfile: apps/backend/Dockerfile
     target: runtime
   init: true
   stop_grace_period: 40s
@@ -89,7 +89,7 @@ services:
     <<: *service
     build:
       context: .
-      dockerfile: apps/next-web-app/Dockerfile
+      dockerfile: apps/web/Dockerfile
       args:
         NEXT_PUBLIC_CLIENT_API_URL: /api
     init: true
@@ -142,7 +142,7 @@ services:
     <<: *service
     build:
       context: .
-      dockerfile: apps/nest-backend/Dockerfile
+      dockerfile: apps/backend/Dockerfile
       target: migrations
     restart: "no"
     init: true

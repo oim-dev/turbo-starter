@@ -1,5 +1,5 @@
 {
-  "name": "@oim/react-admin-panel",
+  "name": "@oim/admin",
   "description": "Базовая административная React SPA с авторизацией и профилем администратора.",
   "private": true,
   "version": "0.0.0",

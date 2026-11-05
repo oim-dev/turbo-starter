@@ -1,5 +1,5 @@
 {
-  "name": "@oim/nest-backend",
+  "name": "@oim/backend",
   "description": "Каркас клиентского и административного NestJS API с аккаунтами и сессиями.",
   "version": "0.0.1",
   "private": true,

@@ -11,4 +11,4 @@
 **/*.tsbuildinfo
 **/.env
 **/.env.*
-apps/nest-backend/src/generated
+apps/backend/src/generated

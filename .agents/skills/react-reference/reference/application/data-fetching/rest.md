@@ -119,7 +119,7 @@ export const useGetPet = (petId: string | null): UseGetPetResponse => {
 создавай отдельное поле `defect`. Потребитель проверяет ожидаемую ошибку в `error`, а для повторного запроса и обновления
 кеша использует стандартный `mutate`.
 
-Рабочие примеры этого контракта находятся в `demo-app`: публичная сессия
+Рабочие примеры этого контракта находятся в `demo-app`: публичный хук проверки сессии
 [`useGetCurrentSession`](../../../demo-app/src/domains/authentication/hooks/use-get-current-session/use-get-current-session.hook.ts)
 и приватный профиль
 [`useGetCurrentUser`](../../../demo-app/src/domains/user/hooks/use-get-current-user/use-get-current-user.hook.ts).
@@ -181,19 +181,13 @@ await mutate(getPetKey(input.id))
 
 ## Auth и transport policy
 
-URL, credentials, headers, timeout, retry и общая нормализация transport errors принадлежат configured `HttpClient`. Domain adapter передаёт только параметры операции и не читает token самостоятельно.
+URL, заголовки, тайм-аут, повтор и общая нормализация ошибок транспорта принадлежат настроенному `HttpClient`.
+Доменный адаптер передаёт параметры операции и не читает JWT самостоятельно.
 
-Стабильная identity может участвовать в private SWR key, но access token, refresh token и cookie в cache key не помещаются. Auth/session owner отключает и очищает private cache при logout или account switch.
-
-Если access token хранится в `localStorage`, технический владелец применяет следующие правила:
-
-- token рассматривается как непрозрачная строка;
-- token читается перед каждым защищённым запросом;
-- token не попадает в URL, ключ кеша, телеметрию и диагностические сообщения;
-- повреждённое или отклонённое API значение удаляется;
-- при terminal Bearer `401`, оставшемся после настроенной refresh/retry policy, domain adapter сравнивает отклонённый
-  Bearer с текущим credential и вызывает публичное действие auth-домена только для текущей сессии;
-- защита от XSS обязательна, потому что выполняемый на странице JavaScript имеет доступ к `localStorage`.
+Базовая схема — браузерный `Authorization: Bearer`. Восстановление и подтверждение сессии, допуск приватных запросов
+и обработку отклонённого JWT выполняй по [авторизации](../authentication/README.md). GET-ключи и отдельная область
+сессии настраиваются по [SWR](../../libraries/swr/get-data.md#auth-scope). Ни токен, ни его производное значение
+не используются как идентификатор кеша. Успех, ошибка и повтор старого запроса не изменяют новую сессию.
 
 ## Проверка
 

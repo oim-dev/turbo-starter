@@ -5,9 +5,9 @@ import { parseEnv } from "node:util";
 
 export const envFiles = [
   ["infra/dev", ".env"],
-  ["apps/nest-backend", ".env"],
-  ["apps/react-admin-panel", ".env.local"],
-  ["apps/next-web-app", ".env.local"],
+  ["apps/backend", ".env"],
+  ["apps/admin", ".env.local"],
+  ["apps/web", ".env.local"],
 ];
 
 export function repositoryKey(remote) {

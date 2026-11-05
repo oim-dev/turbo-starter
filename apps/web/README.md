@@ -1,7 +1,7 @@
-# Next Web App
+# Web
 
-Нейтральное стартовое приложение `@oim/next-web-app` на Next.js 16 App Router,
-React 19, TypeScript и Mantine 8. Архитектура и блокирующий протокол разработки — в [AGENTS.md](AGENTS.md).
+Нейтральное стартовое приложение `@oim/web` на Next.js 16 App Router,
+React 19, TypeScript и Mantine 8. Обязательные скиллы и правила работы агента — в [AGENTS.md](AGENTS.md).
 
 ## Запуск
 
@@ -39,12 +39,12 @@ pnpm run web:start
 
 Для локальных `build/start` используется обычный output Next.js. [Dockerfile](Dockerfile)
 включает `output: 'standalone'` через `NEXT_STANDALONE=1`, собирает SDK и приложение,
-копирует standalone output и статические чанки, затем запускает `apps/next-web-app/server.js`.
+копирует standalone output и статические чанки, затем запускает `apps/web/server.js`.
 Docker-сборка выполняется с контекстом корня репозитория и требует актуального workspace lockfile.
 
 ### Альтернативный каталог сборки
 
-`NEXT_DIST_DIR` задаёт каталог результата относительно `apps/next-web-app`; по умолчанию это `.next`.
+`NEXT_DIST_DIR` задаёт каталог результата относительно `apps/web`; по умолчанию это `.next`.
 Для обычной локальной сборки в отдельный каталог используйте одинаковое значение при build и start:
 
 ```sh
@@ -55,7 +55,7 @@ NEXT_DIST_DIR=build/preview pnpm run web:start
 `NEXT_STANDALONE` и `NEXT_DIST_DIR` учитываются в environment hash задачи Turbo `build`.
 Результаты под `.next/` и `build/` покрыты настроенными `outputs`. Для другого кастомного `distDir`
 сначала согласуйте покрытие `outputs` с владельцем корневой конфигурации либо запускайте
-`pnpm --filter @oim/next-web-app run build` напрямую, без кеширования Turborepo,
+`pnpm --filter @oim/web run build` напрямую, без кеширования Turborepo,
 с предварительно собранным SDK.
 
 `NEXT_STANDALONE=1` меняет формат результата: такой сервер запускается через сгенерированный `server.js`,
@@ -69,17 +69,17 @@ NEXT_DIST_DIR=build/preview pnpm run web:start
 Для проверки SSR и гидратации предварительно выполните `pnpm run web:build` и
 `pnpm run web:start` из корня репозитория. Для остальных сценариев можно использовать dev-сервер.
 
-Команды браузерного инструмента выполняются из `apps/next-web-app`.
+Команды браузерного инструмента выполняются из `apps/web`.
 Пример для одного терминала:
 
 ```sh
 pnpm run browser:install
 pnpm run browser skills get core
 SESSION="web-check-$(date +%s)-$$"
-mkdir -p "../../.artifacts/next-web-app/$SESSION"
+mkdir -p "../../.artifacts/web/$SESSION"
 pnpm run browser --session "$SESSION" open http://localhost:3000
 pnpm run browser --session "$SESSION" snapshot -i
-pnpm run browser --session "$SESSION" screenshot "../../.artifacts/next-web-app/$SESSION/home.png"
+pnpm run browser --session "$SESSION" screenshot "../../.artifacts/web/$SESSION/home.png"
 pnpm run browser --session "$SESSION" close
 ```
 
@@ -88,7 +88,7 @@ pnpm run browser --session "$SESSION" close
 изолированную сессию и передавайте её во всех командах. Между отдельными вызовами
 инструментов агента shell-переменные могут не сохраняться: повторяйте выбранное имя явно.
 Конфиг включает headless Chrome с видимыми полосами прокрутки и явной обработкой диалогов.
-Артефакты сохраняйте в корневом `.artifacts/next-web-app/<имя-сессии>/` — каталог исключён из Git.
+Артефакты сохраняйте в корневом `.artifacts/web/<имя-сессии>/` — каталог исключён из Git.
 DOM-снимок после гидратации не доказывает SSR: проверяйте также серверный HTML и RSC payload.
 
 ## Сохраняемая инфраструктура API

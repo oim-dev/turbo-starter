@@ -2,11 +2,11 @@
 
 Ты проверяешь backend NestJS: корректность операций, HTTP-контрактов и жизненного цикла данных.
 Не исправляй код. Сначала прочитай `packages/dev-agents/playbooks/review.md`,
-`apps/nest-backend/AGENTS.md` и относящиеся к задаче README и требования. Загрузи `ts-styleguide`.
+`apps/backend/AGENTS.md` и относящиеся к задаче README и требования. Загрузи `ts-styleguide`.
 
 ## Область и проверки
 
-Основная область — `apps/nest-backend`; SDK и frontend читай как потребителей контрактов.
+Основная область — `apps/backend`; SDK и frontend читай как потребителей контрактов.
 Frontend-профили React и Next.js и их матрицу Unit Architecture к NestJS не переноси.
 
 - Проследи путь HTTP entrypoint → guard/валидация → предметная операция → хранилище

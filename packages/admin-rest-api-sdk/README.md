@@ -1,9 +1,9 @@
 # @oim/admin-rest-api-sdk
 
 Приватный workspace SDK для административного REST API. Источник контракта —
-[`apps/nest-backend/openapi/admin.openapi.json`](../../apps/nest-backend/openapi/admin.openapi.json).
+[`apps/backend/openapi/admin.openapi.json`](../../apps/backend/openapi/admin.openapi.json).
 Генератор зафиксирован: `@gromlab/rest-api-codegen@5.2.4`.
-Пакет `@oim/admin-rest-api-sdk` использует `apps/react-admin-panel`.
+Пакет `@oim/admin-rest-api-sdk` использует `apps/admin`.
 
 SDK независим от клиентского пакета и React. Он не создаёт singleton и не хранит
 URL окружения, токены или cookies. Настройки транспорта и сессии принадлежат
@@ -59,7 +59,7 @@ CORS разрешает любой origin. Клиентских DTO и преж�
 
 ### Граница совместимости
 
-`apps/react-admin-panel/src/infra/backend-admin-api` использует полное
+`apps/admin/src/infra/backend-admin-api` использует полное
 `operationsTree` и актуальные DTO этого SDK. Устаревшие продуктовые type reexports
 удалены; транспорт, session, config и helpers сохранены. При изменении контракта
 обновляйте его API-связи вместе с потребителем, сохраняя инфраструктурных владельцев.
@@ -119,7 +119,7 @@ API возвращает состояние обработки. Пока оно 
 
 Точный общий порядок для двух API описан в
 [`client-rest-api-sdk/README.md`](../client-rest-api-sdk/README.md#генерация-и-сборка).
-После экспорта обеих актуальных схем из `apps/nest-backend` команды этого SDK
+После экспорта обеих актуальных схем из `apps/backend` команды этого SDK
 из корня репозитория:
 
 ```sh

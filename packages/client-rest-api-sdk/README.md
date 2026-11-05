@@ -1,9 +1,9 @@
 # @oim/client-rest-api-sdk
 
 Приватный workspace SDK для клиентского REST API. Источник контракта —
-[`apps/nest-backend/openapi/client.openapi.json`](../../apps/nest-backend/openapi/client.openapi.json).
+[`apps/backend/openapi/client.openapi.json`](../../apps/backend/openapi/client.openapi.json).
 Генератор зафиксирован: `@gromlab/rest-api-codegen@5.2.4`.
-Пакет `@oim/client-rest-api-sdk` использует `apps/next-web-app`.
+Пакет `@oim/client-rest-api-sdk` использует `apps/web`.
 
 SDK не зависит от React и не создаёт настроенный singleton. URL, credentials,
 авторизация, обработка ошибок и состояние приложения принадлежат потребителю.
@@ -59,7 +59,7 @@ SDK содержит аккаунты, браузерные сессии и со
 ### Граница совместимости
 
 Ручные AI/SSE overrides, `/streaming` и прежние generated AI-операции удалены.
-В `apps/next-web-app/src/infra/client-api` браузерный клиент подключает актуальные
+В `apps/web/src/infra/client-api` браузерный клиент подключает актуальные
 группы `auth/users`, а публичный серверный клиент сохраняет пустое дерево операций.
 Транспорт, session, config и helpers сохранены. При изменении контракта обновляйте
 API-связи вместе с потребителем, сохраняя инфраструктурных владельцев.
@@ -128,7 +128,7 @@ GET-запросы не создают варианты и не выполняю
 
 ```sh
 # 1. Обновить обе схемы из готовых DTO/контроллеров backend.
-pnpm --dir apps/nest-backend run openapi:generate
+pnpm --dir apps/backend run openapi:generate
 
 # 2. Проверить содержимое схем; затем сгенерировать оба SDK.
 pnpm --filter @oim/client-rest-api-sdk run generate

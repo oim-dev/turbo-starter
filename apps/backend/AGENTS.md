@@ -6,7 +6,7 @@
 frontend-профили `react-reference` и `nextjs-reference` к backend не применяются.
 Не переписывай незатронутый код ради единообразия.
 
-- Общаться и документировать по-русски. Пакет `@oim/nest-backend` — аккаунты,
+- Общаться и документировать по-русски. Пакет `@oim/backend` — аккаунты,
   сессии, изображения и документы, Node.js >= 24, pnpm workspace.
   Документы и версии описаны в Relay: `DOC-9`, изображения — `DOC-8`.
   Общие S3-операции принадлежат `ObjectStorage`, настройки — `StorageConfig`.
@@ -32,7 +32,7 @@ frontend-профили `react-reference` и `nextjs-reference` к backend не 
 - HTTP-контроллеры принадлежат `src/client-api` или `src/admin-api`, правила
   аккаунтов — `src/modules`, конфигурация, HTTP, auth и Prisma — `src/infrastructure`.
 - Два независимых entrypoint: client API на 4000 и admin API на 4001; оба по умолчанию слушают `0.0.0.0`.
-  Из корня: `pnpm --filter @oim/nest-backend <команда>`.
+  Из корня: `pnpm --filter @oim/backend <команда>`.
   `dev:client` / `dev:admin`, `build:client` / `build:admin` и
   `start:client` / `start:admin` работают отдельно. `dev`, `build` и `start`
   запускают оба API; `start:client` / `start:admin` используют собранный `dist`.

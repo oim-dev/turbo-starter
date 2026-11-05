@@ -4,19 +4,19 @@
   "outputs": [
     {
       "path": ".claude/agents/architecture-reviewer.md",
-      "sha256": "2f2faa04046b76f95f427111ce5701c979882fbf79855abfee3b4a447892f6dc"
+      "sha256": "19524191fad65e2a44cb31350d1d5a6d0bd6d939d4957d47a1be9e43fcf0c6b1"
     },
     {
       "path": ".claude/agents/integration-reviewer.md",
-      "sha256": "9cd905a40705f75637d56ca9aebca20f78253e340a05de488efd45422fa85f9c"
+      "sha256": "c98848ab92e90aa224b594e775ef1ce32191e9d51322973922f788e44b1ecfde"
     },
     {
       "path": ".claude/agents/nest-reviewer.md",
-      "sha256": "d0820fe6d19c1f8a2c1452abd46c8c7d273ae9d01fc1d3da56ba04bf9ed2114e"
+      "sha256": "6f75eabe1d49d2f3e40806a6466057646fab9af992ec169d1ae1fc3c43cad282"
     },
     {
       "path": ".claude/agents/nextjs-reviewer.md",
-      "sha256": "8d7c1ad070743bc799698c01ddb2f60cc8dc71b3a4894d36af886713b303c99d"
+      "sha256": "5405e0b4013d87d245ddc3feb556b88453cb95745dcc611341aad80ed865fc21"
     },
     {
       "path": ".claude/agents/platform-reviewer.md",
@@ -24,27 +24,27 @@
     },
     {
       "path": ".claude/agents/react-reviewer.md",
-      "sha256": "a54c8da4f85d42809be4a5b3c4f4a14e66a3b92d450213174574fe5f127d074f"
+      "sha256": "48bbd81830b1f481a4fcf8aa62e0d6272d7902b1675ace27815c4044f49fc7ed"
     },
     {
       "path": ".claude/agents/security-reviewer.md",
-      "sha256": "cb7d64fef6fee30de2a5c6a68466b6f368a66a4beb9caae94e9faba2e39e491b"
+      "sha256": "eb68183502c524b982f9ba4e2986803cc55808a8fe8486dbeb424a96f9fc0b32"
     },
     {
       "path": ".codex/agents/architecture-reviewer.toml",
-      "sha256": "36b96ca801f15f1c14306957a8d47359bbdf486c11291570bcd9e24d5a9d0ff9"
+      "sha256": "ff4d2ac7f09d88a9b2e6a48020f20d8a96df37667828fca1444d22b9c79626b5"
     },
     {
       "path": ".codex/agents/integration-reviewer.toml",
-      "sha256": "f0426451fe7e9ae1c04f6110b464c97f141f548ee66b7dfc5666b41d4139610e"
+      "sha256": "b105a6245180eb1174e239c2501cc367fe1829eb461b620b057fec9ccb866a74"
     },
     {
       "path": ".codex/agents/nest-reviewer.toml",
-      "sha256": "1b3909ca26fa091830a8dbed7e2b271d9944db61c16c4a6604ff9fa224251d1d"
+      "sha256": "f6c0ec4401ef9967e1a750e194c87435226219e4d1a25138cbce27f6a397c38d"
     },
     {
       "path": ".codex/agents/nextjs-reviewer.toml",
-      "sha256": "4ffaf99146afd33c2a8c3281a581ca540ffa70455cdae3eb786e84c2b97d4a37"
+      "sha256": "6d3a65fbf6ed083fcaa9185606d7d3aef1898be121ad27a9d0e03141771caae1"
     },
     {
       "path": ".codex/agents/platform-reviewer.toml",
@@ -52,27 +52,27 @@
     },
     {
       "path": ".codex/agents/react-reviewer.toml",
-      "sha256": "cc751f38fab93d70f17bd38efe6ff261f988904e81d3c46ee0d066655baacdeb"
+      "sha256": "0aa86beee6b652cc299431c7e03445ac1f328e280195d69f066f680ade4b7079"
     },
     {
       "path": ".codex/agents/security-reviewer.toml",
-      "sha256": "df0ae72df843a1478a7436764441e063bcaf6043ff3ecb1555029b8312526efe"
+      "sha256": "de343774bdaacccf070e8bdb08ebe3b519aae3fdac5882b08b548970f0df6c37"
     },
     {
       "path": ".opencode/agents/architecture-reviewer.md",
-      "sha256": "a035e57902a3a313c7f1d31aef73dcf87d02706f9d5b7cc484e6a70d4d3e8e8c"
+      "sha256": "5a99449f444f339861202c4df74a5d7b8ff793377aad6bee323119ee615651e1"
     },
     {
       "path": ".opencode/agents/integration-reviewer.md",
-      "sha256": "cee50e253f608cf9182f41e8f938273d055776284b682c70168cb05b2f74cb02"
+      "sha256": "5994c0ebc5a270c9d735d2e921842ec36082aa54ef65b04ab488737604aed90d"
     },
     {
       "path": ".opencode/agents/nest-reviewer.md",
-      "sha256": "19fa7726b65b991b57b36574010a891d8f651b02bc3bf4f95c7d2ee090c00b64"
+      "sha256": "dcecba23671198a8d710debcc5b6b0f6a97908596154fdc0a496633f07993279"
     },
     {
       "path": ".opencode/agents/nextjs-reviewer.md",
-      "sha256": "5453d986f52db2af07aab9b79be361b987371aed00fcfb68d07c5be2b158cdb6"
+      "sha256": "c7adb2e21727d72fd074770147eb4466fe7587b51a252b14c6a0b76042a0cc67"
     },
     {
       "path": ".opencode/agents/platform-reviewer.md",
@@ -80,11 +80,11 @@
     },
     {
       "path": ".opencode/agents/react-reviewer.md",
-      "sha256": "0d4a394640c69b34bfc487bb79bddd7a1bcedfe32822697356ae4aca7a9021f7"
+      "sha256": "07ef013b84ca50ddd0f864b2cbeb90b7f51d00d21392b50b4e01172763abc60b"
     },
     {
       "path": ".opencode/agents/security-reviewer.md",
-      "sha256": "b2f27ea3c6e534dd2de6fc1a523d6447c43003ffbb4149252f4f4b6c3ff08ace"
+      "sha256": "2df89e392a4a0b2249ad9fcf973f4184598d564676058c3e613744d7c1ac7da6"
     }
   ]
 }

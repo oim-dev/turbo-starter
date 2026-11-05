@@ -11,7 +11,7 @@
       "source": "gromlab-ru/js-reference",
       "sourceType": "github",
       "skillPath": "skills/nextjs-reference/SKILL.md",
-      "computedHash": "49ba0948dbc8dd13368355a9c0bbc238946897237e4bc1ee999a9f21a628fc90"
+      "computedHash": "abe60b20de675eeed8369bd9b5f12f6350793ac6709ed404b1257492ddc2a7b2"
     },
     "postcss-styleguide": {
       "source": "gromlab-ru/js-reference",
@@ -23,7 +23,7 @@
       "source": "gromlab-ru/js-reference",
       "sourceType": "github",
       "skillPath": "skills/react-reference/SKILL.md",
-      "computedHash": "23812263b74d12ab543c4e92b1564b6f673c1c963ddf5bce4b5d11fef5f9e5bb"
+      "computedHash": "5b84bdb2433f66cc0b2c752434f1365f0fa03b16381bc93f251c2390b7c17a42"
     },
     "relay": {
       "source": "oim-dev/relay",

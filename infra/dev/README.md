@@ -35,10 +35,10 @@ Docker Compose запускает единое dev-окружение: PostgreSQ
 По умолчанию PostgreSQL доступен по адресу `localhost:5544`, база — `default-db`,
 пользователь — `user`, пароль — `password`.
 Backend читает `POSTGRES_*` из `infra/dev/.env`; окружение процесса и
-`apps/nest-backend/.env` имеют приоритет. `POSTGRES_HOST` по умолчанию — `localhost`.
+`apps/backend/.env` имеют приоритет. `POSTGRES_HOST` по умолчанию — `localhost`.
 Строка подключения собирается в backend; отдельная переменная `DATABASE_URL` не нужна.
 Если у вас сохранился `.env` из другого проекта, согласуйте его значения с
-`apps/nest-backend/.env`: существующие файлы окружения не перезаписываются.
+`apps/backend/.env`: существующие файлы окружения не перезаписываются.
 
 Подготовка схемы:
 
@@ -53,7 +53,7 @@ pnpm backend:prisma:deploy
 Оба API используют Bearer JWT на 7 дней без refresh; срок сессии равен сроку JWT.
 CORS разрешает любой origin, поэтому при смене адреса UI allowlist не нужен.
 TTL и origins не задаются через env. Настройки auth описаны в
-[`apps/nest-backend/.env.example`](../../apps/nest-backend/.env.example).
+[`apps/backend/.env.example`](../../apps/backend/.env.example).
 Все настройки Keycloak задаются через админку и хранятся в БД. Secure временных
 OIDC cookies определяется callback URL, SameSite фиксирован Lax.
 
@@ -142,7 +142,7 @@ volume. При существующих данных новые credentials сл
   backend в 40 мегапикселей; скачивание ограничено 30 секундами.
 - Подпись imgproxy включена: dev-default `IMGPROXY_KEY` — 64 символа `1`,
   `IMGPROXY_SALT` — 64 символа `2` (32-байтовые hex-значения). Эти значения должны
-  совпадать в `infra/dev/.env` и `apps/nest-backend/.env`.
+  совпадать в `infra/dev/.env` и `apps/backend/.env`.
 - `IMGPROXY_STRIP_METADATA=true` и `IMGPROXY_AUTO_ROTATE=true`: ориентация
   учитывается при подготовке результата, метаданные удаляются.
   `IMGPROXY_PNG_QUANTIZE=false` отключает намеренное уменьшение палитры;
