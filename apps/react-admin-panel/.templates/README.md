@@ -7,8 +7,10 @@
 | `ui-unit` | Самостоятельный React-компонент-юнит с публичным фасетом `index.ts` |
 | `ui-component` | Внутренний React-компонент ближайшего владельца без публичного фасета |
 
-Прочитайте [template-generation](../../../.agents/skills/template-generation/SKILL.md)
-и [правила TSX](../../../.claude/skills/react-reference/reference/application/components/tsx-generation.md).
+Прочитайте [template-generation-ru](../../../.agents/skills/template-generation-ru/SKILL.md),
+[правила генерации TSX](../../../.agents/skills/react-reference/reference/application/components/tsx-generation.md)
+и [tsx-styleguide](../../../.agents/skills/tsx-styleguide/SKILL.md) вместе с
+[ts-styleguide](../../../.agents/skills/ts-styleguide/SKILL.md).
 Команда `create` закрепляет `@gromlab/template-file-generator@0.3.1`.
 Запускайте генератор из `apps/react-admin-panel`:
 

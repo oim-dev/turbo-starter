@@ -1,6 +1,7 @@
 # Генерация компонентов Next Web App
 
-Шаблоны основаны на React Reference и применяются в рамках [профиля приложения](../AGENTS.md#архитектурный-профиль).
+Шаблоны применяются по [Next.js Reference](../../../.agents/skills/nextjs-reference/SKILL.md)
+и локальному [профилю приложения](../AGENTS.md#архитектурный-профиль).
 Перед генерацией определите владельца и необходимость отдельного публичного контракта.
 
 | Шаблон | Результат |
@@ -18,7 +19,11 @@ pnpm run create ui-component welcome-note src/compositions/screens/welcome/ui
 Примеры предназначены для ещё не существующих компонентов. Позиционный путь задаёт родительскую папку вывода;
 папку компонента создаёт CLI. Команда закрепляет `@gromlab/template-file-generator@0.3.1`
 и отключает проверку обновления. Перед генерацией прочитайте
-[template-generation](../../../.agents/skills/template-generation/SKILL.md) и выбранный шаблон.
+[template-generation-ru](../../../.agents/skills/template-generation-ru/SKILL.md),
+[правила генерации TSX](../../../.agents/skills/nextjs-reference/reference/application/components/tsx-generation.md)
+и выбранный шаблон. Для адаптации кода загрузите
+[tsx-styleguide](../../../.agents/skills/tsx-styleguide/SKILL.md) вместе с
+[ts-styleguide](../../../.agents/skills/ts-styleguide/SKILL.md).
 Повторная генерация поверх существующего результата запрещена; редактируйте созданный код обычным способом.
 
 После генерации:

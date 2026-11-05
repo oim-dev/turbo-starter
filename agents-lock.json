@@ -1,0 +1,90 @@
+{
+  "version": 1,
+  "generator": "@oim/dev-agents",
+  "outputs": [
+    {
+      "path": ".claude/agents/architecture-reviewer.md",
+      "sha256": "2f2faa04046b76f95f427111ce5701c979882fbf79855abfee3b4a447892f6dc"
+    },
+    {
+      "path": ".claude/agents/integration-reviewer.md",
+      "sha256": "9cd905a40705f75637d56ca9aebca20f78253e340a05de488efd45422fa85f9c"
+    },
+    {
+      "path": ".claude/agents/nest-reviewer.md",
+      "sha256": "d0820fe6d19c1f8a2c1452abd46c8c7d273ae9d01fc1d3da56ba04bf9ed2114e"
+    },
+    {
+      "path": ".claude/agents/nextjs-reviewer.md",
+      "sha256": "8d7c1ad070743bc799698c01ddb2f60cc8dc71b3a4894d36af886713b303c99d"
+    },
+    {
+      "path": ".claude/agents/platform-reviewer.md",
+      "sha256": "89b21a83045a6a5cac7a0cca3a99a75597e13cfd6f63d7398776af839eec06cd"
+    },
+    {
+      "path": ".claude/agents/react-reviewer.md",
+      "sha256": "a54c8da4f85d42809be4a5b3c4f4a14e66a3b92d450213174574fe5f127d074f"
+    },
+    {
+      "path": ".claude/agents/security-reviewer.md",
+      "sha256": "cb7d64fef6fee30de2a5c6a68466b6f368a66a4beb9caae94e9faba2e39e491b"
+    },
+    {
+      "path": ".codex/agents/architecture-reviewer.toml",
+      "sha256": "36b96ca801f15f1c14306957a8d47359bbdf486c11291570bcd9e24d5a9d0ff9"
+    },
+    {
+      "path": ".codex/agents/integration-reviewer.toml",
+      "sha256": "f0426451fe7e9ae1c04f6110b464c97f141f548ee66b7dfc5666b41d4139610e"
+    },
+    {
+      "path": ".codex/agents/nest-reviewer.toml",
+      "sha256": "1b3909ca26fa091830a8dbed7e2b271d9944db61c16c4a6604ff9fa224251d1d"
+    },
+    {
+      "path": ".codex/agents/nextjs-reviewer.toml",
+      "sha256": "4ffaf99146afd33c2a8c3281a581ca540ffa70455cdae3eb786e84c2b97d4a37"
+    },
+    {
+      "path": ".codex/agents/platform-reviewer.toml",
+      "sha256": "758a469f1f829502fd123278d9e92aef706f76d04c5b842f5032692f4649333c"
+    },
+    {
+      "path": ".codex/agents/react-reviewer.toml",
+      "sha256": "cc751f38fab93d70f17bd38efe6ff261f988904e81d3c46ee0d066655baacdeb"
+    },
+    {
+      "path": ".codex/agents/security-reviewer.toml",
+      "sha256": "df0ae72df843a1478a7436764441e063bcaf6043ff3ecb1555029b8312526efe"
+    },
+    {
+      "path": ".opencode/agents/architecture-reviewer.md",
+      "sha256": "a035e57902a3a313c7f1d31aef73dcf87d02706f9d5b7cc484e6a70d4d3e8e8c"
+    },
+    {
+      "path": ".opencode/agents/integration-reviewer.md",
+      "sha256": "cee50e253f608cf9182f41e8f938273d055776284b682c70168cb05b2f74cb02"
+    },
+    {
+      "path": ".opencode/agents/nest-reviewer.md",
+      "sha256": "19fa7726b65b991b57b36574010a891d8f651b02bc3bf4f95c7d2ee090c00b64"
+    },
+    {
+      "path": ".opencode/agents/nextjs-reviewer.md",
+      "sha256": "5453d986f52db2af07aab9b79be361b987371aed00fcfb68d07c5be2b158cdb6"
+    },
+    {
+      "path": ".opencode/agents/platform-reviewer.md",
+      "sha256": "229f33f90233abce43d0d250b46734e7d2f61eabc00af835c93cb5f585205ab2"
+    },
+    {
+      "path": ".opencode/agents/react-reviewer.md",
+      "sha256": "0d4a394640c69b34bfc487bb79bddd7a1bcedfe32822697356ae4aca7a9021f7"
+    },
+    {
+      "path": ".opencode/agents/security-reviewer.md",
+      "sha256": "b2f27ea3c6e534dd2de6fc1a523d6447c43003ffbb4149252f4f4b6c3ff08ace"
+    }
+  ]
+}

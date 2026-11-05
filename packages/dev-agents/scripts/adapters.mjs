@@ -16,7 +16,7 @@ export function agentBody(profile) {
   });
 }
 
-/** JSON-строки являются YAML-скалярами; разделители Unicode экранируются явно. */
+/** JSON-значения совместимы с YAML; разделители Unicode экранируются явно. */
 function yamlValue(value) {
   return JSON.stringify(value).replace(
     /[\u0085\u2028\u2029]/g,
@@ -51,16 +51,27 @@ export async function renderAdapters(agents, orchestrator) {
 
   for (const agent of agents) {
     const primary = agent.kind === "orchestrator";
+    const reviewer = agent.kind === "reviewer";
+    const opencode = { description: agent.description, mode: primary ? "primary" : "subagent" };
+    if (reviewer) {
+      opencode.permissions = [
+        { action: "edit", resource: "*", effect: "deny" },
+        { action: "shell", resource: "*", effect: "ask" },
+        { action: "subagent", resource: "*", effect: "deny" },
+      ];
+    }
     output.set(
       `.opencode/agents/${agent.name}.md`,
-      await markdownAgent(
-        { description: agent.description, mode: primary ? "primary" : "subagent" },
-        agent.body,
-      ),
+      await markdownAgent(opencode, agent.body),
     );
 
     const claude = { name: agent.name, description: agent.description, model: "inherit" };
     if (!primary) claude.background = true;
+    if (agent.skills?.length) claude.skills = agent.skills;
+    if (reviewer) {
+      claude.tools = ["Read", "Glob", "Grep", "Bash", "WebFetch", "WebSearch"];
+      claude.permissionMode = "plan";
+    }
     output.set(`.claude/agents/${agent.name}.md`, await markdownAgent(claude, agent.body));
 
     if (!primary) {
@@ -77,24 +88,26 @@ export async function renderAdapters(agents, orchestrator) {
     }
   }
 
-  output.set(
-    "opencode.json",
-    await jsonDocument({
-      $schema: "https://opencode.ai/config.json",
-      default_agent: orchestrator,
-    }),
-  );
-  output.set(".claude/settings.json", await jsonDocument({ agent: orchestrator }));
-  output.set(
-    ".codex/config.toml",
-    [
-      `# ${GENERATED}`,
-      `developer_instructions = ${tomlString(agents.find((agent) => agent.name === orchestrator).body, true)}`,
-      "",
-      "[agents]",
-      "enabled = true",
-      "",
-    ].join("\n"),
-  );
+  if (orchestrator !== undefined) {
+    output.set(
+      "opencode.json",
+      await jsonDocument({
+        $schema: "https://opencode.ai/config.json",
+        default_agent: orchestrator,
+      }),
+    );
+    output.set(".claude/settings.json", await jsonDocument({ agent: orchestrator }));
+    output.set(
+      ".codex/config.toml",
+      [
+        `# ${GENERATED}`,
+        `developer_instructions = ${tomlString(agents.find((agent) => agent.name === orchestrator).body, true)}`,
+        "",
+        "[agents]",
+        "enabled = true",
+        "",
+      ].join("\n"),
+    );
+  }
   return new Map([...output].sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0)));
 }

@@ -15,12 +15,6 @@ function literalTarget(value) {
   return path || null;
 }
 
-function installedSkill(path) {
-  return /(?:^|\/)(?:\.(?:agents|claude|opencode)\/skills?|\.config\/opencode\/skills)(?:\/|$)/.test(
-    path,
-  );
-}
-
 /** Небольшая проверка существования путей; содержимое якорей и формат Markdown не проверяются. */
 export async function checkLinks(root, profiles) {
   const issues = [];
@@ -44,7 +38,6 @@ export async function checkLinks(root, profiles) {
     // Inline-пути профилей и инструкций — от корня, Markdown-ссылки — от документа.
     const full = resolve(inline ? root : dirname(resolve(root, from)), literal);
     const path = relative(root, full).split(sep).join("/");
-    if (installedSkill(full.split(sep).join("/"))) return null;
     const info = await stat(full).catch((error) => {
       if (error.code === "ENOENT" || error.code === "ENOTDIR") return null;
       throw error;
@@ -57,12 +50,18 @@ export async function checkLinks(root, profiles) {
   };
 
   const instructions = new Set([
-    "AGENTS.md",
     `${PACKAGE}/AGENTS.md`,
     "apps/react-admin-panel/AGENTS.md",
     "apps/next-web-app/AGENTS.md",
+    "apps/nest-backend/AGENTS.md",
     ...documents.keys(),
   ]);
+  // Корневые инструкции необязательны; явные ссылки на них по-прежнему проверяются.
+  const rootInstructions = await stat(join(root, "AGENTS.md")).catch((error) => {
+    if (error.code === "ENOENT" || error.code === "ENOTDIR") return null;
+    throw error;
+  });
+  if (rootInstructions) instructions.add("AGENTS.md");
   for (const path of instructions) {
     for (const match of (await read(path)).matchAll(/(`+)([^`\n]+)\1/g)) {
       const value = match[2];
@@ -73,11 +72,14 @@ export async function checkLinks(root, profiles) {
   }
 
   const markdown = [
+    ...instructions,
+    "README.md",
+    "docs/development/new-project-setup.md",
     `${PACKAGE}/README.md`,
-    "apps/react-admin-panel/AGENTS.md",
     "apps/react-admin-panel/README.md",
-    "apps/next-web-app/AGENTS.md",
+    "apps/react-admin-panel/.templates/README.md",
     "apps/next-web-app/README.md",
+    "apps/next-web-app/.templates/README.md",
   ];
   const collect = async (path) => {
     const entries = await readdir(join(root, path), { withFileTypes: true }).catch((error) => {

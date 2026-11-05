@@ -1,0 +1,12 @@
+# Vendored skill bundles are updated only through Skills CLI.
+.agents/skills/
+.claude/skills/
+
+# Managed agent outputs are formatted by agents:build.
+.opencode/agents/
+.claude/agents/
+.codex/agents/
+opencode.json
+.claude/settings.json
+.codex/config.toml
+agents-lock.json

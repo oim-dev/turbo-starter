@@ -1,5 +1,11 @@
 # NestJS backend
 
+Для нового и изменяемого TypeScript загружай
+[ts-styleguide](../../.agents/skills/ts-styleguide/SKILL.md) и строго соблюдай его
+каноны написания кода. Сохраняй специальные соглашения NestJS и Prisma;
+frontend-профили `react-reference` и `nextjs-reference` к backend не применяются.
+Не переписывай незатронутый код ради единообразия.
+
 - Общаться и документировать по-русски. Пакет `@oim/nest-backend` — аккаунты,
   сессии, изображения и документы, Node.js >= 24, pnpm workspace.
   Документы и версии описаны в Relay: `DOC-9`, изображения — `DOC-8`.

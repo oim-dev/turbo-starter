@@ -40,8 +40,10 @@ const help = `Worktree-окружения (Linux/macOS, Node.js 24+, Git, pnpm, 
   --repo <URL>     Явный SSH/HTTPS URL вместо origin, например после tiged
   --help          Эта справка
 
-create создаёт ветку work/<имя>, env-файлы, устанавливает зависимости и проектные скиллы.
-up устанавливает зависимости, запускает Docker, миграции и приложения в терминале.
+create создаёт ветку work/<имя>, env-файлы и резервирует порты без установки пакетов и сборок.
+Проектные скиллы и агентские файлы поступают из базового Git-коммита.
+Зависимости агент устанавливает отдельно из каталога worktree: pnpm install --frozen-lockfile.
+up запускает Docker, миграции и приложения в терминале, не устанавливая пакеты.
 down останавливает экземпляр с сохранением данных.
 remove удаляет Docker volumes, собственные образы, worktree и его артефакты.
 Ветка с коммитами сохраняется. --force разрешает потерю незакоммиченных файлов.
@@ -273,12 +275,6 @@ async function main() {
       } finally {
         await releaseRegistry();
       }
-      // Установка может быть долгой; другие окружения уже могут резервировать свои порты.
-      const env = withoutEnvironment(await environmentKeys(path));
-      console.log(`Установка зависимостей worktree: ${path}`);
-      await run("pnpm", ["install", "--frozen-lockfile"], { cwd: path, env });
-      console.log(`Подготовка проектных скиллов worktree: ${path}`);
-      await run("pnpm", ["run", "setup"], { cwd: path, env });
       record.phase = "prepared";
       await saveJson(recordFile, record);
       printEnvironment(record);
@@ -295,7 +291,10 @@ async function main() {
         repoArgument = ` --repo ${quote(publicRemote)}`;
       }
       console.log(
-        `Готово. Запуск: pnpm worktree:up ${name} --root ${quote(root)}${repoArgument}`,
+        `Зависимости установите отдельно в ${quote(path)}: pnpm install --frozen-lockfile`,
+      );
+      console.log(
+        `Готово. Запуск после установки зависимостей: pnpm worktree:up ${name} --root ${quote(root)}${repoArgument}`,
       );
       return;
     }
@@ -380,6 +379,10 @@ async function main() {
       "Приложения экземпляра уже запущены.",
     );
     await validateEnvironment(record);
+    requireCondition(
+      await exists(join(path, "node_modules")),
+      `Зависимости worktree не установлены. Выполните pnpm install --frozen-lockfile из ${path}.`,
+    );
     // Порты Docker могут быть заняты уже работающими контейнерами этого экземпляра.
     requireCondition(
       await portsAvailable([
@@ -394,7 +397,6 @@ async function main() {
     record.token = randomBytes(24).toString("hex");
     await saveJson(recordFile, record);
     env.WORKTREE_INSTANCE_TOKEN = record.token;
-    await run("pnpm", ["install", "--frozen-lockfile"], { cwd: path, env });
     await run("pnpm", ["env:check"], { cwd: path, env });
     await snapshot(record, directory);
     await compose(record, directory, [

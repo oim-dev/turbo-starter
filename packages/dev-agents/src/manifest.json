@@ -1,4 +1,52 @@
 {
   "version": 1,
-  "agents": []
+  "agents": [
+    {
+      "name": "react-reviewer",
+      "kind": "reviewer",
+      "description": "Ревью React SPA: корректность компонентов и сценариев, обязательное соответствие react-reference, Unit Architecture и стайлгайдам.",
+      "prompt": "reviewers/react-reviewer.md",
+      "skills": ["react-reference", "unit-architecture", "ts-styleguide", "tsx-styleguide"]
+    },
+    {
+      "name": "nextjs-reviewer",
+      "kind": "reviewer",
+      "description": "Ревью Next.js App Router: SSR, RSC, гидратация, данные и обязательное соответствие nextjs-reference, локальному профилю и стайлгайдам.",
+      "prompt": "reviewers/nextjs-reviewer.md",
+      "skills": ["nextjs-reference", "unit-architecture", "ts-styleguide", "tsx-styleguide"]
+    },
+    {
+      "name": "nest-reviewer",
+      "kind": "reviewer",
+      "description": "Ревью NestJS: HTTP-контракты, предметные операции, Prisma и миграции, транзакции, очереди, ошибки и TypeScript.",
+      "prompt": "reviewers/nest-reviewer.md",
+      "skills": ["ts-styleguide"]
+    },
+    {
+      "name": "architecture-reviewer",
+      "kind": "reviewer",
+      "description": "Архитектурное ревью владельцев, слоёв, фасетов, вложенности, публичных API и графа зависимостей по применимому профилю области.",
+      "prompt": "reviewers/architecture-reviewer.md",
+      "skills": ["unit-architecture"]
+    },
+    {
+      "name": "integration-reviewer",
+      "kind": "reviewer",
+      "description": "Сквозное ревью согласованности OpenAPI, REST SDK, доменных адаптеров, интерфейсов и пользовательских сценариев между приложениями.",
+      "prompt": "reviewers/integration-reviewer.md",
+      "skills": ["rest-api-codegen-ru"]
+    },
+    {
+      "name": "platform-reviewer",
+      "kind": "reviewer",
+      "description": "Ревью целостности монорепозитория: pnpm, Turborepo, проверки, env, Docker, развёртывание, worktree, скиллы и агентские файлы в Git.",
+      "prompt": "reviewers/platform-reviewer.md"
+    },
+    {
+      "name": "security-reviewer",
+      "kind": "reviewer",
+      "description": "Сквозное ревью безопасности: авторизация и права, изоляция сессий, HTTP-границы, секреты, публичные данные и загрузка файлов.",
+      "prompt": "reviewers/security-reviewer.md"
+    }
+  ]
 }

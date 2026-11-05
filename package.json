@@ -2,7 +2,6 @@
   "name": "@oim/oim",
   "private": true,
   "scripts": {
-    "setup": "pnpm dlx skills@latest experimental_install && pnpm run agents:build",
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "pnpm run env:check && turbo run lint",

@@ -9,7 +9,7 @@ export const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../../
 export const sourceRoot = "packages/dev-agents/src";
 export const lockPath = "agents-lock.json";
 const GENERATOR = "@oim/dev-agents";
-// Старый владелец принимается только для миграции локального lock при смене scope.
+// Старый владелец принимается только для миграции lock при смене scope.
 const LEGACY_GENERATOR = "@turbo-starter/dev-agents";
 const NAME = /^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$/;
 const FIXED_OUTPUTS = new Set(["opencode.json", ".claude/settings.json", ".codex/config.toml"]);
@@ -110,26 +110,44 @@ export async function prepareBundle(root = repoRoot) {
   requireCondition(Array.isArray(manifest.agents), "manifest.json: agents должен быть массивом");
   const names = new Set();
   for (const agent of manifest.agents) {
-    objectShape(agent, ["name", "kind", "description", "prompt"], "Агент");
+    objectShape(agent, ["name", "kind", "description", "prompt", "skills"], "Агент");
     requireCondition(validName(agent.name), `Неверное имя агента: ${JSON.stringify(agent.name)}`);
     requireCondition(!names.has(agent.name), `Повтор имени агента: ${agent.name}`);
     names.add(agent.name);
     requireCondition(
-      ["orchestrator", "worker"].includes(agent.kind),
+      ["orchestrator", "worker", "reviewer"].includes(agent.kind),
       `${agent.name}: неверный kind`,
     );
     textValue(agent.description, `${agent.name}.description`);
     relativePath(agent.prompt);
     requireCondition(agent.prompt.endsWith(".md"), `${agent.name}: prompt должен ссылаться на .md`);
+    if (agent.skills !== undefined) {
+      requireCondition(Array.isArray(agent.skills), `${agent.name}: skills должен быть массивом`);
+      const skills = new Set();
+      for (const skill of agent.skills) {
+        requireCondition(validName(skill), `${agent.name}: неверное имя скилла`);
+        requireCondition(!skills.has(skill), `${agent.name}: повтор скилла: ${skill}`);
+        skills.add(skill);
+        const path = `.agents/skills/${skill}/SKILL.md`;
+        requireCondition(
+          (await fileState(root, path)) !== null,
+          `${agent.name}: нет скилла: ${path}`,
+        );
+      }
+    }
   }
-  if (manifest.agents.length === 0) {
+  const primaries = manifest.agents.filter((agent) => agent.kind === "orchestrator");
+  if (manifest.orchestrator === undefined) {
     requireCondition(
-      manifest.orchestrator === undefined,
-      "manifest.json: при пустом agents поле orchestrator должно отсутствовать",
+      primaries.length === 0,
+      "manifest.json: агенту orchestrator требуется явное поле orchestrator",
     );
   } else {
+    requireCondition(
+      manifest.agents.length > 0,
+      "manifest.json: при пустом agents поле orchestrator должно отсутствовать",
+    );
     requireCondition(validName(manifest.orchestrator), "manifest.json: неверное имя orchestrator");
-    const primaries = manifest.agents.filter((agent) => agent.kind === "orchestrator");
     requireCondition(primaries.length === 1, "manifest.json: требуется ровно один оркестратор");
     requireCondition(
       primaries[0].name === manifest.orchestrator,

@@ -5,18 +5,10 @@ node_modules
 .pnp
 .pnp.js
 
-# Installed agent skills
-/.agents/skills/
-/.claude/skills/
-
-# Generated agent profiles and configuration
-/.opencode/agents/
-/.claude/agents/
-/.codex/agents/
-/opencode.json
-/.claude/settings.json
-/.codex/config.toml
-/agents-lock.json
+# Agent skills, profiles, shared configuration and lock files are versioned.
+# Machine-local agent settings and credentials
+/.claude/settings.local.json
+/.codex/auth.json
 
 # Local env files
 .env*

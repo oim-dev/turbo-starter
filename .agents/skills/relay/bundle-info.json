@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "name": "relay",
+  "inputs": {
+    "apps/cli/scripts/lib/documentation.mjs": "f53477c49a59afc9d13501e0b56573d75677919551bdf7ccbb55e9256282d617",
+    "packages/relay-skill/package.json": "17ece31df360f3916979e32be20b9e1abf57bc69d70a3be3869a92483ce8ace8",
+    "packages/relay-skill/scripts/build.mjs": "dbff0d09961e819665420d307feaaa26080dedfc55cf5b5dca96fcd1283a2029",
+    "packages/relay-skill/scripts/bundle.test.mjs": "f8ea7cdb42aa3e1653226565987188b19adcc95f535327b6f9a1cbcf4aebfa87",
+    "packages/relay-skill/scripts/check.mjs": "54de70d08d486d8e20dd0f4c7d03b59d4d322a95e9f3a049a857b77805b828f4",
+    "packages/relay-skill/scripts/lib.mjs": "70ba53c5f7572a2af342846428770e8e6ac8388d364a1da219b9825dac1f5951",
+    "packages/relay-skill/scripts/skill-contract.test.mjs": "69461eb7a93f1314a48e8ea6d9f5a5be826ee0c35f0119eaccddfa525a72fd17",
+    "packages/relay-skill/scripts/workflow.test.mjs": "30037b6683384015ba15480ff98644082d10d431d97f6df6074ac0f26108ba33",
+    "packages/relay-skill/src/bundle.json": "523b0da075b1aa6c6fb243f76ca4dda003b446bd693456cf9623f8bd98e08f53",
+    "packages/relay-skill/src/references/APPLICATIONS.md": "11ee59782f9f247e31603e9afc797d87ec05b0a79fabdcdf5ba3a633f0b3f4d2",
+    "packages/relay-skill/src/references/FEATURES.md": "0442f1fc2ab7615255f00982a66aa5e5b1eb364b3fd540605a4db5cbdd56e1c4",
+    "packages/relay-skill/src/references/HISTORY.md": "f71577c3348f97e422e66ff21b3ec6a781b5e0d690a97f3a024786f6d2eeb5f2",
+    "packages/relay-skill/src/references/KNOWLEDGE.md": "912ad57d8811441f80ac37f09bd8ed63557036e7b5414a6f7973daa72f38414d",
+    "packages/relay-skill/src/references/PLANNING.md": "40c0bc633ee26c680f7bc72c99dfb2a4a3d2be3e6fdac56f29d1caf7bad78892",
+    "packages/relay-skill/src/references/RELEASES.md": "5d04b3be105a83d91ac83d5f8541c94c676cd5f0606d3c350f6a5d84505ffaff",
+    "packages/relay-skill/src/references/TASKS.md": "9f01b890b15d27dd1af41166a67de683f3f5741db284c9ab4115e7734de9ae2b",
+    "packages/relay-skill/src/skill.md": "62cc9a318ae77c1a4a39872f1cfb51b2e73258140603418592653b9bfcaadbc5",
+    "packages/relay-skill/turbo.json": "351261f2118cb7287968a282d2bcaf2fb86b3e807297aa6582ffb1049f9b6c87",
+    "pnpm-lock.yaml": "91e307de0ade505cbce5a35ae88110444f4c36ef56aeaeb6e1b93fe932b8db8f"
+  }
+}
