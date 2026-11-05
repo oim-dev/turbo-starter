@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "cw00ziBJ",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "cw00ziBJ",
+    "key": "CP-cw00ziBJ",
+    "sessionId": "0jlc3fsy",
+    "runId": "fI0S2hf8",
+    "sequence": 6,
+    "title": "Исходники и база Relay опубликованы в обоих репозиториях",
+    "summary": "2175fcd отправлен в origin/main и biocad/master; relay-data синхронизирован с GitHub и опубликован в GitLab. Дерево исходников чистое, проверки пройдены.",
+    "body": [
+      "## Выполнено",
+      "Создан коммит 2175fcddb63ba5e6bda312dab15d9e897a5a362a «docs: актуализировать инструкции и запуск dev-стенда». Состав: переименование 1AGENTS.md → AGENTS.md без изменения текста, README.md, apps/admin/AGENTS.md, apps/web/AGENTS.md, infra/dokploy/.env.example, infra/dokploy/README.md. Пользовательская работа сохранена без дополнительных правок. Шесть логических файлов, 252 добавления, 47 удалений.",
+      "",
+      "## Публикация исходников",
+      "- GitHub origin: git@github.com:oim-dev/turbo-starter.git, main → 2175fcddb63ba5e6bda312dab15d9e897a5a362a.",
+      "- GitLab biocad: git@gitlab.biocad.ru:biocad/sandbox/gromovs-turbo-starter.git, master → тот же SHA.",
+      "Оба push успешны без force, оба SHA независимо подтверждены git ls-remote. Существующие основные ветки сохранены: в GitHub main, в GitLab master. Ранее неотправленные коммиты текущей ветки также доставлены fast-forward. Ветки dev и рабочие ветки не трогались.",
+      "",
+      "## Публикация документации Relay",
+      "Документация хранится не в коммите исходников, а в отдельной relay-data. relay-cli --local sync now успешно доставил снимок 7cc56f81b9e6569476a93441e9d2a33676d250a0 в GitHub; неподтверждённых коммитов и изменений вне коммитов нет. git push biocad refs/heads/relay-data:refs/heads/relay-data успешно создал одноимённую ветку GitLab с этим снимком. Он включает актуализированную библиотеку и сохранённую историю. После закрытия текущей сессии остаётся техническая финализация: повторная sync now и push relay-data в biocad, чтобы в оба репозитория попал и сам итог доставки; затем сравнить финальные удалённые SHA. Постоянное автоматическое подключение Relay остаётся к GitHub; двухсторонняя автоматическая синхронизация с GitLab не настраивалась.",
+      "",
+      "## Проверки",
+      "- git diff --check и git diff --cached --check прошли.",
+      "- pnpm env:check: 5 шаблонов, 4 копии, 4 рабочих файла — успешно.",
+      "- pnpm agents:check: 7 агентов, 21 профиль, ссылки и выходы актуальны.",
+      "- git status --short после коммита и push пуст.",
+      "- Работающий стенд, env с личными значениями и приложение не менялись; сборки и runtime-проверки для публикации документационных правок не запускались.",
+      "",
+      "## Ограничения",
+      "GitLab SSH выводит предупреждение о post-quantum key exchange; аутентификация и push завершились успешно. Ошибок доставки исходников или первого снимка Relay нет. Финальные хеши снимка после сохранения этой истории сообщить пользователю по результату завершающей проверки, не считать старый SHA неизменным."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-11-05T13:19:31.246Z",
+    "createdBy": "openai/gpt-6.1-sol",
+    "kind": "result",
+    "intentId": "bn3scCzQ",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-05T13:19:31.246Z",
+  "createdBy": "openai/gpt-6.1-sol",
+  "updatedAt": "2026-11-05T13:19:31.246Z",
+  "updatedBy": "openai/gpt-6.1-sol"
+}
