@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "r7YwKLQ0",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "r7YwKLQ0",
+    "key": "CP-r7YwKLQ0",
+    "sessionId": "0jlc3fsy",
+    "runId": "fI0S2hf8",
+    "sequence": 4,
+    "title": "Diff проверен, определены ветки и состав отправки",
+    "summary": "",
+    "body": [
+      "Полностью прочитан diff пользовательских правок: README и infra/dokploy README уточняют домен → копирование env с PUBLIC_URL → Deploy для тестового стенда; .env.example содержит известные dev-примеры, не личные секреты; AGENTS приложений добавляют проектирование и визуальную/сценарную приёмку UI/UX. Сравнение HEAD:1AGENTS.md с текущим AGENTS.md подтвердило переименование без изменения содержимого. Ничего не исправлялось поверх пользовательской работы.",
+      "",
+      "Проверки: git diff --check без замечаний; pnpm env:check успешно (5 шаблонов, 4 копии, 4 рабочих файла); pnpm agents:check успешно (7 агентов, 21 профиль, ссылки актуальны). Приложения и инфраструктура не запускались.",
+      "",
+      "После fetch/ls-remote выяснено: GitHub origin имеет основную main (не master), GitLab biocad — master. HEAD содержит origin/main с тремя и biocad/master с двумя новыми коммитами, удалённого расхождения нет; fast-forward возможен. Отправка исходников: локальная master → origin/main и biocad/master. Dev и worktree-ветки не трогаются. План состава одного нового коммита: переименование 1AGENTS.md → AGENTS.md и README.md, apps/admin/AGENTS.md, apps/web/AGENTS.md, infra/dokploy/.env.example, infra/dokploy/README.md.",
+      "",
+      "Документация Relay хранится в отдельной relay-data; GitHub уже синхронизирован, в GitLab ветки relay-data пока нет. В рамках отправки правок в оба репозитория передать и relay-data, без force и без изменения выбранного подключения/идентичности базы. Об этом сообщено пользователю. Сначала коммит и проверка master/main, затем сохранение результата/истории и явная финальная синхронизация relay-data с публикацией в оба remote."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-11-05T13:18:00.007Z",
+    "createdBy": "openai/gpt-6.1-sol",
+    "kind": "progress",
+    "intentId": "bn3scCzQ",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-05T13:18:00.007Z",
+  "createdBy": "openai/gpt-6.1-sol",
+  "updatedAt": "2026-11-05T13:18:00.007Z",
+  "updatedBy": "openai/gpt-6.1-sol"
+}
