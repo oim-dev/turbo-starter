@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "8yFdILfY",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "8yFdILfY",
+    "key": "CP-8yFdILfY",
+    "sessionId": "dbyNYyoO",
+    "runId": "BKfdb8Wq",
+    "sequence": 4,
+    "title": "Проверены источники навигации и найдено расхождение инструкции",
+    "summary": "",
+    "body": [
+      "Прочитаны полные DOC-18 (ревизия 3), DOC-4 (ревизия 4) и DOC-11 (ревизия 6). Для README выбраны DOC-18 как основная инструкция стенда, DOC-4 для состава сервисов и маршрутов, DOC-11 для окружения и инфраструктуры. DOC-18 утверждает, что переменные уже установлены, и содержит старый bucket storage; это не отражает согласованный пользователем порядок нового запуска: домен → копирование infra/dokploy/.env.example с заменой PUBLIC_URL → Deploy и dev-значения с default-bucket. Уточню этот действующий документ раздела infrastructure, сохранив технические сведения и ссылки; справочные документы template-documentation не меняются. При сверке ObjectStorage установлено, что серверные S3-операции используют публичный endpoint, а внутренний адрес нужен для подписанной ссылки imgproxy: исправлю собственное неточное пояснение в infra/dokploy/README.md. Веб-интерфейс Relay http://localhost:4700/ отвечает HTTP 200."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [
+      {
+        "ref": {
+          "kind": "document",
+          "id": "wShu3OTJ"
+        },
+        "key": "DOC-18",
+        "title": "Корпоративный dev-стенд в Dokploy"
+      },
+      {
+        "ref": {
+          "kind": "document",
+          "id": "S9AdmhoT"
+        },
+        "key": "DOC-4",
+        "title": "Архитектура, приложения и пакеты"
+      },
+      {
+        "ref": {
+          "kind": "document",
+          "id": "PdZBBuP8"
+        },
+        "key": "DOC-11",
+        "title": "Разработка и локальная инфраструктура"
+      }
+    ],
+    "createdAt": "2026-11-05T12:29:40.144Z",
+    "createdBy": "gpt-6-astra",
+    "kind": "progress",
+    "intentId": "Xn1CbGMF",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-05T12:29:40.144Z",
+  "createdBy": "gpt-6-astra",
+  "updatedAt": "2026-11-05T12:29:40.144Z",
+  "updatedBy": "gpt-6-astra"
+}
