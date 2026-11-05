@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "fbZPknoX",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "fbZPknoX",
+    "key": "CP-fbZPknoX",
+    "sessionId": "0jlc3fsy",
+    "runId": "fI0S2hf8",
+    "sequence": 5,
+    "title": "Коммит исходников отправлен в GitHub main и GitLab master",
+    "summary": "",
+    "body": [
+      "Создан коммит 2175fcd «docs: актуализировать инструкции и запуск dev-стенда»: шесть логических файлов, 252 добавления/47 удалений, переименование 1AGENTS.md → AGENTS.md распознано как 100% без изменения содержания. В коммит включены все заранее проверенные пользовательские изменения README, инструкций frontend и Dokploy README/.env.example; случайные файлы не добавлены. git diff --cached --check перед коммитом прошёл.",
+      "",
+      "Оба push выполнены успешно и без force: origin HEAD:refs/heads/main (78f1e76 → 2175fcd); biocad HEAD:refs/heads/master (e49b0cd → 2175fcd). В историю также доставлены ранее неотправленные переработки, на которые опиралась актуализация документации. Ветки dev/worktree не менялись.",
+      "",
+      "Следующий шаг: подтверждение удалённых SHA и чистоты дерева; затем явная синхронизация внешней базы Relay и публикация relay-data также в biocad, где ветки раньше не было. После сохранения итоговой истории повторно отправить финальный снимок базы, чтобы сама история доставки тоже попала в оба репозитория."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-11-05T13:18:41.075Z",
+    "createdBy": "openai/gpt-6.1-sol",
+    "kind": "progress",
+    "intentId": "bn3scCzQ",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-05T13:18:41.075Z",
+  "createdBy": "openai/gpt-6.1-sol",
+  "updatedAt": "2026-11-05T13:18:41.075Z",
+  "updatedBy": "openai/gpt-6.1-sol"
+}
