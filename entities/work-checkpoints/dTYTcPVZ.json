@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "dTYTcPVZ",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "dTYTcPVZ",
+    "key": "CP-dTYTcPVZ",
+    "sessionId": "0LCK37Zf",
+    "runId": "zFppAKQH",
+    "sequence": 3,
+    "title": "Сверить медиатеку, responsive-контракт и компоненты изображений",
+    "summary": "",
+    "body": [
+      "Прочитать DOC-8 в Relay и применимые инструкции backend/web/admin. Проверить выдачу вариантов и кропинга, форматы, размеры, состояния обработки и существующее потребление через next/image и @unpic/react. Сформулировать правило разделения управляемого контента и графики интерфейса, выбора изображения браузером через реальный контракт API, сохранения идентификаторов и обработки ошибок. Результат этапа — конкретное предложение для инструкций, без догадок об API. Публикация накопленных изменений в origin и biocad остаётся следующим этапом после согласования текущего уточнения."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [
+      {
+        "ref": {
+          "kind": "document",
+          "id": "P9Iitieb"
+        },
+        "key": "DOC-8",
+        "title": "Изображения: медиатека и фоновая обработка"
+      }
+    ],
+    "createdAt": "2026-11-05T12:53:49.673Z",
+    "createdBy": "gpt-6-astra",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-05T12:53:49.673Z",
+  "createdBy": "gpt-6-astra",
+  "updatedAt": "2026-11-05T12:53:49.673Z",
+  "updatedBy": "gpt-6-astra"
+}
