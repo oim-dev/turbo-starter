@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-session",
+  "id": "0LCK37Zf",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "0LCK37Zf",
+    "key": "S-0LCK37Zf",
+    "title": "Правило использования медиатеки для изображений frontend",
+    "description": [
+      "Пользователь уточнил поручение перед коммитом и push в origin и biocad: изучить документацию изображений в Relay и предложить правило, чтобы пользовательские и тяжёлые контентные изображения загружались в библиотеку изображений backend и использовались на frontend через NextImage для Next.js и @unpic/react для React. Графику, на которой строится интерфейс, необходимо отличать от контентных изображений. Цель — использовать штатные варианты, кропинг и пакет изображений API, чтобы браузер выбирал подходящий размер и формат. Прочитать DOC-8 и фактические контракты реализации и frontend-компонентов; подготовить совместимую с ними формулировку. Ранее согласованная публикация изменений в оба remote ожидает завершения обсуждения этого уточнения."
+    ],
+    "parentSessionId": null,
+    "originCheckpointId": null,
+    "createdByRunId": null,
+    "parentSequence": null,
+    "status": "open",
+    "currentRunId": "zFppAKQH",
+    "sequence": 2,
+    "result": [
+      ""
+    ],
+    "createdAt": "2026-11-05T12:53:33.354Z",
+    "updatedAt": "2026-11-05T12:53:33.354Z",
+    "closedAt": null,
+    "revision": 1
+  },
+  "createdAt": "2026-11-05T12:53:33.354Z",
+  "createdBy": "gpt-6-astra",
+  "updatedAt": "2026-11-05T12:53:33.354Z",
+  "updatedBy": "gpt-6-astra"
+}
