@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "agent-run",
   "id": "eT5P8VpC",
-  "revision": 1,
+  "revision": 2,
   "key": null,
   "aliases": [],
   "data": {
@@ -23,18 +23,20 @@
     "client": "OpenCode",
     "sourceSessionId": null,
     "startedAt": "2026-11-05T12:10:03.655Z",
-    "endedAt": null,
+    "endedAt": "2026-11-05T12:23:19.839Z",
     "startedSequence": 2,
-    "endedSequence": null,
-    "endReason": null,
+    "endedSequence": 7,
+    "endReason": "completed",
     "predecessorRunId": null,
     "reason": [
       ""
     ],
-    "endSummary": null
+    "endSummary": [
+      "Актуализированы все 13 прежних документов DOC-2–DOC-14, добавлен DOC-18 «Корпоративный dev-стенд в Dokploy». Отражены переименование приложений, актуальные команды без setup, скиллы/агенты и lock-файлы в Git, семь ревьюверов, лёгкие worktree, HTTP-совместимость и размещение за gateway. Для пользователя готового Dokploy оставлено только создание домена с направлением на gateway:8080. Все 14 сохранённых текстов перечитаны и сверены; полные прежние прикрепления и пояснения сохранены. Проверены 117 локальных путей, ссылки DOC, env, агентские профили и конфигурации двух Compose. Рабочая копия кода осталась чистой; корпоративный runtime и настройки не изменялись. Полный итог, проверки, ревизии и ограничения — CP-0qUHkQJN; основания и подготовка — CP-PQfSVhgl, CP-DpmRwZWF. Поручение выполнено в согласованных границах."
+    ]
   },
   "createdAt": "2026-11-05T12:10:03.655Z",
   "createdBy": "openai/gpt-6.1-sol",
-  "updatedAt": "2026-11-05T12:10:03.655Z",
+  "updatedAt": "2026-11-05T12:23:19.839Z",
   "updatedBy": "openai/gpt-6.1-sol"
 }
