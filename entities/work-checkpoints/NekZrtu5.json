@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "NekZrtu5",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "NekZrtu5",
+    "key": "CP-NekZrtu5",
+    "sessionId": "iv0avs7G",
+    "runId": "Unq40jvM",
+    "sequence": 5,
+    "title": "Сборка прошла, Relay Web отвечает; запускается инфраструктура",
+    "summary": "",
+    "body": [
+      "## Проверки сборки",
+      "DOTENV_CONFIG_PATH=/dev/null pnpm build выполнен успешно: 6/6 задач, сайт Next.js со статической стартовой страницей, админка Vite, три backend entrypoint и два SDK собраны. Есть неблокирующее предупреждение Vite о чанке больше 500 kB.",
+      "## Запуск",
+      "Relay 0.13.0 отвечает HTTP 200 на localhost:4700, сервер пишет штатные URL без ошибок. Для проверки интерфейсов установлен Chrome 157.0.8103.38 через проектный agent-browser; Playwright MCP в среде не нашёл стандартный chrome, поэтому используется штатный agent-browser. В отдельной браузерной сессии Relay Web успешно открыт.",
+      "Инфраструктура запускается командой pnpm infra:dev:up в sh_1abe7795a0010V367uKTozrkmZ; миграции и dev ещё не запускались.",
+      "## Дальше",
+      "После готовности инфраструктуры применить миграции к новой БД 5545, запустить приложения, проверить healthchecks, HTTP и стартовые экраны."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-11-05T13:31:04.708Z",
+    "createdBy": "openai/gpt-6.1-sol",
+    "kind": "progress",
+    "intentId": "nmqRWTfI",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-05T13:31:04.708Z",
+  "createdBy": "openai/gpt-6.1-sol",
+  "updatedAt": "2026-11-05T13:31:04.708Z",
+  "updatedBy": "openai/gpt-6.1-sol"
+}
