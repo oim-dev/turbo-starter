@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "pP60ObWB",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "pP60ObWB",
+    "key": "CP-pP60ObWB",
+    "sessionId": "dbyNYyoO",
+    "runId": "BKfdb8Wq",
+    "sequence": 5,
+    "title": "README содержит маршрут чтения и запуска тестового стенда",
+    "summary": "",
+    "body": [
+      "## Результат",
+      "В корневом README явно указано, что деплой dev-окружения в Dokploy подготовлен. Добавлены проверенные номера и названия DOC-18, DOC-4 и DOC-11 с назначением каждого, способ чтения через Web и CLI, ссылки на Compose, практическую инструкцию и пример переменных. Закреплён порядок: домен gateway:8080 → Environment из полного .env.example с PUBLIC_URL → Deploy → проверки стенда.",
+      "",
+      "DOC-18 обновлён до ревизии 4 по уже согласованным требованиям пользователя: готовая конфигурация репозитория, Fetch до сборки, копирование переменных после получения домена, dev-значения и default-bucket, Deploy после настройки домена. Сохранены прежние прикрепления. В infra/dokploy/README.md исправлено пояснение S3: публичный endpoint должен быть доступен backend, внутренний используется для ссылки источника imgproxy.",
+      "",
+      "## Проверки",
+      "Полностью прочитаны DOC-18, DOC-4, DOC-11. Три локальные ссылки нового раздела README существуют. Номера документов и последовательность проверены. git diff --check прошёл. После записи повторно получен DOC-18: содержание совпадает с подготовленным, ревизия 4, прикрепления сохранены. Relay Web отвечает HTTP 200 по http://localhost:4700/.",
+      "",
+      "Изменения документации готовы в рабочем каталоге; запуск стенда не входил в поручение."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [
+      {
+        "ref": {
+          "kind": "document",
+          "id": "wShu3OTJ"
+        },
+        "key": "DOC-18",
+        "title": "Корпоративный dev-стенд в Dokploy"
+      },
+      {
+        "ref": {
+          "kind": "document",
+          "id": "S9AdmhoT"
+        },
+        "key": "DOC-4",
+        "title": "Архитектура, приложения и пакеты"
+      },
+      {
+        "ref": {
+          "kind": "document",
+          "id": "PdZBBuP8"
+        },
+        "key": "DOC-11",
+        "title": "Разработка и локальная инфраструктура"
+      }
+    ],
+    "createdAt": "2026-11-05T12:31:42.197Z",
+    "createdBy": "gpt-6-astra",
+    "kind": "result",
+    "intentId": "Xn1CbGMF",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-05T12:31:42.197Z",
+  "createdBy": "gpt-6-astra",
+  "updatedAt": "2026-11-05T12:31:42.197Z",
+  "updatedBy": "gpt-6-astra"
+}
