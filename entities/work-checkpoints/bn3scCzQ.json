@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "bn3scCzQ",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "bn3scCzQ",
+    "key": "CP-bn3scCzQ",
+    "sessionId": "0jlc3fsy",
+    "runId": "fI0S2hf8",
+    "sequence": 3,
+    "title": "Проверить diff, создать коммит и отправить master в origin и biocad",
+    "summary": "",
+    "body": [
+      "Найдены два remote: origin → git@github.com:oim-dev/turbo-starter.git; biocad → git@gitlab.biocad.ru:biocad/sandbox/gromovs-turbo-starter.git. Текущая ветка master, HEAD c65caf7e96e2efce2b463bef7b1fcd86296ff197; локально ahead 2 относительно сохранённого biocad/master. Есть пользовательские изменения README, инструкций приложений, infra/dokploy README/.env.example и перемещение 1AGENTS.md → AGENTS.md. Явное поручение пользователя разрешает их коммит и отправку; сначала прочитать полный diff, проверить отсутствие секретов/случайных файлов, формат и env/профили. Получить актуальные состояния remote, не использовать force и не менять ветки dev/worktree. Документация Relay живёт отдельно в relay-data; синхронизацию её базы проверить отдельно и не смешивать с коммитом исходников. Итоговые критерии: проверенный состав коммита, чистое дерево, один и тот же HEAD master подтверждён на обоих remote; при сетевом или non-fast-forward отказе сохранить факты без переписывания истории."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-11-05T13:16:12.462Z",
+    "createdBy": "openai/gpt-6.1-sol",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-05T13:16:12.462Z",
+  "createdBy": "openai/gpt-6.1-sol",
+  "updatedAt": "2026-11-05T13:16:12.462Z",
+  "updatedBy": "openai/gpt-6.1-sol"
+}
