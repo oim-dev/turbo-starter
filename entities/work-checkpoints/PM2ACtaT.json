@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "PM2ACtaT",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "PM2ACtaT",
+    "key": "CP-PM2ACtaT",
+    "sessionId": "7oznmqr2",
+    "runId": "WCagQ14S",
+    "sequence": 3,
+    "title": "Поднять Web существующей базы Relay",
+    "summary": "",
+    "body": [
+      "Цель: дать пользователю работающий Web Relay перед редактированием документации. Подключение проверено через config get и overview: turbo-starter, project-0dr4, ID lHAg5ziz; существующее локальное хранилище /home/gromov/.relay/turbo-starter-39c984edfc303e6aaf6097c1c03dbe8f. Порт 4700 свободен. Запустить relay-server с явным конфигом как фоновый процесс OpenCode, проверить HTTP-ответ Web и передачу проекта через HTTP CLI. Не изменять документацию, код или конфигурацию базы. Критерий: доступный Web, правильная база, фактическая ссылка и сохранённый результат."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-11-05T12:01:49.685Z",
+    "createdBy": "openai/gpt-6.1-sol",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-05T12:01:49.685Z",
+  "createdBy": "openai/gpt-6.1-sol",
+  "updatedAt": "2026-11-05T12:01:49.685Z",
+  "updatedBy": "openai/gpt-6.1-sol"
+}
