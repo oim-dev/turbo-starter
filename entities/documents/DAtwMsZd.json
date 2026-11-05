@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "document",
   "id": "DAtwMsZd",
-  "revision": 4,
+  "revision": 5,
   "key": "DOC-6",
   "aliases": [],
   "data": {
@@ -12,7 +12,7 @@
     "body": [
       "# Роли и права административного доступа",
       "",
-      "**Срез реализации:** 18.10.2026, коммит `824b9ee22901`.",
+      "**Срез реализации:** 05.11.2026, коммит `c65caf7e96e2`.",
       "",
       "## Область действия",
       "",
@@ -115,10 +115,11 @@
       "",
       "## Источники",
       "",
-      "- Каталог и вычисление прав — `apps/nest-backend/src/modules/admin-access/admin-permissions.ts`.",
-      "- Декоратор и guard — `apps/nest-backend/src/infrastructure/auth/admin-roles.ts`.",
-      "- Контроллер управления — `apps/nest-backend/src/admin-api/access/admin-access.controller.ts`;",
-      "  сервис — `apps/nest-backend/src/modules/admin-access/admin-access.service.ts`."
+      "- Каталог и вычисление прав — `apps/backend/src/modules/admin-access/admin-permissions.ts`.",
+      "- Декоратор и guard — `apps/backend/src/infrastructure/auth/admin-roles.ts`.",
+      "- Контроллер управления — `apps/backend/src/admin-api/access/admin-access.controller.ts`;",
+      "  сервис — `apps/backend/src/modules/admin-access/admin-access.service.ts`.",
+      ""
     ],
     "documentKind": "description",
     "sectionId": "template-documentation",
@@ -160,6 +161,6 @@
   },
   "createdAt": "2026-10-18T20:05:53.006Z",
   "createdBy": "openai/gpt-6-astra",
-  "updatedAt": "2026-10-18T22:56:30.266Z",
-  "updatedBy": "openai/gpt-6-astra"
+  "updatedAt": "2026-11-05T12:21:50.598Z",
+  "updatedBy": "openai/gpt-6.1-sol"
 }
