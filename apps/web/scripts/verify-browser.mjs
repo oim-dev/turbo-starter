@@ -22,7 +22,8 @@ const usage = `Использование: pnpm run verify:browser [опции]
   --no-build          не собирать, использовать готовую сборку
   -h, --help          эта справка
 
-Коды выхода: 0 — успех, 1 — сценарий не пройден, 2 — ошибка подготовки.`;
+Коды выхода: 0 — успех, 1 — сценарий не пройден, 2 — ошибка подготовки,
+130/143 — прерывание сигналом.`;
 
 const SETUP_FAILED = 2;
 const defaultViewports = [
@@ -72,10 +73,14 @@ function loadScenario(path) {
     const valid =
       step &&
       typeof step.name === "string" &&
-      (Array.isArray(step.run) || typeof step.screenshot === "string");
+      ((Array.isArray(step.run) && step.run.length > 0 && step.run.every((arg) => typeof arg === "string")) ||
+        typeof step.screenshot === "string") &&
+      (step.allowConsoleErrors === undefined ||
+        (Array.isArray(step.allowConsoleErrors) &&
+          step.allowConsoleErrors.every((pattern) => typeof pattern === "string")));
     if (!valid) {
       throw new SetupError(
-        `Шаг ${index + 1} сценария ${path}: нужны name и run (массив аргументов) или screenshot.`,
+        `Шаг ${index + 1} сценария ${path}: нужны name и run (массив строк) или screenshot; allowConsoleErrors — массив строк.`,
       );
     }
   }
@@ -107,14 +112,24 @@ const COMMAND_TIMEOUT_MS = 120_000;
 function run(command, args, options = {}) {
   return new Promise((done) => {
     const child = spawn(command, args, { stdio: ["ignore", "pipe", "pipe"], ...options });
-    const timer = setTimeout(() => child.kill("SIGKILL"), COMMAND_TIMEOUT_MS);
-    child.on("exit", () => clearTimeout(timer));
+    let timedOut = false;
+    const timer = setTimeout(() => {
+      timedOut = true;
+      child.kill("SIGKILL");
+    }, options.timeoutMs ?? COMMAND_TIMEOUT_MS);
     let stdout = "";
     let stderr = "";
     child.stdout.setEncoding("utf8").on("data", (chunk) => (stdout += chunk));
     child.stderr.setEncoding("utf8").on("data", (chunk) => (stderr += chunk));
-    child.on("error", (error) => done({ code: -1, stdout, stderr: `${stderr}${error.message}` }));
-    child.on("exit", (code) => done({ code: code ?? 1, stdout, stderr }));
+    child.on("error", (error) => {
+      clearTimeout(timer);
+      done({ code: -1, stdout, stderr: `${stderr}${error.message}` });
+    });
+    // close, а не exit: к этому моменту вывод прочитан полностью.
+    child.on("close", (code) => {
+      clearTimeout(timer);
+      done({ code: code ?? 1, stdout, stderr: timedOut ? `${stderr}\nПревышено время команды.` : stderr });
+    });
   });
 }
 
@@ -164,11 +179,11 @@ function browserEnv(stateDir, session) {
 
 function createBrowser(session, env) {
   const bin = join(appRoot, "node_modules", "agent-browser", "bin", "agent-browser.js");
-  return async function browser(args) {
+  return async function browser(args, timeoutMs) {
     const result = await run(
       process.execPath,
       [bin, "--config", "./agent-browser.json", "--session", session, "--json", ...args],
-      { cwd: appRoot, env },
+      { cwd: appRoot, env, timeoutMs },
     );
     let parsed;
     try {
@@ -264,8 +279,8 @@ async function main() {
     return 0;
   }
   const session = options.session ?? `wv-${Date.now().toString(36)}-${process.pid}`;
-  if (!/^[\w.-]+$/.test(session)) {
-    console.error("Имя сессии может содержать только буквы, цифры, точку, дефис и подчёркивание.");
+  if (!/^[A-Za-z0-9][\w.-]*$/.test(session)) {
+    console.error("Имя сессии начинается с буквы или цифры и содержит только буквы, цифры, точку, дефис и подчёркивание.");
     return SETUP_FAILED;
   }
   const artifacts = options.artifacts
@@ -280,21 +295,35 @@ async function main() {
   let server;
   let browser;
   let exitCode = 0;
-  let finished = false;
+  let cleaning;
 
-  async function cleanup() {
-    if (finished) return;
-    finished = true;
-    if (browser) await browser(["close"]);
-    await server?.stop();
-    if (!process.env.AGENT_BROWSER_PROFILE) {
-      rmSync(ownProfile(stateDir, session), { recursive: true, force: true });
-    }
-    for (const report of reports) {
-      mkdirSync(dirname(report), { recursive: true });
-      writeFileSync(report, junit(suiteName, cases));
-    }
+  function cleanup() {
+    cleaning ??= (async () => {
+      await server?.stop();
+      if (browser) await browser(["close"], 15_000);
+      const profile = ownProfile(stateDir, session);
+      // Удаляем только собственный профиль этого запуска внутри profiles/.
+      if (!process.env.AGENT_BROWSER_PROFILE && dirname(profile) === join(stateDir, "profiles")) {
+        rmSync(profile, { recursive: true, force: true });
+      }
+      for (const report of reports) {
+        try {
+          mkdirSync(dirname(report), { recursive: true });
+          writeFileSync(report, junit(suiteName, cases));
+        } catch (error) {
+          console.error(`Не удалось записать ${report}: ${error.message}`);
+          exitCode ||= SETUP_FAILED;
+        }
+      }
+    })();
+    return cleaning;
   }
+  process.once("exit", () => {
+    const profile = ownProfile(stateDir, session);
+    if (!process.env.AGENT_BROWSER_PROFILE && dirname(profile) === join(stateDir, "profiles")) {
+      rmSync(profile, { recursive: true, force: true });
+    }
+  });
   for (const signal of ["SIGINT", "SIGTERM", "SIGHUP"]) {
     process.once(signal, () => {
       record({ classname: `${suiteName}.setup`, name: "прерывание", time: 0, error: `Получен ${signal}.` });
@@ -345,7 +374,10 @@ async function main() {
       const classname = `${scenario.name}.${viewport.name}`;
       const resize = await browser(["set", "viewport", String(viewport.width), String(viewport.height)]);
       if (!resize.ok) throw new SetupError(`Не удалось задать viewport ${viewport.name}: ${resize.error}`);
-      await collectProblems(browser, []);
+      const leftovers = await collectProblems(browser, []);
+      if (leftovers.length > 0) {
+        record({ classname, name: `ошибки до сценария @${viewport.width}px`, time: 0, failure: leftovers.join("\n") });
+      }
       let failedBefore = false;
       for (const step of scenario.steps) {
         const started = performance.now();
@@ -363,7 +395,13 @@ async function main() {
           const result = await browser(resolveArgs(step.run, baseUrl));
           if (!result.ok) failure = `agent-browser ${step.run.join(" ")}: ${result.error}`;
         }
-        const problems = await collectProblems(browser, step.allowConsoleErrors ?? []);
+        let problems;
+        try {
+          problems = await collectProblems(browser, step.allowConsoleErrors ?? []);
+        } catch (error) {
+          if (!failure) throw error;
+          problems = [error.message];
+        }
         if (problems.length > 0) failure = [failure, ...problems].filter(Boolean).join("\n");
         if (failure) failedBefore = true;
         record({ classname, name, time: (performance.now() - started) / 1000, failure });

@@ -1,7 +1,8 @@
 import { spawn } from "node:child_process";
 import { existsSync } from "node:fs";
+import { createRequire } from "node:module";
 import { createServer } from "node:net";
-import { resolve } from "node:path";
+import { dirname, resolve } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
 import { fileURLToPath } from "node:url";
 
@@ -29,7 +30,7 @@ export async function freePort(host = "127.0.0.1") {
 }
 
 /**
- * Запускает `next start` через scripts/next.mjs и ждёт первого HTTP-ответа.
+ * Запускает `next start` на 127.0.0.1 и ждёт первого HTTP-ответа.
  * Возвращает адрес, накопленный вывод и функцию остановки.
  */
 export async function startProductionServer(options = {}) {
@@ -44,14 +45,14 @@ export async function startProductionServer(options = {}) {
   const baseUrl = `http://${host}:${port}`;
   const timeoutMs = options.timeoutMs ?? 60_000;
   let output = "";
-  const child = spawn(process.execPath, ["scripts/next.mjs", "start"], {
+  // Next CLI запускается напрямую, без обёртки scripts/next.mjs: адрес и порт заданы явно,
+  // а остановка сигналом гарантированно доходит до процесса сервера.
+  const require = createRequire(import.meta.url);
+  const nextPackage = require.resolve("next/package.json");
+  const nextBin = resolve(dirname(nextPackage), require(nextPackage).bin.next);
+  const child = spawn(process.execPath, [nextBin, "start", "--port", String(port), "--hostname", host], {
     cwd: appRoot,
-    env: {
-      ...env,
-      NEXT_TELEMETRY_DISABLED: "1",
-      WEB_HOST: host,
-      WEB_PORT: String(port),
-    },
+    env: { ...env, NEXT_TELEMETRY_DISABLED: "1" },
     stdio: ["ignore", "pipe", "pipe"],
   });
   const append = (chunk) => {
@@ -70,7 +71,6 @@ export async function startProductionServer(options = {}) {
 
   async function stop() {
     if (exited) return;
-    // scripts/next.mjs передаёт SIGTERM дочернему Next CLI.
     child.kill("SIGTERM");
     const result = await Promise.race([exit, delay(5_000, "timeout")]);
     if (result === "timeout") {
