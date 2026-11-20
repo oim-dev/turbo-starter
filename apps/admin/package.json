@@ -7,8 +7,8 @@
   "scripts": {
     "browser": "agent-browser --config ./agent-browser.json",
     "browser:install": "agent-browser install",
-    "create": "pnpm dlx @gromlab/template-file-generator@0.3.1 --skip-update",
-    "sprites": "npx --yes @gromlab/svg-sprites@2.1.0 src/infra/app-icons/svg-sprite.config.json",
+    "create": "pnpm exec template-file-generator --skip-update",
+    "sprites": "pnpm exec svg-sprites src/infra/app-icons/svg-sprite.config.json",
     "build": "pnpm run sprites && tsc -b && vite build",
     "dev": "pnpm run sprites && vite",
     "lint": "eslint .",
@@ -36,6 +36,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@gromlab/svg-sprites": "2.1.0",
+    "@gromlab/template-file-generator": "0.3.1",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",

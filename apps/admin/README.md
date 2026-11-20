@@ -138,7 +138,7 @@ src/domains/
 
 ### Проектные SVG
 
-Исходники находятся в `src/shared/svg`. Спрайт собирается через `@gromlab/svg-sprites@2.1.0`
+Исходники находятся в `src/shared/svg`. Спрайт собирается закреплённым в devDependencies `@gromlab/svg-sprites@2.1.0`
 в режиме `react@vite` по явному списку файлов в
 [`svg-sprite.config.json`](src/infra/app-icons/svg-sprite.config.json).
 Компоненты импортируют `AppIcon` через публичный фасет `infra/app-icons`.

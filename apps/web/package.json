@@ -6,13 +6,15 @@
   "scripts": {
     "browser": "agent-browser --config ./agent-browser.json",
     "browser:install": "agent-browser install",
-    "create": "pnpm dlx @gromlab/template-file-generator@0.3.1 --skip-update",
+    "create": "pnpm exec template-file-generator --skip-update",
     "dev": "node scripts/next.mjs dev",
     "build": "next build",
     "start": "node scripts/next.mjs start",
     "lint": "eslint .",
-    "check-types": "next typegen && tsc --noEmit",
-    "typecheck": "pnpm run check-types"
+    "check-types": "next typegen && tsc --noEmit --customConditions @oim/source",
+    "typecheck": "pnpm run check-types",
+    "test": "node --test --test-concurrency=1 --test-timeout=120000 \"test/**/*.test.mjs\"",
+    "verify:browser": "node scripts/verify-browser.mjs"
   },
   "dependencies": {
     "@mantine/core": "8.3.18",
@@ -27,6 +29,7 @@
   },
   "devDependencies": {
     "@csstools/postcss-global-data": "4.0.0",
+    "@gromlab/template-file-generator": "0.3.1",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

@@ -2,7 +2,8 @@
 
 Приватный workspace SDK для административного REST API. Источник контракта —
 [`apps/backend/openapi/admin.openapi.json`](../../apps/backend/openapi/admin.openapi.json).
-Генератор зафиксирован: `@gromlab/rest-api-codegen@5.2.4`.
+Генератор зафиксирован в devDependencies пакета: `@gromlab/rest-api-codegen@5.2.4`,
+скрипт `generate` вызывает его через `pnpm exec` и после установки зависимостей работает без сети.
 Пакет `@oim/admin-rest-api-sdk` использует `apps/admin`.
 
 SDK независим от клиентского пакета и React. Он не создаёт singleton и не хранит
@@ -141,8 +142,8 @@ pnpm --filter @oim/admin-rest-api-sdk run build
 отсутствие старых операций и воспроизводимость повторной генерации/сборки.
 
 Workspace-зависимости и root lockfile синхронизирует оркестратор. Для проверок
-нужна доступная ссылка на `@oim/typescript-config`. Генерация через `pnpm dlx`
-остаётся отдельным согласованным этапом.
+нужна доступная ссылка на `@oim/typescript-config`. Генерация остаётся
+отдельным согласованным этапом.
 
 ## Публичные экспорты
 

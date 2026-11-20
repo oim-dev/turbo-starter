@@ -2,7 +2,8 @@
 
 Приватный workspace SDK для клиентского REST API. Источник контракта —
 [`apps/backend/openapi/client.openapi.json`](../../apps/backend/openapi/client.openapi.json).
-Генератор зафиксирован: `@gromlab/rest-api-codegen@5.2.4`.
+Генератор зафиксирован в devDependencies пакета: `@gromlab/rest-api-codegen@5.2.4`,
+скрипт `generate` вызывает его через `pnpm exec` и после установки зависимостей работает без сети.
 Пакет `@oim/client-rest-api-sdk` использует `apps/web`.
 
 SDK не зависит от React и не создаёт настроенный singleton. URL, credentials,
@@ -160,7 +161,7 @@ OpenAPI сама. Не используйте старую схему как в�
 
 Установка workspace-зависимостей и обновление root lockfile принадлежат оркестратору.
 Для проверок нужна доступная ссылка на `@oim/typescript-config`.
-Генерация через `pnpm dlx` остаётся отдельным согласованным этапом.
+Генерация остаётся отдельным согласованным этапом.
 
 ## Владение исходниками и exports
 

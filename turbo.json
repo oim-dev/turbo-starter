@@ -31,6 +31,16 @@
     "check-types": {
       "dependsOn": ["^build", "^check-types"]
     },
+    "test": {
+      "dependsOn": ["build"],
+      "passThroughEnv": [
+        "WEB_*",
+        "NEXT_PUBLIC_*",
+        "NEXT_DIST_DIR",
+        "CLIENT_API_INTERNAL_URL"
+      ],
+      "cache": false
+    },
     "dev": {
       "dependsOn": ["^build"],
       "passThroughEnv": [

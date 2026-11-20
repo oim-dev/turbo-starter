@@ -1,0 +1,17 @@
+{
+  "name": "web-smoke",
+  "viewports": [
+    { "name": "narrow", "width": 390, "height": 844 },
+    { "name": "medium", "width": 768, "height": 1024 },
+    { "name": "wide", "width": 1440, "height": 900 }
+  ],
+  "steps": [
+    { "name": "главная открывается", "run": ["open", "/"] },
+    { "name": "главная загружена", "run": ["wait", "--load", "networkidle"] },
+    { "name": "заголовок главной виден", "run": ["wait", "--text", "Стартовое приложение"] },
+    { "name": "скриншот главной", "screenshot": "home" },
+    { "name": "неизвестный адрес показывает 404", "run": ["open", "/verify-missing-page"] },
+    { "name": "ссылка на главную видна", "run": ["wait", "--text", "На главную"] },
+    { "name": "скриншот 404", "screenshot": "not-found" }
+  ]
+}

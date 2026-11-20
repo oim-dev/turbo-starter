@@ -11,7 +11,8 @@
 [правила генерации TSX](../../../.agents/skills/react-reference/reference/application/components/tsx-generation.md)
 и [tsx-styleguide](../../../.agents/skills/tsx-styleguide/SKILL.md) вместе с
 [ts-styleguide](../../../.agents/skills/ts-styleguide/SKILL.md).
-Команда `create` закрепляет `@gromlab/template-file-generator@0.3.1`.
+Команда `create` вызывает закреплённый в devDependencies `@gromlab/template-file-generator@0.3.1`
+через `pnpm exec` и после установки зависимостей работает без сети.
 Запускайте генератор из `apps/admin`:
 
 ```bash

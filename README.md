@@ -135,6 +135,10 @@ Prisma Client и REST SDK подготавливаются автоматиче�
 | `pnpm build`                 | Собрать приложения и пакеты                    |
 | `pnpm lint`                  | Проверить env-файлы и код                      |
 | `pnpm check-types`           | Проверить типы                                 |
+| `pnpm check`                 | Проверить типы, env и код, затем собрать       |
+| `pnpm test`                  | Запустить тесты скриптов и приложений          |
+| `pnpm web:test`              | Запустить HTTP-тесты веб-приложения            |
+| `pnpm web:verify:browser`    | Браузерная проверка сайта с отчётом JUnit      |
 | `pnpm rest-api-sdk:generate` | Обновить OpenAPI и оба SDK после изменения API |
 | `pnpm infra:dev:logs`        | Смотреть логи инфраструктуры                   |
 

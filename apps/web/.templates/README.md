@@ -17,8 +17,8 @@ pnpm run create ui-component welcome-note src/compositions/screens/welcome/ui
 ```
 
 Примеры предназначены для ещё не существующих компонентов. Позиционный путь задаёт родительскую папку вывода;
-папку компонента создаёт CLI. Команда закрепляет `@gromlab/template-file-generator@0.3.1`
-и отключает проверку обновления. Перед генерацией прочитайте
+папку компонента создаёт CLI. Команда вызывает закреплённый в devDependencies
+`@gromlab/template-file-generator@0.3.1` через `pnpm exec`, работает без сети и отключает проверку обновления. Перед генерацией прочитайте
 [template-generation-ru](../../../.agents/skills/template-generation-ru/SKILL.md),
 [правила генерации TSX](../../../.agents/skills/nextjs-reference/reference/application/components/tsx-generation.md)
 и выбранный шаблон. Для адаптации кода загрузите
