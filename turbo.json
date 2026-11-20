@@ -33,7 +33,12 @@
     },
     "test": {
       "dependsOn": ["build"],
-      "passThroughEnv": ["NEXT_DIST_DIR"],
+      "passThroughEnv": [
+        "WEB_*",
+        "NEXT_PUBLIC_*",
+        "NEXT_DIST_DIR",
+        "CLIENT_API_INTERNAL_URL"
+      ],
       "cache": false
     },
     "dev": {

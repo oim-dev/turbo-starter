@@ -52,8 +52,6 @@ export async function startProductionServer(options = {}) {
       WEB_HOST: host,
       WEB_PORT: String(port),
     },
-    // Отдельная группа процессов, чтобы остановить и дочерний Next CLI.
-    detached: process.platform !== "win32",
     stdio: ["ignore", "pipe", "pipe"],
   });
   const append = (chunk) => {
@@ -72,18 +70,11 @@ export async function startProductionServer(options = {}) {
 
   async function stop() {
     if (exited) return;
-    const signal = (name) => {
-      try {
-        if (process.platform === "win32") child.kill(name);
-        else process.kill(-child.pid, name);
-      } catch {
-        // Процесс уже завершился.
-      }
-    };
-    signal("SIGTERM");
+    // scripts/next.mjs передаёт SIGTERM дочернему Next CLI.
+    child.kill("SIGTERM");
     const result = await Promise.race([exit, delay(5_000, "timeout")]);
     if (result === "timeout") {
-      signal("SIGKILL");
+      child.kill("SIGKILL");
       await exit;
     }
   }
@@ -95,6 +86,9 @@ export async function startProductionServer(options = {}) {
     }
     try {
       await fetch(baseUrl, { redirect: "manual", signal: AbortSignal.timeout(2_000) });
+      // Порт мог занять другой процесс: убеждаемся, что наш сервер жив.
+      await delay(300);
+      if (exited) throw new Error(`Production-сервер завершился после старта.\n${output}`);
       return { baseUrl, port, stop, output: () => output };
     } catch {
       await delay(200);

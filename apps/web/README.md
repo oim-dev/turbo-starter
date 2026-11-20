@@ -113,9 +113,11 @@ pnpm run web:verify:browser --no-build --scenario apps/web/test/browser/smoke.js
 `2` — проверку не удалось подготовить (аргументы, сборка, сервер, запуск браузера).
 `--base-url <адрес>` проверяет уже запущенный сервер без сборки, `--session` задаёт имя сессии,
 `--artifacts` — каталог артефактов. Сокеты agent-browser создаются в `.artifacts/ab/`
-(при слишком длинном пути — во временном каталоге системы), профиль — в
-`.artifacts/agent-browser/profiles/<сессия>/`; заданные `AGENT_BROWSER_SOCKET_DIR`
-и `AGENT_BROWSER_PROFILE` имеют приоритет. Chrome должен быть установлен (`browser:install`).
+(при слишком длинном пути — во временном каталоге системы), чистый профиль запуска — в
+`.artifacts/agent-browser/profiles/<сессия>/`, он удаляется после проверки; заданные
+`AGENT_BROWSER_SOCKET_DIR` и `AGENT_BROWSER_PROFILE` имеют приоритет. Пользовательский
+`~/.agent-browser/config.json` agent-browser по-прежнему читает, если он есть.
+Chrome должен быть установлен (`browser:install`). Команда рассчитана на macOS и Linux.
 
 Сценарий — JSON с полями `name`, необязательным `viewports` (`name`, `width`, `height`)
 и `steps`. Шаг содержит `name` и либо `run` — аргументы команды agent-browser
@@ -133,6 +135,7 @@ pnpm run web:test
 ```
 
 Корневая команда собирает SDK и приложение через Turborepo и запускает `pnpm run test` пакета.
+Прямой `pnpm --filter @oim/web test` использует уже имеющуюся сборку `.next`, даже устаревшую.
 Помощник [test/support/html.mjs](test/support/html.mjs) поднимает один сервер на файл тестов
 на свободном порту `127.0.0.1`, останавливает его после тестов и разбирает HTML:
 `titleOf`, `headings`, `links`, `textOf`, `htmlAttribute`, `countLandmarks`.

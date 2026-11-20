@@ -1,8 +1,8 @@
 import { spawn } from "node:child_process";
 import { createHash } from "node:crypto";
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { dirname, isAbsolute, join, relative, resolve } from "node:path";
+import { dirname, isAbsolute, join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { appRoot, startProductionServer } from "./production-server.mjs";
 
@@ -79,16 +79,36 @@ function loadScenario(path) {
       );
     }
   }
+  const viewports = scenario.viewports ?? defaultViewports;
+  const validViewport = (item) =>
+    item && typeof item.name === "string" && Number.isInteger(item.width) && Number.isInteger(item.height);
+  if (!Array.isArray(viewports) || viewports.length === 0 || !viewports.every(validViewport)) {
+    throw new SetupError(`В сценарии ${path} viewports должны содержать name, width и height.`);
+  }
+  for (const step of scenario.steps) {
+    for (const pattern of step.allowConsoleErrors ?? []) {
+      try {
+        new RegExp(pattern);
+      } catch (error) {
+        throw new SetupError(`Шаг «${step.name}»: неверный шаблон allowConsoleErrors: ${error.message}`);
+      }
+    }
+  }
   return {
     name: scenario.name ?? "browser",
-    viewports: scenario.viewports ?? defaultViewports,
+    viewports,
     steps: scenario.steps,
   };
 }
 
+// Ни одна команда браузера не должна подвесить проверку.
+const COMMAND_TIMEOUT_MS = 120_000;
+
 function run(command, args, options = {}) {
   return new Promise((done) => {
     const child = spawn(command, args, { stdio: ["ignore", "pipe", "pipe"], ...options });
+    const timer = setTimeout(() => child.kill("SIGKILL"), COMMAND_TIMEOUT_MS);
+    child.on("exit", () => clearTimeout(timer));
     let stdout = "";
     let stderr = "";
     child.stdout.setEncoding("utf8").on("data", (chunk) => (stdout += chunk));
@@ -122,6 +142,12 @@ function socketDir(session) {
   );
 }
 
+// Собственный профиль создаётся для каждого запуска и удаляется после него,
+// чтобы запуски не делили cookies и хранилища.
+function ownProfile(stateDir, session) {
+  return join(stateDir, "profiles", session);
+}
+
 function browserEnv(stateDir, session) {
   // Состояние agent-browser держим в каталоге проекта (или во временном каталоге
   // для сокета при длинном пути), а не в домашнем каталоге.
@@ -131,17 +157,17 @@ function browserEnv(stateDir, session) {
   return {
     ...process.env,
     AGENT_BROWSER_SOCKET_DIR: sockets,
-    AGENT_BROWSER_PROFILE: process.env.AGENT_BROWSER_PROFILE || join(stateDir, "profiles", session),
+    AGENT_BROWSER_PROFILE: process.env.AGENT_BROWSER_PROFILE || ownProfile(stateDir, session),
     AGENT_BROWSER_IDLE_TIMEOUT_MS: process.env.AGENT_BROWSER_IDLE_TIMEOUT_MS || "300000",
   };
 }
 
 function createBrowser(session, env) {
-  const bin = join(appRoot, "node_modules", ".bin", process.platform === "win32" ? "agent-browser.cmd" : "agent-browser");
+  const bin = join(appRoot, "node_modules", "agent-browser", "bin", "agent-browser.js");
   return async function browser(args) {
     const result = await run(
-      bin,
-      ["--config", "./agent-browser.json", "--session", session, "--json", ...args],
+      process.execPath,
+      [bin, "--config", "./agent-browser.json", "--session", session, "--json", ...args],
       { cwd: appRoot, env },
     );
     let parsed;
@@ -173,13 +199,19 @@ function allowed(text, patterns) {
 async function collectProblems(browser, patterns) {
   const problems = [];
   const consoleResult = await browser(["console"]);
-  for (const message of consoleResult.data?.messages ?? []) {
+  if (!consoleResult.ok || !Array.isArray(consoleResult.data?.messages)) {
+    throw new SetupError(`Не удалось прочитать консоль браузера: ${consoleResult.error ?? "нет messages"}`);
+  }
+  for (const message of consoleResult.data.messages) {
     if (message.type === "error" && !allowed(message.text, patterns)) {
       problems.push(`console.error: ${message.text}`);
     }
   }
   const errorsResult = await browser(["errors"]);
-  for (const error of errorsResult.data?.errors ?? []) {
+  if (!errorsResult.ok || !Array.isArray(errorsResult.data?.errors)) {
+    throw new SetupError(`Не удалось прочитать ошибки страницы: ${errorsResult.error ?? "нет errors"}`);
+  }
+  for (const error of errorsResult.data.errors) {
     if (!allowed(error.text, patterns)) problems.push(`page error: ${error.text}`);
   }
   await browser(["console", "--clear"]);
@@ -248,6 +280,27 @@ async function main() {
   let server;
   let browser;
   let exitCode = 0;
+  let finished = false;
+
+  async function cleanup() {
+    if (finished) return;
+    finished = true;
+    if (browser) await browser(["close"]);
+    await server?.stop();
+    if (!process.env.AGENT_BROWSER_PROFILE) {
+      rmSync(ownProfile(stateDir, session), { recursive: true, force: true });
+    }
+    for (const report of reports) {
+      mkdirSync(dirname(report), { recursive: true });
+      writeFileSync(report, junit(suiteName, cases));
+    }
+  }
+  for (const signal of ["SIGINT", "SIGTERM", "SIGHUP"]) {
+    process.once(signal, () => {
+      record({ classname: `${suiteName}.setup`, name: "прерывание", time: 0, error: `Получен ${signal}.` });
+      cleanup().finally(() => process.exit(signal === "SIGINT" ? 130 : 143));
+    });
+  }
 
   const record = (item) => {
     cases.push(item);
@@ -281,12 +334,6 @@ async function main() {
         throw new SetupError(error.message);
       });
       baseUrl = server.baseUrl;
-      for (const signal of ["SIGINT", "SIGTERM"]) {
-        process.once(signal, () => {
-          // Сервер запущен в отдельной группе процессов: останавливаем его явно.
-          server.stop().finally(() => process.exit(signal === "SIGINT" ? 130 : 143));
-        });
-      }
       console.log(`Production-сервер: ${baseUrl}`);
     }
 
@@ -329,14 +376,9 @@ async function main() {
     exitCode = SETUP_FAILED;
     if (!setup) console.error(error);
   } finally {
-    if (browser) await browser(["close"]);
-    await server?.stop();
-    for (const report of reports) {
-      mkdirSync(dirname(report), { recursive: true });
-      writeFileSync(report, junit(suiteName, cases));
-    }
+    await cleanup();
   }
-  const shown = relative(process.cwd(), artifacts) || ".";
+  const shown = artifacts;
   console.log(
     exitCode === 0
       ? `Проверка пройдена. Артефакты: ${shown}`

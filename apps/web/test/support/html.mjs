@@ -20,6 +20,7 @@ export function withProductionServer() {
   return async function request(path, init) {
     const response = await fetch(new URL(path, server.baseUrl), {
       redirect: "manual",
+      signal: AbortSignal.timeout(30_000),
       ...init,
     });
     const body = await response.text();
@@ -33,7 +34,7 @@ function decode(text) {
   return text.replace(/&(#x[\da-f]+|#\d+|\w+);/gi, (match, name) => {
     if (name[0] === "#") {
       const code = name[1].toLowerCase() === "x" ? parseInt(name.slice(2), 16) : Number(name.slice(1));
-      return String.fromCodePoint(code);
+      return code <= 0x10ffff ? String.fromCodePoint(code) : match;
     }
     return entities[name.toLowerCase()] ?? match;
   });
@@ -85,8 +86,10 @@ export function links(html) {
 export function countLandmarks(html, role) {
   const tags = { main: "main", navigation: "nav", banner: "header", contentinfo: "footer" };
   const visible = stripInvisible(html);
-  const byRole = visible.match(new RegExp(`\\srole=["']${role}["']`, "gi"))?.length ?? 0;
   const tag = tags[role];
-  const byTag = tag ? (visible.match(new RegExp(`<${tag}\\b`, "gi"))?.length ?? 0) : 0;
-  return byRole + byTag;
+  // Каждый открывающий тег учитывается один раз: по явной роли или по нативному тегу.
+  return [...visible.matchAll(/<([a-z][\w-]*)\b([^>]*)>/gi)].filter(([, name, attrs]) => {
+    const explicit = /\srole=["']([^"']*)["']/i.exec(attrs)?.[1];
+    return explicit ? explicit === role : name.toLowerCase() === tag;
+  }).length;
 }
