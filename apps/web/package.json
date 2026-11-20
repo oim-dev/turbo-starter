@@ -12,7 +12,9 @@
     "start": "node scripts/next.mjs start",
     "lint": "eslint .",
     "check-types": "next typegen && tsc --noEmit --customConditions @oim/source",
-    "typecheck": "pnpm run check-types"
+    "typecheck": "pnpm run check-types",
+    "test": "node --test --test-concurrency=1 \"test/**/*.test.mjs\"",
+    "verify:browser": "node scripts/verify-browser.mjs"
   },
   "dependencies": {
     "@mantine/core": "8.3.18",
