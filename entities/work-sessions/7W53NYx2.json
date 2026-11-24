@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "work-session",
   "id": "7W53NYx2",
-  "revision": 4,
+  "revision": 5,
   "key": null,
   "aliases": [],
   "data": {
@@ -17,19 +17,19 @@
     "originCheckpointId": null,
     "createdByRunId": null,
     "parentSequence": null,
-    "status": "open",
-    "currentRunId": "CyFWfLk6",
-    "sequence": 5,
+    "status": "completed",
+    "currentRunId": null,
+    "sequence": 7,
     "result": [
-      ""
+      "Исследование и проект предложения завершены. В DOC-19 (черновик) — две роли, режимы консультации/ревью, границы Git, единый результат, маршруты вызова и критерии дальнейшей проверки. Фактическая основа — CP-LyvMy9zV; вывод — CP-dCTJBxxt. `pnpm run agents:check` прошло (7 ролей, 21 профиль), экспериментальная глубина проверена по схеме установленного OpenCode, роли не меняли. Для следующего этапа согласовать клиент(ы) первой версии и правило хранения отчёта."
     ],
     "createdAt": "2026-11-24T08:09:15.630Z",
-    "updatedAt": "2026-11-24T08:15:23.154Z",
-    "closedAt": null,
-    "revision": 4
+    "updatedAt": "2026-11-24T08:15:36.671Z",
+    "closedAt": "2026-11-24T08:15:36.671Z",
+    "revision": 5
   },
   "createdAt": "2026-11-24T08:09:15.630Z",
   "createdBy": "gpt-6.2-astra",
-  "updatedAt": "2026-11-24T08:15:23.154Z",
+  "updatedAt": "2026-11-24T08:15:36.671Z",
   "updatedBy": "gpt-6.2-astra"
 }
