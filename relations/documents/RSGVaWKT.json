@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "owner": {
+    "kind": "document",
+    "id": "RSGVaWKT"
+  },
+  "storage": "inline",
+  "entries": [
+    {
+      "slot": "document-links",
+      "edge": {
+        "type": "documents",
+        "from": {
+          "kind": "document",
+          "id": "RSGVaWKT"
+        },
+        "to": {
+          "kind": "project",
+          "id": "lHAg5ziz"
+        },
+        "description": [
+          "Предложение для согласования и последующей постановки работ по агентам шаблона."
+        ],
+        "id": "7kCGJ6sg",
+        "revision": 1,
+        "source": "graph",
+        "createdAt": "2026-11-24T08:14:45.273Z",
+        "createdBy": "gpt-6.2-astra",
+        "active": true,
+        "updatedAt": "2026-11-24T08:14:45.273Z",
+        "updatedBy": "gpt-6.2-astra"
+      }
+    }
+  ]
+}
