@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "oSq1hKxw",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "oSq1hKxw",
+    "key": "CP-oSq1hKxw",
+    "sessionId": "fhNcXttA",
+    "runId": "QkoU2Ko8",
+    "sequence": 8,
+    "title": "Проверены загруженные профили и расширение новой специальностью",
+    "summary": "",
+    "body": [
+      "Итоговая генерация и agents:check успешны: 8 ролей, 26 выходов. Реальный API OpenCode вернул семь экспертов с действиями чтения/поиска и отказом на запись, shell, делегирование и сторонние операции, reviewer получил allowlist из реестра. В init SDK установленный Claude Code увидел все восемь ролей; YAML и TOML каждого профиля разобраны с проверкой их прав. В пробном независимом реестре добавление standards-expert автоматически включило его в allowlist OpenCode/Claude без правки координатора и без изменения настоящего набора. Новый издатель вне пакета проверен на кликабельности навигации перед незакрытым Markdown, уникальности при совпадении времени, двух действительных ссылках, пустом diff и отказе на недопустимое имя. Проверяется сквозное исполнение нейтрального вопроса в свежей сессии; историю отдельных ревью ведут только локальные артефакты."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-11-24T08:48:35.349Z",
+    "createdBy": "gpt-6.2-astra",
+    "kind": "progress",
+    "intentId": "GlCkkRmd",
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-24T08:48:35.349Z",
+  "createdBy": "gpt-6.2-astra",
+  "updatedAt": "2026-11-24T08:48:35.349Z",
+  "updatedBy": "gpt-6.2-astra"
+}
