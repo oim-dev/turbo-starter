@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 3,
+  "dataVersion": 1,
+  "kind": "work-checkpoint",
+  "id": "GlCkkRmd",
+  "revision": 1,
+  "key": null,
+  "aliases": [],
+  "data": {
+    "id": "GlCkkRmd",
+    "key": "CP-GlCkkRmd",
+    "sessionId": "fhNcXttA",
+    "runId": "QkoU2Ko8",
+    "sequence": 3,
+    "title": "Реализовать независимое локальное ревью",
+    "summary": "",
+    "body": [
+      "Основания: действующая база профилей, новый прямой выбор оператора для публикации. Изменить источник профилей и адаптеры, переиспользовать специализации и протокол проверок, дать координатору способ сформировать дерево отчёта и вернуть проверенную ссылку, убрать требование Relay именно из процесса ревью, добавить gitignore. Проверки: agents:build/check, проверка реального вывода, ссылок, Git-ignore, прав и рабочих режимов без присвоения чужих выходов. Изменения ограничиваются инструментами шаблона."
+    ],
+    "done": [
+      ""
+    ],
+    "remaining": [
+      ""
+    ],
+    "nextStep": [
+      ""
+    ],
+    "checks": [
+      ""
+    ],
+    "references": [],
+    "createdAt": "2026-11-24T08:25:25.957Z",
+    "createdBy": "gpt-6.2-astra",
+    "kind": "intent",
+    "intentId": null,
+    "acceptedSessionIds": []
+  },
+  "createdAt": "2026-11-24T08:25:25.957Z",
+  "createdBy": "gpt-6.2-astra",
+  "updatedAt": "2026-11-24T08:25:25.957Z",
+  "updatedBy": "gpt-6.2-astra"
+}
