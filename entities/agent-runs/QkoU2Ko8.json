@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "agent-run",
   "id": "QkoU2Ko8",
-  "revision": 1,
+  "revision": 2,
   "key": null,
   "aliases": [],
   "data": {
@@ -23,18 +23,20 @@
     "client": "OpenCode",
     "sourceSessionId": "ses_df366a31affeL42lLguG1dSRUD",
     "startedAt": "2026-11-24T08:25:17.048Z",
-    "endedAt": null,
+    "endedAt": "2026-11-24T08:51:54.143Z",
     "startedSequence": 2,
-    "endedSequence": null,
-    "endReason": null,
+    "endedSequence": 11,
+    "endReason": "completed",
     "predecessorRunId": null,
     "reason": [
       ""
     ],
-    "endSummary": null
+    "endSummary": [
+      "Техническая доработка инструментов шаблона завершена. Границы уточнения — CP-HpeQfkw2, самодостаточные профили и удаление playbooks — CP-qEn5gonH, проверка прямой консультации — CP-i5Q6m9Wu, приёмка — CP-rGMOd5nJ. Для самих пользователей ревью и консультаций Relay не требуется: подтверждён локальный отчёт со ссылкой на область через вызов нового reviewer в OpenCode. Сборка и проверка актуальности прошли; отчёты и настройки пользователя в Git не добавлялись."
+    ]
   },
   "createdAt": "2026-11-24T08:25:17.048Z",
   "createdBy": "gpt-6.2-astra",
-  "updatedAt": "2026-11-24T08:25:17.048Z",
+  "updatedAt": "2026-11-24T08:51:54.143Z",
   "updatedBy": "gpt-6.2-astra"
 }

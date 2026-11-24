@@ -3,7 +3,7 @@
   "dataVersion": 1,
   "kind": "work-session",
   "id": "fhNcXttA",
-  "revision": 9,
+  "revision": 10,
   "key": null,
   "aliases": [],
   "data": {
@@ -17,19 +17,19 @@
     "originCheckpointId": null,
     "createdByRunId": null,
     "parentSequence": null,
-    "status": "open",
-    "currentRunId": "QkoU2Ko8",
-    "sequence": 10,
+    "status": "completed",
+    "currentRunId": null,
+    "sequence": 12,
     "result": [
-      ""
+      "Техническая доработка инструментов шаблона завершена. Границы уточнения — CP-HpeQfkw2, самодостаточные профили и удаление playbooks — CP-qEn5gonH, проверка прямой консультации — CP-i5Q6m9Wu, приёмка — CP-rGMOd5nJ. Для самих пользователей ревью и консультаций Relay не требуется: подтверждён локальный отчёт со ссылкой на область через вызов нового reviewer в OpenCode. Сборка и проверка актуальности прошли; отчёты и настройки пользователя в Git не добавлялись."
     ],
     "createdAt": "2026-11-24T08:25:17.048Z",
-    "updatedAt": "2026-11-24T08:51:46.256Z",
-    "closedAt": null,
-    "revision": 9
+    "updatedAt": "2026-11-24T08:51:54.143Z",
+    "closedAt": "2026-11-24T08:51:54.143Z",
+    "revision": 10
   },
   "createdAt": "2026-11-24T08:25:17.048Z",
   "createdBy": "gpt-6.2-astra",
-  "updatedAt": "2026-11-24T08:51:46.256Z",
+  "updatedAt": "2026-11-24T08:51:54.143Z",
   "updatedBy": "gpt-6.2-astra"
 }
